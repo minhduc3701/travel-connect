@@ -1,0 +1,365 @@
+@each $n, $v in $size {
+	.p-#{$n} {
+		padding: $v;
+	}
+	
+	.p-v-#{$n} {
+		padding-top: $v;
+		padding-bottom: $v;
+	}
+
+	.p-h-#{$n} {
+		padding-right: $v;
+		padding-left: $v;
+	}
+
+	.p-#{$n}-i {
+		padding: $v !important;
+	}
+	
+	.p-v-#{$n}-i {
+		padding-top: $v !important;
+		padding-bottom: $v !important;
+	}
+
+	.p-h-#{$n}-i {
+		padding-right: $v !important;
+		padding-left: $v !important;
+	}
+	
+	@each $nnn, $vvv in $mediaScreen {
+		.p-#{$n}-#{$nnn}  {
+			@media screen and (max-width: $vvv) {
+				padding: $v;
+			}
+		}
+
+		.p-v-#{$n}-#{$nnn} {
+			@media screen and (max-width: $vvv) {
+				padding-top: $v;
+				padding-bottom: $v;
+			}
+		}
+
+		.p-h-#{$n}-#{$nnn} {
+			@media screen and (max-width: $vvv) {
+				padding-right: $v;
+				padding-left: $v;
+			}
+		}
+
+	}
+	
+
+	@each $nn, $vv in $position {
+		.p-#{$nn}-#{$n} {
+			padding-#{$vv}: $v;
+		}
+
+		@each $nnn, $vvv in $mediaScreen {
+			.p-#{$nn}-#{$n}-#{$nnn}  {
+				@media screen and (max-width: $vvv) {
+					padding-#{$vv}: $v;
+				}
+			}
+		}
+	}
+
+	@each $nnn, $vvv in $mediaScreen {
+		.p-#{$n}-#{$nnn}-i  {
+			@media screen and (max-width: $vvv) {
+				padding: $v !important;
+			}
+		}
+
+		.p-v-#{$n}-#{$nnn}-i {
+			@media screen and (max-width: $vvv) {
+				padding-top: $v !important;
+				padding-bottom: $v !important;
+			}
+		}
+
+		.p-h-#{$n}-#{$nnn}-i {
+			@media screen and (max-width: $vvv) {
+				padding-right: $v !important;
+				padding-left: $v !important;
+			}
+		}
+
+	}
+	
+
+	@each $nn, $vv in $position {
+		.p-#{$nn}-#{$n}-i {
+			padding-#{$vv}: $v !important;
+		}
+
+		@each $nnn, $vvv in $mediaScreen {
+			.p-#{$nn}-#{$n}-#{$nnn}-i  {
+				@media screen and (max-width: $vvv) {
+					padding-#{$vv}: $v !important;
+				}
+			}
+		}
+	}
+}
+
+@each $n, $v in $size {
+	.m-#{$n} {
+		margin: $v;
+	}
+
+	.m-v-#{$n} {
+		margin-top: $v;
+		margin-bottom: $v;
+	}
+
+	.m-h-#{$n} {
+		margin-right: $v;
+		margin-left: $v;
+	}
+
+	.m-#{$n}-i {
+		margin: $v !important;
+	}
+
+	.m-v-#{$n}-i {
+		margin-top: $v !important;
+		margin-bottom: $v !important;
+	}
+
+	.m-h-#{$n}-i {
+		margin-right: $v !important;
+		margin-left: $v !important;
+	}
+
+	@each $nnn, $vvv in $mediaScreen {
+		.m-#{$n}-#{$nnn}  {
+			@media screen and (max-width: $vvv) {
+				margin: $v;
+			}
+		}
+
+		.m-v-#{$n}-#{$nnn} {
+			@media screen and (max-width: $vvv) {
+				margin-top: $v;
+				margin-bottom: $v;
+			}
+		}
+
+		.m-h-#{$n}-#{$nnn} {
+			@media screen and (max-width: $vvv) {
+				margin-right: $v;
+				margin-left: $v;
+			}
+		}
+	}
+
+	@each $nn, $vv in $position {
+		.m-#{$nn}-#{$n} {
+			margin-#{$vv}: $v;
+		}
+
+		@each $nnn, $vvv in $mediaScreen {
+			.m-#{$nn}-#{$n}-#{$nnn}  {
+				@media screen and (max-width: $vvv) {
+					margin-#{$vv}: $v;
+				}
+			}
+		}
+	}
+
+	@each $nnn, $vvv in $mediaScreen {
+		.m-#{$n}-#{$nnn}-i  {
+			@media screen and (max-width: $vvv) {
+				margin: $v !important;
+			}
+		}
+
+		.m-v-#{$n}-#{$nnn}-i {
+			@media screen and (max-width: $vvv) {
+				margin-top: $v !important;
+				margin-bottom: $v !important;
+			}
+		}
+
+		.m-h-#{$n}-#{$nnn}-i {
+			@media screen and (max-width: $vvv) {
+				margin-right: $v !important;
+				margin-left: $v !important;
+			}
+		}
+	}
+
+	@each $nn, $vv in $position {
+		.m-#{$nn}-#{$n}-i {
+			margin-#{$vv}: $v !important;
+		}
+
+		@each $nnn, $vvv in $mediaScreen {
+			.m-#{$nn}-#{$n}-#{$nnn}-i  {
+				@media screen and (max-width: $vvv) {
+					margin-#{$vv}: $v !important;
+				}
+			}
+		}
+	}
+}
+
+.bor {
+    border: 1px solid #00000020
+}
+
+.bor-0 {
+	border: none !important;
+}
+
+@each $n, $v in $position {
+	.bor-#{$n} {
+		border-#{$v}: 1px solid $border-color !important;
+	}
+
+	.bor-#{$n}-0 {
+		border-#{$v}: none  !important;
+	}
+}
+
+@each $n, $v in $size {
+	.size-#{$n} {
+		font-size: $v;
+	}
+
+	.size-#{$n}-i {
+		font-size: $v !important;
+	}
+}
+
+@each $n, $v in $color {
+	.color-#{$n} {
+		color: $v;
+	}
+
+	.color-#{$n}-i {
+		color: $v $i;
+	}
+}
+
+
+
+$percentage: 0;
+@while $percentage < 101 {
+
+
+    .w-#{$percentage}{ 
+        width: $percentage * 1%
+    }
+    .w-#{$percentage}-i{
+        width: $percentage * 1% !important
+    }
+    .min-w-#{$percentage}{
+        min-width: $percentage * 1%
+    }
+    .min-w-#{$percentage}-i{
+        min-width: $percentage * 1% !important
+    }
+    .max-w-#{$percentage}{
+        max-width: $percentage * 1%
+    }
+    .max-w-#{$percentage}-i{
+        max-width: $percentage * 1% !important
+    }
+
+    .h-#{$percentage}{
+        height: $percentage * 1%
+    }
+    .h-#{$percentage}-i{
+        height: $percentage * 1% !important
+    }
+    .min-h-#{$percentage}{
+        min-height: $percentage * 1%
+    }
+    .min-h-#{$percentage}-i{
+        min-height: $percentage * 1% !important
+    }
+    .max-h-#{$percentage}{
+        max-height: $percentage * 1%
+    }
+    .max-h-#{$percentage}-i{
+        max-height: $percentage * 1% !important
+    }
+
+    $percentage: ($percentage + 5);
+}
+
+
+$percentage: 0;
+@while $percentage < 11 {
+    .z-#{$percentage}{ 
+        z-index: $percentage;
+    }
+
+    .z-#{$percentage}-i{ 
+        z-index: $percentage !important;
+    }
+
+    $percentage: ($percentage + 1);
+}
+
+$percentage: 10;
+@while $percentage < 50 {
+
+
+	.p-v-#{$percentage} {
+		padding-top: $percentage * 1%;
+		padding-bottom: $percentage * 1%;
+	}
+
+	.p-h-#{$percentage} {
+		padding-right: $percentage * 1%;
+		padding-left: $percentage * 1%;
+	}
+
+	.p-l-#{$percentage} {
+		padding-left: $percentage * 1%;
+	}
+
+	.p-r-#{$percentage} {
+		padding-right: $percentage * 1%;
+	}
+
+	.p-t-#{$percentage} {
+		padding-top: $percentage * 1%;
+	}
+
+	.p-b-#{$percentage} {
+		padding-bottom: $percentage * 1%;
+	}
+
+	.m-v-#{$percentage} {
+		margin-top: $percentage * 1%;
+		margin-bottom: $percentage * 1%;
+	}
+
+	.m-h-#{$percentage} {
+		margin-right: $percentage * 1%;
+		margin-left: $percentage * 1%;
+	}
+
+	.m-l-#{$percentage} {
+		margin-left: $percentage * 1%;
+	}
+
+	.m-r-#{$percentage} {
+		margin-right: $percentage * 1%;
+	}
+
+	.m-t-#{$percentage} {
+		margin-top: $percentage * 1%;
+	}
+
+	.m-b-#{$percentage} {
+		margin-bottom: $percentage * 1%;
+	}
+
+    $percentage: ($percentage + 5);
+}

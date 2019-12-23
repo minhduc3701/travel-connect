@@ -1,0 +1,566 @@
+
+
+.h-150-i {
+	height: 150px !important;
+} 
+
+.h-200-i {
+	height: 200px !important;
+} 
+
+.h-250-i {
+	height: 250px !important;
+} 
+
+.h-300-i {
+	height: 300px !important;
+}
+
+.w-150-i {
+	width: 150px !important;
+}
+
+.w-200-i {
+	width: 200px !important;
+} 
+
+.w-250-i {
+	width: 250px !important;
+} 
+
+.w-300-i {
+	width: 300px !important;
+}
+
+.h-200 {
+	height: 200px;
+} 
+
+.h-250 {
+	height: 250px;
+} 
+
+.h-300 {
+	height: 300px;
+}
+
+.w-200 {
+	width: 200px;
+} 
+
+.w-250 {
+	width: 250px;
+} 
+
+.w-300 {
+	width: 300px;
+}
+
+.bor-rad {
+	&-0 {
+		border-radius: 0 !important;
+	}
+	
+	&-6 {
+		border-radius: 6px;
+	}
+	&-r-6 {
+		border-radius: 0 6px 6px 0 !important;	
+	}
+	&-l-6 {
+		border-radius: 6px 0 0 6px !important;	
+	}
+}
+
+
+.product-grid 
+	.gx-card {
+		overflow: hidden;
+	}
+	.product-wrapper {
+	 	.ant-card-body {
+	 		padding: 0 !important;
+	 	}
+	}
+
+	.product-item {
+		.ant-tabs .ant-tabs-right-content {
+			border-right: 0 !important;
+		}
+		
+		.ant-tabs-tab {
+			font-weight: 500;
+		}
+
+		.flow-y-scroll::-webkit-scrollbar { 
+			display: none; 
+	}
+
+	.left-detail-product {
+		.evaluation_criteria {
+			text-align: center;
+			background-color: #f5f5f5dd;
+			color: #000000bb;
+			position: absolute;
+			bottom:0;
+			right: 0;
+			left: 0;
+
+			div {
+				border-right: 1px solid $border-color !important;
+
+				&:last-child {
+					border: 0 !important;
+				}
+			}
+		}
+
+		.companyAvatar {
+			position: absolute;
+			top: 1em;
+			right: 1em;
+
+			img {
+			    height: 4em;
+			    border-radius: 50%;
+			    opacity: .8;
+			    -webkit-transform: rotate(30deg);
+			        -ms-transform: rotate(30deg);
+			            transform: rotate(30deg);
+			    width: 4em;
+			    -o-object-fit: cover;
+			       object-fit: cover;
+    			-o-object-position: center;
+    			   object-position: center;
+			}
+		}
+	}
+
+	.sub-color {
+		color: $sub-color;
+	}
+
+	.ant-card.gx-card-widget.gx-order-history.ant-card-bordered {
+		-webkit-box-shadow: none;
+		        box-shadow: none;
+	}
+
+	.ant-btn {
+		margin: 0 !important;
+	}
+	
+	
+}
+
+.productDetail {
+	-webkit-transition: 2s ease;
+	-o-transition: 2s ease;
+	transition: 2s ease;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	overflow: hidden;
+	z-index: 10;
+	background-color: rgba(0, 0, 0, 0.45);
+
+	.ant-carousel *{
+		height: 100%;
+	}
+
+	.productDetail-container {
+		overflow-y: scroll;
+		z-index: 11;
+		color: #000e;
+	}
+
+	.productDetail-right {
+		top: 0;
+		background-color: #fdfdfd;
+		bottom: 0;
+		right: 0;
+	}
+
+	.productDetail-avata {
+		position: absolute;
+	    top: 0;
+	    width: 80%;
+	    height: 80%;
+	    left: 50%;
+	    -webkit-transform: translateX(-50%);
+	        -ms-transform: translateX(-50%);
+	            transform: translateX(-50%);
+	    border-radius: 50%;
+	}
+
+	.productDetail-avata-wrap {
+	    height: 0;
+	    padding-bottom: 100%;
+	}
+	.productDetail-thumb {
+		height: 0;
+		padding-bottom: calc(100% * (2 / 3));
+		
+		.img-product {
+		    height: 100%;
+		    width: 100%;
+		    position: absolute;
+		    top: 0;
+		    right: 0;
+		    left: 0;
+		    bottom: 0;
+		    -o-object-fit: cover;
+		       object-fit: cover;
+		    -o-object-position: center;
+		       object-position: center;
+		}
+
+		.evaluation_criteria {
+			text-align: center;
+			background-color: #f5f5f5dd;
+			color: #000000bb;
+			position: absolute;
+			bottom:0;
+			right: 0;
+			left: 0;
+
+			div {
+				border-right: 1px solid $border-color !important;
+
+				&:last-child {
+					border: 0 !important;
+				}
+			}
+		}
+	} 
+
+	.ant-statistic-content-value {
+		font-size: 14px !important;
+	}
+}
+
+
+
+table.calendar {
+  border-collapse: collapse;
+  overflow: scroll;
+  width: 100%;
+  display: block;
+}
+
+table.calendar thead {
+  background-color: #5A5A5A;
+  color: white;
+  margin-bottom: 3px;
+  border-bottom: 2px solid white
+}
+
+
+table.calendar thead th {
+  font-weight: normal;
+  padding: 10px 3px;
+}
+
+table.calendar thead th.bolder {
+  font-weight: bold;
+}
+
+table.calendar tbody {
+  font-size: 0.8em;
+}
+
+table.calendar td {
+  text-align: center;
+  padding: 8px;
+  cursor: pointer;
+  border: 1px solid rgba(185, 185, 185, 0.13);
+  background-color: white;
+  min-width: 15px;
+}
+
+table.calendar tr:last-child td {
+  border-bottom: none;
+}
+
+table.calendar td.month-name {
+  font-weight: bold;
+  text-align: left;
+  cursor: default;
+  border-left: none;
+}
+
+table.calendar td.prev-month,
+table.calendar td.next-month {
+  color: transparent;
+  cursor: default;
+  pointer-events: none;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAABZJREFUCB1jYEADmzdv/o8iRA0BoIEAKngPeSAlnXcAAAAASUVORK5CYII=');
+}
+
+table.calendar td.week-separator {
+  pointer-events: none;
+  padding: 0;
+  width: 8px;
+  min-width: 0;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAABZJREFUCB1jYEADmzdv/o8iRA0BoIEAKngPeSAlnXcAAAAASUVORK5CYII=');
+}
+
+table.calendar td.bolder {
+  font-weight: bold;
+}
+
+/* Single selected day */
+table.calendar td.selected {
+  background-color: orangered;
+  color: white;
+  font-weight: bold;
+}
+
+/* Selected range */
+table.calendar td.range {
+  background-color: rgba(255,69,0, 0.7);
+  font-weight: bold;
+  color: white;
+}
+
+table.calendar td.range-left {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  overflow: hidden;
+  background: orangered;
+}
+
+table.calendar td.range-right {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  overflow: hidden;
+  background: orangered;
+}
+
+div.calendar-controls {
+  margin: 5px auto;
+  display: table;
+  font-size: 25px;
+  line-height: 35px;
+}
+
+div.calendar-controls div {
+  display: inline;
+}
+
+div.calendar-controls .current-year {
+  margin: 0 30px;
+}
+
+div.calendar-controls .control {
+  font-weight: bolder;
+  color: #323232;
+  font-size: 0.8em;
+  cursor: pointer;
+}
+
+div.calendar-controls .today {
+  position: absolute;
+  right: 15px;
+  line-height: 35px;
+  font-size: 0.6em;
+  text-transform: uppercase;
+}
+
+/* Demo */
+
+div#calendar {
+  position: relative;
+  border-radius: 5px;
+  border: 1px solid #5A5A5A;
+  background-color: white;
+  overflow: hidden;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
+.card_border_default {
+	border-radius: 6px;
+    border: 1px solid #e8e8e8;
+}
+
+.card_border_default_bot {
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.img-60 {
+	width: 60px;
+	height: 60px;
+	-o-object-fit: cover;
+	   object-fit: cover;
+	-o-object-position: center;
+	   object-position: center;
+}
+
+.gx_build_box_lay_content {
+	width: calc(100% - 100px) !important;
+}
+
+.invoice_request {
+	right: 1em;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	    -ms-transform: translateY(-50%);
+	        transform: translateY(-50%);
+}
+
+.login-container {
+	background: url(https://www.travelport.com/sites/default/files/assets/img/2105-travel-choice.png) no-repeat center;
+	background-size: cover;
+	
+	&:before {
+		background-color: #00000022;
+		z-index: 1;
+		content: " ";
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+
+}
+
+.remove-ant-body-padding {
+
+	.ant-card-body {
+		padding-top: .3em !important;
+		padding-bottom: .3em !important;
+	}
+}
+
+.remove-ant-btn-height {
+	line-height: 1em !important;
+	height: 1em !important;
+}
+
+
+.bg-color-f2425b {
+  background-color: #f2425b !important;
+}
+
+.bg-color-003366 {
+  background-color: #003366 !important;
+}
+
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
+}
+
+.text-ellipsis-2 {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;  
+  overflow: hidden !important;
+}
+
+.text-ellipsis-3 {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;  
+  overflow: hidden !important;
+}
+
+.text-ellipsis-4 {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;  
+  overflow: hidden !important;
+}
+
+.bg-none {
+  background: none !important;
+}
+
+
+.gx-blue-orange-gradient {
+    background: -o-linear-gradient(125deg, #ffae75 0%, #ff5300 100%);
+    background: linear-gradient(325deg, #ffae75 0%, #ff5300 100%);
+}
+
+.gx-blue-green-gradient {
+    background: -o-linear-gradient(125deg, #c2f789 0%, #2b6700 100%);
+    background: linear-gradient(325deg, #c2f789 0%, #2b6700 100%);
+}
+
+.no-border-card{
+    margin-bottom: 0 !important;
+}
+
+.no-border-card .ant-card-body{
+    padding: 0;
+}
+
+.bg-layer:before {
+    content: " ";
+    background-color: #00000050;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.flag-layer:before {
+    content: " ";
+    background-color: #00000050;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.w-slide-text {
+    width: 85%;
+}
+@media screen and (min-width: 576px) {
+    .w-slide-text {
+        width:65%;  
+    }
+}
+@media screen and (min-width: 768px) {
+    .w-slide-text {
+        width: 60%;
+    }
+}
+@media screen and (min-width: 992px) {
+    .w-slide-text {
+        width: 50%;
+    }
+}
+@media screen and (min-width: 1200px) {
+    .w-slide-text {
+        width: 40%;
+    }
+}
+
+.disable_layer_block {
+	cursor: pointer;
+	position: relative;
+	-webkit-filter: blur(.5px);
+	        filter: blur(.5px);
+
+	&:after {
+		content: " ";
+	    cursor: no-drop;
+	    position: absolute;
+	    bottom: 0;
+	    left: 0;
+	    right: 0;
+	    top: 0;
+	    z-index: 10;
+   	 	background-color: #80808022;
+
+	}
+}
