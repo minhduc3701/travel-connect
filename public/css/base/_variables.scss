@@ -1,0 +1,50 @@
+// Defined
+$none: 0;
+
+$ExtraSmall: .6em;
+$Small: .8em;
+$Medium: 1em;
+$large: 1.5em;
+$ExtraLarge: 2em;
+$Big: 3em;
+$Huge: 4em;
+$Giant: 5em;
+
+$size: ("0": $none, "1": $ExtraSmall, "2": $Small, "3": $Medium, "4": $large, "5": $ExtraLarge, "6": $Big, "7": $Huge, "8": $Giant);
+
+$screen_xs: 600px;
+$screen_sm: 768px;
+$screen_md: 992px;
+$screen_lg: 1200px;
+$screen_xl: 1600px;
+
+$mediaScreen: ("xs": $screen_xs, "sm": $screen_sm, "md": $screen_md, "lg": $screen_lg, "xl": $screen_xl );
+
+$left: left;
+$right: right;
+$bottom: bottom;
+$top: top;
+$position: ("l": $left, "r": $right, "b": $bottom, "t": $top );
+
+$border-color: #00000040;
+$sub-color: #aaa;
+$danger-color: #c10000;
+$success-color: #1daf1d;
+$warning-color: #ff8100;
+
+$green: #008000aa;
+$red:  #ab0000d1;
+
+$c-red: #ff0000ee;
+$c-green: #007b00ee;
+$c-blue: #0000ffee;
+$c-white: #ffffff;
+
+$c-n-red: "red";
+$c-n-green: "green";
+$c-n-blue: "blue";
+$c-n-white: "white";
+
+$i: !important;
+
+$color: ($c-n-red: $c-red, $c-n-green: $c-green, $c-n-blue: $c-blue, $c-n-white: $c-white);

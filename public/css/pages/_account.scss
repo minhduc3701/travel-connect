@@ -1,0 +1,127 @@
+.block__banner {
+
+	&--upload {
+
+		.ant-upload.ant-upload-select-picture-card {
+			width: 100% !important;
+			height: 100% !important;
+			background-color: #55555533 !important;
+
+			.ant-upload {
+				font-size: 2em !important;
+				color: #fff !important;
+    			text-transform: uppercase;
+			}
+
+			.ant-upload-text {
+				margin-left: 1em;
+				display: inline-block !important;
+			}
+		}
+	}
+
+	&__avatar {
+		
+	    position: absolute;
+	    top: 0;
+	    left: 50%;
+	    -webkit-transform: translate(-50%, -50%);
+	        -ms-transform: translate(-50%, -50%);
+	            transform: translate(-50%, -50%);
+		
+		@media screen and (min-width: 992px) {
+			width: 45%;
+		}
+		@media screen and (max-width: 991px) {
+			width: 20%;
+		}
+
+		&__extend {
+			@media screen and (min-width: 992px) {
+				padding-top: 30%;
+			}
+			@media screen and (max-width: 991px) {
+				padding-top: 15%;
+			}
+		}
+
+		&--inner {
+			border: 1px solid #00000011;
+		}
+
+		&--upload {
+			.ant-upload.ant-upload-select-picture-card {
+				width: 100% !important;
+				height: 100% !important;
+				background-color: #55555533;
+
+				.ant-upload {
+					font-size: 2em !important;
+					color: #fff !important;
+	    			text-transform: uppercase;
+				}
+
+				.ant-upload-text {
+					margin-left: 1em;
+					display: none !important;
+				}
+			}
+		}
+	}
+
+	&__slide {
+		min-height: 350px;
+		height: 350px;
+		max-height: 50vh;
+	}
+
+	&__color--primary {
+ 		color: 'rgb(0, 51, 102)';
+	}
+
+}
+
+.block__nav {
+
+	&__anchor {
+		box-sizing: border-box; 
+
+	    /* margin: 0; */
+	    /* padding: 0; */
+	    /* color: #545454; */
+	    /* font-size: 14px; */
+	    /* font-variant: tabular-nums; */
+	    /* line-height: 1.3; */
+	    /* list-style: none; */
+	    /* font-feature-settings: 'tnum', "tnum"; */
+	    /* position: relative; */
+	    /* padding-left: 2px; */
+		.ant-anchor-ink {
+			display: none !important;
+		}
+
+		.ant-anchor-wrapper {
+		    /* margin-left: -4px; */
+		    /* padding-left: 4px; */
+		    /* overflow: auto; */
+		    /* background-color: #fff; */
+		}
+
+		.ant-anchor-link {
+		    padding: 7px 0 7px 16px;
+		    line-height: 1.143;
+		}
+
+		.ant-anchor-link-title {
+		    position: relative;
+		    display: block;
+		    margin-bottom: 6px;
+		    overflow: hidden;
+		    color: #545454;
+		    white-space: nowrap;
+		    text-overflow: ellipsis;
+		    -webkit-transition: all 0.3s;
+		    transition: all 0.3s;
+		}
+	}
+}
