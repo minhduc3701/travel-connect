@@ -77,7 +77,7 @@ class HorizontalNav extends Component {
             </Link>
           </Menu.Item>
           <Menu.Item key="company">
-            <Link to="/company">
+            <Link to="/upgrade-account">
               <Icon type="tag" />
               <IntlMessages id="sidebar.home.upgradeaccount" />
             </Link>
@@ -106,22 +106,22 @@ class HorizontalNav extends Component {
           }
         >
           <Menu.Item key="sidebar.home.dashboard">
-            <Link to="/dashboard">
+            <a href="/dashboard">
               <Icon type="dashboard" />
               <IntlMessages id="sidebar.home.dashboard" />
-            </Link>
+            </a>
           </Menu.Item>
           <Menu.Item key="appointmentManagement">
-            <Link to="/member-management">
+            <a href="/member-management">
               <Icon type="calendar" />
               <IntlMessages id="appointmentManagement" />
-            </Link>
+            </a>
           </Menu.Item>
           <Menu.Item key="company">
-            <Link to="/company">
+            <a href="/company">
               <i className="icon icon-contacts" />
               <IntlMessages id="contactManagement" />
-            </Link>
+            </a>
           </Menu.Item>
         </SubMenu>
 
@@ -135,10 +135,10 @@ class HorizontalNav extends Component {
           }
         >
           <Menu.Item key="listlandtour">
-            <Link to="/b2b/dashboard">
+            <a href="/b2b/dashboard">
               <Icon type="dashboard" />
               Dashboard
-            </Link>
+            </a>
           </Menu.Item>
           <SubMenu
             className={this.getNavStyleSubMenuClass(navStyle)}
@@ -161,23 +161,23 @@ class HorizontalNav extends Component {
               }
             >
               <Menu.Item key="inventoryLandtour">
-                <Link to="/b2b/inventory/landtour">
+                <a href="/b2b/inventory/landtour">
                   <i className="icon icon-map-google" />
                   <IntlMessages id="sidebar.b2bmarketplace.find.landtour" />
-                </Link>
+                </a>
               </Menu.Item>
               <Menu.Item key="inventoryGrouptour">
-                <Link to="/b2b/inventory/grouptour">
+                <a href="/b2b/inventory/grouptour">
                   <i className="icon icon-map-styled" />
                   <IntlMessages id="sidebar.b2bmarketplace.find.grouptour" />
-                </Link>
+                </a>
               </Menu.Item>
             </SubMenu>
             <Menu.Item key="sellRequest">
-              <Link to="/b2b/transaction/request-sell">
+              <a href="/b2b/transaction/request-sell">
                 <Icon type="gift" />
                 <IntlMessages id="sellRequest" />
-              </Link>
+              </a>
             </Menu.Item>
           </SubMenu>
 
@@ -202,16 +202,16 @@ class HorizontalNav extends Component {
               }
             >
               <Menu.Item key="listlandtour">
-                <Link to="/b2b/landtour">
+                <a href="/b2b/landtour">
                   <i className="icon icon-map-google" />
                   <IntlMessages id="sidebar.b2bmarketplace.find.landtour" />
-                </Link>
+                </a>
               </Menu.Item>
               <Menu.Item key="listgrouptour">
-                <Link to="/b2b/grouptour">
+                <a href="/b2b/grouptour">
                   <i className="icon icon-map-styled" />
                   <IntlMessages id="sidebar.b2bmarketplace.find.grouptour" />
-                </Link>
+                </a>
               </Menu.Item>
             </SubMenu>
             {/* <SubMenu
@@ -225,10 +225,10 @@ class HorizontalNav extends Component {
               }
             > */}
             <Menu.Item key="buyRequest">
-              <Link to="/b2b/transaction/request-buy">
+              <a href="/b2b/transaction/request-buy">
                 <Icon type="shopping-cart" />
                 <IntlMessages id="buyRequest" />
-              </Link>
+              </a>
             </Menu.Item>
             {/* </SubMenu> */}
           </SubMenu>
