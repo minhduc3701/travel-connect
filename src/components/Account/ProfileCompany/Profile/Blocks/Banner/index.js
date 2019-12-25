@@ -32,6 +32,8 @@ const btn_notification_menu = (
 
 class Banner extends Component {
   render() {
+    // let { profile } = this.props;
+    // console.log(profile);
     return (
       <div className="m-b-5">
         <div className="aspect_box">
@@ -58,8 +60,10 @@ class Banner extends Component {
               <div className="text-align-center">
                 <div className="d-inline-block text-align-left">
                   <h5 className=" gx-text-grey m-b-0-i">
-                    <Icon type="usergroup-add" className="p-r-1" /> 254
-                    Followers
+                    <Icon type="usergroup-add" className="p-r-1" />
+                    254 Followers
+                    {/* {profile.company_name} */}
+                    {/* {this.props.comany_deal} */}
                   </h5>
                   <h5 className=" gx-text-grey m-b-0-i">
                     <Icon type="eye" className="p-r-1" /> 5.214 Views

@@ -107,29 +107,34 @@ export const ticketList = [
 ];
 
 class About extends React.Component {
-  state = { visible: false };
+  state = {
+    loading: false,
+    visible: false
+  };
 
   showModal = () => {
     this.setState({
-      visible: !this.state.visible
+      visible: true
     });
   };
 
-  handleOk = e => {
-    notiChange("success", "Gửi thành công, chờ xét duyệt");
-    this.setState({
-      visible: false
-    });
+  handleOk = () => {
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.setState({ loading: false, visible: false });
+      notiChange("success", "Send request success");
+    }, 3000);
   };
 
-  onHandleCancel = () => {
-    console.log(this.state.visible);
+  handleCancel = e => {
+    console.log(e);
     this.setState({
       visible: false
     });
   };
 
   render() {
+    let { loading } = this.state;
     return (
       <div className="block-w-nb" id="nav_introduction">
         <WidgetHeader
@@ -148,125 +153,6 @@ class About extends React.Component {
                   type="check-circle"
                 />
               )}
-
-              <Modal
-                className="w-60-i"
-                title="About"
-                visible={this.state.visible}
-                onOk={this.handleOk}
-                onCancel={this.onHandleCancel}
-              >
-                <div
-                  className=""
-                  style={{ backgroundColor: "white", borderRadius: 10 }}
-                >
-                  <Row className="m-b-3 align-items-center">
-                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                      <p className="text-align-right p-r-5-i">
-                        {<IntlMessages id="companyName" />}
-                      </p>
-                    </Col>
-                    <Col className="" xs={24} sm={24} md={18} lg={18} xl={18}>
-                      <Row className="m-b-3-i align-items-center">
-                        <Col xs={18} sm={18} md={18} lg={20} xl={20}>
-                          <Input
-                            className="border-none"
-                            defaultValue="Công ty TNHH giải pháp kết nối du lịch Việt Nam"
-                          />
-                        </Col>
-                        <Col
-                          className="text-align-center"
-                          xs={6}
-                          sm={6}
-                          md={6}
-                          lg={4}
-                          xl={4}
-                        ></Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                  <Row className="m-b-3 align-items-center">
-                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                      <p className="text-align-right p-r-5-i">
-                        {<IntlMessages id="brandname" />}
-                      </p>
-                    </Col>
-                    <Col xs={24} sm={24} md={18} lg={18} xl={18}>
-                      <Row className="m-b-3-i align-items-center">
-                        <Col xs={18} sm={18} md={18} lg={20} xl={20}>
-                          <Input
-                            className="border-none"
-                            defaultValue="Travel Connect"
-                          />
-                        </Col>
-                        <Col
-                          className="text-align-center"
-                          xs={6}
-                          sm={6}
-                          md={6}
-                          lg={4}
-                          xl={4}
-                        ></Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                  <Row className="m-b-3  align-items-center">
-                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                      <p className="text-align-right p-r-5-i">
-                        {<IntlMessages id="step.information.licensenumber" />}
-                      </p>
-                    </Col>
-                    <Col xs={24} sm={24} md={18} lg={18} xl={18}>
-                      <Row className="m-b-3-i align-items-center">
-                        <Col xs={18} sm={18} md={18} lg={20} xl={20}>
-                          <Input defaultValue="0105030308" />
-                        </Col>
-                        <Col
-                          className="text-align-center"
-                          xs={6}
-                          sm={6}
-                          md={6}
-                          lg={4}
-                          xl={4}
-                        ></Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                  <Row className="m-b-3  align-items-center">
-                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                      <p className="text-align-right p-r-5-i">
-                        {<IntlMessages id="step.information.licenseimage" />}
-                      </p>
-                    </Col>
-                    <Col xs={24} sm={24} md={18} lg={18} xl={18}>
-                      <Row className="m-b-3-i align-items-center">
-                        <Col xs={18} sm={18} md={18} lg={20} xl={20}>
-                          <p className="m-b-0-i">
-                            <Upload {...props}>
-                              <Button>
-                                <Icon type="upload" /> Click to Upload
-                              </Button>
-                            </Upload>
-                          </p>
-                        </Col>
-                        <Col
-                          className="text-align-center"
-                          xs={6}
-                          sm={6}
-                          md={6}
-                          lg={4}
-                          xl={4}
-                        ></Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                  <h5 style={{ color: "red" }}>
-                    * Những thông tin này đã được xác minh. Nếu bạn muốn chỉnh
-                    sửa hãy click vào nút <b>Send Request</b> và điền thông tin
-                    mà bạn muốn chỉnh sửa vào form *
-                  </h5>
-                </div>
-              </Modal>
             </div>
           }
         />
@@ -282,6 +168,137 @@ class About extends React.Component {
               </Row>
             </Col>
           </Row>
+          <Modal
+            className="w-60-i"
+            title="About"
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer={[
+              <Button key="back" onClick={this.handleCancel}>
+                <IntlMessages id="return" />
+              </Button>,
+              <Button
+                key="submit"
+                type="primary"
+                loading={loading}
+                onClick={this.handleOk}
+              >
+                <IntlMessages id="sendRequest" />
+              </Button>
+            ]}
+          >
+            <div
+              className=""
+              style={{ backgroundColor: "white", borderRadius: 10 }}
+            >
+              <Row className="m-b-3 align-items-center">
+                <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                  <p className="text-align-right p-r-5-i">
+                    {<IntlMessages id="companyName" />}
+                  </p>
+                </Col>
+                <Col className="" xs={24} sm={24} md={18} lg={18} xl={18}>
+                  <Row className="m-b-3-i align-items-center">
+                    <Col xs={18} sm={18} md={18} lg={20} xl={20}>
+                      <Input
+                        className="border-none"
+                        defaultValue="Công ty TNHH giải pháp kết nối du lịch Việt Nam"
+                      />
+                    </Col>
+                    <Col
+                      className="text-align-center"
+                      xs={6}
+                      sm={6}
+                      md={6}
+                      lg={4}
+                      xl={4}
+                    ></Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row className="m-b-3 align-items-center">
+                <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                  <p className="text-align-right p-r-5-i">
+                    {<IntlMessages id="brandname" />}
+                  </p>
+                </Col>
+                <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+                  <Row className="m-b-3-i align-items-center">
+                    <Col xs={18} sm={18} md={18} lg={20} xl={20}>
+                      <Input
+                        className="border-none"
+                        defaultValue="Travel Connect"
+                      />
+                    </Col>
+                    <Col
+                      className="text-align-center"
+                      xs={6}
+                      sm={6}
+                      md={6}
+                      lg={4}
+                      xl={4}
+                    ></Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row className="m-b-3  align-items-center">
+                <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                  <p className="text-align-right p-r-5-i">
+                    {<IntlMessages id="step.information.licensenumber" />}
+                  </p>
+                </Col>
+                <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+                  <Row className="m-b-3-i align-items-center">
+                    <Col xs={18} sm={18} md={18} lg={20} xl={20}>
+                      <Input defaultValue="0105030308" />
+                    </Col>
+                    <Col
+                      className="text-align-center"
+                      xs={6}
+                      sm={6}
+                      md={6}
+                      lg={4}
+                      xl={4}
+                    ></Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row className="m-b-3  align-items-center">
+                <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                  <p className="text-align-right p-r-5-i">
+                    {<IntlMessages id="step.information.licenseimage" />}
+                  </p>
+                </Col>
+                <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+                  <Row className="m-b-3-i align-items-center">
+                    <Col xs={18} sm={18} md={18} lg={20} xl={20}>
+                      <p className="m-b-0-i">
+                        <Upload {...props}>
+                          <Button>
+                            <Icon type="upload" /> Click to Upload
+                          </Button>
+                        </Upload>
+                      </p>
+                    </Col>
+                    <Col
+                      className="text-align-center"
+                      xs={6}
+                      sm={6}
+                      md={6}
+                      lg={4}
+                      xl={4}
+                    ></Col>
+                  </Row>
+                </Col>
+              </Row>
+              <h5 style={{ color: "red" }}>
+                * Những thông tin này đã được xác minh. Nếu bạn muốn chỉnh sửa
+                hãy click vào nút <b>Send Request</b> và điền thông tin mà bạn
+                muốn chỉnh sửa vào form *
+              </h5>
+            </div>
+          </Modal>
         </div>
       </div>
     );

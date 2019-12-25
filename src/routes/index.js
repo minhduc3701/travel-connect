@@ -95,6 +95,46 @@ const App = ({ match }) => (
               )
             )}
           />
+          <Route
+            path={`${match.url}new_complete`}
+            component={asyncComponent(() =>
+              import(
+                "../components/Account/CompleteRegisterAccount/NewCompleteRegister/index"
+              )
+            )}
+          />
+          <Route
+            path={`${match.url}new_complete_1`}
+            component={asyncComponent(() =>
+              import(
+                "../components/Account/CompleteRegisterAccount/NewCompleteRegister/Verify"
+              )
+            )}
+          />
+          <Route
+            path={`${match.url}new_complete/2`}
+            component={asyncComponent(() =>
+              import(
+                "../components/Account/CompleteRegisterAccount/NewCompleteRegister/Company"
+              )
+            )}
+          />
+          <Route
+            path={`${match.url}new_complete/3`}
+            component={asyncComponent(() =>
+              import(
+                "../components/Account/CompleteRegisterAccount/NewCompleteRegister/Activity"
+              )
+            )}
+          />
+          <Route
+            path={`${match.url}new_complete/4`}
+            component={asyncComponent(() =>
+              import(
+                "../components/Account/CompleteRegisterAccount/NewCompleteRegister/Verify"
+              )
+            )}
+          />
         </Switch>
       </div>
     </div>

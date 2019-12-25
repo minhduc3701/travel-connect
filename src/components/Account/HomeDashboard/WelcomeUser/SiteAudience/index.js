@@ -11,6 +11,7 @@ const SiteAudience = () => {
         <li>
           <LineIndicator
             width="56%"
+            // title="Success"
             title={<IntlMessages id="notification.success" />}
             color="cyan"
             value="56"
@@ -19,14 +20,12 @@ const SiteAudience = () => {
         <li>
           <LineIndicator
             width="42%"
+            // title="Not success"
             title={<IntlMessages id="notSuccess" />}
             color="geekblue"
             value="42"
           />
         </li>
-        {/* <li>
-          <LineIndicator width="20%" title="Tất" color="orange" value="20%"/>
-        </li> */}
       </ul>
     </div>
   );

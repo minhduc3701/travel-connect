@@ -28,7 +28,6 @@ import Widget from "components/Widget/index";
 
 const InputGroup = Input.Group;
 const { Panel } = Collapse;
-
 const customPanelStyle = {
   background: "#f7f7f7",
   borderRadius: 4,
