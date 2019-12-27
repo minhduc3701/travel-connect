@@ -4,7 +4,7 @@ import Banner from "./Blocks/Banner";
 import Biography from "./Blocks/Biography";
 import About from "./Blocks/About";
 import Friends from "./Blocks/Friends/index";
-import EventsBanner from "./Blocks/EventsBanner";
+// import EventsBanner from "./Blocks/EventsBanner";
 import AddEvent from "./Blocks/EventsBanner/AddEvent";
 import Processing from "./Blocks/Processing";
 import Rating from "./Blocks/Rating";
@@ -15,32 +15,35 @@ import Media from "./Blocks/Media";
 import Contact from "./Blocks/Contact";
 import StaticticGuest from "./Blocks/StaticticGuest";
 import { friendList } from "./data";
+import { connect } from "react-redux";
+
 class ProfileUpdate extends Component {
   render() {
+    let { Account } = this.props.profile;
     return (
       <div className="gx-profile-content">
-        <Banner />
+        <Banner profile={Account} />
         <Navigation />
         <Row className="m-t-3-i">
           <Col xl={16} lg={16} md={24} sm={24} xs={24}>
-            <About />
-            <Biography />
-            <Contact />
+            <About profile={Account} />
+            <Biography profile={Account} />
+            <Contact profile={Account} />
             <Row>
               <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
               <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
             </Row>
             {/* <EventsBanner /> */}
             <AddEvent />
-            <PropertiesCard />
-            <Rating />
+            <PropertiesCard profile={Account} />
+            <Rating profile={Account} />
           </Col>
           <Col xl={8} lg={8} md={24} sm={24} xs={24}>
             <Processing />
-            <StaticticGuest />
-            <Friends friendList={friendList} />
-            <Socials />
-            <Media />
+            <StaticticGuest profile={Account} />
+            <Friends profile={Account} friendList={friendList} />
+            <Socials profile={Account} />
+            <Media profile={Account} />
           </Col>
         </Row>
       </div>
@@ -48,4 +51,10 @@ class ProfileUpdate extends Component {
   }
 }
 
-export default ProfileUpdate;
+const mapStateToProps = state => {
+  return {
+    profile: state
+  };
+};
+
+export default connect(mapStateToProps, null)(ProfileUpdate);

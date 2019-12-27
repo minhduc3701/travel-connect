@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Icon } from "antd";
 // import { notiChange } from "util/Notification";
 import { Link } from "react-router-dom";

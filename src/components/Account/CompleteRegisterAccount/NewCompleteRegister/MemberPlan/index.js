@@ -8,8 +8,8 @@ import {
   Icon,
   Row,
   Radio,
-  Form,
-  Modal
+  Form
+  // Modal
 } from "antd";
 import TypeAccount from "./TypeAccount";
 

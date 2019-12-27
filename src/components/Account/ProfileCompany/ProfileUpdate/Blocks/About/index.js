@@ -1,9 +1,14 @@
 import React from "react";
-import { Col, Upload, Row, Modal, Icon, Button, Input } from "antd";
+import { Col, Upload, Row, Modal, Icon, Button, Input, Form } from "antd";
 import AboutItem from "./AboutItem";
 import IntlMessages from "util/IntlMessages";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import { notiChange } from "util/Notification";
+
+const formItemLayout = {
+  wrapperCol: { xs: 24, sm: 24 }
+};
+const FormItem = Form.Item;
 
 const props = {
   name: "file",
@@ -24,51 +29,6 @@ const props = {
   }
 };
 
-const aboutList = [
-  {
-    id: 1,
-    title: <IntlMessages id="brandname" />,
-    icon: "company",
-    userList: "",
-    desc: ["Travel Connect "],
-    verify: "check-circle-o"
-  },
-  {
-    id: 2,
-    title: <IntlMessages id="establishdate" />,
-    icon: "schedule",
-    userList: "",
-    desc: ["Dec 07, 2010"]
-  },
-  {
-    id: 6,
-    title: <IntlMessages id="licence" />,
-    icon: "inputnumber",
-    userList: "",
-    desc: "0105030308"
-  },
-  {
-    id: 3,
-    title: <IntlMessages id="step.information.address" />,
-    icon: "location",
-    userList: "",
-    desc: "Số 2 đường 3.5 Gamuda Gardens, Hoàng Mai, Hà Nội"
-  },
-  {
-    id: 4,
-    title: <IntlMessages id="step.product" />,
-    icon: "product-list",
-    userList: "",
-    desc: ["Tour"]
-  },
-  {
-    id: 5,
-    title: <IntlMessages id="businesstype" />,
-    icon: "company",
-    userList: "",
-    desc: "Đại lý du lịch"
-  }
-];
 export const ticketList = [
   {
     id: 2,
@@ -109,7 +69,23 @@ export const ticketList = [
 class About extends React.Component {
   state = {
     loading: false,
-    visible: false
+    visible: false,
+    message: ""
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log("Received values of form: ", values);
+        // this.props.getState(this.state.step);
+        this.setState({ loading: true, message: values });
+        setTimeout(() => {
+          this.setState({ loading: false, visible: false });
+          notiChange("success", "Send message success!");
+        }, 1500);
+      }
+    });
   };
 
   showModal = () => {
@@ -127,14 +103,61 @@ class About extends React.Component {
   };
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false
     });
   };
 
   render() {
-    let { loading } = this.state;
+    let { profile } = this.props;
+    const { getFieldDecorator } = this.props.form;
+    const aboutList = [
+      {
+        id: 1,
+        title: <IntlMessages id="brandname" />,
+        icon: "company",
+        userList: "",
+        desc: profile.company_brandname,
+        verify: "check-circle-o"
+      },
+      {
+        id: 2,
+        title: <IntlMessages id="establishdate" />,
+        icon: "schedule",
+        userList: "",
+        desc: profile.company_establish
+      },
+      {
+        id: 6,
+        title: <IntlMessages id="licence" />,
+        icon: "inputnumber",
+        userList: "",
+        desc: "aaaaaaaaaaaa"
+        // desc: profile.company_licence
+      },
+      {
+        id: 3,
+        title: <IntlMessages id="step.information.address" />,
+        icon: "location",
+        userList: "",
+        desc: profile.company_address
+      },
+      {
+        id: 4,
+        title: <IntlMessages id="step.product" />,
+        icon: "product-list",
+        userList: "",
+        desc: profile.company_service
+      },
+      {
+        id: 5,
+        title: <IntlMessages id="businesstype" />,
+        icon: "company",
+        userList: "",
+        desc: profile.company_business
+      }
+    ];
+
     return (
       <div className="block-w-nb" id="nav_introduction">
         <WidgetHeader
@@ -172,124 +195,132 @@ class About extends React.Component {
             className="w-60-i"
             title="About"
             visible={this.state.visible}
-            onOk={this.handleOk}
             onCancel={this.handleCancel}
-            footer={[
-              <Button key="back" onClick={this.handleCancel}>
-                <IntlMessages id="return" />
-              </Button>,
-              <Button
-                key="submit"
-                type="primary"
-                loading={loading}
-                onClick={this.handleOk}
-              >
-                <IntlMessages id="sendRequest" />
-              </Button>
-            ]}
+            footer={null}
           >
-            <div
-              className=""
-              style={{ backgroundColor: "white", borderRadius: 10 }}
-            >
-              <Row className="m-b-3 align-items-center">
-                <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                  <p className="text-align-right p-r-5-i">
+            <Form onSubmit={this.handleSubmit}>
+              <Row>
+                <Col
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                  xs={24}
+                  sm={24}
+                  md={6}
+                  lg={6}
+                  xl={6}
+                >
+                  <p className="text-align-right">
                     {<IntlMessages id="companyName" />}
                   </p>
                 </Col>
-                <Col className="" xs={24} sm={24} md={18} lg={18} xl={18}>
-                  <Row className="m-b-3-i align-items-center">
-                    <Col xs={18} sm={18} md={18} lg={20} xl={20}>
-                      <Input
-                        className="border-none"
-                        defaultValue="Công ty TNHH giải pháp kết nối du lịch Việt Nam"
-                      />
-                    </Col>
-                    <Col
-                      className="text-align-center"
-                      xs={6}
-                      sm={6}
-                      md={6}
-                      lg={4}
-                      xl={4}
-                    ></Col>
-                  </Row>
+                <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+                  <FormItem {...formItemLayout}>
+                    {getFieldDecorator("company_name", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Enter your company name!"
+                        }
+                      ]
+                    })(<Input style={{ width: "80%" }} placeholder="Name" />)}
+                  </FormItem>
                 </Col>
               </Row>
-              <Row className="m-b-3 align-items-center">
-                <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                  <p className="text-align-right p-r-5-i">
-                    {<IntlMessages id="brandname" />}
-                  </p>
+              <Row>
+                <Col
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                  xs={24}
+                  sm={24}
+                  md={6}
+                  lg={6}
+                  xl={6}
+                >
+                  <p className="text-align-right">Brand name</p>
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
-                  <Row className="m-b-3-i align-items-center">
-                    <Col xs={18} sm={18} md={18} lg={20} xl={20}>
-                      <Input
-                        className="border-none"
-                        defaultValue="Travel Connect"
-                      />
-                    </Col>
-                    <Col
-                      className="text-align-center"
-                      xs={6}
-                      sm={6}
-                      md={6}
-                      lg={4}
-                      xl={4}
-                    ></Col>
-                  </Row>
+                  <FormItem {...formItemLayout}>
+                    {getFieldDecorator("company_brandname", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Enter your company brandname!"
+                        }
+                      ]
+                    })(
+                      <Input style={{ width: "80%" }} placeholder="Brandname" />
+                    )}
+                  </FormItem>
                 </Col>
               </Row>
-              <Row className="m-b-3  align-items-center">
-                <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                  <p className="text-align-right p-r-5-i">
-                    {<IntlMessages id="step.information.licensenumber" />}
-                  </p>
+              <Row>
+                <Col
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                  xs={24}
+                  sm={24}
+                  md={6}
+                  lg={6}
+                  xl={6}
+                >
+                  <p className="text-align-right">License Number</p>
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
-                  <Row className="m-b-3-i align-items-center">
-                    <Col xs={18} sm={18} md={18} lg={20} xl={20}>
-                      <Input defaultValue="0105030308" />
-                    </Col>
-                    <Col
-                      className="text-align-center"
-                      xs={6}
-                      sm={6}
-                      md={6}
-                      lg={4}
-                      xl={4}
-                    ></Col>
-                  </Row>
+                  <FormItem {...formItemLayout}>
+                    {getFieldDecorator("license_id", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Enter your company license!"
+                        }
+                      ]
+                    })(
+                      <Input style={{ width: "80%" }} placeholder="License" />
+                    )}
+                  </FormItem>
                 </Col>
               </Row>
-              <Row className="m-b-3  align-items-center">
-                <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                  <p className="text-align-right p-r-5-i">
-                    {<IntlMessages id="step.information.licenseimage" />}
-                  </p>
+              <Row>
+                <Col
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                  xs={24}
+                  sm={24}
+                  md={6}
+                  lg={6}
+                  xl={6}
+                >
+                  <p className="text-align-right">License Image</p>
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
-                  <Row className="m-b-3-i align-items-center">
-                    <Col xs={18} sm={18} md={18} lg={20} xl={20}>
-                      <p className="m-b-0-i">
-                        <Upload {...props}>
-                          <Button>
-                            <Icon type="upload" /> Click to Upload
-                          </Button>
-                        </Upload>
-                      </p>
-                    </Col>
-                    <Col
-                      className="text-align-center"
-                      xs={6}
-                      sm={6}
-                      md={6}
-                      lg={4}
-                      xl={4}
-                    ></Col>
-                  </Row>
+                  <FormItem {...formItemLayout}>
+                    {getFieldDecorator("license_image", {
+                      rules: [
+                        {
+                          required: false,
+                          message: "Upload your licence image!"
+                        }
+                      ]
+                    })(
+                      <Upload {...props}>
+                        <Button style={{ margin: 0 }}>
+                          <Icon type="upload" /> Click to Upload
+                        </Button>
+                      </Upload>
+                    )}
+                  </FormItem>
                 </Col>
               </Row>
               <h5 style={{ color: "red" }}>
@@ -297,7 +328,31 @@ class About extends React.Component {
                 hãy click vào nút <b>Send Request</b> và điền thông tin mà bạn
                 muốn chỉnh sửa vào form *
               </h5>
-            </div>
+              <hr />
+              <div
+                className=" d-flex"
+                style={{
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "flex-end"
+                }}
+              >
+                <Button
+                  onClick={this.handleCancel}
+                  style={{ marginBottom: "0 !important" }}
+                >
+                  Return
+                </Button>
+                <Button
+                  loading={this.state.loading ? true : false}
+                  htmlType="submit"
+                  type="primary"
+                  style={{ marginBottom: "0 !important" }}
+                >
+                  Send Request
+                </Button>
+              </div>
+            </Form>
           </Modal>
         </div>
       </div>
@@ -305,4 +360,6 @@ class About extends React.Component {
   }
 }
 
-export default About;
+const WrappedHorizontalLoginForm = Form.create()(About);
+
+export default WrappedHorizontalLoginForm;

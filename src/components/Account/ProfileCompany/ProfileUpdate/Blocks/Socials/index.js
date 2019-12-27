@@ -18,6 +18,7 @@ class Socials extends React.Component {
     if (this.state.stt_socials === false) this.setState({ stt_socials: true });
   };
   render() {
+    let { profile } = this.props;
     return (
       <div className="block-w-nb">
         <WidgetHeader
@@ -46,7 +47,7 @@ class Socials extends React.Component {
                 <Link
                   target="blank"
                   to={{
-                    pathname: "http://facebook.com"
+                    pathname: profile.company_fb
                   }}
                   className=" d-flex align-items-center"
                 >
@@ -64,7 +65,7 @@ class Socials extends React.Component {
                 <Link
                   target="blank"
                   to={{
-                    pathname: "http://facebook.com"
+                    pathname: profile.company_linkedin
                   }}
                   className=" d-flex align-items-center"
                 >
@@ -82,7 +83,7 @@ class Socials extends React.Component {
                 <Link
                   target="blank"
                   to={{
-                    pathname: "http://facebook.com"
+                    pathname: profile.company_gitlab
                   }}
                   className=" d-flex align-items-center"
                 >
@@ -96,7 +97,7 @@ class Socials extends React.Component {
                 <Link
                   target="blank"
                   to={{
-                    pathname: "http://facebook.com"
+                    pathname: profile.company_skype
                   }}
                   className=" d-flex align-items-center"
                 >
@@ -118,7 +119,7 @@ class Socials extends React.Component {
                   />
                   <Input
                     className="d-inline-block w-65-i"
-                    defaultValue="facebook.com/12312312312"
+                    defaultValue={profile.company_fb}
                   />
                 </div>
               </h4>
@@ -133,7 +134,7 @@ class Socials extends React.Component {
                   />
                   <Input
                     className="d-inline-block w-65-i"
-                    defaultValue="linkedin.com/12312312312"
+                    defaultValue={profile.company_linkedin}
                   />
                 </div>
               </h4>
@@ -144,7 +145,7 @@ class Socials extends React.Component {
                   <Icon type="gitlab" className="size-5 m-r-1" theme="filled" />
                   <Input
                     className="d-inline-block w-65-i"
-                    defaultValue="gitlab.com/12312312312"
+                    defaultValue={profile.company_gitlab}
                   />
                 </div>
               </h4>
@@ -155,7 +156,7 @@ class Socials extends React.Component {
                   <Icon type="skype" className="size-5 m-r-1" theme="filled" />
                   <Input
                     className="d-inline-block w-65-i"
-                    defaultValue="skype.com/12312312312"
+                    defaultValue={profile.company_skype}
                   />
                 </div>
               </h4>

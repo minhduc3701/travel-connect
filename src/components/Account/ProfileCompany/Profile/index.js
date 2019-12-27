@@ -15,37 +15,41 @@ import Navigation from "./Blocks/Navigation";
 import StaticticGuest from "./Blocks/StaticticGuest";
 import { friendList } from "./data";
 import { connect } from "react-redux";
-import * as Actions from "appRedux/actions/Account";
+// import * as Actions from "appRedux/actions/Account";
 // import axios from "axios";
-import CallApi from "util/CallApi";
+// import CallApi from "util/CallApi";
 
 class Profile extends Component {
   state = {
     profile: null,
     loading: null
   };
-  componentDidMount() {
-    // let tokenID = JSON.parse(localStorage.getItem("token"));
-    // let tokenSend = {
-    //   headers: {
-    //     Authorization: "Bearer " + tokenID
-    //   }
-    // };
-    // axios
-    //   .get(
-    //     "https://us-central1-travelconnectapp.cloudfunctions.net/v1/companies/066zHzQzCt6L7RZfgbsI",
-    //     tokenSend
-    //   )
-    //   .then(res => {
-    //     console.log(res.data);
-    //     this.setState({
-    //       profile: res.data
-    //     });
-    //   });
-    // CallApi("VN/companies/07WTNGl7FZsMxLJlbGRF", "GET", null).then(res => {
-    //   console.log(res.data);
-    // });
-    this.props.actFetchProfile();
+  // async componentDidMount() {
+  //   let tokenID = JSON.parse(localStorage.getItem("token"));
+  //   let tokenSend = {
+  //     headers: {
+  //       Authorization: "Bearer " + tokenID
+  //     }
+  //   };
+  //   axios
+  //     .get(
+  //       "https://us-central1-travelconnectapp.cloudfunctions.net/v1/companies/066zHzQzCt6L7RZfgbsI",
+  //       tokenSend
+  //     )
+  //     .then(res => {
+  //       console.log(res.data);
+  //       this.setState({
+  //         profile: res.data
+  //       });
+  //     });
+  //   CallApi("VN/companies/07WTNGl7FZsMxLJlbGRF", "GET", null).then(res => {
+  //     console.log(res.data);
+  //   });
+  //   await this.props.actFetchProfile();
+  // }
+
+  componentWillUnmount() {
+    console.log("unmount nè");
   }
 
   render() {
@@ -56,23 +60,23 @@ class Profile extends Component {
         <Navigation />
         <Row className="m-t-3-i">
           <Col xl={16} lg={16} md={24} sm={24} xs={24}>
-            <About />
-            <Biography />
-            <Contact />
+            <About profile={profile} />
+            <Biography profile={profile} />
+            <Contact profile={profile} />
             <Row>
               <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
               <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
             </Row>
-            <EventsBanner />
-            <PropertiesCard />
-            <Rating />
+            <EventsBanner profile={profile} />
+            <PropertiesCard profile={profile} />
+            <Rating profile={profile} />
           </Col>
           <Col xl={8} lg={8} md={24} sm={24} xs={24}>
             <Processing />
-            <StaticticGuest />
-            <Friends friendList={friendList} />
-            <Socials />
-            <Media />
+            <StaticticGuest profile={profile} />
+            <Friends profile={profile} friendList={friendList} />
+            <Socials profile={profile} />
+            <Media profile={profile} />
           </Col>
         </Row>
       </div>
@@ -82,16 +86,16 @@ class Profile extends Component {
 
 const mapStateToProps = state => {
   return {
-    profile: state.profile
+    profile: state
   };
 };
 
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    actFetchProfile: () => {
-      dispatch(Actions.actFetchActionRequest());
-    }
-  };
-};
+// const mapDispatchToProps = (dispatch, props) => {
+//   return {
+//     actFetchProfile: () => {
+//       dispatch(Actions.actFetchActionRequest());
+//     }
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, null)(Profile);

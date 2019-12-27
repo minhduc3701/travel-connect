@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import {
   Col,
   Cascader,
@@ -9,9 +9,13 @@ import {
   Row,
   Radio,
   Select,
-  Button
+  Button,
+  DatePicker
 } from "antd";
+import moment from "moment";
+import { connect } from "react-redux";
 import UploadPicture from "../../Step/SubComponent/Avatar";
+import { actUpdateUserRequest } from "appRedux/actions/User";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -20,7 +24,7 @@ const formItemLayout = {
   labelCol: { xs: 24, sm: 6 },
   wrapperCol: { xs: 24, sm: 18 }
 };
-
+const dateFormat = "YYYY/MM/DD";
 const residences = [
   {
     value: "hanoi",
@@ -58,9 +62,23 @@ const residences = [
 
 class Personal extends Component {
   state = {
-    person: "",
+    person: {
+      user_logo: "",
+      user_name: "",
+      user_birth: "",
+      user_gender: "",
+      user_phone: "",
+      user_nation: "",
+      user_city: "",
+      user_district: "",
+      user_addresss: ""
+    },
+    birth: "",
     progress: 50,
     step: 1
+  };
+  onChange = (date, dateString) => {
+    this.setState({ birth: dateString });
   };
 
   handleSubmit = e => {
@@ -69,18 +87,30 @@ class Personal extends Component {
       if (!err) {
         // console.log("Received values of form: ", values);
         this.props.getState(this.state.step);
-        this.setState({
-          person: values
-        });
+        let logo = values.user_logo ? values.user_logo : "";
+        let birth = this.state.birth;
+        this.setState(
+          {
+            person: {
+              user_logo: logo,
+              user_name: values.user_name,
+              user_gender: values.user_gender,
+              user_birth: birth,
+              user_phone: values.user_phone,
+              user_nation: values.user_nation,
+              user_city: values.user_district[0],
+              user_district: values.user_district[1],
+              user_addresss: values.user_address
+            }
+          },
+          () => this.props.onSendDataUser(this.state.person)
+        );
       }
     });
   };
 
-  onhandleSubmit = () => {
-    console.log("action");
-  };
-
   render() {
+    console.log(this.state.person);
     const { getFieldDecorator } = this.props.form;
     let person = this.props.data;
     return (
@@ -119,7 +149,7 @@ class Personal extends Component {
             <Divider>Hồ sơ cá nhân</Divider>
             <Form onSubmit={this.handleSubmit}>
               <FormItem {...formItemLayout} label="Ảnh đại diện">
-                {getFieldDecorator("avatar", {
+                {getFieldDecorator("user_logo", {
                   rules: [
                     {
                       required: false,
@@ -129,38 +159,50 @@ class Personal extends Component {
                 })(<UploadPicture />)}
               </FormItem>
               <FormItem {...formItemLayout} label="Họ và tên">
-                {getFieldDecorator("name", {
+                {getFieldDecorator("user_name", {
                   rules: [{ required: true, message: "Enter your username!" }]
-                })(<Input placeholder={person.name} />)}
+                })(<Input placeholder="Họ và tên" />)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="Ngày sinh">
+                {getFieldDecorator("user_birth", {
+                  rules: [
+                    { required: true, message: "Enter your date of birth!" }
+                  ]
+                })(
+                  <DatePicker
+                    placeholder="Ngày sinh"
+                    onChange={this.onChange}
+                  />
+                )}
               </FormItem>
               <FormItem {...formItemLayout} label="Giới tính">
-                {getFieldDecorator("gendar", {
+                {getFieldDecorator("user_gender", {
                   rules: [{ required: true, message: "Select your gendar!" }]
                 })(
                   <Radio.Group name="gendar">
-                    <Radio value={1}>Nam</Radio>
-                    <Radio value={2}>Nữ</Radio>
+                    <Radio value="male">Nam</Radio>
+                    <Radio value="female">Nữ</Radio>
                   </Radio.Group>
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label="Số điện thoại">
-                {getFieldDecorator("telephone", {
+                {getFieldDecorator("user_phone", {
                   rules: [{ required: true, message: "Enter your telephone!" }]
                 })(<Input name="telephone" placeholder="Số điện thoại" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="Quốc gia">
-                {getFieldDecorator("national", {
+                {getFieldDecorator("user_nation", {
                   rules: [{ required: true, message: "Select your national!" }]
                 })(
                   <Select name="national" showSearch>
-                    <Option value="vietnam">Việt Nam</Option>
-                    <Option value="japan">Nhật bản</Option>
-                    <Option value="china">Trung Quốc</Option>
+                    <Option value="vn">Việt Nam</Option>
+                    <Option value="jp">Nhật bản</Option>
+                    <Option value="cn">Trung Quốc</Option>
                   </Select>
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label="Quận/ Huyện">
-                {getFieldDecorator("district", {
+                {getFieldDecorator("user_district", {
                   rules: [{ required: true, message: "Select your district!" }]
                 })(
                   <Cascader
@@ -171,7 +213,7 @@ class Personal extends Component {
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label="Địa chỉ">
-                {getFieldDecorator("address", {
+                {getFieldDecorator("user_address", {
                   rules: [{ required: true, message: "Enter your address!" }]
                 })(<Input name="address" placeholder="Địa chỉ" />)}
               </FormItem>
@@ -200,7 +242,13 @@ class Personal extends Component {
   }
 }
 
-const WrappedHorizontalLoginForm = Form.create()(Personal);
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    onSendDataUser: user => {
+      dispatch(actUpdateUserRequest(user));
+    }
+  };
+};
 
-// export default Personal;
-export default WrappedHorizontalLoginForm;
+const WrappedHorizontalLoginForm = Form.create()(Personal);
+export default connect(null, mapDispatchToProps)(WrappedHorizontalLoginForm);

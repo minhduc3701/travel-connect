@@ -32,14 +32,14 @@ const btn_notification_menu = (
 
 class Banner extends Component {
   render() {
-    // let { profile } = this.props;
-    // console.log(profile);
+    let profile = this.props;
+    let { Account } = profile.profile;
     return (
       <div className="m-b-5">
         <div className="aspect_box">
           <div className="aspect_box--inner aspect_box--retangle_1x4">
             <img
-              src="http://www.halongbooking.net/wp-content/uploads/2016/01/travel-banner-halong.jpg"
+              src={Account.company_background}
               alt="banner"
               className="aspect_box__img aspect_box__img--cover"
             />
@@ -50,7 +50,8 @@ class Banner extends Component {
             <div className="aspect_box block__banner__avatar">
               <div className="aspect_box--inner aspect_box--square --circle block__banner__avatar--inner bg-color-white">
                 <img
-                  src="https://scontent.fhan5-5.fna.fbcdn.net/v/t1.0-1/p100x100/25442975_276028026257353_8090215628955438851_n.png?_nc_cat=101&_nc_oc=AQl2Y0toBu2NaUM4Da0Lkc69MePiriKQFnVbSOWplvE9VdbFPVp1sEiaftSAqjBIh2w&_nc_ht=scontent.fhan5-5.fna&oh=8c9443059fc00926ded386974e78813e&oe=5E78CCD3"
+                  src={Account.company_logo}
+                  // src="https://scontent.fhan5-5.fna.fbcdn.net/v/t1.0-1/p100x100/25442975_276028026257353_8090215628955438851_n.png?_nc_cat=101&_nc_oc=AQl2Y0toBu2NaUM4Da0Lkc69MePiriKQFnVbSOWplvE9VdbFPVp1sEiaftSAqjBIh2w&_nc_ht=scontent.fhan5-5.fna&oh=8c9443059fc00926ded386974e78813e&oe=5E78CCD3"
                   alt="banner"
                   className="aspect_box__img aspect_box__img--contain"
                 />
@@ -61,19 +62,20 @@ class Banner extends Component {
                 <div className="d-inline-block text-align-left">
                   <h5 className=" gx-text-grey m-b-0-i">
                     <Icon type="usergroup-add" className="p-r-1" />
-                    254 Followers
-                    {/* {profile.company_name} */}
-                    {/* {this.props.comany_deal} */}
+                    {/* 254 Followers */}
+                    {Account.company_followers}
                   </h5>
                   <h5 className=" gx-text-grey m-b-0-i">
-                    <Icon type="eye" className="p-r-1" /> 5.214 Views
+                    <Icon type="eye" className="p-r-1" />
+                    {/* 5.214 Views */}
+                    {Account.company_views}
                   </h5>
                 </div>
               </div>
             </div>
           </Col>
           <Col xl={18} lg={18} md={24} sm={24} xs={24} className="pos-rel">
-            <Info />
+            <Info Account={Account} />
           </Col>
           <Col
             xl={24}

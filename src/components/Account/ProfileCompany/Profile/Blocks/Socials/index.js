@@ -5,6 +5,7 @@ import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 
 class Socials extends React.Component {
   render() {
+    let { Account } = this.props.profile;
     return (
       <div className="block-w-nb">
         <WidgetHeader title="Connect and share" />
@@ -14,7 +15,7 @@ class Socials extends React.Component {
               <Link
                 target="blank"
                 to={{
-                  pathname: "http://facebook.com"
+                  pathname: Account.company_fb
                 }}
                 className=" d-flex align-items-center"
               >
@@ -28,7 +29,7 @@ class Socials extends React.Component {
               <Link
                 target="blank"
                 to={{
-                  pathname: "http://facebook.com"
+                  pathname: Account.company_linkedin
                 }}
                 className=" d-flex align-items-center"
               >
@@ -42,7 +43,7 @@ class Socials extends React.Component {
               <Link
                 target="blank"
                 to={{
-                  pathname: "http://facebook.com"
+                  pathname: Account.company_gitlab
                 }}
                 className=" d-flex align-items-center"
               >
@@ -56,7 +57,7 @@ class Socials extends React.Component {
               <Link
                 target="blank"
                 to={{
-                  pathname: "http://facebook.com"
+                  pathname: Account.company_skype
                 }}
                 className=" d-flex align-items-center"
               >

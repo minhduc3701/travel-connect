@@ -16,6 +16,3 @@ export const RECRUITMENT = "";
 //URL FOR ACCOUNT
 export const API_PROFILE_COMPANY =
   "https://us-central1-travelconnectapp.cloudfunctions.net/v1";
-export const API =
-  "https://us-central1-travelconnectapp.cloudfunctions.net/v1/companies/066zHzQzCt6L7RZfgbsI";
-export const a = "companies/066zHzQzCt6L7RZfgbsI";

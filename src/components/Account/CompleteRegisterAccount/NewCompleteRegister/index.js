@@ -8,7 +8,7 @@ import { data } from "./data";
 import IntlMessages from "util/IntlMessages";
 import { Link } from "react-router-dom";
 // import { notiChange } from "util/Notification";
-import { API_PROFILE_COMPANY, a } from "../../../../constants/NavigateLink";
+// import { API_PROFILE_COMPANY } from "../../../../constants/NavigateLink";
 
 class CompleteRegister extends Component {
   state = {
@@ -43,8 +43,6 @@ class CompleteRegister extends Component {
   };
 
   render() {
-    let b = `${API_PROFILE_COMPANY}/${a}`;
-    console.log(b);
     return (
       <div>
         <Row className="align-items-center" style={{ height: "10em" }}>

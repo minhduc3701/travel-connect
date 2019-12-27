@@ -43,6 +43,18 @@ const App = ({ match }) => (
             import("../components/BreadCrumbNav/Account/UpgradeAccount")
           )}
         />
+        <Route
+          path={`${match.url}account-package`}
+          component={asyncComponent(() =>
+            import("../components/BreadCrumbNav/Account/UpgradeAccount")
+          )}
+        />
+        <Route
+          path={`${match.url}new_complete`}
+          component={asyncComponent(() =>
+            import("../components/BreadCrumbNav/Account/CompleteProfile")
+          )}
+        />
         {/* Profile */}
         {/* Account */}
         {/* Events */}
@@ -104,35 +116,9 @@ const App = ({ match }) => (
             )}
           />
           <Route
-            path={`${match.url}new_complete_1`}
+            path={`${match.url}account-package`}
             component={asyncComponent(() =>
-              import(
-                "../components/Account/CompleteRegisterAccount/NewCompleteRegister/Verify"
-              )
-            )}
-          />
-          <Route
-            path={`${match.url}new_complete/2`}
-            component={asyncComponent(() =>
-              import(
-                "../components/Account/CompleteRegisterAccount/NewCompleteRegister/Company"
-              )
-            )}
-          />
-          <Route
-            path={`${match.url}new_complete/3`}
-            component={asyncComponent(() =>
-              import(
-                "../components/Account/CompleteRegisterAccount/NewCompleteRegister/Activity"
-              )
-            )}
-          />
-          <Route
-            path={`${match.url}new_complete/4`}
-            component={asyncComponent(() =>
-              import(
-                "../components/Account/CompleteRegisterAccount/NewCompleteRegister/Verify"
-              )
+              import("../components/Account/UpgradeAccount/UpgradeAccount")
             )}
           />
         </Switch>

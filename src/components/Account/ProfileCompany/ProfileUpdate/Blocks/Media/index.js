@@ -79,6 +79,7 @@ class Media extends Component {
     if (this.state.stt_media === false) this.setState({ stt_media: true });
   };
   render() {
+    let { profile } = this.props;
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
       <div>
@@ -110,7 +111,11 @@ class Media extends Component {
         />
         {this.state.stt_media === false ? (
           <div>
-            <Photos photoList={photoList} />
+            {profile.company_medias ? (
+              <Photos photoList={profile.company_medias} />
+            ) : (
+              <p>Album media is empty!</p>
+            )}
             {/* <p className="gx-text-primary gx-fs-md gx-pointer gx-d-block text-align-right">
                                     Go to gallery
                                     <i className={`icon icon-long-arrow-right gx-fs-xxl gx-ml-2 gx-d-inline-flex gx-vertical-align-middle`} />

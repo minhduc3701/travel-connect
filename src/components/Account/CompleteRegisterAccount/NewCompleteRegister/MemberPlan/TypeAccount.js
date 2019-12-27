@@ -20,7 +20,7 @@ import { notiChange } from "util/Notification";
 const FormItem = Form.Item;
 const Dragger = Upload.Dragger;
 const Option = Select.Option;
-const InputGroup = Input.Group;
+// const InputGroup = Input.Group;
 const { OptGroup } = Select;
 
 const formItemLayout = {

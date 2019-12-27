@@ -22,20 +22,22 @@ class Info extends React.Component {
     if (this.state.stt_website === false) this.setState({ stt_website: true });
   };
   render() {
+    let { profile } = this.props.profile;
     return (
       <div className="p-t-4">
-        <h3>Travel Connect</h3>
-        <h2>Công ty TNHH Kết nối du lịch Việt Nam</h2>
+        <h3>{profile.company_brandname}</h3>
+        <h2>{profile.company_name}</h2>
         <Row>
           <Col xl={24} lg={24} md={24} sm={24} xs={24}>
             <h5 className=" gx-text-grey ">
-              <Icon type="appstore" className="p-r-3" /> Travel Agency,
-              Accommodation, Restaurance, Transport{" "}
+              <Icon type="appstore" className="p-r-3" />{" "}
+              {profile.company_business}
             </h5>
           </Col>
           <Col xl={12} lg={12} md={12} sm={24} xs={24}>
             <h5 className=" gx-text-grey ">
-              <Icon type="environment" className="p-r-3" /> Hà Nội, Việt Nam
+              <Icon type="environment" className="p-r-3" />{" "}
+              {profile.company_city}, {profile.company_nation}
             </h5>
           </Col>
           <Col xl={12} lg={12} md={12} sm={24} xs={24}>
@@ -43,18 +45,18 @@ class Info extends React.Component {
               <Icon type="global" className="p-r-3" />
               {this.state.stt_website === false ? (
                 <a
-                  href="http://travelconnect.vn"
+                  href={profile.company_website}
                   className="d-inline-block"
-                  title="Công ty TNHH Kết nối du lịch Việt Nam"
+                  title={profile.company_website}
                 >
-                  http://travelconnect.vn
+                  {profile.company_website}
                 </a>
               ) : (
                 <Input
                   addonBefore={selectBefore}
                   size="small"
                   className="d-inline-block w-65-i"
-                  defaultValue="http://travelconnect.vn"
+                  defaultValue={profile.company_website}
                 />
               )}
               <span

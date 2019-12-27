@@ -21,6 +21,8 @@ class Biography extends React.Component {
       this.setState({ stt_biography: true });
   };
   render() {
+    let { profile } = this.props;
+    // console.log(profile);
     return (
       <div className="block-w-nb">
         <WidgetHeader
@@ -43,23 +45,27 @@ class Biography extends React.Component {
           }
         />
         <p className="gx-text-grey gx-fs-sm">
-          {<IntlMessages id="company.introduction.des" />} Travel Connect
+          {<IntlMessages id="company.introduction.des" />}{" "}
+          {profile.company_brandname}
         </p>
         <div className="text-align-justify">
           {!introData.length ? (
             <p className="gx-font-weight-light">
-              <i className="icon icon-sweet-alert"></i>{" "}
+              {profile.company_introduction}
+              {/* <i className="icon icon-sweet-alert"></i>{" "}
               <IntlMessages id="guide.company.intro" />
               <b>
                 <i className="icon icon-setting"></i>{" "}
                 <IntlMessages id="company.setting" />
-              </b>
+              </b> */}
             </p>
           ) : this.state.stt_biography === false ? (
-            <p style={{ lineHeight: "1.5em" }}>{introData}</p>
+            <p style={{ lineHeight: "1.5em" }}>
+              {profile.company_introduction}
+            </p>
           ) : (
             <TextArea
-              value={introData}
+              value={profile.company_introduction}
               placeholder="Controlled autosize"
               autoSize={{ minRows: 8, maxRows: 10 }}
             />

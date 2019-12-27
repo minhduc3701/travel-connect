@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Col, Collapse, Divider, Icon, Row, Switch } from "antd";
+import { Col, Collapse, Divider, Icon, Row } from "antd";
 import MemberPlan from "../MemberPlan";
 
 const { Panel } = Collapse;
@@ -66,10 +66,10 @@ class Activity extends Component {
                 sống
               </p>
             </div>
-            <hr />
-            <div>
+            {/* <hr />
+             <div>
               <h4></h4>
-            </div>
+            </div> */}
           </Col>
           <Col xl={16} lg={16} md={16} sm={24} xs={24}>
             <div className="block-w bor-rad-6">

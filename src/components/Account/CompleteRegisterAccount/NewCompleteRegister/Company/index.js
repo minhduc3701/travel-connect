@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Col, Cascader, Input, Divider, Icon, Form, Row, Button } from "antd";
 
 const FormItem = Form.Item;
@@ -71,7 +71,7 @@ class Company extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    let company = this.props.data;
+    // let company = this.props.data;
     return (
       <Row className="p-v-6">
         <Col xl={8} lg={8} md={8} sm={24} xs={24}>
