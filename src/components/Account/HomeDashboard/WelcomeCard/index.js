@@ -1,7 +1,9 @@
 import React from "react";
 import { Icon } from "antd";
 import IntlMessages from "util/IntlMessages";
-const WelcomeCard = () => {
+const WelcomeCard = props => {
+  let { Account } = props;
+  // console.log(Account);
   return (
     <div
       className="block-w flow-hidden pos-rel w-100 z-1"
@@ -12,7 +14,7 @@ const WelcomeCard = () => {
     >
       <div className="pos-abs pos-abs-center z-2 w-80">
         <h1 className="gx-mb-3">
-          <IntlMessages id={"welcome"} /> Travel Connect!
+          <IntlMessages id={"welcome"} /> {Account.company_brandname}!
         </h1>
         <p className="gx-fs-sm gx-text-uppercase">
           <IntlMessages id={"youHave"} />:

@@ -27,7 +27,8 @@ class PropertiesCard extends React.Component {
   };
 
   render() {
-    const { loader, popular } = this.state;
+    // const { loader, popular } = this.state;
+    let { profile } = this.props;
     return (
       <div className="block-w-nb disable_layer_block" id="nav_product">
         <WidgetHeader
@@ -56,8 +57,10 @@ class PropertiesCard extends React.Component {
           }
         />
 
-        {loader ? (
-          <CircularProgress className="gx-loader-400" />
+        {profile.company_products ? (
+          profile.company_products.map((data, index) => (
+            <PropertiesItemCard key={index} data={data} />
+          ))
         ) : this.state.popular.length < 1 ? (
           <p className="gx-font-weight-light">
             <i className="icon icon-sweet-alert"></i>{" "}
@@ -68,9 +71,7 @@ class PropertiesCard extends React.Component {
             </b>
           </p>
         ) : (
-          popular.map((data, index) => (
-            <PropertiesItemCard key={index} data={data} />
-          ))
+          <CircularProgress className="gx-loader-400" />
         )}
       </div>
     );

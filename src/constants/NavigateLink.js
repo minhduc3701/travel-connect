@@ -13,9 +13,11 @@ export const EDU = "http://localhost:3000/edu";
 export const DESTINATION = "";
 export const RECRUITMENT = "";
 
-//ACCOUNT
-export const ACCOUNT_DASHBOARD = "http://localhost:3000/dashboard";
-export const ACCOUNT_PROFILE = "http://localhost:3000/company";
-export const ACCOUNT_MEMBER_MANAGEMENT =
-  "http://localhost:3000/member-management";
-export const ACCOUNT_UPGRADE_ACCOUNT = "http://localhost:3000/upgrade-account";
+//URL FOR ACCOUNT
+export const API_PROFILE_COMPANY =
+  "https://us-central1-travelconnectapp.cloudfunctions.net/v1";
+export const API_USER_DETAIL =
+  "https://us-central1-tc-appglobal.cloudfunctions.net/v1";
+
+export const API_ACCOUNT =
+  "https://us-central1-tc-account.cloudfunctions.net/v1";

@@ -43,6 +43,18 @@ const App = ({ match }) => (
             import("../components/BreadCrumbNav/Account/UpgradeAccount")
           )}
         />
+        <Route
+          path={`${match.url}account-package`}
+          component={asyncComponent(() =>
+            import("../components/BreadCrumbNav/Account/UpgradeAccount")
+          )}
+        />
+        <Route
+          path={`${match.url}new_complete`}
+          component={asyncComponent(() =>
+            import("../components/BreadCrumbNav/Account/CompleteProfile")
+          )}
+        />
         {/* Profile */}
         {/* Account */}
         {/* Events */}
@@ -93,6 +105,20 @@ const App = ({ match }) => (
               import(
                 "../components/Account/CompleteRegisterAccount/CompleteRegister/index"
               )
+            )}
+          />
+          <Route
+            path={`${match.url}new_complete`}
+            component={asyncComponent(() =>
+              import(
+                "../components/Account/CompleteRegisterAccount/NewCompleteRegister/index"
+              )
+            )}
+          />
+          <Route
+            path={`${match.url}account-package`}
+            component={asyncComponent(() =>
+              import("../components/Account/UpgradeAccount/UpgradeAccount")
             )}
           />
         </Switch>

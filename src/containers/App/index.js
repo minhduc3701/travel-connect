@@ -6,6 +6,7 @@ import { ConfigProvider } from "antd";
 import { IntlProvider } from "react-intl";
 import AppLocale from "lngProvider";
 import MainApp from "./MainApp";
+import { actFetchActionRequest } from "../../appRedux/actions/Account";
 import {
   onLayoutTypeChange,
   onNavStyleChange,
@@ -62,7 +63,6 @@ class App extends Component {
       this.props.setInitUrl(this.props.history.location.pathname);
     }
     const params = new URLSearchParams(this.props.location.search);
-
     if (params.has("theme")) {
       this.props.setThemeType(params.get("theme"));
     }
@@ -72,6 +72,7 @@ class App extends Component {
     if (params.has("layout-type")) {
       this.props.onLayoutTypeChange(params.get("layout-type"));
     }
+    this.props.actFetchData();
   }
 
   render() {
@@ -94,7 +95,6 @@ class App extends Component {
     this.setNavStyle(navStyle);
 
     const currentAppLocale = AppLocale[locale.locale];
-
     return (
       <ConfigProvider locale={currentAppLocale.antd}>
         <IntlProvider
@@ -108,12 +108,25 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ settings }) => {
+const mapStateToProps = ({ settings, state }) => {
   const { locale, navStyle, themeType, layoutType } = settings;
-  return { locale, navStyle, themeType, layoutType };
+  return { locale, navStyle, themeType, layoutType, state };
 };
-export default connect(mapStateToProps, {
-  setThemeType,
-  onNavStyleChange,
-  onLayoutTypeChange
-})(App);
+
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    actFetchData: () => {
+      dispatch(actFetchActionRequest());
+    },
+    setThemeType,
+    onNavStyleChange,
+    onLayoutTypeChange
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+// export default connect(mapStateToProps, {
+//   setThemeType,
+//   onNavStyleChange,
+//   onLayoutTypeChange
+// })(App);

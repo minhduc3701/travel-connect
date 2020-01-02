@@ -14,38 +14,84 @@ import Contact from "./Blocks/Contact";
 import Navigation from "./Blocks/Navigation";
 import StaticticGuest from "./Blocks/StaticticGuest";
 import { friendList } from "./data";
+import { connect } from "react-redux";
+// import * as Actions from "appRedux/actions/Account";
+// import axios from "axios";
+// import CallApi from "util/CallApi";
+
 class Profile extends Component {
-	render() {
-		return (
-			<div className="gx-profile-content">
-				<Banner />
-				<Navigation />
-				<Row className="m-t-3-i">
-					<Col xl={16} lg={16} md={24} sm={24} xs={24}>
-						<About />
-						<Biography />
-						<Contact />
-						<Row>
-							<Col xl={12} lg={12} md={24} sm={24} xs={24}>
-							</Col>
-							<Col xl={12} lg={12} md={24} sm={24} xs={24}>
-							</Col>
-						</Row>
-						<EventsBanner />
-						<PropertiesCard />
-						<Rating />
-					</Col>
-					<Col xl={8} lg={8} md={24} sm={24} xs={24}>
-						<Processing />
-						<StaticticGuest />
-						<Friends friendList={friendList} />
-						<Socials />
-						<Media />
-					</Col>
-				</Row>
-			</div>
-		);
-	}
+  state = {
+    profile: null,
+    loading: null
+  };
+  // async componentDidMount() {
+  //   let tokenID = JSON.parse(localStorage.getItem("token"));
+  //   let tokenSend = {
+  //     headers: {
+  //       Authorization: "Bearer " + tokenID
+  //     }
+  //   };
+  //   axios
+  //     .get(
+  //       "https://us-central1-travelconnectapp.cloudfunctions.net/v1/companies/066zHzQzCt6L7RZfgbsI",
+  //       tokenSend
+  //     )
+  //     .then(res => {
+  //       console.log(res.data);
+  //       this.setState({
+  //         profile: res.data
+  //       });
+  //     });
+  //   CallApi("VN/companies/07WTNGl7FZsMxLJlbGRF", "GET", null).then(res => {
+  //     console.log(res.data);
+  //   });
+  //   await this.props.actFetchProfile();
+  // }
+
+  render() {
+    let { profile } = this.props;
+    return (
+      <div className="gx-profile-content">
+        <Banner profile={profile} />
+        <Navigation />
+        <Row className="m-t-3-i">
+          <Col xl={16} lg={16} md={24} sm={24} xs={24}>
+            <About profile={profile} />
+            <Biography profile={profile} />
+            <Contact profile={profile} />
+            <Row>
+              <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+              <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+            </Row>
+            <EventsBanner profile={profile} />
+            <PropertiesCard profile={profile} />
+            <Rating profile={profile} />
+          </Col>
+          <Col xl={8} lg={8} md={24} sm={24} xs={24}>
+            <Processing />
+            <StaticticGuest profile={profile} />
+            <Friends profile={profile} friendList={friendList} />
+            <Socials profile={profile} />
+            <Media profile={profile} />
+          </Col>
+        </Row>
+      </div>
+    );
+  }
 }
 
-export default Profile;
+const mapStateToProps = state => {
+  return {
+    profile: state
+  };
+};
+
+// const mapDispatchToProps = (dispatch, props) => {
+//   return {
+//     actFetchProfile: () => {
+//       dispatch(Actions.actFetchActionRequest());
+//     }
+//   };
+// };
+
+export default connect(mapStateToProps, null)(Profile);

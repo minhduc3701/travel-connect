@@ -63,12 +63,18 @@ class PropertiesItemCard extends React.Component {
   };
 
   render() {
-    const { title } = this.props.data;
+    const Account = this.props.data;
+    // console.log(this.props.data);
     return (
       <div className="gx-featured-item">
         <div className="d-flex d-flex-wrap justify-space-between">
           <Col xl={20} lg={20} md={20} sm={24} xs={24}>
-            <h5 className="gx-mb-2 text-ellipsis">{title} - 7 ngày 6 đêm</h5>
+            {Account ? (
+              <h5 className="gx-mb-2 text-ellipsis">
+                {Account.product_name} - {Account.product_day} ngày{" "}
+                {Account.product_night} đêm
+              </h5>
+            ) : null}
           </Col>
           <Col xl={4} lg={4} md={4} sm={24} xs={24}>
             <h5 className="text-align-right">

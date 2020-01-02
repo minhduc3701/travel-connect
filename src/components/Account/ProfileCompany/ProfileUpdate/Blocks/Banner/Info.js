@@ -1,6 +1,60 @@
 import React from "react";
-import doneChange from "util/Notification";
-import { Col, Icon, Row, Select, Input } from "antd";
+import { doneChange, notiChange } from "util/Notification";
+import {
+  Col,
+  Icon,
+  Row,
+  Select,
+  Input,
+  Modal,
+  Form,
+  Cascader,
+  Button
+} from "antd";
+import {
+  actSaveWebsite,
+  actSaveAddress
+} from "appRedux/actions/CompanyProfile";
+import { connect } from "react-redux";
+
+const formItemLayout = {
+  wrapperCol: { xs: 24, sm: 24 }
+};
+const residences = [
+  {
+    value: "hanoi",
+    label: "Hà Nội",
+    children: [
+      {
+        value: "dongda",
+        label: "Đống Đa"
+      },
+      {
+        value: "caugiay",
+        label: "Cầu giấy"
+      },
+      {
+        value: "hoangmai",
+        label: "Hoàng Mai"
+      }
+    ]
+  },
+  {
+    value: "saigon",
+    label: "Hồ Chí Minh",
+    children: [
+      {
+        value: "quan1",
+        label: "Quận 1"
+      },
+      {
+        value: "quan2",
+        label: "Quận 2"
+      }
+    ]
+  }
+];
+const FormItem = Form.Item;
 const { Option } = Select;
 const selectBefore = (
   <Select defaultValue="Http://" style={{ width: 90 }}>
@@ -11,50 +65,298 @@ const selectBefore = (
 
 class Info extends React.Component {
   state = {
-    stt_website: false
+    stt_website: false,
+    loading: false,
+    stt_address: false,
+    website: {
+      company_website: null
+    },
+    address: {
+      company_district: null,
+      company_address: null,
+      company_city: null,
+      company_nation: null
+    }
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        // console.log("Received values of form: ", values);
+        this.setState(
+          {
+            address: {
+              company_district: values.company_district[1],
+              company_address: values.company_address,
+              company_city: values.company_district[0],
+              company_nation: values.company_nation
+            },
+            loading: true
+          },
+          () => this.props.actSaveDataAddress(this.state.address)
+        );
+        setTimeout(() => {
+          this.setState(
+            {
+              stt_address: false,
+              loading: false
+            }
+            // () => this.props.actSendRequestToServer(this.state.requestChange)
+          );
+          notiChange("success", "Send message success!");
+        }, 1500);
+      }
+    });
+  };
+
+  handleOk = e => {
+    doneChange();
+    this.setState({
+      stt_address: false
+    });
+  };
+
+  handleCancel = e => {
+    this.setState({
+      stt_address: false
+    });
   };
 
   changeWebsiteToEdit = () => {
     if (this.state.stt_website === true) {
-      doneChange();
       this.setState({ stt_website: false });
     }
     if (this.state.stt_website === false) this.setState({ stt_website: true });
   };
+
+  changeAddressToEdit = () => {
+    if (this.state.stt_address === false) this.setState({ stt_address: true });
+  };
+
+  onChangeInput = event => {
+    let target = event.target;
+    let value = target.value;
+    this.setState({
+      website: {
+        company_website: value
+      }
+    });
+  };
+
+  onSaveData = () => {
+    let { profile } = this.props.profile;
+    let websiteResult = this.state.website.company_website
+      ? this.state.website
+      : profile.company_website;
+    this.props.actSaveData(websiteResult);
+  };
+
   render() {
+    // console.log(this.props.profile.profile.company_district);
+    console.log(this.state);
+    const { getFieldDecorator } = this.props.form;
+    let { profile } = this.props.profile;
+    let src = `https://${
+      this.state.website ? this.state.website : profile.company_website
+    }`;
     return (
       <div className="p-t-4">
-        <h3>Travel Connect</h3>
-        <h2>Công ty TNHH Kết nối du lịch Việt Nam</h2>
+        <h3>{profile.company_brandname}</h3>
+        <h2>{profile.company_name}</h2>
         <Row>
           <Col xl={24} lg={24} md={24} sm={24} xs={24}>
             <h5 className=" gx-text-grey ">
-              <Icon type="appstore" className="p-r-3" /> Travel Agency,
-              Accommodation, Restaurance, Transport{" "}
+              <Icon type="appstore" className="p-r-3" />{" "}
+              {profile.company_business}
             </h5>
           </Col>
-          <Col xl={12} lg={12} md={12} sm={24} xs={24}>
-            <h5 className=" gx-text-grey ">
-              <Icon type="environment" className="p-r-3" /> Hà Nội, Việt Nam
+          <Col
+            style={{ display: "flex" }}
+            xl={12}
+            lg={12}
+            md={12}
+            sm={24}
+            xs={24}
+          >
+            <h5 className=" gx-text-grey m-r-1">
+              <Icon type="environment" className="p-r-3" />{" "}
+              {profile.company_city}, {profile.company_nation}
             </h5>
+            <div onClick={() => this.changeAddressToEdit()}>
+              {this.state.stt_address === false ? (
+                <Icon
+                  type="edit"
+                  className="gx-link cursor-pointer cursor-pointer--zoom"
+                />
+              ) : (
+                <Icon
+                  // onClick={() => this.onSaveData()}
+                  className=" gx-link size-4 cursor-pointer cursor-pointer--zoom"
+                  type="check-circle"
+                />
+              )}
+              <Modal
+                className="w-50-i"
+                title="Update address"
+                visible={this.state.stt_address}
+                onCancel={this.handleCancel}
+                footer={null}
+              >
+                <div style={{ padding: "0 50px" }}>
+                  <Form onSubmit={this.handleSubmit}>
+                    <Row>
+                      <Col
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}
+                        xs={24}
+                        sm={24}
+                        md={6}
+                        lg={6}
+                        xl={6}
+                      >
+                        <p className="text-align-right">Company address</p>
+                      </Col>
+                      <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+                        <FormItem {...formItemLayout}>
+                          {getFieldDecorator("company_address", {
+                            rules: [
+                              {
+                                required: true,
+                                message: "Enter your company address!"
+                              }
+                            ]
+                          })(<Input placeholder="Address" />)}
+                        </FormItem>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}
+                        xs={24}
+                        sm={24}
+                        md={6}
+                        lg={6}
+                        xl={6}
+                      >
+                        <p className="text-align-right">Company nation</p>
+                      </Col>
+                      <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+                        <FormItem {...formItemLayout}>
+                          {getFieldDecorator("company_nation", {
+                            rules: [
+                              {
+                                required: true,
+                                message: "Enter your company nation!"
+                              }
+                            ]
+                          })(
+                            <Select placeholder="Company nation">
+                              <Option value="vn">Việt Nam</Option>
+                              <Option value="usa">America</Option>
+                              <Option value="rus">Russia</Option>
+                              <Option value="kr">Korea</Option>
+                            </Select>
+                          )}
+                        </FormItem>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}
+                        xs={24}
+                        sm={24}
+                        md={6}
+                        lg={6}
+                        xl={6}
+                      >
+                        <p className="text-align-right">Quận/ Huyện</p>
+                      </Col>
+                      <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+                        <FormItem {...formItemLayout}>
+                          {getFieldDecorator("company_district", {
+                            rules: [
+                              {
+                                required: true,
+                                message: "Enter your company district!"
+                              }
+                            ]
+                          })(
+                            <Cascader
+                              placeholder="Quận/ Huyện"
+                              options={residences}
+                            />
+                          )}
+                        </FormItem>
+                      </Col>
+                    </Row>
+                    <div
+                      className=" d-flex m-t-2"
+                      style={{
+                        width: "100%",
+                        alignItems: "center",
+                        justifyContent: "flex-end"
+                      }}
+                    >
+                      <Button
+                        onClick={this.handleCancel}
+                        style={{ marginBottom: "0 !important" }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        loading={this.state.loading ? true : false}
+                        htmlType="submit"
+                        type="primary"
+                        style={{ marginBottom: "0 !important" }}
+                      >
+                        Confirm
+                      </Button>
+                    </div>
+                  </Form>
+                </div>
+              </Modal>
+            </div>
           </Col>
           <Col xl={12} lg={12} md={12} sm={24} xs={24}>
             <h5 className=" gx-text-grey d-block  d-flex align-items-center">
               <Icon type="global" className="p-r-3" />
               {this.state.stt_website === false ? (
                 <a
-                  href="http://travelconnect.vn"
+                  href={src}
                   className="d-inline-block"
-                  title="Công ty TNHH Kết nối du lịch Việt Nam"
+                  title={
+                    this.state.website.company_website
+                      ? this.state.website.company_website
+                      : profile.company_website
+                  }
                 >
-                  http://travelconnect.vn
+                  {this.state.website.company_website
+                    ? this.state.website.company_website
+                    : profile.company_website}
                 </a>
               ) : (
                 <Input
+                  onChange={this.onChangeInput}
                   addonBefore={selectBefore}
                   size="small"
                   className="d-inline-block w-65-i"
-                  defaultValue="http://travelconnect.vn"
+                  defaultValue={
+                    this.state.website.company_website
+                      ? this.state.website.company_website
+                      : profile.company_website
+                  }
                 />
               )}
               <span
@@ -68,6 +370,7 @@ class Info extends React.Component {
                   />
                 ) : (
                   <Icon
+                    onClick={() => this.onSaveData()}
                     className="size-4 cursor-pointer cursor-pointer--zoom"
                     type="check-circle"
                   />
@@ -81,4 +384,17 @@ class Info extends React.Component {
   }
 }
 
-export default Info;
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    actSaveData: intro => {
+      dispatch(actSaveWebsite(intro));
+    },
+    actSaveDataAddress: address => {
+      dispatch(actSaveAddress(address));
+    }
+  };
+};
+
+const WrappedHorizontalLoginForm = Form.create()(Info);
+
+export default connect(null, mapDispatchToProps)(WrappedHorizontalLoginForm);
