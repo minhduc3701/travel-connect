@@ -48,10 +48,6 @@ class Profile extends Component {
   //   await this.props.actFetchProfile();
   // }
 
-  componentWillUnmount() {
-    console.log("unmount nè");
-  }
-
   render() {
     let { profile } = this.props;
     return (

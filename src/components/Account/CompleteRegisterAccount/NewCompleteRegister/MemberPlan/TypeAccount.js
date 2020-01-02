@@ -15,7 +15,13 @@ import {
   Modal,
   Button
 } from "antd";
-import { notiChange } from "util/Notification";
+// import { notiChange } from "util/Notification";
+import { connect } from "react-redux";
+import {
+  actSaveProfile3,
+  actUpdatePersonProfileRequest
+} from "appRedux/actions/Account";
+import { CallApi } from "util/CallApi";
 
 const FormItem = Form.Item;
 const Dragger = Upload.Dragger;
@@ -23,28 +29,19 @@ const Option = Select.Option;
 // const InputGroup = Input.Group;
 const { OptGroup } = Select;
 
+const OPTIONS = [
+  "Lữ hành quốc tế Outbound",
+  "Lữ hành nội địa",
+  "Đại lý Du lịch",
+  "Vận tải",
+  "Hàng không",
+  "Cơ sỏ lưu trú",
+  "Nhà hàng"
+];
+
 const formItemLayout = {
   labelCol: { xs: 24, sm: 6 },
   wrapperCol: { xs: 24, sm: 18 }
-};
-
-const props = {
-  name: "file",
-  multiple: true,
-  action: "//jsonplaceholder.typicode.com/posts/",
-  onChange(info) {
-    const status = info.file.status;
-    if (status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    if (status === "done") {
-      // message.success(`${info.file.name} file uploaded successfully.`);
-      notiChange("success", "Upload file success");
-    } else if (status === "error") {
-      // message.error(`${info.file.name} file upload failed.`);
-      notiChange("error", "Upload file failed");
-    }
-  }
 };
 
 const residences = [
@@ -90,7 +87,45 @@ class TypeAccount extends Component {
     progress: 100,
     step: 3,
     FreeLancer: 0,
-    infoType: ""
+    infoType: {
+      company_business: null,
+      company_name: null,
+      company_brandname: null,
+      company_email: null,
+      company_phone: null,
+      company_nation: null,
+      company_address: null,
+      company_establish: null,
+      company_target: null,
+      company_district: null,
+      company_city: null
+    },
+    infoPerson: {
+      user_position: null,
+      infoUnit: null
+    },
+    business: [],
+    establish: null,
+    tourGuide: {
+      tour_guide_company: null,
+      tour_guide_profile: null,
+      tour_guide_type: null
+    },
+    student: {
+      student_specialized: null,
+      student_info: null,
+      student_verify: null
+    },
+    fileList: [],
+    imageFile: false
+  };
+
+  handleChangeBusiness = business => {
+    this.setState({ business });
+  };
+
+  onChangeEstablish = (date, dateString) => {
+    this.setState({ establish: dateString });
   };
 
   onChangeFreeLancer = e => {
@@ -99,23 +134,106 @@ class TypeAccount extends Component {
     });
   };
 
-  handleSubmit = e => {
+  handleSubmitCompany = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         // console.log("Received values of form: ", values);
         // this.props.getStateType(this.state.infoType);
+        let establish = this.state.establish;
+        let business = this.state.business;
         this.setState(
           {
-            infoType: values,
+            infoType: {
+              company_business: business,
+              company_name: values.company_name,
+              company_brandname: values.company_brandname,
+              company_email: values.company_email,
+              company_phone: values.company_phone,
+              company_nation: values.company_nation,
+              company_address: values.company_address,
+              company_establish: establish,
+              company_target: values.company_target,
+              company_district: values.company_district[1],
+              company_city: values.company_district[0]
+            },
             visiblePerson: false,
-            visibleCompany: false
+            visibleCompany: false,
+            progress: 75
           },
           () => this.onSendData()
         );
-        // this.setState({
-        //   infoType: values
-        // });
+      }
+    });
+  };
+  handleSubmitTourGuide = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        // console.log("Received values of form: ", values);
+        this.setState(
+          {
+            step: 4,
+            tourGuide: {
+              tour_guide_company: values.tour_guide_company
+                ? values.tour_guide_company
+                : "",
+              tour_guide_profile: values.tour_guide_profile
+                ? values.tour_guide_profile
+                : "",
+              tour_guide_type: values.tour_guide_type
+                ? values.tour_guide_type
+                : ""
+            },
+            visiblePerson: false,
+            visibleCompany: false
+          },
+          () => this.onSendDataPerson()
+        );
+      }
+    });
+  };
+  handleSubmitStudent = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        // console.log("Received values of form: ", values);
+        this.setState(
+          {
+            step: 4,
+            student: {
+              student_specialized: values.student_specialized,
+              student_info: values.student_info,
+              student_verify: values.student_verify ? values.student_verify : ""
+            },
+            visiblePerson: false,
+            visibleCompany: false
+          },
+          () => this.onSendDataPerson()
+        );
+      }
+    });
+  };
+  handleSubmitPerson = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        // console.log("Received values of form: ", values);
+        // this.props.getStateType(this.state.infoType);
+        // let establish = this.state.establish;
+        // let business = this.state.business;
+        this.setState(
+          {
+            step: 4,
+            infoPerson: {
+              user_position: values.user_position ? values.user_position : "",
+              infoUnit: values ? values : ""
+            },
+            visiblePerson: false,
+            visibleCompany: false
+          },
+          () => this.onSendDataPerson()
+        );
       }
     });
   };
@@ -148,7 +266,9 @@ class TypeAccount extends Component {
   };
 
   onChoseAdmin = () => {
+    const { business } = this.state;
     const { getFieldDecorator } = this.props.form;
+    const filteredOptions = OPTIONS.filter(o => !business.includes(o));
     return (
       <Row style={{ paddingBottom: "2em" }}>
         <Col span={12}>
@@ -174,9 +294,10 @@ class TypeAccount extends Component {
               title=" Hồ sơ công việc cá nhân"
               visible={this.state.visiblePerson}
               footer={null}
+              onCancel={this.handleCancel}
             >
               <div>
-                <Form onSubmit={this.handleSubmit}>
+                <Form onSubmit={this.handleSubmitPerson}>
                   <FormItem {...formItemLayout} label="Tên đơn vị">
                     {getFieldDecorator("person_company_name", {
                       rules: [
@@ -198,7 +319,7 @@ class TypeAccount extends Component {
                     })(<Input placeholder="Tên thương hiệu" />)}
                   </FormItem>
                   <FormItem {...formItemLayout} label="Chức vụ bản thân">
-                    {getFieldDecorator("person_position", {
+                    {getFieldDecorator("user_position", {
                       rules: [
                         {
                           required: true,
@@ -225,9 +346,9 @@ class TypeAccount extends Component {
                           message: "Enter your phone number!"
                         }
                       ]
-                    })(<Input placeholder="Số điện thoạ" />)}
+                    })(<Input placeholder="Số điện thoại" />)}
                   </FormItem>
-                  <FormItem {...formItemLayout} label="Quốc gia/ Quận/ Huyện">
+                  <FormItem {...formItemLayout} label="Quận/ Huyện">
                     {getFieldDecorator("person_district", {
                       rules: [
                         {
@@ -235,7 +356,12 @@ class TypeAccount extends Component {
                           message: "Select your district!"
                         }
                       ]
-                    })(<Cascader options={residences} />)}
+                    })(
+                      <Cascader
+                        placeholder="Quận/ Huyện"
+                        options={residences}
+                      />
+                    )}
                   </FormItem>
                   <FormItem {...formItemLayout} label="Địa chỉ">
                     {getFieldDecorator("person_address", {
@@ -288,10 +414,10 @@ class TypeAccount extends Component {
             <h2 className="h3 gx-mb-3 ">Đại diện công ty</h2>
             <i className={`icon icon-company gx-fs-xlxl `} />
             <p className=" gx-mb-3">
-              - Tham gia các hoạt động, mua bán, sự kiện trên sàn.
+              Tham gia các hoạt động, mua bán, sự kiện trên sàn.
             </p>
             <p className=" gx-mb-3">
-              - Yêu cầu có giấy phép hoạt động kinh doanh, chứng nhận,...
+              Yêu cầu có giấy phép hoạt động kinh doanh, chứng nhận,...
             </p>
           </div>
           {this.state.visibleCompany ? (
@@ -300,13 +426,37 @@ class TypeAccount extends Component {
               title="Đăng ký thông tin doanh nghiệp"
               visible={this.state.visibleCompany}
               footer={null}
+              onCancel={this.handleCancel}
             >
               <div>
-                <Form onSubmit={this.handleSubmit}>
+                <Form onSubmit={this.handleSubmitCompany}>
                   {/* <FormItem
                   {...formItemLayout}
                   label=""
                 ></FormItem> */}
+                  <FormItem {...formItemLayout} label="Lĩnh vực">
+                    {getFieldDecorator("company_business", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Enter your company business!"
+                        }
+                      ]
+                    })(
+                      <Select
+                        mode="multiple"
+                        value={business}
+                        onChange={this.handleChangeBusiness}
+                        placeholder="Lĩnh vực"
+                      >
+                        {filteredOptions.map(item => (
+                          <Select.Option key={item} value={item}>
+                            {item}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    )}
+                  </FormItem>
                   <FormItem {...formItemLayout} label="Tên công ty">
                     {getFieldDecorator("company_name", {
                       rules: [
@@ -318,11 +468,11 @@ class TypeAccount extends Component {
                     })(<Input placeholder="Tên công ty" />)}
                   </FormItem>
                   <FormItem {...formItemLayout} label="Tên thương hiệu">
-                    {getFieldDecorator("company_brand", {
+                    {getFieldDecorator("company_brandname", {
                       rules: [
                         {
                           required: true,
-                          message: "Enter your company brand!"
+                          message: "Enter your company brand name!"
                         }
                       ]
                     })(<Input placeholder="Tên thương hiệu" />)}
@@ -347,15 +497,36 @@ class TypeAccount extends Component {
                       ]
                     })(<Input placeholder="Số điện thoại" />)}
                   </FormItem>
-                  <FormItem {...formItemLayout} label="Quốc gia/ Quận/ Huyện">
+                  <FormItem {...formItemLayout} label="Quốc gia">
+                    {getFieldDecorator("company_nation", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Enter your company nation!"
+                        }
+                      ]
+                    })(
+                      <Select placeholder="Quốc gia">
+                        <Option value="vn">Việt Nam</Option>
+                        <Option value="kr">Korea</Option>
+                        <Option value="jp">Japan</Option>
+                      </Select>
+                    )}
+                  </FormItem>
+                  <FormItem {...formItemLayout} label="Quận/ Huyện">
                     {getFieldDecorator("company_district", {
                       rules: [
                         {
                           required: true,
-                          message: "Enter your company district!"
+                          message: "Select your district!"
                         }
                       ]
-                    })(<Cascader options={residences} />)}
+                    })(
+                      <Cascader
+                        placeholder="Quận/ Huyện"
+                        options={residences}
+                      />
+                    )}
                   </FormItem>
                   <FormItem {...formItemLayout} label="Địa chỉ">
                     {getFieldDecorator("company_address", {
@@ -368,26 +539,27 @@ class TypeAccount extends Component {
                     })(<Input placeholder="Địa chỉ" />)}
                   </FormItem>
                   <FormItem {...formItemLayout} label="Ngày thành lập">
-                    {getFieldDecorator("company_establish_day", {
+                    {getFieldDecorator("company_establish", {
                       rules: [
                         {
                           required: true,
-                          message: "Enter your company establish_day!"
+                          message: "Enter your company establish day!"
                         }
                       ]
                     })(
                       <DatePicker
+                        onChange={this.onChangeEstablish}
                         className="gx-w-100"
-                        placeholder="Ngày thành lập công ty trên giấy phép kinh doanh"
+                        placeholder="Ngày thành lập công ty"
                       />
                     )}
                   </FormItem>
                   <FormItem {...formItemLayout} label="Thị trường">
-                    {getFieldDecorator("company_market", {
+                    {getFieldDecorator("company_target", {
                       rules: [
                         {
                           required: true,
-                          message: "Enter your company market!"
+                          message: "Enter your company target!"
                         }
                       ]
                     })(<Input placeholder="Thị trường mục tiêu" />)}
@@ -425,12 +597,77 @@ class TypeAccount extends Component {
   };
 
   onSendData = () => {
-    this.props.getStateType(this.state.step);
+    this.props.getStateType(this.state.step, this.state.progress);
+    this.props.actSendDetailToStore(this.state.infoType);
+  };
+
+  onSendDataPerson = () => {
+    this.props.getStateType(this.state.step, this.state.progress);
+    this.props.actSendDataToServer(this.state.infoPerson);
+    if (this.state.imageFile) {
+      this.onSendImage();
+    }
+  };
+
+  normFile = e => {
+    // console.log("Upload event:", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
+  // handleChangeImage = ({ fileList }) => {
+  //   this.setState({
+  //     fileList
+  //   });
+  // };
+
+  onSendImage = () => {
+    const { fileList } = this.state;
+    const formData = new FormData();
+    fileList.forEach(file => {
+      formData.append("image-", file);
+    });
+    CallApi("user/7oZGSZGGLfaFZNn3FYNX5PJS0292/images", "POST", formData)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
+
+  onIncludeImage = () => {
+    this.setState({
+      imageFile: true
+    });
   };
 
   render() {
+    console.log(this.state);
     const { getFieldDecorator } = this.props.form;
     let typePicked = this.props.typeMem;
+    let { fileList } = this.state;
+
+    const props = {
+      multiple: true,
+      onRemove: file => {
+        this.setState(state => {
+          const index = state.fileList.indexOf(file);
+          const newFileList = state.fileList.slice();
+          newFileList.splice(index, 1);
+          return {
+            fileList: newFileList
+          };
+        });
+      },
+      beforeUpload: file => {
+        this.setState(state => ({
+          // fileList: file
+          fileList: [...state.fileList, file]
+        }));
+        return false;
+      },
+      fileList
+    };
+
     return (
       <div>
         {typePicked.type === "1" ? (
@@ -442,7 +679,7 @@ class TypeAccount extends Component {
         {typePicked.type === "2" ? (
           <div>
             <p>Hãy cho chúng tôi công việc hiện tại của bạn</p>
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmitPerson}>
               <FormItem {...formItemLayout} label="Tên tổ chức:">
                 {getFieldDecorator("company_name", {
                   rules: [
@@ -474,7 +711,7 @@ class TypeAccount extends Component {
                 })(<Input placeholder="Email" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="Chức vụ của bạn:">
-                {getFieldDecorator("company_position", {
+                {getFieldDecorator("user_position", {
                   rules: [
                     {
                       required: true,
@@ -511,7 +748,7 @@ class TypeAccount extends Component {
         {typePicked.type === "3" ? (
           <div>
             <p>Hãy cho chúng tôi công việc hiện tại của bạn</p>
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmitPerson}>
               <FormItem {...formItemLayout} label="Tên đơn vị:">
                 {getFieldDecorator("company_name", {
                   rules: [
@@ -543,7 +780,7 @@ class TypeAccount extends Component {
                 })(<Input placeholder="Email" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="Chức vụ của bạn:">
-                {getFieldDecorator("company_position", {
+                {getFieldDecorator("user_position", {
                   rules: [
                     {
                       required: true,
@@ -552,14 +789,14 @@ class TypeAccount extends Component {
                   ]
                 })(<Input placeholder="Chức vụ" />)}
               </FormItem>
-              <FormItem {...formItemLayout} label="Thông tin xác minh:">
+              <FormItem
+                {...formItemLayout}
+                onClick={() => this.onIncludeImage()}
+                label="Thông tin xác minh:"
+              >
                 {getFieldDecorator("company_verify", {
-                  rules: [
-                    {
-                      required: true,
-                      message: "Upload your company verify!"
-                    }
-                  ]
+                  valuePropName: "fileList",
+                  getValueFromEvent: this.normFile
                 })(
                   <Dragger {...props}>
                     <p className="ant-upload-drag-icon">
@@ -609,7 +846,7 @@ class TypeAccount extends Component {
         {typePicked.type === "5" ? (
           <div>
             <p>Hãy cho chúng tôi công việc hiện tại của bạn</p>
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmitPerson}>
               <FormItem {...formItemLayout} label="Tên cơ quan:">
                 {getFieldDecorator("company_name", {
                   rules: [
@@ -641,7 +878,7 @@ class TypeAccount extends Component {
                 })(<Input placeholder="Email" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="Chức vụ của bạn:">
-                {getFieldDecorator("company_position", {
+                {getFieldDecorator("user_position", {
                   rules: [
                     {
                       required: true,
@@ -678,7 +915,7 @@ class TypeAccount extends Component {
         {typePicked.type === "6" ? (
           <div>
             <p>Hãy cho chúng tôi công việc hiện tại của bạn</p>
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmitPerson}>
               <FormItem {...formItemLayout} label="Cơ quan làm việc: ">
                 {getFieldDecorator("company_business", {
                   rules: [
@@ -689,8 +926,8 @@ class TypeAccount extends Component {
                   ]
                 })(
                   <Radio.Group>
-                    <Radio value={1}>Đại Sứ quán</Radio>
-                    <Radio value={2}>Lãnh Sự quán</Radio>
+                    <Radio value="Đại Sứ quán">Đại Sứ quán</Radio>
+                    <Radio value="Lãnh Sự quán">Lãnh Sự quán</Radio>
                   </Radio.Group>
                 )}
               </FormItem>
@@ -725,7 +962,7 @@ class TypeAccount extends Component {
                 })(<Input placeholder="Địa chỉ đặt trụ sở" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="Chức vụ của bạn:">
-                {getFieldDecorator("company_positon", {
+                {getFieldDecorator("user_position", {
                   rules: [
                     {
                       required: true,
@@ -769,25 +1006,16 @@ class TypeAccount extends Component {
           <div>
             <Divider> Lựa chọn kế hoạch thành viên </Divider>
             <p>Bạn có đang làm trong công ty nào không?</p>
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmitTourGuide}>
               <FormItem {...formItemLayout} label="Trạng thái">
-                {getFieldDecorator("tour_guid_type", {
-                  rules: [
-                    {
-                      required: true,
-                      message: "Select your tour guide type!"
-                    }
-                  ]
-                })(
-                  <Radio.Group onChange={this.onChangeFreeLancer}>
-                    <Radio value={1}>
-                      Tôi là hướng dẫn viên trực thuộc công ty
-                    </Radio>
-                    <Radio value={2}>
-                      Tôi là hướng dẫn viên không trực thuộc công ty{" "}
-                    </Radio>
-                  </Radio.Group>
-                )}
+                <Radio.Group onChange={this.onChangeFreeLancer}>
+                  <Radio value={1}>
+                    Tôi là hướng dẫn viên trực thuộc công ty
+                  </Radio>
+                  <Radio value={2}>
+                    Tôi là hướng dẫn viên không trực thuộc công ty{" "}
+                  </Radio>
+                </Radio.Group>
               </FormItem>
               {this.state.FreeLancer === 1 ? (
                 <FormItem {...formItemLayout} label="Tên công ty">
@@ -804,7 +1032,7 @@ class TypeAccount extends Component {
               {this.state.FreeLancer === 2 ? (
                 <div>
                   <FormItem {...formItemLayout} label="Loại hướng dẫn viên: ">
-                    {getFieldDecorator("guide_type", {
+                    {getFieldDecorator("tour_guide_type", {
                       rules: [
                         {
                           required: true,
@@ -821,14 +1049,14 @@ class TypeAccount extends Component {
                       </Select>
                     )}
                   </FormItem>
-                  <FormItem {...formItemLayout} label="Thông tin xác minh:">
+                  <FormItem
+                    {...formItemLayout}
+                    onClick={() => this.onIncludeImage()}
+                    label="Thông tin xác minh:"
+                  >
                     {getFieldDecorator("tour_guide_profile", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "Upload your detail profile!"
-                        }
-                      ]
+                      valuePropName: "fileList",
+                      getValueFromEvent: this.normFile
                     })(
                       <Dragger {...props}>
                         <p className="ant-upload-drag-icon">
@@ -875,7 +1103,7 @@ class TypeAccount extends Component {
           <div>
             <Divider> Hồ sơ công việc </Divider>
             <p>Hãy cho chúng tôi công việc hiện tại của bạn</p>
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmitStudent}>
               <FormItem {...formItemLayout} label="Lĩnh vực theo học: ">
                 {getFieldDecorator("student_specialized", {
                   rules: [
@@ -907,39 +1135,58 @@ class TypeAccount extends Component {
                 })(
                   <Row>
                     <Col span={12}>
-                      <Checkbox>Sự kiện Du lịch</Checkbox>
+                      <Checkbox value="Sự kiện Du lịch">
+                        Sự kiện Du lịch
+                      </Checkbox>
                     </Col>
                     <Col span={12}>
-                      <Checkbox>Chương trình đào tạo</Checkbox>
+                      <Checkbox value="Chương trình đào tạo">
+                        Chương trình đào tạo
+                      </Checkbox>
                     </Col>
                     <Col span={12}>
-                      <Checkbox>Thông tin tuyển dụng</Checkbox>
+                      <Checkbox value="Thông tin tuyển dụng">
+                        Thông tin tuyển dụng
+                      </Checkbox>
                     </Col>
                     <Col span={12}>
-                      <Checkbox>Hội chợ Du lịch</Checkbox>
+                      <Checkbox value="Hội chợ Du lịch">
+                        Hội chợ Du lịch
+                      </Checkbox>
                     </Col>
                     <Col span={12}>
-                      <Checkbox>Tour Du lịch</Checkbox>
+                      <Checkbox value="Tour Du lịch">Tour Du lịch</Checkbox>
                     </Col>
                     <Col span={12}>
-                      <Checkbox>Sản phẩm dịch vụ</Checkbox>
+                      <Checkbox value="Sản phẩm dịch vụ">
+                        Sản phẩm dịch vụ
+                      </Checkbox>
                     </Col>
                   </Row>
                 )}
               </FormItem>
-              <FormItem {...formItemLayout} label="Thông tin xác minh:">
-                <Dragger {...props}>
-                  <p className="ant-upload-drag-icon">
-                    <Icon type="inbox" />
-                  </p>
-                  <p className="ant-upload-text">
-                    Click hoặc kéo thả file tại khu vực này
-                  </p>
-                  <p className="ant-upload-hint">
-                    Cập nhật/Upload giấy tờ xác thực cá nhân như chứng minh thư,
-                    thẻ sinh viên,...
-                  </p>
-                </Dragger>
+              <FormItem
+                {...formItemLayout}
+                onClick={() => this.onIncludeImage()}
+                label="Thông tin xác minh:"
+              >
+                {getFieldDecorator("student_verify", {
+                  valuePropName: "fileList",
+                  getValueFromEvent: this.normFile
+                })(
+                  <Dragger {...props}>
+                    <p className="ant-upload-drag-icon">
+                      <Icon type="inbox" />
+                    </p>
+                    <p className="ant-upload-text">
+                      Click hoặc kéo thả file tại khu vực này
+                    </p>
+                    <p className="ant-upload-hint">
+                      Cập nhật/Upload giấy tờ xác thực cá nhân như chứng minh
+                      thư, thẻ sinh viên,...
+                    </p>
+                  </Dragger>
+                )}
               </FormItem>
               <div
                 className=" d-flex"
@@ -971,6 +1218,17 @@ class TypeAccount extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    actSendDetailToStore: step3 => {
+      dispatch(actSaveProfile3(step3));
+    },
+    actSendDataToServer: profile => {
+      dispatch(actUpdatePersonProfileRequest(profile));
+    }
+  };
+};
+
 const WrappedHorizontalLoginForm = Form.create()(TypeAccount);
 
-export default WrappedHorizontalLoginForm;
+export default connect(null, mapDispatchToProps)(WrappedHorizontalLoginForm);

@@ -2,12 +2,18 @@ import React from "react";
 import doneChange from "util/Notification";
 import { Link } from "react-router-dom";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
-
+import { connect } from "react-redux";
+import { actSaveSocial } from "appRedux/actions/CompanyProfile";
 import { Col, Icon, Input } from "antd";
 
 class Socials extends React.Component {
   state = {
-    stt_socials: false
+    stt_socials: false,
+    social: "",
+    company_fb: null,
+    company_linkedin: null,
+    company_gitlab: null,
+    company_skype: null
   };
 
   changeSocialsToEdit = () => {
@@ -17,6 +23,30 @@ class Socials extends React.Component {
     }
     if (this.state.stt_socials === false) this.setState({ stt_socials: true });
   };
+
+  onChangeInput = event => {
+    let target = event.target;
+    let value = target.value;
+    let name = target.name;
+    this.setState({
+      [name]: value
+    });
+  };
+
+  onSaveSocial = () => {
+    let { profile } = this.props;
+    this.props.actSaveData({
+      company_fb: this.state.fb ? this.state.fb : profile.company_fb,
+      company_linkedin: this.state.linkedin
+        ? this.state.linkedin
+        : profile.company_linkedin,
+      company_gitlab: this.state.gitlab
+        ? this.state.gitlab
+        : profile.company_gitlab,
+      company_skype: this.state.skype ? this.state.skype : profile.company_skype
+    });
+  };
+
   render() {
     let { profile } = this.props;
     return (
@@ -33,6 +63,7 @@ class Socials extends React.Component {
                 />
               ) : (
                 <Icon
+                  onClick={() => this.onSaveSocial()}
                   className="size-4 cursor-pointer cursor-pointer--zoom"
                   type="check-circle"
                 />
@@ -47,7 +78,7 @@ class Socials extends React.Component {
                 <Link
                   target="blank"
                   to={{
-                    pathname: profile.company_fb
+                    pathname: this.state.fb ? this.state.fb : profile.company_fb
                   }}
                   className=" d-flex align-items-center"
                 >
@@ -65,7 +96,9 @@ class Socials extends React.Component {
                 <Link
                   target="blank"
                   to={{
-                    pathname: profile.company_linkedin
+                    pathname: this.state.linkedin
+                      ? this.state.linkedin
+                      : profile.company_linkedin
                   }}
                   className=" d-flex align-items-center"
                 >
@@ -83,7 +116,9 @@ class Socials extends React.Component {
                 <Link
                   target="blank"
                   to={{
-                    pathname: profile.company_gitlab
+                    pathname: this.state.gitlab
+                      ? this.state.gitlab
+                      : profile.company_gitlab
                   }}
                   className=" d-flex align-items-center"
                 >
@@ -97,7 +132,9 @@ class Socials extends React.Component {
                 <Link
                   target="blank"
                   to={{
-                    pathname: profile.company_skype
+                    pathname: this.state.skype
+                      ? this.state.skype
+                      : profile.company_skype
                   }}
                   className=" d-flex align-items-center"
                 >
@@ -118,8 +155,12 @@ class Socials extends React.Component {
                     theme="filled"
                   />
                   <Input
+                    name="fb"
+                    onChange={this.onChangeInput}
                     className="d-inline-block w-65-i"
-                    defaultValue={profile.company_fb}
+                    defaultValue={
+                      this.state.fb ? this.state.fb : profile.company_fb
+                    }
                   />
                 </div>
               </h4>
@@ -133,8 +174,14 @@ class Socials extends React.Component {
                     theme="filled"
                   />
                   <Input
+                    name="linkedin"
+                    onChange={this.onChangeInput}
                     className="d-inline-block w-65-i"
-                    defaultValue={profile.company_linkedin}
+                    defaultValue={
+                      this.state.linkedin
+                        ? this.state.linkedin
+                        : profile.company_linkedin
+                    }
                   />
                 </div>
               </h4>
@@ -144,8 +191,14 @@ class Socials extends React.Component {
                 <div className=" d-flex align-items-center">
                   <Icon type="gitlab" className="size-5 m-r-1" theme="filled" />
                   <Input
+                    name="gitlab"
+                    onChange={this.onChangeInput}
                     className="d-inline-block w-65-i"
-                    defaultValue={profile.company_gitlab}
+                    defaultValue={
+                      this.state.gitlab
+                        ? this.state.gitlab
+                        : profile.company_gitlab
+                    }
                   />
                 </div>
               </h4>
@@ -155,8 +208,14 @@ class Socials extends React.Component {
                 <div className=" d-flex align-items-center">
                   <Icon type="skype" className="size-5 m-r-1" theme="filled" />
                   <Input
+                    name="skype"
+                    onChange={this.onChangeInput}
                     className="d-inline-block w-65-i"
-                    defaultValue={profile.company_skype}
+                    defaultValue={
+                      this.state.skype
+                        ? this.state.skype
+                        : profile.company_skype
+                    }
                   />
                 </div>
               </h4>
@@ -192,4 +251,12 @@ class Socials extends React.Component {
   }
 }
 
-export default Socials;
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    actSaveData: social => {
+      dispatch(actSaveSocial(social));
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Socials);

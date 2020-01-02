@@ -52,37 +52,6 @@ const Contact = props => {
     }
   ];
 
-  const data = [
-    {
-      key: "1",
-      name: "Đào Đức Anh",
-      transfer: "Tour Operator",
-      image: "https://wieldy.g-axon.work/static/media/a5.3ae38faf.png",
-      status: "Connect"
-    },
-    {
-      key: "2",
-      name: "Lý Tuấn Linh",
-      transfer: "Seller",
-      image: "https://wieldy.g-axon.work/static/media/a6.58d1c1cf.png",
-      status: "Connect"
-    },
-    {
-      key: "3",
-      name: "Nguyễn Thị Huyền",
-      transfer: "Pha Quế",
-      image: "https://wieldy.g-axon.work/static/media/a7.74a075d7.png",
-      status: "Connect"
-    },
-    {
-      key: "4",
-      name: "Nguyễn Hải Anh",
-      transfer: "Digital Marketing",
-      image: "https://wieldy.g-axon.work/static/media/a10.52bf5ce3.png",
-      status: "Connect"
-    }
-  ];
-
   return (
     <div className="block-w-nb" id="nav_contact">
       <WidgetHeader title="Contact" />

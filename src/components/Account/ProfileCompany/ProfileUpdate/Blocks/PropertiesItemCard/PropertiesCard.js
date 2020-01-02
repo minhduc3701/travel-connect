@@ -27,7 +27,7 @@ class PropertiesCard extends React.Component {
   };
 
   render() {
-    const { loader, popular } = this.state;
+    // const { loader, popular } = this.state;
     let { profile } = this.props;
     return (
       <div className="block-w-nb disable_layer_block" id="nav_product">

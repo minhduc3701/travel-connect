@@ -1,11 +1,12 @@
 import React from "react";
 import ProductComment from "./ProductComment";
-import { Col, Row, Pagination, Tabs } from "antd";
-import { Select, Button } from "antd";
+import { Col, Row, Pagination, Tabs, Select, Button } from "antd";
 import { hidden } from "ansi-colors";
-import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
-
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import Detail from "./Detail";
 import IntlMessages from "util/IntlMessages";
+
+// const Tooltips = Tooltip;
 const TabPane = Tabs.TabPane;
 const { Option } = Select;
 
@@ -40,7 +41,8 @@ const renderCustomizedLabel = ({
 
 class Rating extends React.Component {
   state = {
-    viewAll: false
+    viewAll: false,
+    cmts: 4
   };
   viewAll = () => {
     this.setState({
@@ -91,6 +93,7 @@ class Rating extends React.Component {
                         />
                       ))}
                     </Pie>
+                    <Tooltip />
                   </PieChart>
                 </ResponsiveContainer>
               </Col>
@@ -109,108 +112,7 @@ class Rating extends React.Component {
                   </h2>
                   <br />
                   <p className="gx-text-grey">Năm 2019</p>
-                  <div
-                    style={{
-                      width: "70%",
-                      paddingLeft: 5
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        marginBottom: 5,
-                        justifyContent: "space-between"
-                      }}
-                    >
-                      <span>Tệ :</span>
-                      <span
-                        style={{
-                          display: "inline-block",
-                          marginLeft: 5,
-                          width: 20,
-                          height: 20,
-                          borderRadius: "50%",
-                          backgroundColor: "#ca4ce9"
-                        }}
-                      ></span>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        marginBottom: 5,
-                        justifyContent: "space-between"
-                      }}
-                    >
-                      <span>Chưa tốt :</span>
-                      <span
-                        style={{
-                          display: "inline-block",
-                          marginLeft: 5,
-                          width: 20,
-                          height: 20,
-                          borderRadius: "50%",
-                          backgroundColor: "#FF8042"
-                        }}
-                      ></span>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        marginBottom: 5,
-                        justifyContent: "space-between"
-                      }}
-                    >
-                      <span>Bình thường :</span>
-                      <span
-                        style={{
-                          display: "inline-block",
-                          marginLeft: 5,
-                          width: 20,
-                          height: 20,
-                          borderRadius: "50%",
-                          backgroundColor: "#FFBB28"
-                        }}
-                      ></span>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        marginBottom: 5,
-                        justifyContent: "space-between"
-                      }}
-                    >
-                      <span>Tốt :</span>
-                      <span
-                        style={{
-                          display: "inline-block",
-                          marginLeft: 5,
-                          width: 20,
-                          height: 20,
-                          borderRadius: "50%",
-                          backgroundColor: "#0088FE"
-                        }}
-                      ></span>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        marginBottom: 5,
-                        justifyContent: "space-between"
-                      }}
-                    >
-                      <span>Tuyệt vời :</span>
-                      <span
-                        style={{
-                          display: "inline-block",
-                          marginLeft: 5,
-                          width: 20,
-                          height: 20,
-                          borderRadius: "50%",
-                          backgroundColor: "#00C49F"
-                        }}
-                      ></span>
-                    </div>
-                  </div>
+                  <Detail Account={Account} />
                 </div>
               </Col>
             </Row>
@@ -227,7 +129,7 @@ class Rating extends React.Component {
                   className="p-r-3-lg-i"
                 >
                   <div className="p-3 m-b-3 h-300 overflow-scroll">
-                    <ProductComment />
+                    <ProductComment cmt={this.state.cmts} Account={Account} />
                     <p
                       className="view-all-comment gx-link "
                       onClick={() => this.viewAll()}
@@ -291,7 +193,7 @@ class Rating extends React.Component {
                     </Row>
                     <br />
                     <div style={{ height: 300, overflow: hidden }}>
-                      <ProductComment />
+                      <ProductComment Account={Account} />
                       <Pagination
                         defaultCurrent={1}
                         total={50}

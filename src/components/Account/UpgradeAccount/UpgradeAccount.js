@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Form, Row, Col, Button, Table, Icon } from "antd";
+import { Button, Table, Icon } from "antd";
 // import IntlMessages from "util/IntlMessages";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 

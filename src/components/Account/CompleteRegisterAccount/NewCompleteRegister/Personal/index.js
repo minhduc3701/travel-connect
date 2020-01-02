@@ -10,12 +10,13 @@ import {
   Radio,
   Select,
   Button,
-  DatePicker
+  DatePicker,
+  Upload,
+  Modal
 } from "antd";
-import moment from "moment";
 import { connect } from "react-redux";
-import UploadPicture from "../../Step/SubComponent/Avatar";
 import { actUpdateUserRequest } from "appRedux/actions/User";
+import { CallApi } from "util/CallApi";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -24,7 +25,6 @@ const formItemLayout = {
   labelCol: { xs: 24, sm: 6 },
   wrapperCol: { xs: 24, sm: 18 }
 };
-const dateFormat = "YYYY/MM/DD";
 const residences = [
   {
     value: "hanoi",
@@ -63,20 +63,62 @@ const residences = [
 class Personal extends Component {
   state = {
     person: {
-      user_logo: "",
-      user_name: "",
-      user_birth: "",
-      user_gender: "",
-      user_phone: "",
-      user_nation: "",
-      user_city: "",
-      user_district: "",
-      user_addresss: ""
+      user_logo: null,
+      user_name: null,
+      user_birth: null,
+      user_gender: null,
+      user_phone: null,
+      user_nation: null,
+      user_city: null,
+      user_district: null,
+      user_addresss: null
     },
     birth: "",
-    progress: 50,
-    step: 1
+    fileList: [],
+    uploading: false,
+    progress: 25,
+    step: 2,
+    visible: true
   };
+
+  // showModal = () => {
+  //   return (
+  //     <Modal
+  //       title="Basic Modal"
+  //       visible={this.state.visible}
+  //       onOk={this.handleOk}
+  //       onCancel={this.handleCancel}
+  //       footer={[<Button type="primary">Ok</Button>]}
+  //     >
+  //       <p>Some contents...</p>
+  //       <p>Some contents...</p>
+  //       <p>Some contents...</p>
+  //     </Modal>
+  //   );
+  // };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        visible: false
+      });
+    }, 3000);
+  }
+
+  handleCancel = () => {
+    this.setState({
+      visible: false
+    });
+  };
+
+  // onSetVisible = () => {
+  //   let visible = true;
+  //   setTimeout(() => {
+  //     return (visible = false);
+  //   }, 3000);
+  //   return visible;
+  // };
+
   onChange = (date, dateString) => {
     this.setState({ birth: dateString });
   };
@@ -86,7 +128,6 @@ class Personal extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         // console.log("Received values of form: ", values);
-        this.props.getState(this.state.step);
         let logo = values.user_logo ? values.user_logo : "";
         let birth = this.state.birth;
         this.setState(
@@ -103,18 +144,123 @@ class Personal extends Component {
               user_addresss: values.user_address
             }
           },
-          () => this.props.onSendDataUser(this.state.person)
+          () => this.onSendDataToServer()
         );
       }
     });
   };
 
+  normFile = e => {
+    // console.log("Upload event:", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
+  onSendDataToServer = () => {
+    this.props.onSendDataUser(this.state.person);
+    this.props.getState(this.state.step);
+    // this.handleUpload();
+    this.onSendImage();
+  };
+
+  // handleUpload = () => {
+  //   const { fileList } = this.state;
+  //   const formData = new FormData();
+  //   fileList.forEach(file => {
+  //     formData.append("image-", file, file.name);
+  //   });
+
+  //   this.setState({
+  //     uploading: true
+  //   });
+  //   axios
+  //     .post(
+  //       "https://us-central1-travelconnectapp.cloudfunctions.net/v1/user/7oZGSZGGLfaFZNn3FYNX5PJS0292/images",
+  //       formData
+  //     )
+  //     .then(res => console.log(res));
+  // };
+
+  handleChange = ({ fileList }) => {
+    if (this.state.fileList.length > 1) {
+      this.setState({
+        fileList: fileList
+      });
+    } else {
+      this.setState({
+        fileList
+      });
+    }
+  };
+
+  onSendImage = () => {
+    const { fileList } = this.state;
+    const formData = new FormData();
+    fileList.forEach(file => {
+      formData.append("image-", file);
+    });
+    // console.log(fileList);
+    CallApi("user/7oZGSZGGLfaFZNn3FYNX5PJS0292/images", "POST", formData)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
+
   render() {
-    console.log(this.state.person);
+    // console.log(this.state);
     const { getFieldDecorator } = this.props.form;
-    let person = this.props.data;
+    // let person = this.props.data;
+    let { fileList } = this.state;
+
+    const props = {
+      multiple: false,
+      onRemove: file => {
+        this.setState(state => {
+          const index = state.fileList.indexOf(file);
+          const newFileList = state.fileList.slice();
+          newFileList.splice(index, 1);
+          return {
+            fileList: newFileList
+          };
+        });
+      },
+      beforeUpload: file => {
+        this.setState(state => ({
+          // fileList: file
+          fileList: [...state.fileList, file]
+        }));
+        return false;
+      },
+      fileList
+    };
+
     return (
       <Row className="p-v-6">
+        <Modal
+          className="w-50-i"
+          visible={this.state.visible}
+          onCancel={this.handleCancel}
+          footer={[
+            <Button onClick={this.handleCancel} type="primary">
+              Ok
+            </Button>
+          ]}
+        >
+          <Row className="d-flex justify-content-center align-items-center">
+            <Col span={12}>
+              <img
+                src="https://image.freepik.com/free-vector/character-illustration-people-with-packages-shipment_53876-59858.jpg"
+                alt="...."
+              />
+            </Col>
+            <Col span={12}>
+              <h1>Welcome Tony!</h1>
+              <p>Only few step to complete your account!</p>
+              <p>Follow these step to do it.</p>
+            </Col>
+          </Row>
+        </Modal>
         <Col xl={8} lg={8} md={8} sm={24} xs={24}>
           <h3 className="m-b-10">Nội dung hồ sơ</h3>
           <p> Bao gồm các thông tin cơ bản: </p>
@@ -150,13 +296,21 @@ class Personal extends Component {
             <Form onSubmit={this.handleSubmit}>
               <FormItem {...formItemLayout} label="Ảnh đại diện">
                 {getFieldDecorator("user_logo", {
-                  rules: [
-                    {
-                      required: false,
-                      message: "Enter your avatar!"
-                    }
-                  ]
-                })(<UploadPicture />)}
+                  valuePropName: "fileList",
+                  getValueFromEvent: this.normFile
+                })(
+                  <Upload
+                    name="avatar"
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    {...props}
+                  >
+                    <div>
+                      <Icon type="plus" />
+                      <div className="ant-upload-text">Upload</div>
+                    </div>
+                  </Upload>
+                )}
               </FormItem>
               <FormItem {...formItemLayout} label="Họ và tên">
                 {getFieldDecorator("user_name", {
@@ -170,6 +324,7 @@ class Personal extends Component {
                   ]
                 })(
                   <DatePicker
+                    style={{ width: "100%" }}
                     placeholder="Ngày sinh"
                     onChange={this.onChange}
                   />
@@ -194,7 +349,7 @@ class Personal extends Component {
                 {getFieldDecorator("user_nation", {
                   rules: [{ required: true, message: "Select your national!" }]
                 })(
-                  <Select name="national" showSearch>
+                  <Select name="national" showSearch placeholder="Quốc gia">
                     <Option value="vn">Việt Nam</Option>
                     <Option value="jp">Nhật bản</Option>
                     <Option value="cn">Trung Quốc</Option>
@@ -229,7 +384,6 @@ class Personal extends Component {
                   style={{ marginLeft: "auto", marginBottom: "0 !important" }}
                   type="primary"
                   htmlType="submit"
-                  onClick={this.onhandleSubmit}
                 >
                   Next
                 </Button>

@@ -1,33 +1,28 @@
 import React from "react";
-import { Col, Upload, Row, Modal, Icon, Button, Input, Form } from "antd";
+import {
+  Col,
+  Upload,
+  Row,
+  Modal,
+  Icon,
+  Button,
+  Input,
+  Form,
+  Select
+} from "antd";
 import AboutItem from "./AboutItem";
 import IntlMessages from "util/IntlMessages";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import { notiChange } from "util/Notification";
+import { connect } from "react-redux";
+import { actChangeLicenseRequest } from "appRedux/actions/Account";
+import { CallApi } from "util/CallApi";
 
+// const { Option } = Select;
 const formItemLayout = {
   wrapperCol: { xs: 24, sm: 24 }
 };
 const FormItem = Form.Item;
-
-const props = {
-  name: "file",
-  action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-  headers: {
-    authorization: "authorization-text"
-  },
-  onChange(info) {
-    if (info.file.status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === "done") {
-      notiChange("success", `${info.file.name} file upload success.`);
-    } else if (info.file.status === "error") {
-      //   message.error(`${info.file.name} file upload failed.`);
-      notiChange("error", `${info.file.name} file upload failed.`);
-    }
-  }
-};
 
 export const ticketList = [
   {
@@ -66,26 +61,66 @@ export const ticketList = [
   }
 ];
 
+const OPTIONS = [
+  "Lữ hành quốc tế Outbound",
+  "Lữ hành nội địa",
+  "Đại lý Du lịch",
+  "Vận tải",
+  "Hàng không",
+  "Cơ sỏ lưu trú",
+  "Nhà hàng"
+];
+
 class About extends React.Component {
   state = {
     loading: false,
     visible: false,
-    message: ""
+    message: "",
+    business: [],
+    fileList: [],
+    requestChange: {
+      company_name: null,
+      company_brandname: null,
+      company_licence_file: null,
+      company_licence: null
+    }
   };
 
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
+        // console.log("Received values of form: ", values);
         // this.props.getState(this.state.step);
-        this.setState({ loading: true, message: values });
+        this.setState({ loading: true });
         setTimeout(() => {
-          this.setState({ loading: false, visible: false });
+          this.setState(
+            {
+              loading: false,
+              visible: false,
+              requestChange: {
+                company_name: values.company_name,
+                company_brandname: values.company_brandname,
+                company_licence_file: values.company_licence_file
+                  ? values.company_licence_file
+                  : "",
+                company_licence: values.company_licence
+              }
+            },
+            () => this.onSendDataToServer()
+          );
           notiChange("success", "Send message success!");
         }, 1500);
       }
     });
+  };
+
+  normFile = e => {
+    // console.log("Upload event:", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
   };
 
   showModal = () => {
@@ -98,7 +133,7 @@ class About extends React.Component {
     this.setState({ loading: true });
     setTimeout(() => {
       this.setState({ loading: false, visible: false });
-      notiChange("success", "Send request success");
+      notiChange("success", "Send request success!");
     }, 3000);
   };
 
@@ -108,8 +143,31 @@ class About extends React.Component {
     });
   };
 
+  handleChangeBusiness = business => {
+    this.setState({ business });
+  };
+
+  onSendImage = () => {
+    const { fileList } = this.state;
+    const formData = new FormData();
+    fileList.forEach(file => {
+      formData.append("image-", file);
+    });
+    // console.log(fileList);
+    CallApi("user/7oZGSZGGLfaFZNn3FYNX5PJS0292/images", "POST", formData)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
+
+  onSendDataToServer = () => {
+    this.onSendImage();
+    this.props.actSendRequestToServer(this.state.requestChange);
+  };
+
   render() {
+    let { business, fileList } = this.state;
     let { profile } = this.props;
+    const filteredOptions = OPTIONS.filter(o => !business.includes(o));
     const { getFieldDecorator } = this.props.form;
     const aboutList = [
       {
@@ -132,8 +190,7 @@ class About extends React.Component {
         title: <IntlMessages id="licence" />,
         icon: "inputnumber",
         userList: "",
-        desc: "aaaaaaaaaaaa"
-        // desc: profile.company_licence
+        desc: profile.company_licence
       },
       {
         id: 3,
@@ -157,6 +214,28 @@ class About extends React.Component {
         desc: profile.company_business
       }
     ];
+
+    const props = {
+      multiple: true,
+      onRemove: file => {
+        this.setState(state => {
+          const index = state.fileList.indexOf(file);
+          const newFileList = state.fileList.slice();
+          newFileList.splice(index, 1);
+          return {
+            fileList: newFileList
+          };
+        });
+      },
+      beforeUpload: file => {
+        this.setState(state => ({
+          // fileList: file
+          fileList: [...state.fileList, file]
+        }));
+        return false;
+      },
+      fileList
+    };
 
     return (
       <div className="block-w-nb" id="nav_introduction">
@@ -276,7 +355,7 @@ class About extends React.Component {
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                   <FormItem {...formItemLayout}>
-                    {getFieldDecorator("license_id", {
+                    {getFieldDecorator("company_licence", {
                       rules: [
                         {
                           required: true,
@@ -302,17 +381,55 @@ class About extends React.Component {
                   lg={6}
                   xl={6}
                 >
+                  <p className="text-align-right">Lĩnh vực</p>
+                </Col>
+                <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+                  <FormItem {...formItemLayout}>
+                    {getFieldDecorator("company_business", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Enter your company business!"
+                        }
+                      ]
+                    })(
+                      <Select
+                        style={{ width: "80%" }}
+                        mode="multiple"
+                        value={business}
+                        onChange={this.handleChangeBusiness}
+                        placeholder="Lĩnh vực"
+                      >
+                        {filteredOptions.map(item => (
+                          <Select.Option key={item} value={item}>
+                            {item}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Row>
+                <Col
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                  xs={24}
+                  sm={24}
+                  md={6}
+                  lg={6}
+                  xl={6}
+                >
                   <p className="text-align-right">License Image</p>
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                   <FormItem {...formItemLayout}>
-                    {getFieldDecorator("license_image", {
-                      rules: [
-                        {
-                          required: false,
-                          message: "Upload your licence image!"
-                        }
-                      ]
+                    {getFieldDecorator("company_licence_file", {
+                      valuePropName: "fileList",
+                      getValueFromEvent: this.normFile
                     })(
                       <Upload {...props}>
                         <Button style={{ margin: 0 }}>
@@ -360,6 +477,14 @@ class About extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    actSendRequestToServer: license => {
+      dispatch(actChangeLicenseRequest(license));
+    }
+  };
+};
+
 const WrappedHorizontalLoginForm = Form.create()(About);
 
-export default WrappedHorizontalLoginForm;
+export default connect(null, mapDispatchToProps)(WrappedHorizontalLoginForm);

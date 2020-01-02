@@ -64,7 +64,7 @@ class PropertiesItemCard extends React.Component {
   };
 
   render() {
-    const { title } = this.props.data;
+    // const { title } = this.props.data;
     let { data } = this.props;
     return (
       <div className="gx-featured-item">

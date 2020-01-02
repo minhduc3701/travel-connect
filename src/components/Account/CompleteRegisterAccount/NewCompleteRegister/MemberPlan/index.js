@@ -28,7 +28,8 @@ class MemberPlan extends Component {
     this.state = {
       search: false,
       typeAccount: 0,
-      step: 0
+      step: 0,
+      progess: 0
     };
   }
 
@@ -60,18 +61,18 @@ class MemberPlan extends Component {
     });
   };
 
-  onGetStateType = typeAcc => {
-    console.log(typeAcc);
+  onGetStateType = (typeAcc, progess) => {
     this.setState(
       {
-        step: typeAcc
+        step: typeAcc,
+        progess: progess
       },
       () => this.onSetStep()
     );
   };
 
   onSetStep = () => {
-    this.props.getStep.getStep(this.state.step);
+    this.props.getStep.getStep(this.state.step, this.state.progess);
   };
 
   render() {
@@ -81,8 +82,7 @@ class MemberPlan extends Component {
       <Row className="p-v-6">
         <Col xl={8} lg={8} md={8} sm={24} xs={24}>
           <div>
-            <h3 className="m-b-10">Nội dung hoạt động</h3>
-            <p> Lựa chọn hình thức làm việc trên sàn: </p>
+            <h3 className="m-b-10">Lựa chọn hình thức làm việc trên sàn</h3>
             <p>
               <Icon type="check-circle" /> Kiểm tra công ty của bạn đã tồng tại
               bằng cách tìm kiếm trên thanh công cụ

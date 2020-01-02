@@ -6,6 +6,7 @@ const User = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_USER_PROFILE:
       state = action.user;
+      console.log(state);
       return { ...state };
 
     default:

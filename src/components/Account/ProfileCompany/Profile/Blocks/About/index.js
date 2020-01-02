@@ -65,8 +65,7 @@ class About extends React.Component {
         title: <IntlMessages id="licence" />,
         icon: "inputnumber",
         userList: "",
-        desc: "aaaaaaaaaaaaaaaaaaaaa"
-        // desc: Account.company_licence
+        desc: Account.company_licence
       },
       {
         id: 3,

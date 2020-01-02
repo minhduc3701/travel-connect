@@ -36,40 +36,21 @@ class Activity extends Component {
         <Row className="p-v-6">
           <Col xl={8} lg={8} md={8} sm={24} xs={24}>
             <div>
-              <h3 className="m-b-10">Nội dung hồ sơ</h3>
-              <p> Bao gồm các thông tin cơ bản: </p>
+              <h3 className="m-b-10">Nội dung hoạt động</h3>
+              <p> Bao gồm các thông tin : </p>
               <p>
-                <Icon type="check-circle" /> Ảnh đại diện: Hình ảnh cá nhân
+                <Icon type="check-circle" /> Đơn vị, công ty người dùng đang làm
+                việc
               </p>
               <p>
-                <Icon type="check-circle" /> Họ và tên: Họ và tên đầy đủ của
-                người dùng
+                <Icon type="check-circle" /> Công việc, chức vụ người dùng đang
+                làm việc
               </p>
               <p>
-                <Icon type="check-circle" /> Giới tính: Giới tính được khai trên
-                chứng minh thư
-              </p>
-              <p>
-                <Icon type="check-circle" /> Số điện thoại: Số điện thoại liên
-                lạc thường dùng
-              </p>
-              <p>
-                <Icon type="check-circle" /> Quốc gia: Quốc gia hiện đang sinh
-                sống
-              </p>
-              <p>
-                <Icon type="check-circle" /> Quận/huyện: Quận/huyện hiện đang
-                sinh sống
-              </p>
-              <p>
-                <Icon type="check-circle" /> Địa chỉ: Khu vực hiện đang sinh
-                sống
+                <Icon type="check-circle" /> Thông tin xác minh của người dùng
+                đối với nơi đang làm việc
               </p>
             </div>
-            {/* <hr />
-             <div>
-              <h4></h4>
-            </div> */}
           </Col>
           <Col xl={16} lg={16} md={16} sm={24} xs={24}>
             <div className="block-w bor-rad-6">

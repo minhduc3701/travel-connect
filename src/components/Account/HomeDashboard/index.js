@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import Statistic from "./Statistic";
 import StaticticGuest from "./StaticticGuest";
 import WelcomeCard from "./WelcomeCard";
-import CircularProgress from "../../GlobalComponent/CircularProgress";
+// import CircularProgress from "../../GlobalComponent/CircularProgress";
 
 class HomeDashboard extends React.Component {
   render() {

@@ -1,5 +1,5 @@
 import { UPDATE_USER_PROFILE } from "../../constants/ActionTypes";
-import CallApi from "util/CallApi";
+import { CallApi_USER } from "util/CallApi";
 
 export const actUpdateUser = user => {
   return {
@@ -10,9 +10,10 @@ export const actUpdateUser = user => {
 
 export const actUpdateUserRequest = user => {
   return dispatch => {
-    return CallApi("users/vo3p9jXzyEeuiZ3CaRDMo9omFHs1", "PUT", user)
+    return CallApi_USER("users/giZCKQ2pN6NRAF4Hac8fbNrwjAm2", "PUT", user)
       .then(res => {
-        dispatch(actUpdateUser({ ...res.data }));
+        // dispatch(actUpdateUser({ ...res.data }));
+        console.log(res);
       })
       .catch(err => {
         console.log(err);
