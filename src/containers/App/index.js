@@ -88,7 +88,7 @@ class App extends Component {
       document.body.classList.add("dark-theme");
     }
     if (location.pathname === "/") {
-      return <Redirect to={"/home"} />;
+      return <Redirect to={"/dashboard"} />;
     }
     this.setLayoutType(layoutType);
 
