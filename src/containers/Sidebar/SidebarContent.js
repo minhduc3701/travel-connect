@@ -78,16 +78,10 @@ class SidebarContent extends Component {
 								className={this.getNavStyleSubMenuClass(navStyle)}
 								key="account"
 								title={
-									domain === "account.travelconnect.global" ? (
-										<Link to="/">
-											<IntlMessages id="sidebar.home" />
-										</Link>
-									) : (
-											<IntlMessages id="account" />
-										)
+									<IntlMessages id="account" />
 								}
 							>
-								<Menu.Item key="main" className="p-l-3-i">
+								<Menu.Item key="account_main">
 									{domain === "account.travelconnect.global" ? (
 										<Link to="/dashboard">
 											<Icon type="dashboard" />
@@ -100,11 +94,11 @@ class SidebarContent extends Component {
 											</a>
 										)}
 								</Menu.Item>
-								<Menu.Item key="profileCompany">
+								<Menu.Item key="account_profileCompany">
 									{domain === "account.travelconnect.global" ? (
 										<Link to="/company">
-											<Icon type="dashboard" />
-											<IntlMessages id="sidebar.home.dashboard" />
+											<Icon type="area-chart" />
+											<IntlMessages id="profileCompany" />
 										</Link>
 									) : (
 											<a href={`${ACCOUNT}/company`} className="menu-item ">
@@ -113,11 +107,11 @@ class SidebarContent extends Component {
 											</a>
 										)}
 								</Menu.Item>
-								<Menu.Item key="membermanagement">
+								<Menu.Item key="account_membermanagement">
 									{domain === "account.travelconnect.global" ? (
 										<Link to="/member-management">
-											<Icon type="database" />
-											<IntlMessages id="sidebar.home.dashboard" />
+											<Icon type="solution" />
+											<IntlMessages id="sidebar.home.membermanagement" />
 										</Link>
 									) : (
 											<a href={`${ACCOUNT}/member-management`} className="menu-item ">
@@ -126,11 +120,11 @@ class SidebarContent extends Component {
 											</a>
 										)}
 								</Menu.Item>
-								<Menu.Item key="company">
+								<Menu.Item key="account_company">
 									{domain === "account.travelconnect.global" ? (
 										<Link to="/upgrade-account">
-											<Icon type="dashboard" />
-											<IntlMessages id="sidebar.home.dashboard" />
+											<Icon type="tag" />
+											<IntlMessages id="sidebar.home.upgradeaccount" />
 										</Link>
 									) : (
 											<a href={`${ACCOUNT}/upgrade-account`} className="menu-item ">
@@ -156,17 +150,9 @@ class SidebarContent extends Component {
 							<SubMenu
 								className={this.getNavStyleSubMenuClass(navStyle)}
 								key="businessmatching"
-								title={
-									domain === "business.travelconnect.global" ? (
-										<Link to="/">
-											<IntlMessages id="sidebar.home.dashboard" />
-										</Link>
-									) : (
-											<IntlMessages id="sidebar.businessmatching" />
-										)
-								}
+								title={<IntlMessages id="sidebar.businessmatching" />}
 							>
-								<Menu.Item key="sidebar.home.dashboard">
+								<Menu.Item key="businessmatching_dashboard">
 									{domain === "business.travelconnect.global" ? (
 										<Link to="/dashboard">
 											<Icon type="dashboard" />
@@ -179,7 +165,7 @@ class SidebarContent extends Component {
 											</a>
 										)}
 								</Menu.Item>
-								<Menu.Item key="appointmentManagement">
+								<Menu.Item key="businessmatching_appointmentManagement">
 									{domain === "business.travelconnect.global" ? (
 										<Link to="/member-management">
 											<Icon type="calendar" />
@@ -192,7 +178,7 @@ class SidebarContent extends Component {
 											</a>
 										)}
 								</Menu.Item>
-								<Menu.Item key="company">
+								<Menu.Item key="businessmatching_contact">
 									{domain === "business.travelconnect.global" ? (
 										<Link to="/company">
 											<Icon type="book" />
@@ -210,33 +196,25 @@ class SidebarContent extends Component {
 							<SubMenu
 								className={this.getNavStyleSubMenuClass(navStyle)}
 								key="b2bmarketplace"
-								title={
-									domain === "b2b.travelconnect.global" ? (
-										<Link to="/company">
-											<IntlMessages id="sidebar.b2bmarketplace" />
-										</Link>
-									) : (
-											<IntlMessages id="sidebar.b2bmarketplace" />
-										)
-								}
+								title={<IntlMessages id="sidebar.b2bmarketplace" />}
 							>
-								<Menu.Item key="listlandtour">
+								<Menu.Item key="b2bmarketplace_listlandtour">
 									{domain === "b2b.travelconnect.global" ? (
 										<Link to="/company">
 											<Icon type="dashboard" />
-											Dashboard
+											<IntlMessages id="sidebar.home.dashboard" />
 										</Link>
 									) : (
 											<a href={`${B2B}/b2b/dashboard`} className="menu-item ">
 												<Icon type="dashboard" />
-												Dashboard
-              								</a>
+												<IntlMessages id="sidebar.home.dashboard" />
+											</a>
 										)}
 								</Menu.Item>
 
 								<SubMenu
 									className={this.getNavStyleSubMenuClass(navStyle)}
-									key="sell"
+									key="b2bmarketplace_sell"
 									title={
 										<span>
 											<Icon type="gift" />
@@ -246,7 +224,7 @@ class SidebarContent extends Component {
 								>
 									<SubMenu
 										className="gx-menu-horizontal"
-										key="b2bmarketplace.inventory"
+										key="b2bmarketplace_sell_inventory"
 										title={
 											<span>
 												<Icon type="database" />
@@ -254,7 +232,7 @@ class SidebarContent extends Component {
 											</span>
 										}
 									>
-										<Menu.Item key="inventoryLandtour">
+										<Menu.Item key="b2bmarketplace_sell_inventory_landtour">
 											{domain === "b2b.travelconnect.global" ? (
 												<Link to="/b2b/inventory/landtour">
 													<Icon type="rest" />
@@ -270,7 +248,7 @@ class SidebarContent extends Component {
 													</a>
 												)}
 										</Menu.Item>
-										<Menu.Item key="inventoryGrouptour">
+										<Menu.Item key="b2bmarketplace_sell_inventory_grouptour">
 											{domain === "b2b.travelconnect.global" ? (
 												<Link to="/b2b/inventory/grouptour">
 													<Icon type="rocket" />
@@ -287,7 +265,7 @@ class SidebarContent extends Component {
 												)}
 										</Menu.Item>
 									</SubMenu>
-									<Menu.Item key="sellRequest">
+									<Menu.Item key="b2bmarketplace_sell_request">
 										{domain === "b2b.travelconnect.global" ? (
 											<Link to="/b2b/transaction/sell">
 												<Icon type="gift" />
@@ -304,7 +282,7 @@ class SidebarContent extends Component {
 
 								<SubMenu
 									className={this.getNavStyleSubMenuClass(navStyle)}
-									key="buy"
+									key="b2bmarketplace_buy"
 									title={
 										<span>
 											<Icon type="shopping-cart" />
@@ -314,7 +292,7 @@ class SidebarContent extends Component {
 								>
 									<SubMenu
 										className="gx-menu-horizontal"
-										key="b2bmarketplace.find"
+										key="b2bmarketplace_buy_find"
 										title={
 											<span>
 												<Icon type="search" />
@@ -322,7 +300,7 @@ class SidebarContent extends Component {
 											</span>
 										}
 									>
-										<Menu.Item key="listlandtour">
+										<Menu.Item key="b2bmarketplace_buy_find_landtour">
 											{domain === "b2b.travelconnect.global" ? (
 												<Link to="/b2b/landtour">
 													<Icon type="rest" />
@@ -335,7 +313,7 @@ class SidebarContent extends Component {
 													</a>
 												)}
 										</Menu.Item>
-										<Menu.Item key="listgrouptour">
+										<Menu.Item key="b2bmarketplace_buy_find_grouptour">
 											{domain === "b2b.travelconnect.global" ? (
 												<Link to="/b2b/grouptour">
 													<Icon type="rocket" />
@@ -349,7 +327,7 @@ class SidebarContent extends Component {
 												)}
 										</Menu.Item>
 									</SubMenu>
-									<Menu.Item key="buyRequest">
+									<Menu.Item key="b2bmarketplace_buy_request">
 										{domain === "b2b.travelconnect.global" ? (
 											<Link to="/b2b/transaction/buy">
 												<Icon type="shopping-cart" />
