@@ -21,4 +21,7 @@ ul.ant-menu.sidebar_menu ul.ant-menu ul.ant-menu li.ant-menu-submenu {
     line-height: 42px !important;
 }
 
+ul.ant-menu.sidebar_menu.ant-menu-dark .ant-menu-submenu-open .ant-menu-submenu-open .ant-menu-item > a {
+	color: #038fdd !important;
+}
 /* end side bar*/
