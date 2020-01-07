@@ -200,7 +200,7 @@ class SidebarContent extends Component {
 							>
 								<Menu.Item key="b2bmarketplace_listlandtour">
 									{domain === "b2b.travelconnect.global" ? (
-										<Link to="/company">
+										<Link to="/b2b/dashboard">
 											<Icon type="dashboard" />
 											<IntlMessages id="sidebar.home.dashboard" />
 										</Link>
