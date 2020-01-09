@@ -144,7 +144,7 @@ class SidebarContent extends Component {
 							<SubMenu
 								className={this.getNavStyleSubMenuClass(navStyle)}
 								key="community"
-								title={<IntlMessages id="sidebar.community" />}
+								title={<IntlMessages id="general.default.community" />}
 							></SubMenu>
 
 							<SubMenu
@@ -374,7 +374,6 @@ class SidebarContent extends Component {
 SidebarContent.propTypes = {};
 const mapStateToProps = ({ settings }) => {
 	const { navStyle, themeType, locale, pathname } = settings;
-	return { navStyle, themeType, locale, pathname }
+	return { navStyle, themeType, locale, pathname };
 };
 export default connect(mapStateToProps)(SidebarContent);
-

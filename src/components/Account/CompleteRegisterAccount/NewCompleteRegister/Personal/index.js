@@ -81,22 +81,6 @@ class Personal extends Component {
     visible: true
   };
 
-  // showModal = () => {
-  //   return (
-  //     <Modal
-  //       title="Basic Modal"
-  //       visible={this.state.visible}
-  //       onOk={this.handleOk}
-  //       onCancel={this.handleCancel}
-  //       footer={[<Button type="primary">Ok</Button>]}
-  //     >
-  //       <p>Some contents...</p>
-  //       <p>Some contents...</p>
-  //       <p>Some contents...</p>
-  //     </Modal>
-  //   );
-  // };
-
   componentDidMount() {
     setTimeout(() => {
       this.setState({
@@ -110,14 +94,6 @@ class Personal extends Component {
       visible: false
     });
   };
-
-  // onSetVisible = () => {
-  //   let visible = true;
-  //   setTimeout(() => {
-  //     return (visible = false);
-  //   }, 3000);
-  //   return visible;
-  // };
 
   onChange = (date, dateString) => {
     this.setState({ birth: dateString });
@@ -164,24 +140,6 @@ class Personal extends Component {
     // this.handleUpload();
     this.onSendImage();
   };
-
-  // handleUpload = () => {
-  //   const { fileList } = this.state;
-  //   const formData = new FormData();
-  //   fileList.forEach(file => {
-  //     formData.append("image-", file, file.name);
-  //   });
-
-  //   this.setState({
-  //     uploading: true
-  //   });
-  //   axios
-  //     .post(
-  //       "https://us-central1-travelconnectapp.cloudfunctions.net/v1/user/7oZGSZGGLfaFZNn3FYNX5PJS0292/images",
-  //       formData
-  //     )
-  //     .then(res => console.log(res));
-  // };
 
   handleChange = ({ fileList }) => {
     if (this.state.fileList.length > 1) {

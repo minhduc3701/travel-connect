@@ -126,7 +126,7 @@ class HorizontalNav extends Component {
         <SubMenu
           className={this.getNavStyleSubMenuClass(navStyle)}
           key="community"
-          title={<IntlMessages id="sidebar.community" />}
+          title={<IntlMessages id="general.default.community" />}
         ></SubMenu>
 
         <SubMenu

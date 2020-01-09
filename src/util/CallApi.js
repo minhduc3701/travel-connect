@@ -5,7 +5,7 @@ import {
   API_ACCOUNT
 } from "../constants/NavigateLink";
 
-let tokenID = JSON.parse(localStorage.getItem("token"));
+let tokenID = JSON.parse(localStorage.getItem("request_token"));
 
 export function CallApi(endpoint, method = "GET", body) {
   return axios({

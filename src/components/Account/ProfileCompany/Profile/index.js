@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Col, Row } from "antd";
+import React, { Component, Fragment } from "react";
+import { Col, Row, Button } from "antd";
 import Banner from "./Blocks/Banner";
 import Biography from "./Blocks/Biography";
 import About from "./Blocks/About";
@@ -15,67 +15,68 @@ import Navigation from "./Blocks/Navigation";
 import StaticticGuest from "./Blocks/StaticticGuest";
 import { friendList } from "./data";
 import { connect } from "react-redux";
-// import * as Actions from "appRedux/actions/Account";
-// import axios from "axios";
-// import CallApi from "util/CallApi";
+import CircularProgress from "../../../GlobalComponent/CircularProgress";
 
 class Profile extends Component {
   state = {
     profile: null,
-    loading: null
+    loading: null,
+    load: true
   };
-  // async componentDidMount() {
-  //   let tokenID = JSON.parse(localStorage.getItem("token"));
-  //   let tokenSend = {
-  //     headers: {
-  //       Authorization: "Bearer " + tokenID
-  //     }
-  //   };
-  //   axios
-  //     .get(
-  //       "https://us-central1-travelconnectapp.cloudfunctions.net/v1/companies/066zHzQzCt6L7RZfgbsI",
-  //       tokenSend
-  //     )
-  //     .then(res => {
-  //       console.log(res.data);
-  //       this.setState({
-  //         profile: res.data
-  //       });
-  //     });
-  //   CallApi("VN/companies/07WTNGl7FZsMxLJlbGRF", "GET", null).then(res => {
-  //     console.log(res.data);
-  //   });
-  //   await this.props.actFetchProfile();
-  // }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        load: false
+      });
+    }, 10000);
+  }
 
   render() {
     let { profile } = this.props;
+
+    console.log(profile.company_name);
     return (
-      <div className="gx-profile-content">
-        <Banner profile={profile} />
-        <Navigation />
-        <Row className="m-t-3-i">
-          <Col xl={16} lg={16} md={24} sm={24} xs={24}>
-            <About profile={profile} />
-            <Biography profile={profile} />
-            <Contact profile={profile} />
-            <Row>
-              <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-              <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+      <Fragment>
+        {profile.company_name ? (
+          <div className="gx-profile-content">
+            <Banner profile={profile} />
+            <Navigation />
+            <Row className="m-t-3-i">
+              <Col xl={16} lg={16} md={24} sm={24} xs={24}>
+                <About profile={profile} />
+                <Biography profile={profile} />
+                <Contact profile={profile} />
+                <Row>
+                  <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+                  <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+                </Row>
+                <EventsBanner profile={profile} />
+                <PropertiesCard profile={profile} />
+                <Rating profile={profile} />
+              </Col>
+              <Col xl={8} lg={8} md={24} sm={24} xs={24}>
+                <Processing />
+                <StaticticGuest profile={profile} />
+                <Friends profile={profile} friendList={friendList} />
+                <Socials profile={profile} />
+                <Media profile={profile} />
+              </Col>
             </Row>
-            <EventsBanner profile={profile} />
-            <PropertiesCard profile={profile} />
-            <Rating profile={profile} />
-          </Col>
-          <Col xl={8} lg={8} md={24} sm={24} xs={24}>
-            <Processing />
-            <StaticticGuest profile={profile} />
-            <Friends profile={profile} friendList={friendList} />
-            <Socials profile={profile} />
-            <Media profile={profile} />
-          </Col>
-        </Row>
-      </div>
+          </div>
+        ) : profile.company_name === undefined ? (
+          <div className="block-w bor-rad-6">
+            <Row>
+              <Col span={24}>
+                <h1>Bạn chưa có công ty! Tạo ngay bây giờ</h1>
+                <Button type="primary">Tạo</Button>
+              </Col>
+            </Row>
+          </div>
+        ) : (
+          <CircularProgress />
+        )}
+      </Fragment>
     );
   }
 }
@@ -85,13 +86,5 @@ const mapStateToProps = state => {
     profile: state
   };
 };
-
-// const mapDispatchToProps = (dispatch, props) => {
-//   return {
-//     actFetchProfile: () => {
-//       dispatch(Actions.actFetchActionRequest());
-//     }
-//   };
-// };
 
 export default connect(mapStateToProps, null)(Profile);
