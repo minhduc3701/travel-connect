@@ -106,10 +106,10 @@ class Rating extends React.Component {
                   }}
                 >
                   <h2 className="h4 gx-mb-2 ">
-                    <IntlMessages id="general.total" />: {Account.company_rating} <IntlMessages id="account.profile.rating" />
+                    <IntlMessages id="general.text.total" />: {Account.company_rating} <IntlMessages id="account.profile.rating" />
                   </h2>
                   <br />
-                  <p className="gx-text-grey"><IntlMessages id="general.year" /> 2019</p>
+                  <p className="gx-text-grey"><IntlMessages id="general.text.year" /> 2019</p>
                   <Detail Account={Account} />
                 </div>
               </Col>
@@ -132,7 +132,7 @@ class Rating extends React.Component {
                       className="view-all-comment gx-link "
                       onClick={() => this.viewAll()}
                     >
-                      <IntlMessages id="general.all" /> <IntlMessages id="account.profile.comment" />
+                      <IntlMessages id="general.text.all" /> <IntlMessages id="account.profile.comment" />
                     </p>
                   </div>
                 </Col>

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import CustomScrollbars from "util/CustomScrollbars";
 import SidebarLogo from "./SidebarLogo";
-import { HOME, ACCOUNT, BUSINESS, B2B } from "../../constants/NavigateLink";
+import { HOME, BUSINESS, B2B } from "../../constants/NavigateLink";
 
 import Auxiliary from "util/Auxiliary";
 import UserProfile from "./UserProfile";
@@ -64,46 +64,46 @@ class SidebarContent extends Component {
 								title={
 									domain === "app.travelconnect.global" ? (
 										<Link to="/home">
-											<IntlMessages id="sidebar.home" />
+											<IntlMessages id="general.default.home" />
 										</Link>
 									) : (
 											<a href={`${HOME}/home`} className="menu-item">
-												<IntlMessages id="sidebar.home" />
+												<IntlMessages id="general.default.home" />
 											</a>
 										)
 								}
 							></SubMenu>
 
-							<SubMenu
+							{/* <SubMenu
 								className={this.getNavStyleSubMenuClass(navStyle)}
 								key="account"
 								title={
-									<IntlMessages id="account" />
+									<IntlMessages id="general.default.account" />
 								}
 							>
 								<Menu.Item key="account_main">
 									{domain === "account.travelconnect.global" ? (
 										<Link to="/dashboard">
 											<Icon type="dashboard" />
-											<IntlMessages id="sidebar.home.dashboard" />
+											<IntlMessages id="general.default.account.dashboard" />
 										</Link>
 									) : (
 											<a href={`${ACCOUNT}/dashboard`} className="menu-item ">
 												<Icon type="dashboard" />
-												<IntlMessages id="sidebar.home.dashboard" />
+												<IntlMessages id="general.default.account.dashboard" />
 											</a>
 										)}
 								</Menu.Item>
-								<Menu.Item key="account_profileCompany">
+								<Menu.Item key="account_profile">
 									{domain === "account.travelconnect.global" ? (
-										<Link to="/company">
+										<Link to="/profile">
 											<Icon type="area-chart" />
-											<IntlMessages id="profileCompany" />
+											<IntlMessages id="general.default.account.profile" />
 										</Link>
 									) : (
-											<a href={`${ACCOUNT}/company`} className="menu-item ">
+											<a href={`${ACCOUNT}/profile`} className="menu-item ">
 												<Icon type="area-chart" />
-												<IntlMessages id="profileCompany" />
+												<IntlMessages id="general.default.account.profile" />
 											</a>
 										)}
 								</Menu.Item>
@@ -111,34 +111,34 @@ class SidebarContent extends Component {
 									{domain === "account.travelconnect.global" ? (
 										<Link to="/member-management">
 											<Icon type="solution" />
-											<IntlMessages id="sidebar.home.membermanagement" />
+											<IntlMessages id="general.default.account.membermanagement" />
 										</Link>
 									) : (
 											<a href={`${ACCOUNT}/member-management`} className="menu-item ">
 												<Icon type="solution" />
-												<IntlMessages id="sidebar.home.membermanagement" />
+												<IntlMessages id="general.default.account.membermanagement" />
 											</a>
 										)}
 								</Menu.Item>
-								<Menu.Item key="account_company">
+								<Menu.Item key="account_package">
 									{domain === "account.travelconnect.global" ? (
 										<Link to="/upgrade-account">
 											<Icon type="tag" />
-											<IntlMessages id="sidebar.home.upgradeaccount" />
+											<IntlMessages id="general.default.account.upgradeaccount" />
 										</Link>
 									) : (
 											<a href={`${ACCOUNT}/upgrade-account`} className="menu-item ">
 												<Icon type="tag" />
-												<IntlMessages id="sidebar.home.upgradeaccount" />
+												<IntlMessages id="general.default.account.upgradeaccount" />
 											</a>
 										)}
 								</Menu.Item>
-							</SubMenu>
+							</SubMenu> */}
 
 							<SubMenu
 								className={this.getNavStyleSubMenuClass(navStyle)}
 								key="events"
-								title={<IntlMessages id="sidebar.events" />}
+								title={<IntlMessages id="general.default.event" />}
 							></SubMenu>
 
 							<SubMenu
@@ -150,75 +150,73 @@ class SidebarContent extends Component {
 							<SubMenu
 								className={this.getNavStyleSubMenuClass(navStyle)}
 								key="businessmatching"
-								title={<IntlMessages id="sidebar.businessmatching" />}
+								title={<IntlMessages id="general.default.businessmatching" />}
 							>
-								<Menu.Item key="businessmatching_dashboard">
+								<Menu.Item key="businessmatching_findpartner">
 									{domain === "business.travelconnect.global" ? (
-										<Link to="/dashboard">
-											<Icon type="dashboard" />
-											<IntlMessages id="sidebar.home.dashboard" />
+										<Link to="/findpartner">
+											<Icon type="user-add" />
+											<IntlMessages id="general.default.businessmatching.findpartner" />
 										</Link>
 									) : (
-											<a href={`${BUSINESS}/dashboard`} className="menu-item">
-												<Icon type="dashboard" />
-												<IntlMessages id="sidebar.home.dashboard" />
+											<a href={`${BUSINESS}/findpartner`} className="menu-item">
+												<Icon type="user-add" />
+												<IntlMessages id="general.default.businessmatching.findpartner" />
 											</a>
 										)}
 								</Menu.Item>
 								<Menu.Item key="businessmatching_appointmentManagement">
 									{domain === "business.travelconnect.global" ? (
-										<Link to="/member-management">
-											<Icon type="calendar" />
-											<IntlMessages id="appointmentManagement" />
+										<Link to="/appointment">
+											<Icon type="schedule" />
+											<IntlMessages id="general.default.businessmatching.appointmentmanagement" />
 										</Link>
 									) : (
-											<a href={`${BUSINESS}/member-management`} className="menu-item">
-												<Icon type="calendar" />
-												<IntlMessages id="appointmentManagement" />
+											<a href={`${BUSINESS}/appointment`} className="menu-item">
+												<Icon type="schedule" />
+												<IntlMessages id="general.default.businessmatching.appointmentmanagement" />
 											</a>
 										)}
 								</Menu.Item>
 								<Menu.Item key="businessmatching_contact">
 									{domain === "business.travelconnect.global" ? (
-										<Link to="/company">
-											<Icon type="book" />
-											<IntlMessages id="contactManagement" />
+										<Link to="/contact">
+											<Icon type="read" />
+											<IntlMessages id="general.default.businessmatching.contact" />
 										</Link>
 									) : (
-											<a href={`${BUSINESS}/company`} className="menu-item">
-												<Icon type="book" />
-												<IntlMessages id="contactManagement" />
+											<a href={`${BUSINESS}/contact`} className="menu-item">
+												<Icon type="read" />
+												<IntlMessages id="general.default.businessmatching.contact" />
 											</a>
 										)}
 								</Menu.Item>
 							</SubMenu>
-
 							<SubMenu
 								className={this.getNavStyleSubMenuClass(navStyle)}
 								key="b2bmarketplace"
-								title={<IntlMessages id="sidebar.b2bmarketplace" />}
+								title={<IntlMessages id="general.default.b2bmarketplace" />}
 							>
 								<Menu.Item key="b2bmarketplace_listlandtour">
 									{domain === "b2b.travelconnect.global" ? (
-										<Link to="/company">
+										<Link to="/dashboard">
 											<Icon type="dashboard" />
-											<IntlMessages id="sidebar.home.dashboard" />
+											<IntlMessages id="general.default.b2bmarketplace.dashboard" />
 										</Link>
 									) : (
-											<a href={`${B2B}/b2b/dashboard`} className="menu-item ">
+											<a href={`${B2B}/dashboard`} className="menu-item ">
 												<Icon type="dashboard" />
-												<IntlMessages id="sidebar.home.dashboard" />
+												<IntlMessages id="general.default.b2bmarketplace.dashboard" />
 											</a>
 										)}
 								</Menu.Item>
-
 								<SubMenu
 									className={this.getNavStyleSubMenuClass(navStyle)}
 									key="b2bmarketplace_sell"
 									title={
 										<span>
 											<Icon type="gift" />
-											<IntlMessages id="sell" />
+											<IntlMessages id="general.default.b2bmarketplace.sell" />
 										</span>
 									}
 								>
@@ -228,65 +226,64 @@ class SidebarContent extends Component {
 										title={
 											<span>
 												<Icon type="database" />
-												<IntlMessages id="sidebar.b2b.service.inventory" />
+												<IntlMessages id="general.default.b2bmarketplace.inventory" />
 											</span>
 										}
 									>
 										<Menu.Item key="b2bmarketplace_sell_inventory_landtour">
 											{domain === "b2b.travelconnect.global" ? (
-												<Link to="/b2b/inventory/landtour">
+												<Link to="/inventory/landtour">
 													<Icon type="rest" />
-													<IntlMessages id="sidebar.b2bmarketplace.find.landtour" />
+													<IntlMessages id="general.default.b2bmarketplace.inventory.landtour" />
 												</Link>
 											) : (
 													<a
-														href={`${B2B}/b2b/inventory/landtour`}
+														href={`${B2B}/inventory/landtour`}
 														className="menu-item "
 													>
 														<Icon type="rest" />
-														<IntlMessages id="sidebar.b2bmarketplace.find.landtour" />
+														<IntlMessages id="general.default.b2bmarketplace.inventory.landtour" />
 													</a>
 												)}
 										</Menu.Item>
 										<Menu.Item key="b2bmarketplace_sell_inventory_grouptour">
 											{domain === "b2b.travelconnect.global" ? (
-												<Link to="/b2b/inventory/grouptour">
+												<Link to="/inventory/grouptour">
 													<Icon type="rocket" />
-													<IntlMessages id="sidebar.b2bmarketplace.find.grouptour" />
+													<IntlMessages id="general.default.b2bmarketplace.inventory.grouptour" />
 												</Link>
 											) : (
 													<a
-														href={`${B2B}/b2b/inventory/grouptour`}
+														href={`${B2B}/inventory/grouptour`}
 														className="menu-item "
 													>
 														<Icon type="rocket" />
-														<IntlMessages id="sidebar.b2bmarketplace.find.grouptour" />
+														<IntlMessages id="general.default.b2bmarketplace.inventory.grouptour" />
 													</a>
 												)}
 										</Menu.Item>
 									</SubMenu>
 									<Menu.Item key="b2bmarketplace_sell_request">
 										{domain === "b2b.travelconnect.global" ? (
-											<Link to="/b2b/transaction/sell">
+											<Link to="/transaction/sell">
 												<Icon type="gift" />
-												<IntlMessages id="sellRequest" />
+												<IntlMessages id="general.default.b2bmarketplace.sell.requests" />
 											</Link>
 										) : (
-												<a href={`${B2B}/b2b/transaction/sell`} className="menu-item ">
+												<a href={`${B2B}/transaction/sell`} className="menu-item ">
 													<Icon type="gift" />
-													<IntlMessages id="sellRequest" />
+													<IntlMessages id="general.default.b2bmarketplace.sell.requests" />
 												</a>
 											)}
 									</Menu.Item>
 								</SubMenu>
-
 								<SubMenu
 									className={this.getNavStyleSubMenuClass(navStyle)}
 									key="b2bmarketplace_buy"
 									title={
 										<span>
 											<Icon type="shopping-cart" />
-											<IntlMessages id="buy" />
+											<IntlMessages id="general.default.b2bmarketplace.buy" />
 										</span>
 									}
 								>
@@ -296,47 +293,47 @@ class SidebarContent extends Component {
 										title={
 											<span>
 												<Icon type="search" />
-												<IntlMessages id="sidebar.b2bmarketplace.find" />
+												<IntlMessages id="general.default.b2bmarketplace.buy.find" />
 											</span>
 										}
 									>
 										<Menu.Item key="b2bmarketplace_buy_find_landtour">
 											{domain === "b2b.travelconnect.global" ? (
-												<Link to="/b2b/landtour">
+												<Link to="/find/landtour">
 													<Icon type="rest" />
-													<IntlMessages id="sidebar.b2bmarketplace.find.landtour" />
+													<IntlMessages id="general.default.b2bmarketplace.buy.find.landtour" />
 												</Link>
 											) : (
-													<a href={`${B2B}/b2b/landtour`} className="menu-item ">
+													<a href={`${B2B}/find/landtour`} className="menu-item ">
 														<Icon type="rest" />
-														<IntlMessages id="sidebar.b2bmarketplace.find.landtour" />
+														<IntlMessages id="general.default.b2bmarketplace.buy.find.landtour" />
 													</a>
 												)}
 										</Menu.Item>
 										<Menu.Item key="b2bmarketplace_buy_find_grouptour">
 											{domain === "b2b.travelconnect.global" ? (
-												<Link to="/b2b/grouptour">
+												<Link to="/find/grouptour">
 													<Icon type="rocket" />
-													<IntlMessages id="sidebar.b2bmarketplace.find.grouptour" />
+													<IntlMessages id="general.default.b2bmarketplace.buy.find.grouptour" />
 												</Link>
 											) : (
-													<a href={`${B2B}/b2b/grouptour`} className="menu-item ">
+													<a href={`${B2B}/find/grouptour`} className="menu-item ">
 														<Icon type="rocket" />
-														<IntlMessages id="sidebar.b2bmarketplace.find.grouptour" />
+														<IntlMessages id="general.default.b2bmarketplace.buy.find.grouptour" />
 													</a>
 												)}
 										</Menu.Item>
 									</SubMenu>
 									<Menu.Item key="b2bmarketplace_buy_request">
 										{domain === "b2b.travelconnect.global" ? (
-											<Link to="/b2b/transaction/buy">
+											<Link to="/transaction/buy">
 												<Icon type="shopping-cart" />
-												<IntlMessages id="buyRequest" />
+												<IntlMessages id="general.default.b2bmarketplace.buy.requests" />
 											</Link>
 										) : (
-												<a href={`${B2B}/b2b/transaction/buy`} className="menu-item ">
+												<a href={`${B2B}/transaction/buy`} className="menu-item ">
 													<Icon type="shopping-cart" />
-													<IntlMessages id="buyRequest" />
+													<IntlMessages id="general.default.b2bmarketplace.buy.requests" />
 												</a>
 											)}
 									</Menu.Item>
@@ -345,26 +342,26 @@ class SidebarContent extends Component {
 
 							<SubMenu
 								className={this.getNavStyleSubMenuClass(navStyle)}
-								key="b2cchannel"
-								title={<IntlMessages id="sidebar.b2cchannel" />}
+								key="otachannel"
+								title={<IntlMessages id="general.default.otachannel" />}
 							></SubMenu>
 
 							<SubMenu
 								className={this.getNavStyleSubMenuClass(navStyle)}
 								key="recruiment"
-								title={<IntlMessages id="recruiment" />}
+								title={<IntlMessages id="general.default.recruiment" />}
 							></SubMenu>
 
 							<SubMenu
 								className={this.getNavStyleSubMenuClass(navStyle)}
 								key="education"
-								title={<IntlMessages id="education" />}
+								title={<IntlMessages id="general.default.education" />}
 							></SubMenu>
 
 							<SubMenu
 								className={this.getNavStyleSubMenuClass(navStyle)}
 								key="destination"
-								title={<IntlMessages id="destination" />}
+								title={<IntlMessages id="general.default.destination" />}
 							></SubMenu>
 						</Menu>
 					</CustomScrollbars>
