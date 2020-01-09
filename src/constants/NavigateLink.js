@@ -1,7 +1,7 @@
 // URL FOR MENU NAVIGATOR
 // ALREADY USE
 export const HOME = "http://localhost:3000/home";
-export const ACCOUNT = "http://localhost:3000/account";
+export const ACCOUNT = "https://account.travelconnect.global/dashboard";
 export const BUSINESS = "http://localhost:3000/business";
 export const B2B = "http://localhost:3000/b2b";
 

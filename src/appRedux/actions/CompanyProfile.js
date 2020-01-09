@@ -10,6 +10,8 @@ import {
 } from "../../constants/ActionTypes";
 import { CallApi_ACCOUNT } from "util/CallApi";
 
+let uId = JSON.parse(localStorage.getItem("user_info"));
+
 // Intro
 export const actSaveIntro = intro => {
   return {
@@ -20,7 +22,7 @@ export const actSaveIntro = intro => {
 export const actSaveIntroRequest = intro => {
   return dispatch => {
     return CallApi_ACCOUNT(
-      "VN/companies/eDLBQUwHQck7eIIFyjiS/introduction",
+      `VN/companies/${uId.company_id}/introduction`,
       "PUT",
       intro
     )
@@ -39,7 +41,7 @@ export const actSaveSocial = social => {
 export const actSaveSocialRequest = social => {
   return dispatch => {
     return CallApi_ACCOUNT(
-      "VN/companies/eDLBQUwHQck7eIIFyjiS/social",
+      `VN/companies/${uId.company_id}/social`,
       "PUT",
       social
     )
@@ -58,7 +60,7 @@ export const actSaveMedia = media => {
 export const actSaveMediaRequest = media => {
   return dispatch => {
     return CallApi_ACCOUNT(
-      "VN/companies/eDLBQUwHQck7eIIFyjiS/medias",
+      `VN/companies/${uId.company_id}/medias`,
       "POST",
       media
     )
@@ -77,7 +79,7 @@ export const actSaveWebsite = website => {
 export const actSaveWebsiteRequest = website => {
   return dispatch => {
     return CallApi_ACCOUNT(
-      "VN/companies/eDLBQUwHQck7eIIFyjiS/website",
+      `VN/companies/${uId.company_id}/website`,
       "PUT",
       website
     )
@@ -96,7 +98,7 @@ export const actSaveAddress = address => {
 export const actSaveAddressRequest = address => {
   return dispatch => {
     return CallApi_ACCOUNT(
-      "VN/companies/eDLBQUwHQck7eIIFyjiS/location",
+      `VN/companies/${uId.company_id}/location`,
       "PUT",
       address
     )
