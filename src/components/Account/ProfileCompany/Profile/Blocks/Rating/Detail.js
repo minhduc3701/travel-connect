@@ -1,10 +1,10 @@
 import React from "react";
 import { Tooltip } from "antd";
+import IntlMessages from "util/IntlMessages";
 
 class Detail extends React.Component {
   render() {
     let { Account } = this.props;
-    // console.log(Account);
     return (
       <div
         style={{
@@ -19,7 +19,7 @@ class Detail extends React.Component {
             justifyContent: "space-between"
           }}
         >
-          <span>Tệ :</span>
+          <span><IntlMessages id="account.profile.rating.unit.bad" /> :</span>
           <Tooltip
             placement="right"
             title={`${Account.company_rating_bad} Đánh giá`}
@@ -43,7 +43,7 @@ class Detail extends React.Component {
             justifyContent: "space-between"
           }}
         >
-          <span>Chưa tốt :</span>
+          <span><IntlMessages id="account.profile.rating.unit.notgood" /> :</span>
           <Tooltip
             placement="right"
             title={`${Account.company_rating_fail} Đánh giá`}
@@ -67,7 +67,7 @@ class Detail extends React.Component {
             justifyContent: "space-between"
           }}
         >
-          <span>Bình thường :</span>
+          <span><IntlMessages id="account.profile.rating.unit.normal" /> :</span>
           <Tooltip
             placement="right"
             title={`${Account.company_rating_normal} Đánh giá`}
@@ -91,7 +91,7 @@ class Detail extends React.Component {
             justifyContent: "space-between"
           }}
         >
-          <span>Tốt :</span>
+          <span><IntlMessages id="account.profile.rating.unit.good" /> :</span>
           <Tooltip
             placement="right"
             title={`${Account.company_rating_good} Đánh giá`}
@@ -115,7 +115,7 @@ class Detail extends React.Component {
             justifyContent: "space-between"
           }}
         >
-          <span>Tuyệt vời :</span>
+          <span><IntlMessages id="account.profile.rating.unit.great" /> :</span>
           <Tooltip
             placement="right"
             title={`${Account.company_rating_great} Đánh giá`}

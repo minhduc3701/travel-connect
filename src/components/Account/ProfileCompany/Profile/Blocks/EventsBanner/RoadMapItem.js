@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Icon, Row, Col } from "antd";
+import IntlMessages from "util/IntlMessages";
 const RoadMapItem = ({ data }) => {
   //   console.log(data);
   //   const { image, title, desc } = data;
@@ -31,7 +32,7 @@ const RoadMapItem = ({ data }) => {
               <h3 className="color-white">{data.event_intro}</h3>
               <p className="text-align-left">
                 <Button type="primary">
-                  <Icon type="double-right" /> View event
+                  <Icon type="double-right" /> <IntlMessages id="account.profile.event.btn.detail" />
                 </Button>
               </p>
             </div>

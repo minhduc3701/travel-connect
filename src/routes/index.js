@@ -69,10 +69,7 @@ const App = ({ match }) => (
       <div className="gx-main-content-wrapper">
         {/* RENDER CONTENT HERE: */}
         <Switch>
-          <Route
-            path={`${match.url}home`} // url
-            component={asyncComponent(() => import("../components/test"))} // component will render when url is match
-          />
+
           <Route
             path={`${match.url}dashboard`}
             component={asyncComponent(() =>
@@ -80,7 +77,7 @@ const App = ({ match }) => (
             )}
           />
           <Route
-            path={`${match.url}company`}
+            path={`${match.url}profile`}
             component={asyncComponent(() =>
               import("../components/Account/ProfileCompany")
             )}

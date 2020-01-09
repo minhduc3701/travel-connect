@@ -4,15 +4,14 @@ import Banner from "./Blocks/Banner";
 import Biography from "./Blocks/Biography";
 import About from "./Blocks/About";
 import Friends from "./Blocks/Friends/index";
-// import EventsBanner from "./Blocks/EventsBanner";
 import AddEvent from "./Blocks/EventsBanner/AddEvent";
 import Processing from "./Blocks/Processing";
 import Rating from "./Blocks/Rating";
 import PropertiesCard from "./Blocks/PropertiesItemCard/PropertiesCard";
 import Socials from "./Blocks/Socials";
-import Navigation from "./Blocks/Navigation";
 import Media from "./Blocks/Media";
 import Contact from "./Blocks/Contact";
+import Navigation from "./Blocks/Navigation";
 import StaticticGuest from "./Blocks/StaticticGuest";
 import { friendList } from "./data";
 import { CallApi_ACCOUNT } from "util/CallApi";
@@ -31,30 +30,20 @@ import {
 class ProfileUpdate extends Component {
   componentWillUnmount() {
     let { CompanyProfile } = this.props.profile;
-    // console.log("unmount nè");
-    // console.log(CompanyProfile);
-
     if (CompanyProfile[0]) {
       this.props.actSendIntroToServer(CompanyProfile[0]);
-      // console.log("ton tai0");
     }
     if (CompanyProfile[1]) {
-      // console.log("ton tai1");
       this.props.actSendAddressToServer(CompanyProfile[1]);
     }
     if (CompanyProfile[2]) {
       this.props.actSendSocialToServer(CompanyProfile[2]);
-      // console.log("ton tai2");
     }
     if (CompanyProfile[3]) {
-      // console.log(CompanyProfile[3].company_medias);
       this.onSendImageMedia(CompanyProfile[3].company_medias);
-      // console.log("ton tai");
-      // this.props.actSendMediaToServer(CompanyProfile[3]);
     }
     if (CompanyProfile[4]) {
       this.props.actSendWebsiteToServer(CompanyProfile[4]);
-      // console.log("ton tai4");
     }
     if (CompanyProfile[5]) {
       console.log(CompanyProfile[5].background);
@@ -73,7 +62,6 @@ class ProfileUpdate extends Component {
     fileList.forEach(file => {
       formData.append("image-", file);
     });
-    // console.log(fileList);
     CallApi_ACCOUNT(
       "VN/companies/eDLBQUwHQck7eIIFyjiS/medias",
       "POST",
@@ -84,12 +72,10 @@ class ProfileUpdate extends Component {
   };
 
   onSendImageBackground = backgrounds => {
-    // const { fileList } = this.state;
     const formData = new FormData();
     backgrounds.forEach(file => {
       formData.append("image-", file);
     });
-    // console.log(fileList);
     CallApi_ACCOUNT(
       "VN/companies/eDLBQUwHQck7eIIFyjiS/backgrounds",
       "PUT",
@@ -99,12 +85,10 @@ class ProfileUpdate extends Component {
       .catch(err => console.log(err));
   };
   onSendImageLogo = logo => {
-    // const { logo } = this.state;
     const formData = new FormData();
     logo.forEach(file => {
       formData.append("image-", file);
     });
-    // console.log(fileList);
     CallApi_ACCOUNT("VN/companies/eDLBQUwHQck7eIIFyjiS/logos", "PUT", formData)
       .then(res => console.log(res))
       .catch(err => console.log(err));
@@ -113,7 +97,6 @@ class ProfileUpdate extends Component {
   render() {
     let { Account } = this.props.profile;
     let { CompanyProfile } = this.props.profile;
-    // console.log(Account);
     console.log(CompanyProfile);
     return (
       <div className="gx-profile-content">
@@ -128,7 +111,6 @@ class ProfileUpdate extends Component {
               <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
               <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
             </Row>
-            {/* <EventsBanner /> */}
             <AddEvent />
             <PropertiesCard profile={Account} />
             <Rating profile={Account} />
@@ -147,7 +129,6 @@ class ProfileUpdate extends Component {
 }
 
 const mapStateToProps = state => {
-  // console.log(state.CompanyProfile);
   return {
     profile: state
   };

@@ -1,20 +1,8 @@
 import React from "react";
 import { doneChange, notiChange } from "util/Notification";
-import {
-  Col,
-  Icon,
-  Row,
-  Select,
-  Input,
-  Modal,
-  Form,
-  Cascader,
-  Button
-} from "antd";
-import {
-  actSaveWebsite,
-  actSaveAddress
-} from "appRedux/actions/CompanyProfile";
+import { Col, Icon, Row, Select, Input, Modal, Form, Cascader, Button } from "antd";
+import IntlMessages from "util/IntlMessages";
+import { actSaveWebsite, actSaveAddress } from "appRedux/actions/CompanyProfile";
 import { connect } from "react-redux";
 
 const formItemLayout = {
@@ -159,15 +147,19 @@ class Info extends React.Component {
     let { profile } = this.props.profile;
     let src = `https://${
       this.state.website ? this.state.website : profile.company_website
-    }`;
+      }`;
     return (
       <div className="p-t-4">
-        <h3>{profile.company_brandname}</h3>
-        <h2>{profile.company_name}</h2>
+        <h3>
+          {profile.company_brandname}
+        </h3>
+        <h2 className="text-trans-upper">
+          {profile.company_name}
+        </h2>
         <Row>
           <Col xl={24} lg={24} md={24} sm={24} xs={24}>
             <h5 className=" gx-text-grey ">
-              <Icon type="appstore" className="p-r-3" />{" "}
+              <Icon type="appstore" className="p-r-3" />
               {profile.company_business}
             </h5>
           </Col>
@@ -179,26 +171,26 @@ class Info extends React.Component {
             sm={24}
             xs={24}
           >
-            <h5 className=" gx-text-grey m-r-1">
-              <Icon type="environment" className="p-r-3" />{" "}
+            <h5 className=" gx-text-grey">
+              <Icon type="environment" className="p-r-3" />
               {profile.company_city}, {profile.company_nation}
             </h5>
-            <div onClick={() => this.changeAddressToEdit()}>
+            <div className="m-l-1" onClick={() => this.changeAddressToEdit()}>
               {this.state.stt_address === false ? (
                 <Icon
                   type="edit"
                   className="gx-link cursor-pointer cursor-pointer--zoom"
                 />
               ) : (
-                <Icon
-                  // onClick={() => this.onSaveData()}
-                  className=" gx-link size-4 cursor-pointer cursor-pointer--zoom"
-                  type="check-circle"
-                />
-              )}
+                  <Icon
+                    // onClick={() => this.onSaveData()}
+                    className=" gx-link size-4 cursor-pointer cursor-pointer--zoom"
+                    type="check-circle"
+                  />
+                )}
               <Modal
                 className="w-50-i"
-                title="Update address"
+                title={<IntlMessages id="account.profile.edit.information.address.update" />}
                 visible={this.state.stt_address}
                 onCancel={this.handleCancel}
                 footer={null}
@@ -218,35 +210,7 @@ class Info extends React.Component {
                         lg={6}
                         xl={6}
                       >
-                        <p className="text-align-right">Company address</p>
-                      </Col>
-                      <Col xs={24} sm={24} md={18} lg={18} xl={18}>
-                        <FormItem {...formItemLayout}>
-                          {getFieldDecorator("company_address", {
-                            rules: [
-                              {
-                                required: true,
-                                message: "Enter your company address!"
-                              }
-                            ]
-                          })(<Input placeholder="Address" />)}
-                        </FormItem>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center"
-                        }}
-                        xs={24}
-                        sm={24}
-                        md={6}
-                        lg={6}
-                        xl={6}
-                      >
-                        <p className="text-align-right">Company nation</p>
+                        <p className="text-align-right"><IntlMessages id="account.profile.edit.information.address.update.companynation" /></p>
                       </Col>
                       <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                         <FormItem {...formItemLayout}>
@@ -254,11 +218,11 @@ class Info extends React.Component {
                             rules: [
                               {
                                 required: true,
-                                message: "Enter your company nation!"
+                                message: <IntlMessages id="account.profile.edit.information.address.update.companynation.msg.error" />
                               }
                             ]
                           })(
-                            <Select placeholder="Company nation">
+                            <Select placeholder={<IntlMessages id="account.profile.edit.information.address.update.companynation" />}>
                               <Option value="vn">Việt Nam</Option>
                               <Option value="usa">America</Option>
                               <Option value="rus">Russia</Option>
@@ -281,7 +245,7 @@ class Info extends React.Component {
                         lg={6}
                         xl={6}
                       >
-                        <p className="text-align-right">Quận/ Huyện</p>
+                        <p className="text-align-right"><IntlMessages id="account.profile.edit.information.address.update.companydistrict" /></p>
                       </Col>
                       <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                         <FormItem {...formItemLayout}>
@@ -289,15 +253,43 @@ class Info extends React.Component {
                             rules: [
                               {
                                 required: true,
-                                message: "Enter your company district!"
+                                message: <IntlMessages id="account.profile.edit.information.address.update.companydistrict.msg.error" />
                               }
                             ]
                           })(
                             <Cascader
-                              placeholder="Quận/ Huyện"
+                              placeholder=""
                               options={residences}
                             />
                           )}
+                        </FormItem>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}
+                        xs={24}
+                        sm={24}
+                        md={6}
+                        lg={6}
+                        xl={6}
+                      >
+                        <p className="text-align-right"><IntlMessages id="account.profile.edit.information.address.update.companyaddress" /></p>
+                      </Col>
+                      <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+                        <FormItem {...formItemLayout}>
+                          {getFieldDecorator("company_address", {
+                            rules: [
+                              {
+                                required: true,
+                                message: <IntlMessages id="account.profile.edit.information.address.update.companyaddress.msg.error" />
+                              }
+                            ]
+                          })(<Input placeholder="" />)}
                         </FormItem>
                       </Col>
                     </Row>
@@ -313,7 +305,7 @@ class Info extends React.Component {
                         onClick={this.handleCancel}
                         style={{ marginBottom: "0 !important" }}
                       >
-                        Cancel
+                        <IntlMessages id="general.btn.cancel" />
                       </Button>
                       <Button
                         loading={this.state.loading ? true : false}
@@ -321,7 +313,7 @@ class Info extends React.Component {
                         type="primary"
                         style={{ marginBottom: "0 !important" }}
                       >
-                        Confirm
+                        <IntlMessages id="general.btn.confirm" />
                       </Button>
                     </div>
                   </Form>
@@ -347,18 +339,18 @@ class Info extends React.Component {
                     : profile.company_website}
                 </a>
               ) : (
-                <Input
-                  onChange={this.onChangeInput}
-                  addonBefore={selectBefore}
-                  size="small"
-                  className="d-inline-block w-65-i"
-                  defaultValue={
-                    this.state.website.company_website
-                      ? this.state.website.company_website
-                      : profile.company_website
-                  }
-                />
-              )}
+                  <Input
+                    onChange={this.onChangeInput}
+                    addonBefore={selectBefore}
+                    size="small"
+                    className="d-inline-block w-65-i"
+                    defaultValue={
+                      this.state.website.company_website
+                        ? this.state.website.company_website
+                        : profile.company_website
+                    }
+                  />
+                )}
               <span
                 className="d-inline-block m-l-1  gx-text-primary"
                 onClick={() => this.changeWebsiteToEdit()}
@@ -369,12 +361,12 @@ class Info extends React.Component {
                     className="cursor-pointer cursor-pointer--zoom"
                   />
                 ) : (
-                  <Icon
-                    onClick={() => this.onSaveData()}
-                    className="size-4 cursor-pointer cursor-pointer--zoom"
-                    type="check-circle"
-                  />
-                )}
+                    <Icon
+                      onClick={() => this.onSaveData()}
+                      className="size-4 cursor-pointer cursor-pointer--zoom"
+                      type="check-circle"
+                    />
+                  )}
               </span>
             </h5>
           </Col>
