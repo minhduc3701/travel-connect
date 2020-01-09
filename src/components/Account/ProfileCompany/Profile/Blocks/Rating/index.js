@@ -60,20 +60,18 @@ class Rating extends React.Component {
 
   render() {
     let { Account } = this.props.profile;
-    // console.log(Account);
-
     const data02 = [
-      { name: "Tệ", value: Account.company_rating_bad },
-      { name: "Chưa tốt", value: Account.company_rating_fail },
-      { name: "Bình thường", value: Account.company_rating_normal },
-      { name: "Tốt", value: Account.company_rating_good },
-      { name: "Tuyệt vời", value: Account.company_rating_great }
+      { name: <IntlMessages id="account.profile.rating.unit.bad" />, value: Account.company_rating_bad },
+      { name: <IntlMessages id="account.profile.rating.unit.notgood" />, value: Account.company_rating_fail },
+      { name: <IntlMessages id="account.profile.rating.unit.normal" />, value: Account.company_rating_normal },
+      { name: <IntlMessages id="account.profile.rating.unit.good" />, value: Account.company_rating_good },
+      { name: <IntlMessages id="account.profile.rating.unit.great" />, value: Account.company_rating_great }
     ];
 
     return (
       <div className="block-w-nb" id="nav_rating">
         <Tabs defaultActiveKey="1" tabPosition="top">
-          <TabPane tab={<IntlMessages id="company.rating" />} key="1">
+          <TabPane tab={<IntlMessages id="account.profile.rating" />} key="1">
             <Row>
               <Col xl={14} lg={14} md={14} sm={24} xs={24}>
                 <ResponsiveContainer width="100%" height={300}>
@@ -108,16 +106,16 @@ class Rating extends React.Component {
                   }}
                 >
                   <h2 className="h4 gx-mb-2 ">
-                    Tổng: {Account.company_rating} Đánh giá
+                    <IntlMessages id="general.total" />: {Account.company_rating} <IntlMessages id="account.profile.rating" />
                   </h2>
                   <br />
-                  <p className="gx-text-grey">Năm 2019</p>
+                  <p className="gx-text-grey"><IntlMessages id="general.year" /> 2019</p>
                   <Detail Account={Account} />
                 </div>
               </Col>
             </Row>
           </TabPane>
-          <TabPane tab={<IntlMessages id="product.cat.info.comment" />} key="2">
+          <TabPane tab={<IntlMessages id="account.profile.comment" />} key="2">
             {this.state.viewAll === false ? (
               <Row>
                 <Col
@@ -134,76 +132,65 @@ class Rating extends React.Component {
                       className="view-all-comment gx-link "
                       onClick={() => this.viewAll()}
                     >
-                      Tất cả đánh giá
+                      <IntlMessages id="general.all" /> <IntlMessages id="account.profile.comment" />
                     </p>
                   </div>
                 </Col>
               </Row>
             ) : (
-              <Row>
-                <Col xl={24} lg={24} md={24} sm={24} xs={24}>
-                  <div className="p-3 m-b-3 bg-color-white bor-rad-6">
-                    <Button
-                      onClick={() => this.closeViewAll()}
-                      style={{ height: 30 }}
-                    >
-                      <i className="icon icon-arrow-left"></i>
-                    </Button>
-                    <Row>
-                      <Col xl={10} lg={10} md={10} sm={24} xs={24}>
-                        <Select
-                          showSearch
-                          className="w-90"
-                          placeholder="Select a service"
-                          defaultValue="1"
-                        >
-                          <Option value="1">Liên quan nhất</Option>
-                          <Option value="2">Mới nhất</Option>
-                        </Select>
-                      </Col>
-                      <Col xl={10} lg={10} md={10} sm={24} xs={24}>
-                        <Select
-                          showSearch
-                          className="w-90"
-                          placeholder="Select a type mail"
-                          defaultValue="1"
-                        >
-                          <Option value="1">Tất cả xếp hạng</Option>
-                          <Option value="2">Tuyệt vời</Option>
-                          <Option value="3">Tốt</Option>
-                          <Option value="4">Bình thường</Option>
-                          <Option value="5">Chưa tốt</Option>
-                          <Option value="6">Tệ</Option>
-                        </Select>
-                      </Col>
-
-                      <Col xl={4} lg={4} md={4} sm={24} xs={24}>
-                        <div className="text-align-center d-block">
-                          <Button
-                            className=""
-                            style={{
-                              backgroundColor: "#038FDE",
-                              color: "white"
-                            }}
+                <Row>
+                  <Col xl={24} lg={24} md={24} sm={24} xs={24}>
+                    <div className="p-3 m-b-3 bg-color-white bor-rad-6">
+                      <Button
+                        onClick={() => this.closeViewAll()}
+                        style={{ height: 30 }}
+                      >
+                        <i className="icon icon-arrow-left"></i>
+                      </Button>
+                      <Row>
+                        <Col xl={10} lg={10} md={10} sm={24} xs={24}>
+                          <Select
+                            showSearch
+                            className="w-90"
+                            placeholder="Select a type mail"
+                            defaultValue="1"
                           >
-                            Lọc
-                          </Button>
-                        </div>
-                      </Col>
-                    </Row>
-                    <br />
-                    <div style={{ height: 300, overflow: hidden }}>
-                      <ProductComment Account={Account} />
-                      <Pagination
-                        defaultCurrent={1}
-                        total={50}
-                        style={{ marginTop: 10, float: "right" }}
-                      />
+                            <Option value="1"><IntlMessages id="general.all" /> <IntlMessages id="account.profile.comment" /></Option>
+                            <Option value="2"><IntlMessages id="account.profile.comment.filter.rating.unit.great" /></Option>
+                            <Option value="3"><IntlMessages id="account.profile.comment.filter.rating.unit.good" /></Option>
+                            <Option value="4"><IntlMessages id="account.profile.comment.filter.rating.unit.normal" /></Option>
+                            <Option value="5"><IntlMessages id="account.profile.comment.filter.rating.unit.notgood" /></Option>
+                            <Option value="6"><IntlMessages id="account.profile.comment.filter.rating.unit.bad" /></Option>
+                          </Select>
+                        </Col>
+                        <Col xl={4} lg={4} md={4} sm={24} xs={24}>
+                          <div className="text-align-center">
+                            <Button
+                              className=""
+                              style={{
+                                backgroundColor: "#038FDE",
+                                color: "white"
+                              }}
+                            >
+                              <IntlMessages id="account.profile.comment.filter" />
+                            </Button>
+                          </div>
+                        </Col>
+                        <Col xl={10} lg={10} md={10} sm={24} xs={24}></Col>
+                      </Row>
+                      <br />
+                      <div style={{ height: 300, overflow: hidden }}>
+                        <ProductComment Account={Account} />
+                        <Pagination
+                          defaultCurrent={1}
+                          total={50}
+                          style={{ marginTop: 10, float: "right" }}
+                        />
+                      </div>
                     </div>
-                  </div>
-                </Col>
-              </Row>
-            )}
+                  </Col>
+                </Row>
+              )}
           </TabPane>
         </Tabs>
       </div>

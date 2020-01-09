@@ -71,7 +71,7 @@ class CallContact extends Component {
           onClick={() => this.showModal(Account)}
         >
           <i className="icon icon-forward gx-fs-sm gx-mr-2" />
-          Contract
+          <IntlMessages id="account.profile.contact.employee.connect" />
         </span>
         <Modal
           visible={this.state.visible2}

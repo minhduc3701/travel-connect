@@ -80,7 +80,7 @@ const App = ({ match }) => (
             )}
           />
           <Route
-            path={`${match.url}company`}
+            path={`${match.url}profile`}
             component={asyncComponent(() =>
               import("../components/Account/ProfileCompany")
             )}

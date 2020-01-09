@@ -2,6 +2,7 @@ import React from "react";
 import { Icon } from "antd";
 // import { notiChange } from "util/Notification";
 import { Link } from "react-router-dom";
+import IntlMessages from "util/IntlMessages";
 
 class AddEvent extends React.Component {
   state = { events: null };
@@ -28,8 +29,8 @@ class AddEvent extends React.Component {
           >
             <Icon type="plus" className="m-r-1" />
             {this.state.events
-              ? "Create new event"
-              : "You dont have any event, Create now"}
+              ? <IntlMessages id="account.profile.edit.event.guide" />
+              : <IntlMessages id="account.profile.edit.event.guide.empty" />}
           </h2>
         </div>
       </Link>

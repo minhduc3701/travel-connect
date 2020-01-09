@@ -1,16 +1,14 @@
 import React from "react";
 import { Table } from "antd";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
-
-import CallContact from "./CallContact";
+import IntlMessages from "util/IntlMessages";
 
 const Contact = props => {
   let { profile } = props;
-  // console.log(profile);
 
   const columns = [
     {
-      title: "Employee Holder Name",
+      title: <IntlMessages id="account.profile.contact.employee.name" />,
       dataIndex: "image",
       render: (text, profile) => {
         return (
@@ -26,24 +24,27 @@ const Contact = props => {
       }
     },
     {
-      title: "Job",
+      title: <IntlMessages id="account.profile.contact.employee.job" />,
       dataIndex: "transfer",
       render: (text, profile) => {
         return <span className="gx-text-grey">{profile.member_job}</span>;
       }
     },
     {
-      title: "Action",
+      title: <IntlMessages id="account.profile.contact.employee.action" />,
       dataIndex: "status",
       render: text => {
-        return <CallContact button_text={text} />;
+        return <span className="gx-text-primary gx-pointer">
+          <i className="icon icon-forward gx-fs-sm gx-mr-2" />
+          <IntlMessages id="account.profile.contact.employee.connect" />
+        </span>;
       }
     }
   ];
 
   return (
     <div className="block-w-nb disable_layer_block" id="nav_contact">
-      <WidgetHeader title="Contact" />
+      <WidgetHeader title={<IntlMessages id="account.profile.contact" />} />
       <div className="gx-table-responsive">
         <Table
           className="gx-table-no-bordered"

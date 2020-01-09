@@ -51,7 +51,7 @@ class Biography extends React.Component {
       <div className="block-w-nb">
         <WidgetHeader
           styleName="d-flex align-items-flex-end"
-          title={<IntlMessages id="company.introduction" />}
+          title={<IntlMessages id="account.profile.introduction" />}
           extra={
             <div className="m-l-1" onClick={() => this.changeBiographyToEdit()}>
               {this.state.stt_biography === false ? (
@@ -60,12 +60,12 @@ class Biography extends React.Component {
                   className="cursor-pointer cursor-pointer--zoom"
                 />
               ) : (
-                <Icon
-                  onClick={() => this.onSaveData()}
-                  className="size-4 cursor-pointer cursor-pointer--zoom"
-                  type="check-circle"
-                />
-              )}
+                  <Icon
+                    onClick={() => this.onSaveData()}
+                    className="size-4 cursor-pointer cursor-pointer--zoom"
+                    type="check-circle"
+                  />
+                )}
             </div>
           }
         />
@@ -77,12 +77,6 @@ class Biography extends React.Component {
           {!introData.length ? (
             <p className="gx-font-weight-light">
               {profile.company_introduction}
-              {/* <i className="icon icon-sweet-alert"></i>{" "}
-              <IntlMessages id="guide.company.intro" />
-              <b>
-                <i className="icon icon-setting"></i>{" "}
-                <IntlMessages id="company.setting" />
-              </b> */}
             </p>
           ) : this.state.stt_biography === false ? (
             <p style={{ lineHeight: "1.5em" }}>
@@ -91,18 +85,17 @@ class Biography extends React.Component {
                 : profile.company_introduction}
             </p>
           ) : (
-            <TextArea
-              // value={this.state.intro}
-              defaultValue={
-                this.state.intro.company_introduction
-                  ? this.state.intro.company_introduction
-                  : profile.company_introduction
-              }
-              onChange={this.onChangeTextArea}
-              placeholder="Introduction"
-              autoSize={{ minRows: 8, maxRows: 10 }}
-            />
-          )}
+                <TextArea
+                  defaultValue={
+                    this.state.intro.company_introduction
+                      ? this.state.intro.company_introduction
+                      : profile.company_introduction
+                  }
+                  onChange={this.onChangeTextArea}
+                  placeholder="Introduction"
+                  autoSize={{ minRows: 8, maxRows: 10 }}
+                />
+              )}
         </div>
         <div
           className="gx-text-primary gx-fs-md gx-pointer gx-mb-4 gx-d-block gx-d-sm-none p-3 text-align-right"
@@ -110,23 +103,13 @@ class Biography extends React.Component {
         >
           {this.state.stt_biography === false ? (
             <div className="d-inline-block">
-              {" "}
-              <Icon
-                type="edit"
-                className="cursor-pointer cursor-pointer--zoom"
-              />{" "}
-              Edit{" "}
+              <Icon type="edit" className="cursor-pointer cursor-pointer--zoom" /> <IntlMessages id="general.btn.edit" />
             </div>
           ) : (
-            <div className="d-inline-block">
-              {" "}
-              <Icon
-                className="size-4 cursor-pointer cursor-pointer--zoom"
-                type="check-circle"
-              />{" "}
-              Save{" "}
-            </div>
-          )}
+              <div className="d-inline-block">
+                <Icon className="size-4 cursor-pointer cursor-pointer--zoom" type="check-circle" /> <IntlMessages id="general.btn.save" />
+              </div>
+            )}
         </div>
       </div>
     );

@@ -2,28 +2,29 @@ import React, { Component } from "react";
 import { Col, Icon } from "antd";
 import { Button, Dropdown, Menu } from "antd";
 import Info from "./Info";
+import IntlMessages from "util/IntlMessages";
 import BannerBackground from "./BannerBackground";
 import AvatarCompany from "./AvatarCompany";
 const btn_notification_menu = (
   <Menu>
     <Menu.Item>
       <Button type="link" className="m-b-0-i" size="small">
-        All
+        <IntlMessages id="account.profile.notifications.get.all" />
       </Button>
     </Menu.Item>
     <Menu.Item>
       <Button type="link" className="m-b-0-i" size="small">
-        New product only
+        <IntlMessages id="account.profile.notifications.get.product" />
       </Button>
     </Menu.Item>
     <Menu.Item>
       <Button type="link" className="m-b-0-i" size="small">
-        Event only
+        <IntlMessages id="account.profile.notifications.get.event" />
       </Button>
     </Menu.Item>
     <Menu.Item>
       <Button type="link" className="m-b-0-i" size="small">
-        Off
+        <IntlMessages id="account.profile.notifications.get.off" />
       </Button>
     </Menu.Item>
   </Menu>
@@ -32,7 +33,6 @@ const btn_notification_menu = (
 class Banner extends Component {
   render() {
     let { profile } = this.props;
-    // console.log(profile);
     return (
       <div className="m-b-5">
         <BannerBackground profile={this.props} />
@@ -47,7 +47,7 @@ class Banner extends Component {
                     {profile.company_followers}
                   </h5>
                   <h5 className=" gx-text-grey m-b-0-i">
-                    <Icon type="eye" className="p-r-1" />{" "}
+                    <Icon type="eye" className="p-r-1" />
                     {profile.company_views}
                   </h5>
                 </div>
@@ -68,7 +68,7 @@ class Banner extends Component {
             <Button className="m-b-0-i d-inline-block m-r-3-i m-t-3-i p-h-1-i">
               <Icon type="book" className="p-r-1" />
               <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                Follow
+                <IntlMessages id="account.profile.follow" />
               </span>
             </Button>
             <Dropdown
@@ -79,7 +79,7 @@ class Banner extends Component {
               <Button className="m-b-0-i p-h-1-i">
                 <Icon type="bell" className="p-r-1" />
                 <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                  Notification
+                  <IntlMessages id="account.profile.notifications.get" />
                 </span>
               </Button>
             </Dropdown>

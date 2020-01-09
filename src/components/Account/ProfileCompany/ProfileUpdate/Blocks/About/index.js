@@ -24,43 +24,6 @@ const formItemLayout = {
 };
 const FormItem = Form.Item;
 
-export const ticketList = [
-  {
-    id: 2,
-    avatar: "https://via.placeholder.com/150x150",
-    name: "Trần Thị B",
-    job: [
-      <span key={14} className="gx-link">
-        {/* Nhân viên Kinh doanh */}
-        <IntlMessages id="seller" />
-      </span>
-    ],
-    status: 1
-  },
-  {
-    id: 3,
-    avatar: "https://via.placeholder.com/150x150",
-    name: "Lê Anh C",
-    job: [
-      <span key={15} className="gx-link">
-        <IntlMessages id="manager" />
-      </span>
-    ],
-    status: 4
-  },
-  {
-    id: 4,
-    avatar: "https://via.placeholder.com/150x150",
-    name: "Nguyễn Thanh Tùng",
-    job: [
-      <span key={16} className="gx-link">
-        <IntlMessages id="manager" />
-      </span>
-    ],
-    status: 4
-  }
-];
-
 const OPTIONS = [
   "Lữ hành quốc tế Outbound",
   "Lữ hành nội địa",
@@ -90,8 +53,6 @@ class About extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
-        // this.props.getState(this.state.step);
         this.setState({ loading: true });
         setTimeout(() => {
           this.setState(
@@ -116,7 +77,6 @@ class About extends React.Component {
   };
 
   normFile = e => {
-    // console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -153,7 +113,6 @@ class About extends React.Component {
     fileList.forEach(file => {
       formData.append("image-", file);
     });
-    // console.log(fileList);
     CallApi("user/7oZGSZGGLfaFZNn3FYNX5PJS0292/images", "POST", formData)
       .then(res => console.log(res))
       .catch(err => console.log(err));
@@ -172,7 +131,7 @@ class About extends React.Component {
     const aboutList = [
       {
         id: 1,
-        title: <IntlMessages id="brandname" />,
+        title: <IntlMessages id="account.profile.about.brand" />,
         icon: "company",
         userList: "",
         desc: profile.company_brandname,
@@ -180,35 +139,35 @@ class About extends React.Component {
       },
       {
         id: 2,
-        title: <IntlMessages id="establishdate" />,
+        title: <IntlMessages id="account.profile.about.establishdate" />,
         icon: "schedule",
         userList: "",
         desc: profile.company_establish
       },
       {
         id: 6,
-        title: <IntlMessages id="licence" />,
+        title: <IntlMessages id="account.profile.about.licence" />,
         icon: "inputnumber",
         userList: "",
         desc: profile.company_licence
       },
       {
         id: 3,
-        title: <IntlMessages id="step.information.address" />,
+        title: <IntlMessages id="account.profile.about.address" />,
         icon: "location",
         userList: "",
         desc: profile.company_address
       },
       {
         id: 4,
-        title: <IntlMessages id="step.product" />,
+        title: <IntlMessages id="account.profile.about.product" />,
         icon: "product-list",
         userList: "",
         desc: profile.company_service
       },
       {
         id: 5,
-        title: <IntlMessages id="businesstype" />,
+        title: <IntlMessages id="account.profile.about.businesstype" />,
         icon: "company",
         userList: "",
         desc: profile.company_business
@@ -241,7 +200,7 @@ class About extends React.Component {
       <div className="block-w-nb" id="nav_introduction">
         <WidgetHeader
           styleName="d-flex align-items-flex-end"
-          title={<IntlMessages id="company.about" />}
+          title={<IntlMessages id="account.profile.edit.about.update" />}
           extra={
             <div className="m-l-1" onClick={() => this.showModal()}>
               {this.state.visible === false ? (
@@ -250,11 +209,11 @@ class About extends React.Component {
                   className="cursor-pointer cursor-pointer--zoom"
                 />
               ) : (
-                <Icon
-                  className="size-4 cursor-pointer cursor-pointer--zoom"
-                  type="check-circle"
-                />
-              )}
+                  <Icon
+                    className="size-4 cursor-pointer cursor-pointer--zoom"
+                    type="check-circle"
+                  />
+                )}
             </div>
           }
         />
@@ -292,7 +251,7 @@ class About extends React.Component {
                   xl={6}
                 >
                   <p className="text-align-right">
-                    {<IntlMessages id="companyName" />}
+                    {<IntlMessages id="account.profile.edit.about.update.companyname" />}
                   </p>
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
@@ -301,7 +260,7 @@ class About extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: "Enter your company name!"
+                          message: <IntlMessages id="account.profile.edit.about.update.companyname.msg.error" />
                         }
                       ]
                     })(<Input style={{ width: "80%" }} placeholder="Name" />)}
@@ -321,7 +280,7 @@ class About extends React.Component {
                   lg={6}
                   xl={6}
                 >
-                  <p className="text-align-right">Brand name</p>
+                  <p className="text-align-right"><IntlMessages id="account.profile.edit.about.update.brandname" /></p>
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                   <FormItem {...formItemLayout}>
@@ -329,7 +288,7 @@ class About extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: "Enter your company brandname!"
+                          message: <IntlMessages id="account.profile.edit.about.update.brandname.msg.error" />
                         }
                       ]
                     })(
@@ -351,7 +310,7 @@ class About extends React.Component {
                   lg={6}
                   xl={6}
                 >
-                  <p className="text-align-right">License Number</p>
+                  <p className="text-align-right"><IntlMessages id="account.profile.edit.about.update.licensenumber" /></p>
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                   <FormItem {...formItemLayout}>
@@ -359,7 +318,7 @@ class About extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: "Enter your company license!"
+                          message: <IntlMessages id="account.profile.edit.about.update.licensenumber.msg.error" />
                         }
                       ]
                     })(
@@ -381,7 +340,7 @@ class About extends React.Component {
                   lg={6}
                   xl={6}
                 >
-                  <p className="text-align-right">Lĩnh vực</p>
+                  <p className="text-align-right"><IntlMessages id="account.profile.edit.about.update.businesstype" /></p>
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                   <FormItem {...formItemLayout}>
@@ -389,7 +348,7 @@ class About extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: "Enter your company business!"
+                          message: <IntlMessages id="account.profile.edit.about.update.businesstype.msg.error" />
                         }
                       ]
                     })(
@@ -423,7 +382,7 @@ class About extends React.Component {
                   lg={6}
                   xl={6}
                 >
-                  <p className="text-align-right">License Image</p>
+                  <p className="text-align-right"><IntlMessages id="account.profile.edit.about.update.licenseimage" /></p>
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                   <FormItem {...formItemLayout}>
@@ -433,18 +392,16 @@ class About extends React.Component {
                     })(
                       <Upload {...props}>
                         <Button style={{ margin: 0 }}>
-                          <Icon type="upload" /> Click to Upload
+                          <Icon type="upload" /> <IntlMessages id="account.profile.edit.about.update.licenseimage.btn.upload" />
                         </Button>
                       </Upload>
                     )}
                   </FormItem>
                 </Col>
               </Row>
-              <h5 style={{ color: "red" }}>
-                * Những thông tin này đã được xác minh. Nếu bạn muốn chỉnh sửa
-                hãy click vào nút <b>Send Request</b> và điền thông tin mà bạn
-                muốn chỉnh sửa vào form *
-              </h5>
+              <p className="text-align-center gx-text-red">
+                <IntlMessages id="account.profile.edit.about.update.guide" />
+              </p>
               <hr />
               <div
                 className=" d-flex"
@@ -458,7 +415,7 @@ class About extends React.Component {
                   onClick={this.handleCancel}
                   style={{ marginBottom: "0 !important" }}
                 >
-                  Return
+                  <IntlMessages id="general.btn.return" />
                 </Button>
                 <Button
                   loading={this.state.loading ? true : false}
@@ -466,7 +423,7 @@ class About extends React.Component {
                   type="primary"
                   style={{ marginBottom: "0 !important" }}
                 >
-                  Send Request
+                  <IntlMessages id="general.btn.sentrequest" />
                 </Button>
               </div>
             </Form>

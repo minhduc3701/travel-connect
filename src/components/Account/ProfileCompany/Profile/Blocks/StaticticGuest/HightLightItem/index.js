@@ -16,7 +16,6 @@ class HightLightItem extends React.Component {
 							</Tooltip>
 						</h5>
 						<h4 className={`gx-font-weight-medium gx-text-${this.props.colorTitle}`}>{this.props.values}</h4>
-						{/* <p className="gx-text-grey gx-mb-0" >{this.props.desc}</p> */}
 					</div>
 				</div>
 			</div>
