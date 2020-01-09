@@ -125,8 +125,3 @@ const mapDispatchToProps = (dispatch, props) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-// export default connect(mapStateToProps, {
-//   setThemeType,
-//   onNavStyleChange,
-//   onLayoutTypeChange
-// })(App);

@@ -23,11 +23,21 @@ import {
   actSaveAddressRequest,
   actCleanReduxStore,
   actSaveMediaRequest
-  // actSaveBackgroundRequest,
-  // actSaveLogoRequest
 } from "../../../../appRedux/actions/CompanyProfile";
+import { actFetchActionRequest } from "../../../../appRedux/actions/Account";
 
 class ProfileUpdate extends Component {
+  state = {
+    companyId: null
+  };
+
+  componentWillMount() {
+    let cId = JSON.parse(localStorage.getItem("user_info"));
+    this.setState({
+      companyId: cId.company_id
+    });
+  }
+
   componentWillUnmount() {
     let { CompanyProfile } = this.props.profile;
     if (CompanyProfile[0]) {
@@ -55,6 +65,7 @@ class ProfileUpdate extends Component {
       console.log("Nothing Change");
     }
     this.props.actCleanStore();
+    // this.props.actFetchDataAgain();
   }
 
   onSendImageMedia = fileList => {
@@ -63,7 +74,7 @@ class ProfileUpdate extends Component {
       formData.append("image-", file);
     });
     CallApi_ACCOUNT(
-      "VN/companies/eDLBQUwHQck7eIIFyjiS/medias",
+      `VN/companies/${this.state.companyId}/medias`,
       "POST",
       formData
     )
@@ -77,7 +88,7 @@ class ProfileUpdate extends Component {
       formData.append("image-", file);
     });
     CallApi_ACCOUNT(
-      "VN/companies/eDLBQUwHQck7eIIFyjiS/backgrounds",
+      `VN/companies/${this.state.companyId}/backgrounds`,
       "PUT",
       formData
     )
@@ -89,15 +100,25 @@ class ProfileUpdate extends Component {
     logo.forEach(file => {
       formData.append("image-", file);
     });
-    CallApi_ACCOUNT("VN/companies/eDLBQUwHQck7eIIFyjiS/logos", "PUT", formData)
+    CallApi_ACCOUNT(
+      `VN/companies/${this.state.companyId}/logos`,
+      "PUT",
+      formData
+    )
       .then(res => console.log(res))
       .catch(err => console.log(err));
   };
 
   render() {
     let { Account } = this.props.profile;
-    let { CompanyProfile } = this.props.profile;
-    console.log(CompanyProfile);
+    let warning = null;
+    for (const key in Account) {
+      if (Account[key] !== "") {
+        warning = null;
+      } else {
+        warning = <Processing Account={Account} />;
+      }
+    }
     return (
       <div className="gx-profile-content">
         <Banner profile={Account} />
@@ -116,7 +137,7 @@ class ProfileUpdate extends Component {
             <Rating profile={Account} />
           </Col>
           <Col xl={8} lg={8} md={24} sm={24} xs={24}>
-            <Processing />
+            {warning}
             <StaticticGuest profile={Account} />
             <Friends profile={Account} friendList={friendList} />
             <Socials profile={Account} />
@@ -151,15 +172,12 @@ const mapDispatchToProp = (dispatch, props) => {
     actCleanStore: () => {
       dispatch(actCleanReduxStore());
     },
-    actSendMediaToServer: media => {
-      dispatch(actSaveMediaRequest(media));
-    }
-    // actSendLogoToServer: logo => {
-    //   dispatch(actSaveLogoRequest(logo));
+    // actSendMediaToServer: media => {
+    //   dispatch(actSaveMediaRequest(media));
     // },
-    // actSendBackgroundToServer: background => {
-    //   dispatch(actSaveBackgroundRequest(background));
-    // }
+    actFetchDataAgain: () => {
+      dispatch(actFetchActionRequest());
+    }
   };
 };
 
