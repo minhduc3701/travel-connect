@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import doneChange from "util/Notification";
 import { Upload, Icon, Modal } from "antd";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
+import IntlMessages from "util/IntlMessages";
 import Photos from "./Photos";
 import { connect } from "react-redux";
 import { actSaveMedia } from "appRedux/actions/CompanyProfile";
@@ -21,42 +22,6 @@ class Media extends Component {
     stt_media: false,
     previewVisible: false,
     previewImage: "",
-    // fileList: [
-    //   {
-    //     uid: "-1",
-    //     name: "image.png",
-    //     status: "done",
-    //     url:
-    //       "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-    //   },
-    //   {
-    //     uid: "-2",
-    //     name: "image.png",
-    //     status: "done",
-    //     url:
-    //       "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-    //   },
-    //   {
-    //     uid: "-3",
-    //     name: "image.png",
-    //     status: "done",
-    //     url:
-    //       "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-    //   },
-    //   {
-    //     uid: "-4",
-    //     name: "image.png",
-    //     status: "done",
-    //     url:
-    //       "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-    //   }
-    //   // ,
-    //   // {
-    //   //   uid: "-5",
-    //   //   name: "image.png",
-    //   //   status: "error"
-    //   // }
-    // ],
     file: {
       company_medias: []
     },
@@ -64,7 +29,6 @@ class Media extends Component {
   };
 
   normFile = e => {
-    // console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -99,13 +63,12 @@ class Media extends Component {
   };
 
   render() {
-    // console.log(this.state);
     let { profile } = this.props;
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
       <div>
         <Icon type="plus" />
-        <div className="ant-upload-text">Upload</div>
+        <div className="ant-upload-text"><IntlMessages id="general.btn.upload" /></div>
       </div>
     );
 
@@ -137,7 +100,7 @@ class Media extends Component {
       <div className="block-w-nb" id="nav_media">
         <WidgetHeader
           styleName="d-flex align-items-flex-end"
-          title="Media"
+          title={<IntlMessages id="account.profile.media" />}
           extra={
             <div className="m-l-1" onClick={() => this.changeMediaToEdit()}>
               {this.state.stt_media === false ? (
@@ -146,12 +109,12 @@ class Media extends Component {
                   className="cursor-pointer cursor-pointer--zoom"
                 />
               ) : (
-                <Icon
-                  onClick={() => this.onDoneChangeMedia()}
-                  className="size-4 cursor-pointer cursor-pointer--zoom"
-                  type="check-circle"
-                />
-              )}
+                  <Icon
+                    onClick={() => this.onDoneChangeMedia()}
+                    className="size-4 cursor-pointer cursor-pointer--zoom"
+                    type="check-circle"
+                  />
+                )}
             </div>
           }
         />
@@ -160,57 +123,47 @@ class Media extends Component {
             {profile.company_medias ? (
               <Photos photoList={profile.company_medias} />
             ) : (
-              <p>Album media is empty!</p>
-            )}
+                <p>Album media is empty!</p>
+              )}
             {/* <p className="gx-text-primary gx-fs-md gx-pointer gx-d-block text-align-right">
                                     Go to gallery
                                     <i className={`icon icon-long-arrow-right gx-fs-xxl gx-ml-2 gx-d-inline-flex gx-vertical-align-middle`} />
                                 </p> */}
           </div>
         ) : (
-          <div className="clearfix">
-            <Upload
-              {...props}
-              listType="picture-card"
-              fileList={fileList}
-              onPreview={this.handlePreview}
-              onChange={this.handleChange}
-            >
-              {fileList.length >= 8 ? null : uploadButton}
-            </Upload>
-            <Modal
-              visible={previewVisible}
-              footer={null}
-              onCancel={this.handleCancel}
-            >
-              <img alt="example" style={{ width: "100%" }} src={previewImage} />
-            </Modal>
-          </div>
-        )}
+            <div className="clearfix">
+              <Upload
+                {...props}
+                listType="picture-card"
+                fileList={fileList}
+                onPreview={this.handlePreview}
+                onChange={this.handleChange}
+              >
+                {fileList.length >= 8 ? null : uploadButton}
+              </Upload>
+              <Modal
+                visible={previewVisible}
+                footer={null}
+                onCancel={this.handleCancel}
+              >
+                <img alt="example" style={{ width: "100%" }} src={previewImage} />
+              </Modal>
+            </div>
+          )}
         <div
           className="gx-text-primary gx-fs-md gx-pointer gx-mb-4 gx-d-block gx-d-sm-none p-3 text-align-right"
           onClick={() => this.changeMediaToEdit()}
         >
           {this.state.stt_media === false ? (
             <div className="d-inline-block">
-              {" "}
-              <Icon
-                type="edit"
-                className="cursor-pointer cursor-pointer--zoom"
-              />{" "}
-              Edit{" "}
+              <Icon type="edit" className="cursor-pointer cursor-pointer--zoom" /> <IntlMessages id="general.btn.edit" />
+
             </div>
           ) : (
-            <div className="d-inline-block">
-              {" "}
-              <Icon
-                onClick={() => this.onSendDataStore()}
-                className="size-4 cursor-pointer cursor-pointer--zoom"
-                type="check-circle"
-              />{" "}
-              Save{" "}
-            </div>
-          )}
+              <div className="d-inline-block">
+                <Icon onClick={() => this.onSendDataStore()} className="size-4 cursor-pointer cursor-pointer--zoom" type="check-circle" /> <IntlMessages id="general.btn.save" />
+              </div>
+            )}
         </div>
       </div>
     );

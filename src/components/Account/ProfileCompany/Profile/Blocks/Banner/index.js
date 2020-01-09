@@ -3,28 +3,28 @@ import { Col, Icon } from "antd";
 import { Button, Dropdown, Menu } from "antd";
 // import { Link } from "react-router-dom";
 import Info from "./Info";
-// import IntlMessages from "util/IntlMessages";
+import IntlMessages from "util/IntlMessages";
 
 const btn_notification_menu = (
   <Menu>
     <Menu.Item>
       <Button type="link" className="m-b-0-i" size="small">
-        All
+        <IntlMessages id="account.profile.notifications.get.all" />
       </Button>
     </Menu.Item>
     <Menu.Item>
       <Button type="link" className="m-b-0-i" size="small">
-        New product only
+        <IntlMessages id="account.profile.notifications.get.product" />
       </Button>
     </Menu.Item>
     <Menu.Item>
       <Button type="link" className="m-b-0-i" size="small">
-        Event only
+        <IntlMessages id="account.profile.notifications.get.event" />
       </Button>
     </Menu.Item>
     <Menu.Item>
       <Button type="link" className="m-b-0-i" size="small">
-        Off
+        <IntlMessages id="account.profile.notifications.get.off" />
       </Button>
     </Menu.Item>
   </Menu>
@@ -51,7 +51,6 @@ class Banner extends Component {
               <div className="aspect_box--inner aspect_box--square --circle block__banner__avatar--inner bg-color-white">
                 <img
                   src={Account.company_logo}
-                  // src="https://scontent.fhan5-5.fna.fbcdn.net/v/t1.0-1/p100x100/25442975_276028026257353_8090215628955438851_n.png?_nc_cat=101&_nc_oc=AQl2Y0toBu2NaUM4Da0Lkc69MePiriKQFnVbSOWplvE9VdbFPVp1sEiaftSAqjBIh2w&_nc_ht=scontent.fhan5-5.fna&oh=8c9443059fc00926ded386974e78813e&oe=5E78CCD3"
                   alt="banner"
                   className="aspect_box__img aspect_box__img--contain"
                 />
@@ -62,12 +61,10 @@ class Banner extends Component {
                 <div className="d-inline-block text-align-left">
                   <h5 className=" gx-text-grey m-b-0-i">
                     <Icon type="usergroup-add" className="p-r-1" />
-                    {/* 254 Followers */}
                     {Account.company_followers}
                   </h5>
                   <h5 className=" gx-text-grey m-b-0-i">
                     <Icon type="eye" className="p-r-1" />
-                    {/* 5.214 Views */}
                     {Account.company_views}
                   </h5>
                 </div>
@@ -88,7 +85,7 @@ class Banner extends Component {
             <Button className="m-b-0-i d-inline-block m-r-3-i m-t-3-i p-h-1-i">
               <Icon type="book" className="p-r-1" />
               <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                Follow
+                <IntlMessages id="account.profile.follow" />
               </span>
             </Button>
             <Dropdown
@@ -99,7 +96,7 @@ class Banner extends Component {
               <Button className="m-b-0-i p-h-1-i">
                 <Icon type="bell" className="p-r-1" />
                 <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                  Notification
+                  <IntlMessages id="account.profile.notifications.get" />
                 </span>
               </Button>
             </Dropdown>

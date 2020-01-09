@@ -1,0 +1,27 @@
+
+/* side bar*/
+.sidebar_menu .ant-layout-sider .ant-menu-submenu>.ant-menu.ant-menu-sub .ant-menu-item,
+.ant-drawer .ant-menu-submenu>.ant-menu.ant-menu-sub .ant-menu-item {
+    margin-left: -30px;
+}
+
+ul.ant-menu.sidebar_menu ul.ant-menu li.ant-menu-submenu>.ant-menu-submenu-title {
+    margin-left: -30px !important;
+}
+
+ul.ant-menu.sidebar_menu ul.ant-menu ul.ant-menu .ant-menu-item {
+    margin-left: -40px !important;
+}
+
+ul.ant-menu.sidebar_menu ul.ant-menu ul.ant-menu li.ant-menu-submenu {
+    margin-left: 15px !important;
+}
+
+.sidebar_menu .anticon {
+    line-height: 42px !important;
+}
+
+ul.ant-menu.sidebar_menu.ant-menu-dark .ant-menu-submenu-open .ant-menu-submenu-open .ant-menu-item > a {
+	color: #038fdd !important;
+}
+/* end side bar*/

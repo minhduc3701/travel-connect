@@ -22,7 +22,7 @@ function Friends({ friendList, profile }) {
     <div>
       {profile.company_communities ? (
         <div className="block-w-nb" id="nav_communities">
-          <WidgetHeader title={<IntlMessages id="company.communities" />} />
+          <WidgetHeader title={<IntlMessages id="account.profile.communities" />} />
           <Slider className="gx-slick-slider" {...settings}>
             {profile.company_communities.map((commu, index) => (
               <RoadMapItem key={index} data={commu} />
@@ -31,17 +31,17 @@ function Friends({ friendList, profile }) {
         </div>
       ) : (
         <div>
-          <WidgetHeader title={<IntlMessages id="company.communities" />} />
+            <WidgetHeader title={<IntlMessages id="account.profile.communities" />} />
           <div className="gx-pt-2">
             <ul className="gx-fnd-list gx-mb-0">
               <p className="gx-font-weight-light">
-                <i className="icon icon-sweet-alert"></i> You not have any
-                communities yet. You can join one in...
-              </p>
-            </ul>
+                  <i className="icon icon-sweet-alert"></i>
+                  <IntlMessages id="account.profile.communities.empty" />
+                </p>
+              </ul>
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   );
 

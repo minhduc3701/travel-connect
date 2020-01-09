@@ -1,7 +1,6 @@
 import React from "react";
 import ProductComment from "./ProductComment";
-import { Col, Row, Pagination, Tabs } from "antd";
-import { Select, Button } from "antd";
+import { Col, Row, Pagination, Tabs, Select, Button } from "antd";
 import { hidden } from "ansi-colors";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 
@@ -58,20 +57,18 @@ class Rating extends React.Component {
 
   render() {
     let { profile } = this.props;
-    // console.log(profile);
-
     const data02 = [
-      { name: "Tệ", value: profile.company_rating_bad },
-      { name: "Chưa tốt", value: profile.company_rating_fail },
-      { name: "Bình thường", value: profile.company_rating_normal },
-      { name: "Tốt", value: profile.company_rating_good },
-      { name: "Tuyệt vời", value: profile.company_rating_great }
-    ];
+      { name: <IntlMessages id="account.profile.rating.unit.bad" />, value: profile.company_rating_bad },
+      { name: <IntlMessages id="account.profile.rating.unit.notgood" />, value: profile.company_rating_fail },
+      { name: <IntlMessages id="account.profile.rating.unit.normal" />, value: profile.company_rating_normal },
+      { name: <IntlMessages id="account.profile.rating.unit.good" />, value: profile.company_rating_good },
+      { name: <IntlMessages id="account.profile.rating.unit.great" />, value: profile.company_rating_great }
+      ];
 
     return (
       <div className="block-w-nb disable_layer_block" id="nav_rating">
         <Tabs defaultActiveKey="1" tabPosition="top">
-          <TabPane tab={<IntlMessages id="company.rating" />} key="1">
+          <TabPane tab={<IntlMessages id="account.profile.rating" />} key="1">
             <Row>
               <Col xl={14} lg={14} md={14} sm={24} xs={24}>
                 <ResponsiveContainer width="100%" height={300}>
@@ -105,10 +102,10 @@ class Rating extends React.Component {
                   }}
                 >
                   <h2 className="h4 gx-mb-2 ">
-                    Tổng: {profile.company_rating} Đánh giá
+                    <IntlMessages id="general.total" />: {profile.company_rating} <IntlMessages id="account.profile.rating" />
                   </h2>
                   <br />
-                  <p className="gx-text-grey">Năm 2019</p>
+                  <p className="gx-text-grey"><IntlMessages id="general.year" /> 2019</p>
                   <div
                     style={{
                       width: "70%",
@@ -122,7 +119,7 @@ class Rating extends React.Component {
                         justifyContent: "space-between"
                       }}
                     >
-                      <span>Tệ :</span>
+                      <span><IntlMessages id="account.profile.rating.unit.bad" /> :</span>
                       <span
                         style={{
                           display: "inline-block",
@@ -141,7 +138,7 @@ class Rating extends React.Component {
                         justifyContent: "space-between"
                       }}
                     >
-                      <span>Chưa tốt :</span>
+                      <span><IntlMessages id="account.profile.rating.unit.notgood" /> :</span>
                       <span
                         style={{
                           display: "inline-block",
@@ -160,7 +157,7 @@ class Rating extends React.Component {
                         justifyContent: "space-between"
                       }}
                     >
-                      <span>Bình thường :</span>
+                      <span><IntlMessages id="account.profile.rating.unit.normal" /> :</span>
                       <span
                         style={{
                           display: "inline-block",
@@ -179,7 +176,7 @@ class Rating extends React.Component {
                         justifyContent: "space-between"
                       }}
                     >
-                      <span>Tốt :</span>
+                      <span><IntlMessages id="account.profile.rating.unit.good" /> :</span>
                       <span
                         style={{
                           display: "inline-block",
@@ -198,7 +195,7 @@ class Rating extends React.Component {
                         justifyContent: "space-between"
                       }}
                     >
-                      <span>Tuyệt vời :</span>
+                      <span><IntlMessages id="account.profile.rating.unit.great" /> :</span>
                       <span
                         style={{
                           display: "inline-block",
@@ -215,7 +212,7 @@ class Rating extends React.Component {
               </Col>
             </Row>
           </TabPane>
-          <TabPane tab={<IntlMessages id="product.cat.info.comment" />} key="2">
+          <TabPane tab={<IntlMessages id="account.profile.comment" />} key="2">
             {this.state.viewAll === false ? (
               <Row>
                 <Col
@@ -232,7 +229,7 @@ class Rating extends React.Component {
                       className="view-all-comment gx-link "
                       onClick={() => this.viewAll()}
                     >
-                      Tất cả đánh giá
+                      <IntlMessages id="general.all" /> <IntlMessages id="account.profile.comment" />
                     </p>
                   </div>
                 </Col>
@@ -252,26 +249,15 @@ class Rating extends React.Component {
                         <Select
                           showSearch
                           className="w-90"
-                          placeholder="Select a service"
-                          defaultValue="1"
-                        >
-                          <Option value="1">Liên quan nhất</Option>
-                          <Option value="2">Mới nhất</Option>
-                        </Select>
-                      </Col>
-                      <Col xl={10} lg={10} md={10} sm={24} xs={24}>
-                        <Select
-                          showSearch
-                          className="w-90"
                           placeholder="Select a type mail"
                           defaultValue="1"
                         >
-                          <Option value="1">Tất cả xếp hạng</Option>
-                          <Option value="2">Tuyệt vời</Option>
-                          <Option value="3">Tốt</Option>
-                          <Option value="4">Bình thường</Option>
-                          <Option value="5">Chưa tốt</Option>
-                          <Option value="6">Tệ</Option>
+                            <Option value="1"><IntlMessages id="general.all" /> <IntlMessages id="account.profile.comment" /></Option>
+                            <Option value="2"><IntlMessages id="account.profile.comment.filter.rating.unit.great" /></Option>
+                            <Option value="3"><IntlMessages id="account.profile.comment.filter.rating.unit.good" /></Option>
+                            <Option value="4"><IntlMessages id="account.profile.comment.filter.rating.unit.normal" /></Option>
+                            <Option value="5"><IntlMessages id="account.profile.comment.filter.rating.unit.notgood" /></Option>
+                            <Option value="6"><IntlMessages id="account.profile.comment.filter.rating.unit.bad" /></Option>
                         </Select>
                       </Col>
 
@@ -284,10 +270,11 @@ class Rating extends React.Component {
                               color: "white"
                             }}
                           >
-                            Lọc
+                              <IntlMessages id="account.profile.comment.filter" />
                           </Button>
                         </div>
                       </Col>
+                        <Col xl={10} lg={10} md={10} sm={24} xs={24}></Col>
                     </Row>
                     <br />
                     <div style={{ height: 300, overflow: hidden }}>
