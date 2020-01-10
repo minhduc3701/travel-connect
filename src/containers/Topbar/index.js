@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Layout, Popover } from "antd";
 import { Link } from "react-router-dom";
-
 import CustomScrollbars from "util/CustomScrollbars";
 import languageData from "./languageData";
 import {
@@ -12,6 +11,7 @@ import SearchBox from "components/Layout/Header/SearchBox";
 import UserInfo from "components/Layout/Header/UserInfo";
 import AppNotification from "components/Layout/Header/AppNotification";
 // import MailNotification from "components/MailNotification";
+import { HOME } from "../../constants/NavigateLink";
 import Auxiliary from "util/Auxiliary";
 
 import {
@@ -54,26 +54,34 @@ class Topbar extends Component {
 
   render() {
     const { locale, width, navCollapsed, navStyle } = this.props;
+    const domain = window.location.host;
     return (
       <Auxiliary>
         <Header>
           {navStyle === NAV_STYLE_DRAWER ||
-          ((navStyle === NAV_STYLE_FIXED ||
-            navStyle === NAV_STYLE_MINI_SIDEBAR) &&
-            width < TAB_SIZE) ? (
-            <div className="gx-linebar gx-mr-3">
-              <i
-                className="gx-icon-btn icon icon-menu"
-                onClick={() => {
-                  this.props.toggleCollapsedSideNav(!navCollapsed);
-                }}
-              />
-            </div>
-          ) : null}
-          <Link to="/" className="gx-d-block gx-d-lg-none gx-pointer">
-            <img alt="" src={require("assets/images/w-logo.png")} />
-          </Link>
-
+            ((navStyle === NAV_STYLE_FIXED ||
+              navStyle === NAV_STYLE_MINI_SIDEBAR) &&
+              width < TAB_SIZE) ? (
+              <div className="gx-linebar gx-mr-3">
+                <i
+                  className="gx-icon-btn icon icon-menu"
+                  onClick={() => {
+                    this.props.toggleCollapsedSideNav(!navCollapsed);
+                  }}
+                />
+              </div>
+            ) : null}
+          {
+            domain === "app.travelconnect.global" ? (
+              <Link to="/" className="gx-d-block gx-d-lg-none gx-pointer">
+                <img alt="" src={require("assets/images/w-logo.png")} />
+              </Link>
+            ) : (
+                <a href={`${HOME}/home`} className="gx-d-block gx-d-lg-none gx-pointer">
+                  <img alt="" src={require("assets/images/w-logo.png")} />
+                </a>
+              )
+          }
           <SearchBox
             styleName="gx-d-none gx-d-lg-block gx-lt-icon-search-bar-lg"
             placeholder="Search in app..."

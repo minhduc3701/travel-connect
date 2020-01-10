@@ -60,12 +60,12 @@ class UserInfo extends Component {
         </li>
         <li className="bor-b p-t-1-i m-b-1-i"></li>
         <li className="p-v-1-i">
-          {domain === "account.travelconnect.global" ? (
-            <Link to="/user/generalsettings" className="gx-text-dark">
-              <Icon className="m-r-1" type="trophy" /> <IntlMessages id="general.default.user.settings" />
+          {domain === "app.travelconnect.global" ? (
+            <Link to="/user/settings" className="gx-text-dark">
+              <Icon className="m-r-1" type="user" /> <IntlMessages id="general.default.user.settings" />
             </Link>
           ) : (
-              <a href={`${HOME}/user/generalsettings`} className="gx-text-dark">
+              <a href={`${HOME}/user/settings`} className="gx-text-dark">
                 <Icon className="m-r-1" type="user" /> <IntlMessages id="general.default.user.settings" />
               </a>
             )}
