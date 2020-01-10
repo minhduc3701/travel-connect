@@ -20,4 +20,4 @@ export const API_USER_DETAIL =
   "https://us-central1-tc-appglobal.cloudfunctions.net/v1";
 
 export const API_ACCOUNT =
-  "https://us-central1-tc-account.cloudfunctions.net/v1";
+  "https://us-central1-tc-account.cloudfunctions.net/api/v1";

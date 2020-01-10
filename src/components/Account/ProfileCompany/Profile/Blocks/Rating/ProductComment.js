@@ -4,31 +4,37 @@ import { Avatar } from "antd";
 const ProductComment = props => {
   let { Account } = props;
   let cmts = props.cmt;
-  let fetchCmt = Account.company_comments.slice(0, cmts);
+  let fetchCmt = null;
+  if (Account.company_comments.length > 4) {
+    fetchCmt = Account.company_comments.slice(0, cmts);
+  } else {
+    fetchCmt = Account.company_comments;
+  }
+
   return (
     <div>
       {Account.company_comments
         ? fetchCmt.map((cmt, index) => {
-          let dateCreated = cmt.createdAt.slice(0, 10);
-          return (
-            <div key={index} className="gx-user-list bor-b">
-              <Avatar className="gx-mr-3 gx-size-36" src={cmt.company_logo} />
-              <div className="gx-media-body gx-task-item-content">
-                <div>
-                  <h5>{cmt.contents}</h5>
-                  <p key={1} className="gx-text-grey gx-fs-sm gx-mb-0">
-                    {[
-                      <span className="gx-link" key={13}>
-                        {cmt.company_brandname} - {cmt.rate}
-                      </span>,
-                      ` ${dateCreated}`
-                    ]}
-                  </p>
+            let dateCreated = cmt.creatAt.slice(0, 10);
+            return (
+              <div key={index} className="gx-user-list bor-b">
+                <Avatar className="gx-mr-3 gx-size-36" src={cmt.company_logo} />
+                <div className="gx-media-body gx-task-item-content">
+                  <div>
+                    <h5>{cmt.contents}</h5>
+                    <p key={1} className="gx-text-grey gx-fs-sm gx-mb-0">
+                      {[
+                        <span className="gx-link" key={13}>
+                          {cmt.company_brandname} - {cmt.rate}
+                        </span>,
+                        ` ${dateCreated}`
+                      ]}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })
+            );
+          })
         : null}
     </div>
   );

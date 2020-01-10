@@ -7,6 +7,7 @@ const Account = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_PROFILE:
       state = profile;
+      console.log(state);
       return { ...state };
     default:
       return { ...state };

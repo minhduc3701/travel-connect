@@ -17,8 +17,9 @@ export const actFetchAction = profile => {
 //lay profile company
 export const actFetchActionRequest = () => {
   return dispatch => {
-    return CallApi(`VN/companies/${uId.company_id}`, "GET", null)
+    return CallApi_ACCOUNT(`VN/companies/${uId.company_id}`, "GET", null)
       .then(res => {
+        console.log(res);
         dispatch(actFetchAction({ ...res.data }));
       })
       .catch(err => {

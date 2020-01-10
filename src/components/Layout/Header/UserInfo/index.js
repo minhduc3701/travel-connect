@@ -8,6 +8,8 @@ import { HOME, ACCOUNT } from "constants/NavigateLink";
 class UserInfo extends Component {
   render() {
     const domain = window.location.host;
+    let srcAvatar = JSON.parse(localStorage.getItem("user_info"));
+
     const userMenuOptions = (
       <ul className="gx-user-popover">
         <li className="p-v-1-i text-align-center text-ellipsis">Travel Connect Brand name</li>
@@ -84,7 +86,7 @@ class UserInfo extends Component {
         trigger="click"
       >
         <Avatar
-          src="https://scontent.fhan5-7.fna.fbcdn.net/v/t1.0-9/18301305_109727309601941_3221725338991253317_n.jpg?_nc_cat=100&_nc_ohc=iCjs-onfrI8AQnDZzflsOXsd7tZzz0oTnho1E8YWoI9g0Vvo_GWPJ8FvA&_nc_ht=scontent.fhan5-7.fna&oh=6f65c17bfd32a4f4fe8ab14f4e295a9d&oe=5EAF7C8D"
+          src={srcAvatar.user_logo}
           className="gx-avatar gx-pointer"
           alt=""
         />
