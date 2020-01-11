@@ -6,7 +6,6 @@ import { ConfigProvider } from "antd";
 import { IntlProvider } from "react-intl";
 import AppLocale from "lngProvider";
 import MainApp from "./MainApp";
-import { actFetchActionRequest } from "../../appRedux/actions/Account";
 import {
   onLayoutTypeChange,
   onNavStyleChange,
@@ -72,7 +71,6 @@ class App extends Component {
     if (params.has("layout-type")) {
       this.props.onLayoutTypeChange(params.get("layout-type"));
     }
-    this.props.actFetchData();
   }
 
   render() {
@@ -115,9 +113,6 @@ const mapStateToProps = ({ settings, state }) => {
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    actFetchData: () => {
-      dispatch(actFetchActionRequest());
-    },
     setThemeType,
     onNavStyleChange,
     onLayoutTypeChange

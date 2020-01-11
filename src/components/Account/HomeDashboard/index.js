@@ -14,34 +14,36 @@ import WelcomeCard from "./WelcomeCard";
 
 class HomeDashboard extends React.Component {
   render() {
-    let { Account } = this.props.profile;
+    // let { Account } = this.props.profile;
     return (
       <div>
-        {Account ? (
-          <div>
-            <Row>
-              <Col xl={8} lg={8} md={24} sm={24} xs={24}>
-                <WelcomeCard Account={Account} />
-              </Col>
-              <Col xl={16} lg={16} md={24} sm={24} xs={24}>
-                <WelcomeUser />
-              </Col>
-            </Row>
-            <Row>
-              <Col xl={16} lg={16} md={24} sm={24} xs={24}>
-                <HightLight profile={Account} />
-                <Statistic />
-                <StaticticGuest />
-                <NewPartner />
-              </Col>
-              <Col xl={8} lg={8} md={24} sm={24} xs={24}>
-                <HistoryActivities />
-                <AccountPackage />
-                <InviteMember />
-              </Col>
-            </Row>
-          </div>
-        ) : null}
+        {/* {Account ? ( */}
+        <div>
+          <Row>
+            <Col xl={8} lg={8} md={24} sm={24} xs={24}>
+              <WelcomeCard />
+              {/* <WelcomeCard Account={Account} /> */}
+            </Col>
+            <Col xl={16} lg={16} md={24} sm={24} xs={24}>
+              <WelcomeUser />
+            </Col>
+          </Row>
+          <Row>
+            <Col xl={16} lg={16} md={24} sm={24} xs={24}>
+              <HightLight />
+              {/* <HightLight profile={Account} /> */}
+              <Statistic />
+              <StaticticGuest />
+              <NewPartner />
+            </Col>
+            <Col xl={8} lg={8} md={24} sm={24} xs={24}>
+              <HistoryActivities />
+              <AccountPackage />
+              <InviteMember />
+            </Col>
+          </Row>
+        </div>
+        {/* ) : null} */}
       </div>
     );
   }

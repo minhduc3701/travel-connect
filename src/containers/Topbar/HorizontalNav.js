@@ -78,12 +78,12 @@ class HorizontalNav extends Component {
 					</Menu.Item>
 					<Menu.Item key="account_profileCompany">
 						{domain === "account.travelconnect.global" ? (
-							<Link to="/company">
+							<Link to="/profile">
 								<Icon type="area-chart" />
 								<IntlMessages id="profileCompany" />
 							</Link>
 						) : (
-								<a href={`${ACCOUNT}/company`} className="menu-item ">
+								<a href={`${ACCOUNT}/profile`} className="menu-item ">
 									<Icon type="area-chart" />
 									<IntlMessages id="profileCompany" />
 								</a>

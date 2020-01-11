@@ -4,7 +4,6 @@ import Company from "./Company";
 import Personal from "./Personal";
 import Activity from "./Activity";
 import Verify from "./Verify";
-import { data } from "./data";
 // import IntlMessages from "util/IntlMessages";
 import { Link } from "react-router-dom";
 // import { notiChange } from "util/Notification";
@@ -57,6 +56,9 @@ class CompleteRegister extends Component {
 
   render() {
     // let { step } = this.props;
+    let userInfo = JSON.parse(localStorage.getItem("user_info"));
+    let name = userInfo.user_name.split(" ");
+    let nameWelcome = name[name.length - 1];
     return (
       <div>
         <div
@@ -79,7 +81,7 @@ class CompleteRegister extends Component {
                 style={{ flexDirection: "column", justifyContent: "center" }}
               >
                 <h1 style={{ fontSize: 35 }}>
-                  Welcome {data.name} to Travel Connect
+                  Welcome {nameWelcome} to Travel Connect
                 </h1>
                 <h3>Chỉ cần một vài bước để hoàn thiện hồ sơ của bạn!</h3>
                 <ul style={{ listStyle: "none", padding: 0 }}>
@@ -150,12 +152,8 @@ class CompleteRegister extends Component {
         </div>
 
         {/* Content component */}
-        {this.state.step === 0 ? (
-          <Personal data={data} getState={this.onGetState} />
-        ) : null}
-        {this.state.step === 1 ? (
-          <Company data={data} getState={this.onGetState} />
-        ) : null}
+        {this.state.step === 0 ? <Personal getState={this.onGetState} /> : null}
+        {this.state.step === 1 ? <Company getState={this.onGetState} /> : null}
         {this.state.step === 2 ? <Activity getStep={this.onGetState} /> : null}
         {this.state.step === 3 ? <Verify getState={this.onGetState} /> : null}
         {this.state.step === 4 ? (
@@ -178,7 +176,7 @@ class CompleteRegister extends Component {
         ) : null}
 
         {/* Button */}
-        <div className=" block-w bor-rad-6">
+        {/* <div className=" block-w bor-rad-6">
           {this.state.step === 0 ? (
             <div
               className=" d-flex"
@@ -270,25 +268,10 @@ class CompleteRegister extends Component {
             </div>
           ) : null}
           {this.state.step === 4 ? null : null}
-        </div>
+        </div> */}
       </div>
     );
   }
 }
 
-// const mapStateToProps = state => {
-//   return {
-//     step: state.Step
-//   };
-// };
-
-// const mapDispatchToProps = (dispatch, props) => {
-//   return {
-//     actSendDataToServer: profile => {
-//       dispatch(actCreateCompanyRequest(profile));
-//     }
-//   };
-// };
-
 export default CompleteRegister;
-// export default connect(mapStateToProps, mapDispatchToProps)(CompleteRegister);

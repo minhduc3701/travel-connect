@@ -60,7 +60,7 @@ class Navigation extends Component {
                     </Menu.Item> */}
 
           <Menu.Item
-            onClick={() => this.props.actFetchDataAgain()}
+            // onClick={() => this.props.actFetchDataAgain()}
             key="edit_profile"
             className=" f-r"
           >

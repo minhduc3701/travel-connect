@@ -2,8 +2,10 @@ import React from "react";
 import { Icon } from "antd";
 import IntlMessages from "util/IntlMessages";
 const WelcomeCard = props => {
-  let { Account } = props;
-  // console.log(Account);
+  // let { Account } = props;
+  let user = JSON.parse(localStorage.getItem("user_info"));
+  let name = user.user_name.split(" ");
+  let nameWelcome = name[name.length - 1];
   return (
     <div
       className="block-w flow-hidden pos-rel w-100 z-1"
@@ -14,7 +16,8 @@ const WelcomeCard = props => {
     >
       <div className="pos-abs pos-abs-center z-2 w-80">
         <h1 className="gx-mb-3">
-          <IntlMessages id={"welcome"} /> {Account.company_brandname}!
+          <IntlMessages id={"welcome"} /> {nameWelcome}!
+          {/* <IntlMessages id={"welcome"} /> {Account.company_brandname}! */}
         </h1>
         <p className="gx-fs-sm gx-text-uppercase">
           <IntlMessages id={"youHave"} />:

@@ -21,10 +21,9 @@ import {
   actSaveSocialRequest,
   actSaveWebsiteRequest,
   actSaveAddressRequest,
-  actCleanReduxStore,
-  actSaveMediaRequest
+  actCleanReduxStore
 } from "../../../../appRedux/actions/CompanyProfile";
-import { actFetchActionRequest } from "../../../../appRedux/actions/Account";
+// import { actFetchActionRequest } from "../../../../appRedux/actions/Account";
 
 class ProfileUpdate extends Component {
   state = {
@@ -65,7 +64,6 @@ class ProfileUpdate extends Component {
       console.log("Nothing Change");
     }
     this.props.actCleanStore();
-    // this.props.actFetchDataAgain();
   }
 
   onSendImageMedia = fileList => {
@@ -171,13 +169,13 @@ const mapDispatchToProp = (dispatch, props) => {
     },
     actCleanStore: () => {
       dispatch(actCleanReduxStore());
-    },
+    }
+    // actFetchDataAgain: () => {
+    //   dispatch(actFetchActionRequest());
+    // }
     // actSendMediaToServer: media => {
     //   dispatch(actSaveMediaRequest(media));
     // },
-    actFetchDataAgain: () => {
-      dispatch(actFetchActionRequest());
-    }
   };
 };
 

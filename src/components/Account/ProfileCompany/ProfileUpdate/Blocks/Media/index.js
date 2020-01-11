@@ -68,7 +68,9 @@ class Media extends Component {
     const uploadButton = (
       <div>
         <Icon type="plus" />
-        <div className="ant-upload-text"><IntlMessages id="general.btn.upload" /></div>
+        <div className="ant-upload-text">
+          <IntlMessages id="general.btn.upload" />
+        </div>
       </div>
     );
 
@@ -109,12 +111,12 @@ class Media extends Component {
                   className="cursor-pointer cursor-pointer--zoom"
                 />
               ) : (
-                  <Icon
-                    onClick={() => this.onDoneChangeMedia()}
-                    className="size-4 cursor-pointer cursor-pointer--zoom"
-                    type="check-circle"
-                  />
-                )}
+                <Icon
+                  onClick={() => this.onDoneChangeMedia()}
+                  className="size-4 cursor-pointer cursor-pointer--zoom"
+                  type="check-circle"
+                />
+              )}
             </div>
           }
         />
@@ -123,47 +125,56 @@ class Media extends Component {
             {profile.company_medias ? (
               <Photos photoList={profile.company_medias} />
             ) : (
-                <p>Album media is empty!</p>
-              )}
+              <p>Album media is empty!</p>
+            )}
             {/* <p className="gx-text-primary gx-fs-md gx-pointer gx-d-block text-align-right">
                                     Go to gallery
                                     <i className={`icon icon-long-arrow-right gx-fs-xxl gx-ml-2 gx-d-inline-flex gx-vertical-align-middle`} />
                                 </p> */}
           </div>
         ) : (
-            <div className="clearfix">
-              <Upload
-                {...props}
-                listType="picture-card"
-                fileList={fileList}
-                onPreview={this.handlePreview}
-                onChange={this.handleChange}
-              >
-                {fileList.length >= 8 ? null : uploadButton}
-              </Upload>
-              <Modal
-                visible={previewVisible}
-                footer={null}
-                onCancel={this.handleCancel}
-              >
-                <img alt="example" style={{ width: "100%" }} src={previewImage} />
-              </Modal>
-            </div>
-          )}
+          <div className="clearfix">
+            <Upload
+              {...props}
+              listType="picture-card"
+              // fileList={profile.company_medias}
+              fileList={fileList}
+              onPreview={this.handlePreview}
+              onChange={this.handleChange}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
+            <Modal
+              visible={previewVisible}
+              footer={null}
+              onCancel={this.handleCancel}
+            >
+              <img alt="example" style={{ width: "100%" }} src={previewImage} />
+            </Modal>
+          </div>
+        )}
         <div
           className="gx-text-primary gx-fs-md gx-pointer gx-mb-4 gx-d-block gx-d-sm-none p-3 text-align-right"
           onClick={() => this.changeMediaToEdit()}
         >
           {this.state.stt_media === false ? (
             <div className="d-inline-block">
-              <Icon type="edit" className="cursor-pointer cursor-pointer--zoom" /> <IntlMessages id="general.btn.edit" />
-
+              <Icon
+                type="edit"
+                className="cursor-pointer cursor-pointer--zoom"
+              />{" "}
+              <IntlMessages id="general.btn.edit" />
             </div>
           ) : (
-              <div className="d-inline-block">
-                <Icon onClick={() => this.onSendDataStore()} className="size-4 cursor-pointer cursor-pointer--zoom" type="check-circle" /> <IntlMessages id="general.btn.save" />
-              </div>
-            )}
+            <div className="d-inline-block">
+              <Icon
+                onClick={() => this.onSendDataStore()}
+                className="size-4 cursor-pointer cursor-pointer--zoom"
+                type="check-circle"
+              />{" "}
+              <IntlMessages id="general.btn.save" />
+            </div>
+          )}
         </div>
       </div>
     );

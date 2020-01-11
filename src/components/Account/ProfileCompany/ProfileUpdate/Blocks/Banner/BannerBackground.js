@@ -65,22 +65,10 @@ class BannerBackground extends Component {
         });
       },
       beforeUpload: file => {
-        // console.log("props");
-        if (this.state.file.background.length < 2) {
-          this.setState(state => ({
-            fileList: [...state.fileList, file],
-            file: {
-              background: [...state.fileList, file]
-            }
-          }));
-        } else {
-          this.setState(state => ({
-            fileList: [...state.fileList, file],
-            file: {
-              background: file
-            }
-          }));
-        }
+        this.setState(state => ({
+          // fileList: file
+          fileList: [file]
+        }));
         return false;
       },
       fileList
