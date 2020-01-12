@@ -16,6 +16,7 @@ import StaticticGuest from "./Blocks/StaticticGuest";
 import { friendList } from "./data";
 import { connect } from "react-redux";
 import CircularProgress from "../../../GlobalComponent/CircularProgress";
+import { actFetchActionRequest } from "appRedux/actions/Account";
 import { Link } from "react-router-dom";
 
 class Profile extends Component {
@@ -24,6 +25,10 @@ class Profile extends Component {
     loading: null,
     load: true
   };
+
+  componentWillMount() {
+    this.props.actFetchDataAgain();
+  }
 
   componentDidMount() {
     setTimeout(() => {
@@ -36,7 +41,6 @@ class Profile extends Component {
   render() {
     let { profile } = this.props;
     let { Account } = this.props.profile;
-    console.log(profile);
     let warning = null;
     for (const key in Account) {
       if (Account[key] !== "") {
@@ -100,4 +104,12 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, null)(Profile);
+const mapDispatchToProp = (dispatch, props) => {
+  return {
+    actFetchDataAgain: () => {
+      dispatch(actFetchActionRequest());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProp)(Profile);

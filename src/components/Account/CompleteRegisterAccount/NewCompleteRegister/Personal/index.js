@@ -131,14 +131,15 @@ class Personal extends Component {
     if (Array.isArray(e)) {
       return e;
     }
-    return e && e.fileList;
+    return e && e.fileList1;
   };
 
   onSendDataToServer = () => {
     this.props.onSendDataUser(this.state.person);
     this.props.getState(this.state.step);
-    // this.handleUpload();
-    this.onSendImage();
+    if (this.state.fileList.length > 0) {
+      this.onSendImage();
+    }
   };
 
   handleChange = ({ fileList }) => {
@@ -154,23 +155,24 @@ class Personal extends Component {
   };
 
   onSendImage = () => {
+    let userInfo = JSON.parse(localStorage.getItem("user_info"));
     const { fileList } = this.state;
     const formData = new FormData();
     fileList.forEach(file => {
       formData.append("image-", file);
     });
     // console.log(fileList);
-    CallApi("user/7oZGSZGGLfaFZNn3FYNX5PJS0292/images", "POST", formData)
+    CallApi(`user/${userInfo.user_id}/images`, "POST", formData)
       .then(res => console.log(res))
       .catch(err => console.log(err));
   };
 
   render() {
-    // console.log(this.state);
     const { getFieldDecorator } = this.props.form;
-    // let person = this.props.data;
     let { fileList } = this.state;
-
+    let userInfo = JSON.parse(localStorage.getItem("user_info"));
+    let name = userInfo.user_name.split(" ");
+    let nameWelcome = name[name.length - 1];
     const props = {
       multiple: false,
       onRemove: file => {
@@ -186,7 +188,7 @@ class Personal extends Component {
       beforeUpload: file => {
         this.setState(state => ({
           // fileList: file
-          fileList: [...state.fileList, file]
+          fileList: [file]
         }));
         return false;
       },
@@ -213,7 +215,7 @@ class Personal extends Component {
               />
             </Col>
             <Col span={12}>
-              <h1>Welcome Tony!</h1>
+              <h1>Welcome {nameWelcome}!</h1>
               <p>Only few step to complete your account!</p>
               <p>Follow these step to do it.</p>
             </Col>
@@ -254,7 +256,7 @@ class Personal extends Component {
             <Form onSubmit={this.handleSubmit}>
               <FormItem {...formItemLayout} label="Ảnh đại diện">
                 {getFieldDecorator("user_logo", {
-                  valuePropName: "fileList",
+                  valuePropName: "fileList1",
                   getValueFromEvent: this.normFile
                 })(
                   <Upload
@@ -272,8 +274,18 @@ class Personal extends Component {
               </FormItem>
               <FormItem {...formItemLayout} label="Họ và tên">
                 {getFieldDecorator("user_name", {
-                  rules: [{ required: true, message: "Enter your username!" }]
-                })(<Input placeholder="Họ và tên" />)}
+                  rules: [{ required: true, message: "Enter your username!" }],
+                  initialValue: userInfo.user_name
+                })(
+                  <Input
+                    placeholder="Họ và tên"
+                    // defaultValue={
+                    //   this.state.person.user_name
+                    //     ? this.state.person.user_name
+                    //     : userInfo.user_name
+                    // }
+                  />
+                )}
               </FormItem>
               <FormItem {...formItemLayout} label="Ngày sinh">
                 {getFieldDecorator("user_birth", {

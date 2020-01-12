@@ -3,7 +3,7 @@ import {
   COMPANY_PROFILE_STEP3,
   COMPANY_PROFILE_STEP4
 } from "../../constants/ActionTypes";
-import { CallApi, CallApi_USER, CallApi_ACCOUNT } from "util/CallApi";
+import { CallApi_USER, CallApi_ACCOUNT } from "util/CallApi";
 
 let uId = JSON.parse(localStorage.getItem("user_info"));
 

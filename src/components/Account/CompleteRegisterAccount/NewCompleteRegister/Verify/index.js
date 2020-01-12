@@ -80,6 +80,7 @@ class Verify extends Component {
   };
 
   onSendImage = () => {
+    let userInfo = JSON.parse(localStorage.getItem("user_info"));
     const { fileList } = this.state;
     const formData = new FormData();
     fileList.forEach(file => {
@@ -87,7 +88,7 @@ class Verify extends Component {
     });
     // console.log(fileList);
     CallApi_ACCOUNT(
-      "VN/companies/eDLBQUwHQck7eIIFyjiS/licenceDocs",
+      `VN/companies/${userInfo.user_id}/licenceDocs`,
       "PUT",
       formData
     )
@@ -152,13 +153,13 @@ class Verify extends Component {
               <FormItem {...formItemLayout} label="Giấy phép kinh doanh">
                 {getFieldDecorator("company_licence_file", {
                   valuePropName: "fileList",
-                  getValueFromEvent: this.normFile
-                  // rules: [
-                  //   {
-                  //     required: false,
-                  //     message: "Upload your company license!"
-                  //   }
-                  // ]
+                  getValueFromEvent: this.normFile,
+                  rules: [
+                    {
+                      required: false,
+                      message: "Upload your company license!"
+                    }
+                  ]
                 })(
                   <Dragger {...props}>
                     <p className="ant-upload-drag-icon">

@@ -1,16 +1,30 @@
 import React from "react";
 import { doneChange, notiChange } from "util/Notification";
-import { Col, Icon, Row, Select, Input, Modal, Form, Cascader, Button } from "antd";
+import {
+  Col,
+  Icon,
+  Row,
+  Select,
+  Input,
+  Modal,
+  Form,
+  Cascader,
+  Button
+} from "antd";
 import IntlMessages from "util/IntlMessages";
-import { actSaveWebsite, actSaveAddress } from "appRedux/actions/CompanyProfile";
+import {
+  actSaveWebsite,
+  actSaveAddress
+} from "appRedux/actions/CompanyProfile";
 import { connect } from "react-redux";
+// import data from "./data";
 
 const formItemLayout = {
   wrapperCol: { xs: 24, sm: 24 }
 };
 const residences = [
   {
-    value: "hanoi",
+    value: "HA NOI",
     label: "Hà Nội",
     children: [
       {
@@ -28,7 +42,7 @@ const residences = [
     ]
   },
   {
-    value: "saigon",
+    value: "Ho Chi Minh",
     label: "Hồ Chí Minh",
     children: [
       {
@@ -64,7 +78,11 @@ class Info extends React.Component {
       company_address: null,
       company_city: null,
       company_nation: null
-    }
+    },
+    districtUpdate: null,
+    addressUpdate: null,
+    cityUpdate: null,
+    nationUpdate: null
   };
 
   handleSubmit = e => {
@@ -132,6 +150,15 @@ class Info extends React.Component {
     });
   };
 
+  onChangeAddress = e => {
+    let target = e.target;
+    let name = target.name;
+    let value = target.value;
+    this.setState({
+      [name]: value
+    });
+  };
+
   onSaveData = () => {
     let { profile } = this.props.profile;
     let websiteResult = this.state.website.company_website
@@ -142,20 +169,16 @@ class Info extends React.Component {
 
   render() {
     // console.log(this.props.profile.profile.company_district);
-    console.log(this.state);
+    // console.log(data);
     const { getFieldDecorator } = this.props.form;
     let { profile } = this.props.profile;
     let src = `https://${
       this.state.website ? this.state.website : profile.company_website
-      }`;
+    }`;
     return (
       <div className="p-t-4">
-        <h3>
-          {profile.company_brandname}
-        </h3>
-        <h2 className="text-trans-upper">
-          {profile.company_name}
-        </h2>
+        <h3>{profile.company_brandname}</h3>
+        <h2 className="text-trans-upper">{profile.company_name}</h2>
         <Row>
           <Col xl={24} lg={24} md={24} sm={24} xs={24}>
             <h5 className=" gx-text-grey ">
@@ -173,7 +196,13 @@ class Info extends React.Component {
           >
             <h5 className=" gx-text-grey">
               <Icon type="environment" className="p-r-3" />
-              {profile.company_city}, {profile.company_nation}
+              {this.state.address.company_city
+                ? this.state.address.company_city
+                : profile.company_city}
+              ,{" "}
+              {this.state.address.company_nation
+                ? this.state.address.company_nation
+                : profile.company_nation}
             </h5>
             <div className="m-l-1" onClick={() => this.changeAddressToEdit()}>
               {this.state.stt_address === false ? (
@@ -182,15 +211,17 @@ class Info extends React.Component {
                   className="gx-link cursor-pointer cursor-pointer--zoom"
                 />
               ) : (
-                  <Icon
-                    // onClick={() => this.onSaveData()}
-                    className=" gx-link size-4 cursor-pointer cursor-pointer--zoom"
-                    type="check-circle"
-                  />
-                )}
+                <Icon
+                  // onClick={() => this.onSaveData()}
+                  className=" gx-link size-4 cursor-pointer cursor-pointer--zoom"
+                  type="check-circle"
+                />
+              )}
               <Modal
                 className="w-50-i"
-                title={<IntlMessages id="account.profile.edit.information.address.update" />}
+                title={
+                  <IntlMessages id="account.profile.edit.information.address.update" />
+                }
                 visible={this.state.stt_address}
                 onCancel={this.handleCancel}
                 footer={null}
@@ -210,7 +241,9 @@ class Info extends React.Component {
                         lg={6}
                         xl={6}
                       >
-                        <p className="text-align-right"><IntlMessages id="account.profile.edit.information.address.update.companynation" /></p>
+                        <p className="text-align-right">
+                          <IntlMessages id="account.profile.edit.information.address.update.companynation" />
+                        </p>
                       </Col>
                       <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                         <FormItem {...formItemLayout}>
@@ -218,15 +251,23 @@ class Info extends React.Component {
                             rules: [
                               {
                                 required: true,
-                                message: <IntlMessages id="account.profile.edit.information.address.update.companynation.msg.error" />
+                                message: (
+                                  <IntlMessages id="account.profile.edit.information.address.update.companynation.msg.error" />
+                                )
                               }
                             ]
                           })(
-                            <Select placeholder={<IntlMessages id="account.profile.edit.information.address.update.companynation" />}>
-                              <Option value="vn">Việt Nam</Option>
-                              <Option value="usa">America</Option>
-                              <Option value="rus">Russia</Option>
-                              <Option value="kr">Korea</Option>
+                            <Select
+                              // name="nationUpdate"
+                              // onChange={this.onChangeAddress}
+                              placeholder={
+                                <IntlMessages id="account.profile.edit.information.address.update.companynation" />
+                              }
+                            >
+                              <Option value="VN">Việt Nam</Option>
+                              <Option value="USA">America</Option>
+                              <Option value="RUS">Russia</Option>
+                              <Option value="KR">Korea</Option>
                             </Select>
                           )}
                         </FormItem>
@@ -245,7 +286,9 @@ class Info extends React.Component {
                         lg={6}
                         xl={6}
                       >
-                        <p className="text-align-right"><IntlMessages id="account.profile.edit.information.address.update.companydistrict" /></p>
+                        <p className="text-align-right">
+                          <IntlMessages id="account.profile.edit.information.address.update.companydistrict" />
+                        </p>
                       </Col>
                       <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                         <FormItem {...formItemLayout}>
@@ -253,12 +296,14 @@ class Info extends React.Component {
                             rules: [
                               {
                                 required: true,
-                                message: <IntlMessages id="account.profile.edit.information.address.update.companydistrict.msg.error" />
+                                message: (
+                                  <IntlMessages id="account.profile.edit.information.address.update.companydistrict.msg.error" />
+                                )
                               }
                             ]
                           })(
                             <Cascader
-                              placeholder=""
+                              placeholder="District"
                               options={residences}
                             />
                           )}
@@ -278,7 +323,9 @@ class Info extends React.Component {
                         lg={6}
                         xl={6}
                       >
-                        <p className="text-align-right"><IntlMessages id="account.profile.edit.information.address.update.companyaddress" /></p>
+                        <p className="text-align-right">
+                          <IntlMessages id="account.profile.edit.information.address.update.companyaddress" />
+                        </p>
                       </Col>
                       <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                         <FormItem {...formItemLayout}>
@@ -286,10 +333,18 @@ class Info extends React.Component {
                             rules: [
                               {
                                 required: true,
-                                message: <IntlMessages id="account.profile.edit.information.address.update.companyaddress.msg.error" />
+                                message: (
+                                  <IntlMessages id="account.profile.edit.information.address.update.companyaddress.msg.error" />
+                                )
                               }
                             ]
-                          })(<Input placeholder="" />)}
+                          })(
+                            <Input
+                              placeholder="Address"
+                              // name="addressUpdate"
+                              // onChange={this.onChangeAddress}
+                            />
+                          )}
                         </FormItem>
                       </Col>
                     </Row>
@@ -339,18 +394,18 @@ class Info extends React.Component {
                     : profile.company_website}
                 </a>
               ) : (
-                  <Input
-                    onChange={this.onChangeInput}
-                    addonBefore={selectBefore}
-                    size="small"
-                    className="d-inline-block w-65-i"
-                    defaultValue={
-                      this.state.website.company_website
-                        ? this.state.website.company_website
-                        : profile.company_website
-                    }
-                  />
-                )}
+                <Input
+                  onChange={this.onChangeInput}
+                  addonBefore={selectBefore}
+                  size="small"
+                  className="d-inline-block w-65-i"
+                  defaultValue={
+                    this.state.website.company_website
+                      ? this.state.website.company_website
+                      : profile.company_website
+                  }
+                />
+              )}
               <span
                 className="d-inline-block m-l-1  gx-text-primary"
                 onClick={() => this.changeWebsiteToEdit()}
@@ -361,12 +416,12 @@ class Info extends React.Component {
                     className="cursor-pointer cursor-pointer--zoom"
                   />
                 ) : (
-                    <Icon
-                      onClick={() => this.onSaveData()}
-                      className="size-4 cursor-pointer cursor-pointer--zoom"
-                      type="check-circle"
-                    />
-                  )}
+                  <Icon
+                    onClick={() => this.onSaveData()}
+                    className="size-4 cursor-pointer cursor-pointer--zoom"
+                    type="check-circle"
+                  />
+                )}
               </span>
             </h5>
           </Col>

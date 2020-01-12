@@ -49,23 +49,10 @@ class AvatarCompany extends Component {
         });
       },
       beforeUpload: file => {
-        // console.log("props");
-        if (this.state.file.logo.length < 2) {
-          this.setState(state => ({
-            fileList: [...state.fileList, file],
-            file: {
-              logo: [...state.fileList, file]
-            }
-          }));
-        } else {
-          this.setState(state => ({
-            fileList: [...state.fileList, file],
-            file: {
-              logo: file
-            }
-          }));
-        }
-
+        this.setState(state => ({
+          // fileList: file
+          fileList: [file]
+        }));
         return false;
       },
       fileList

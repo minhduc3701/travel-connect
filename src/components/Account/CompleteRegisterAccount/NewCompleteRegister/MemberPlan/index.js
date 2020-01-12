@@ -77,7 +77,7 @@ class MemberPlan extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    // console.log(this.props.getStep.getStep);
+    console.log(this.props);
     return (
       <Row className="p-v-6">
         <Col xl={8} lg={8} md={8} sm={24} xs={24}>
@@ -170,10 +170,24 @@ class MemberPlan extends Component {
               ) : null}
               <FormItem {...formItemLayout} label="Trạng thái">
                 <Radio.Group onChange={this.onChosePlan}>
-                  <Radio value={1} disabled={this.props.type === 0 ? true : ""}>
+                  <Radio
+                    value={1}
+                    disabled={
+                      this.props.type === 0 || this.props.type === undefined
+                        ? true
+                        : ""
+                    }
+                  >
                     Công ty tôi hiện chưa hoạt động trên sàn
                   </Radio>
-                  <Radio value={2} disabled={this.props.type === 0 ? true : ""}>
+                  <Radio
+                    value={2}
+                    disabled={
+                      this.props.type === 0 || this.props.type === undefined
+                        ? true
+                        : ""
+                    }
+                  >
                     Công ty tôi hiện đang hoạt động trên sàn
                   </Radio>
                 </Radio.Group>
@@ -196,7 +210,16 @@ class MemberPlan extends Component {
                             message: "Enter your company name!"
                           }
                         ]
-                      })(<Input />)}
+                      })(
+                        <Input
+                          disabled={
+                            this.props.type === 0 ||
+                            this.props.type === undefined
+                              ? true
+                              : ""
+                          }
+                        />
+                      )}
                     </FormItem>
                     <FormItem {...formItemLayout} label="Chức vụ">
                       {getFieldDecorator("company_position", {
@@ -206,7 +229,16 @@ class MemberPlan extends Component {
                             message: "Enter your company position!"
                           }
                         ]
-                      })(<Input />)}
+                      })(
+                        <Input
+                          disabled={
+                            this.props.type === 0 ||
+                            this.props.type === undefined
+                              ? true
+                              : ""
+                          }
+                        />
+                      )}
                     </FormItem>
                     <div
                       className=" d-flex"
@@ -222,16 +254,19 @@ class MemberPlan extends Component {
                 >
                   Return
                 </Button> */}
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        style={{
-                          marginLeft: "auto",
-                          marginBottom: "0 !important"
-                        }}
-                      >
-                        Next
-                      </Button>
+                      {this.props.type === 0 ||
+                      this.props.type === undefined ? null : (
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          style={{
+                            marginLeft: "auto",
+                            marginBottom: "0 !important"
+                          }}
+                        >
+                          Next
+                        </Button>
+                      )}
                     </div>
                   </Form>
                 </div>
