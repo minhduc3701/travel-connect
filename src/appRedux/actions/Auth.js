@@ -40,7 +40,7 @@ export const userSignUp = ({ email, password, name }) => {
           dispatch({ type: FETCH_ERROR, payload: "Network Error" });
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         dispatch({ type: FETCH_ERROR, payload: error.message });
       });
   };
@@ -68,7 +68,7 @@ export const userSignIn = ({ email, password }) => {
           dispatch({ type: FETCH_ERROR, payload: data.error });
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         dispatch({ type: FETCH_ERROR, payload: error.message });
       });
   };
@@ -87,7 +87,7 @@ export const getUser = () => {
           dispatch({ type: FETCH_ERROR, payload: data.error });
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         dispatch({ type: FETCH_ERROR, payload: error.message });
       });
   };
