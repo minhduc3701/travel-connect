@@ -62,37 +62,37 @@ class Verify extends Component {
               company_unit_confirm: values.company_unit_confirm
             }
           },
-          () => this.onSaveData()
+          () => this.onSaveData(this.state.fileList)
         );
       }
     });
   };
-  onSaveData = () => {
+  onSaveData = file => {
     this.props.actSaveDataToStore(this.state.detailStep4);
     let data = {};
     let profiles = this.props.profile;
     let dataResult = Object.assign(data, profiles[0], profiles[1]);
-    this.props.actSendDateToServer(dataResult);
+    this.props.actSendDateToServer(dataResult, file);
     this.props.getState(this.state.step);
-    this.onSendImage();
+    // this.onSendImage(file);
   };
 
-  onSendImage = () => {
-    let userInfo = JSON.parse(localStorage.getItem("user_info"));
-    const { fileList } = this.state;
-    const formData = new FormData();
-    fileList.forEach(file => {
-      formData.append("image-", file);
-    });
-    // console.log(fileList);
-    CallApi_ACCOUNT(
-      `VN/companies/${userInfo.user_id}/licenceDocs`,
-      "PUT",
-      formData
-    )
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-  };
+  // onSendImage = () => {
+  //   let userInfo = JSON.parse(localStorage.getItem("user_info"));
+  //   const { fileList } = this.state;
+  //   const formData = new FormData();
+  //   fileList.forEach(file => {
+  //     formData.append("image-", file);
+  //   });
+  //   // console.log(fileList);
+  //   CallApi_ACCOUNT(
+  //     `VN/companies/${userInfo.user_id}/licenceDocs`,
+  //     "PUT",
+  //     formData
+  //   )
+  //     .then(res => console.log(res))
+  //     .catch(err => console.log(err));
+  // };
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -259,8 +259,8 @@ const mapDispatchToProps = (dispatch, props) => {
     actSaveDataToStore: step4 => {
       dispatch(actSaveProfile4(step4));
     },
-    actSendDateToServer: profile => {
-      dispatch(actCreateCompanyRequest(profile));
+    actSendDateToServer: (profile, file) => {
+      dispatch(actCreateCompanyRequest(profile, file));
     }
   };
 };
