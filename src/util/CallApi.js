@@ -5,9 +5,8 @@ import {
   API_ACCOUNT
 } from "../constants/NavigateLink";
 
-let tokenID = JSON.parse(localStorage.getItem("request_token"));
-
 export function CallApi(endpoint, method = "GET", body) {
+  let tokenID = JSON.parse(localStorage.getItem("request_token"));
   return axios({
     method: method,
     url: `${API_PROFILE_COMPANY}/${endpoint}`,
@@ -21,6 +20,7 @@ export function CallApi(endpoint, method = "GET", body) {
 }
 
 export function CallApi_USER(endpoint, method = "GET", body) {
+  let tokenID = JSON.parse(localStorage.getItem("request_token"));
   return axios({
     method: method,
     url: `${API_USER_DETAIL}/${endpoint}`,
@@ -34,6 +34,7 @@ export function CallApi_USER(endpoint, method = "GET", body) {
 }
 
 export function CallApi_ACCOUNT(endpoint, method = "GET", body) {
+  let tokenID = JSON.parse(localStorage.getItem("request_token"));
   return axios({
     method: method,
     url: `${API_ACCOUNT}/${endpoint}`,

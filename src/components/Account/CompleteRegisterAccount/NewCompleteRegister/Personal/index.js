@@ -16,7 +16,7 @@ import {
 } from "antd";
 import { connect } from "react-redux";
 import { actUpdateUserRequest } from "appRedux/actions/User";
-import { CallApi } from "util/CallApi";
+import { CallApi_USER } from "util/CallApi";
 import { notiChange } from "util/Notification";
 
 const FormItem = Form.Item;
@@ -136,9 +136,9 @@ class Personal extends Component {
   onSendDataToServer = () => {
     this.props.onSendDataUser(this.state.person);
     this.props.getState(this.state.step);
-    if (this.state.fileList.length > 0) {
-      this.onSendImage();
-    }
+    // if (this.state.fileList.length > 0) {
+    this.onSendImage();
+    // }
   };
 
   handleChange = ({ fileList }) => {
@@ -160,7 +160,7 @@ class Personal extends Component {
     fileList.forEach(file => {
       formData.append("image-", file);
     });
-    CallApi(`user/${userInfo.user_id}/images`, "POST", formData)
+    CallApi_USER(`users/${userInfo.user_id}/avatar`, "PATCH", formData)
       .then(res => {
         console.log(res.data);
       })
@@ -194,7 +194,7 @@ class Personal extends Component {
       },
       fileList
     };
-
+    console.log(this.state);
     return (
       <Row className="p-v-6">
         <Modal

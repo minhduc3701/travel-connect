@@ -5,7 +5,6 @@ import {
 } from "../../constants/ActionTypes";
 import { CallApi_USER, CallApi_ACCOUNT } from "util/CallApi";
 
-
 export const actFetchAction = profile => {
   return {
     type: FETCH_PROFILE,
@@ -15,8 +14,8 @@ export const actFetchAction = profile => {
 
 //lay profile company
 export const actFetchActionRequest = () => {
-let uId = JSON.parse(localStorage.getItem("user_info"));
-return dispatch => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  return dispatch => {
     return CallApi_ACCOUNT(`VN/companies/${uId.company_id}`, "GET", null)
       .then(res => {
         console.log(res);
@@ -43,8 +42,8 @@ export const actSaveProfile4 = step4 => {
 
 //send resquest license update profile company
 export const actChangeLicenseRequest = license => {
-let uId = JSON.parse(localStorage.getItem("user_info"));
-return dispatch => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  return dispatch => {
     return CallApi_ACCOUNT(
       `VN/companies/${uId.company_id}/requests`,
       "POST",
@@ -60,11 +59,11 @@ return dispatch => {
 };
 
 //create company step 2-3
-export const actCreateCompanyRequest = profile => {
+export const actCreateCompanyRequest = (profile, file) => {
   return dispatch => {
     return CallApi_ACCOUNT("companies", "POST", profile)
       .then(res => {
-        console.log(res);
+        onSendImage(file, res.data);
       })
       .catch(err => {
         console.log(err);
@@ -72,10 +71,20 @@ export const actCreateCompanyRequest = profile => {
   };
 };
 
+const onSendImage = (fileList, id) => {
+  const formData = new FormData();
+  fileList.forEach(file => {
+    formData.append("image-", file);
+  });
+  CallApi_ACCOUNT(`VN/companies/${id.company_id}/licenceDocs`, "PUT", formData)
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
+};
+
 //Complete profile step 2 (cá nhân)
 export const actUpdatePersonProfileRequest = profile => {
-let uId = JSON.parse(localStorage.getItem("user_info"));
-return dispatch => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  return dispatch => {
     return CallApi_USER(`users/${uId.user_id}/suggestion`, "PUT", profile)
       .then(res => {
         console.log(res);
@@ -88,8 +97,8 @@ return dispatch => {
 
 //update profile company
 export const actUpdateCompanyProfileRequest = profile => {
-let uId = JSON.parse(localStorage.getItem("user_info"));
-return dispatch => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  return dispatch => {
     return CallApi_ACCOUNT(`VN/companies/${uId.company_id}`, "PUT", profile)
       .then(res => {
         console.log("Update success!" + res);

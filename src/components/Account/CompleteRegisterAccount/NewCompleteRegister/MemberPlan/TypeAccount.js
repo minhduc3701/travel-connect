@@ -639,7 +639,6 @@ class TypeAccount extends Component {
     const { getFieldDecorator } = this.props.form;
     let typePicked = this.props.typeMem;
     let { fileList } = this.state;
-
     const props = {
       multiple: true,
       onRemove: file => {
