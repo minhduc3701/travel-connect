@@ -30,7 +30,11 @@ class UserInfo extends Component {
         trigger="click"
       >
         <Avatar
-          src={srcAvatar.user_logo}
+          src={
+            srcAvatar.user_logo
+              ? srcAvatar.user_logo
+              : `https://tix.vn/app/assets/img/avatar.png`
+          }
           className="gx-avatar gx-pointer"
           alt=""
         />

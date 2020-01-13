@@ -13,24 +13,7 @@ class BannerBackground extends Component {
     fileList: []
   };
 
-  // handleChange = info => {
-  //   if (info.file.status === "uploading") {
-  //     this.setState({ loading: true });
-  //     return;
-  //   }
-  //   if (info.file.status === "done") {
-  //     // Get this url from response in real world.
-  //     getBase64(info.file.originFileObj, imageUrl =>
-  //       this.setState({
-  //         imageUrl,
-  //         loading: false
-  //       })
-  //     );
-  //   }
-  // };
-
   handleChange = ({ fileList }) => {
-    // console.log("action");
     this.setState({ fileList }, () => this.onSaveBackground());
   };
 
@@ -40,7 +23,6 @@ class BannerBackground extends Component {
   };
 
   render() {
-    // console.log(this.state);
     let { fileList } = this.state;
     let { profile } = this.props.profile;
     const uploadButton = (
@@ -108,23 +90,3 @@ const mapDispatchToProps = (dispatch, props) => {
 
 export default connect(null, mapDispatchToProps)(BannerBackground);
 
-// {
-/* <Upload
-            name="avatar"
-            listType="picture-card"
-            className="avatar-uploader aspect_box__img aspect_box__img--cover block__banner--upload z-2"
-            {...props}
-            beforeUpload={beforeUpload}
-            onChange={this.handleChange}
-          >
-            {imageUrl ? (
-              <img
-                src={imageUrl}
-                alt="avatar"
-                className="aspect_box__img aspect_box__img--cover z-3"
-              />
-            ) : (
-              uploadButton
-            )}
-          </Upload> */
-// }

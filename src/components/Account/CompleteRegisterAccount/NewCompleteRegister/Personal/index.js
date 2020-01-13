@@ -17,6 +17,7 @@ import {
 import { connect } from "react-redux";
 import { actUpdateUserRequest } from "appRedux/actions/User";
 import { CallApi } from "util/CallApi";
+import { notiChange } from "util/Notification";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -103,7 +104,6 @@ class Personal extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
         let logo = values.user_logo ? values.user_logo : "";
         let birth = this.state.birth;
         this.setState(
@@ -127,7 +127,6 @@ class Personal extends Component {
   };
 
   normFile = e => {
-    // console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -161,10 +160,11 @@ class Personal extends Component {
     fileList.forEach(file => {
       formData.append("image-", file);
     });
-    // console.log(fileList);
     CallApi(`user/${userInfo.user_id}/images`, "POST", formData)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => notiChange("error", "Somthing went wrong! Try again"));
   };
 
   render() {
@@ -276,16 +276,7 @@ class Personal extends Component {
                 {getFieldDecorator("user_name", {
                   rules: [{ required: true, message: "Enter your username!" }],
                   initialValue: userInfo.user_name
-                })(
-                  <Input
-                    placeholder="Họ và tên"
-                    // defaultValue={
-                    //   this.state.person.user_name
-                    //     ? this.state.person.user_name
-                    //     : userInfo.user_name
-                    // }
-                  />
-                )}
+                })(<Input placeholder="Họ và tên" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="Ngày sinh">
                 {getFieldDecorator("user_birth", {

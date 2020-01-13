@@ -89,7 +89,6 @@ class Info extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
         this.setState(
           {
             address: {
@@ -168,8 +167,6 @@ class Info extends React.Component {
   };
 
   render() {
-    // console.log(this.props.profile.profile.company_district);
-    // console.log(data);
     const { getFieldDecorator } = this.props.form;
     let { profile } = this.props.profile;
     let src = `https://${

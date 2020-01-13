@@ -77,7 +77,6 @@ class MemberPlan extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    console.log(this.props);
     return (
       <Row className="p-v-6">
         <Col xl={8} lg={8} md={8} sm={24} xs={24}>
@@ -248,12 +247,6 @@ class MemberPlan extends Component {
                         justifyContent: "flex-end"
                       }}
                     >
-                      {/* <Button
-                  onClick={this.onBack}
-                  style={{ marginBottom: "0 !important" }}
-                >
-                  Return
-                </Button> */}
                       {this.props.type === 0 ||
                       this.props.type === undefined ? null : (
                         <Button

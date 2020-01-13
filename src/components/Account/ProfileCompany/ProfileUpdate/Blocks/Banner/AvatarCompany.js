@@ -14,7 +14,6 @@ class AvatarCompany extends Component {
   };
 
   handleChange = ({ fileList }) => {
-    // console.log("action");
     this.setState({ fileList }, () => this.onSaveLogo());
   };
 
@@ -26,7 +25,6 @@ class AvatarCompany extends Component {
   render() {
     let { fileList } = this.state;
     let { profile } = this.props.profile;
-    // console.log(this.state);
     const uploadButton = (
       <div>
         <Icon type={this.state.loading ? "loading" : "plus"} />

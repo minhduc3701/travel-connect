@@ -10,7 +10,6 @@ import {
 } from "../../constants/ActionTypes";
 import { CallApi_ACCOUNT } from "util/CallApi";
 
-let uId = JSON.parse(localStorage.getItem("user_info"));
 
 // Intro
 export const actSaveIntro = intro => {
@@ -20,7 +19,8 @@ export const actSaveIntro = intro => {
   };
 };
 export const actSaveIntroRequest = intro => {
-  return dispatch => {
+let uId = JSON.parse(localStorage.getItem("user_info"));
+return dispatch => {
     return CallApi_ACCOUNT(
       `VN/companies/${uId.company_id}/introduction`,
       "PUT",
@@ -39,7 +39,8 @@ export const actSaveSocial = social => {
   };
 };
 export const actSaveSocialRequest = social => {
-  return dispatch => {
+let uId = JSON.parse(localStorage.getItem("user_info"));
+return dispatch => {
     return CallApi_ACCOUNT(
       `VN/companies/${uId.company_id}/social`,
       "PUT",
@@ -58,7 +59,8 @@ export const actSaveMedia = media => {
   };
 };
 export const actSaveMediaRequest = media => {
-  return dispatch => {
+let uId = JSON.parse(localStorage.getItem("user_info"));
+return dispatch => {
     return CallApi_ACCOUNT(
       `VN/companies/${uId.company_id}/medias`,
       "POST",
@@ -77,7 +79,8 @@ export const actSaveWebsite = website => {
   };
 };
 export const actSaveWebsiteRequest = website => {
-  return dispatch => {
+let uId = JSON.parse(localStorage.getItem("user_info"));
+return dispatch => {
     return CallApi_ACCOUNT(
       `VN/companies/${uId.company_id}/website`,
       "PUT",
@@ -96,7 +99,8 @@ export const actSaveAddress = address => {
   };
 };
 export const actSaveAddressRequest = address => {
-  return dispatch => {
+let uId = JSON.parse(localStorage.getItem("user_info"));
+return dispatch => {
     return CallApi_ACCOUNT(
       `VN/companies/${uId.company_id}/location`,
       "PUT",
@@ -121,17 +125,6 @@ export const actChangeBackground = background => {
     background
   };
 };
-// export const actSaveBackgroundRequest = background => {
-//   return dispatch => {
-//     return CallApi_ACCOUNT(
-//       "VN/companies/eDLBQUwHQck7eIIFyjiS/backgrounds",
-//       "PUT",
-//       background
-//     )
-//       .then(res => console.log(res))
-//       .catch(err => console.log(err));
-//   };
-// };
 
 //Change Logo
 export const actChangeLogo = logo => {
@@ -140,14 +133,3 @@ export const actChangeLogo = logo => {
     logo
   };
 };
-// export const actSaveLogoRequest = logo => {
-//   return dispatch => {
-//     return CallApi_ACCOUNT(
-//       "VN/companies/eDLBQUwHQck7eIIFyjiS/logos",
-//       "PUT",
-//       logo
-//     )
-//       .then(res => console.log(res))
-//       .catch(err => console.log(err));
-//   };
-// };

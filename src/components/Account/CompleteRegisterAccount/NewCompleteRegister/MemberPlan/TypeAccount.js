@@ -46,33 +46,33 @@ const formItemLayout = {
 
 const residences = [
   {
-    value: "hanoi",
+    value: "Hà Nội",
     label: "Hà Nội",
     children: [
       {
-        value: "dongda",
+        value: "Đống Đa",
         label: "Đống Đa"
       },
       {
-        value: "caugiay",
+        value: "Cầu giấy",
         label: "Cầu giấy"
       },
       {
-        value: "hoangmai",
+        value: "Hoàng Mai",
         label: "Hoàng Mai"
       }
     ]
   },
   {
-    value: "saigon",
+    value: "Hồ Chí Minh",
     label: "Hồ Chí Minh",
     children: [
       {
-        value: "quan1",
+        value: "Quận 1",
         label: "Quận 1"
       },
       {
-        value: "quan2",
+        value: "Quận 2",
         label: "Quận 2"
       }
     ]
@@ -617,12 +617,6 @@ class TypeAccount extends Component {
     return e && e.fileList;
   };
 
-  // handleChangeImage = ({ fileList }) => {
-  //   this.setState({
-  //     fileList
-  //   });
-  // };
-
   onSendImage = () => {
     let userInfo = JSON.parse(localStorage.getItem("user_info"));
     const { fileList } = this.state;
@@ -642,7 +636,6 @@ class TypeAccount extends Component {
   };
 
   render() {
-    console.log(this.state);
     const { getFieldDecorator } = this.props.form;
     let typePicked = this.props.typeMem;
     let { fileList } = this.state;
