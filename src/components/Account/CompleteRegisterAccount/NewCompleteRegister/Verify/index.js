@@ -40,7 +40,6 @@ class Verify extends Component {
   };
 
   normFile = e => {
-    // console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -73,7 +72,6 @@ class Verify extends Component {
     let data = {};
     let profiles = this.props.profile;
     let dataResult = Object.assign(data, profiles[0], profiles[1]);
-    console.log(dataResult);
     this.props.actSendDateToServer(dataResult);
     this.props.getState(this.state.step);
     this.onSendImage();

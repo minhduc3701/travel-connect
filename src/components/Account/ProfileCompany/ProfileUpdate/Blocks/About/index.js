@@ -108,12 +108,13 @@ class About extends React.Component {
   };
 
   onSendImage = () => {
+    let user= JSON.parse(localStorage.getItem('user_info'))
     const { fileList } = this.state;
     const formData = new FormData();
     fileList.forEach(file => {
       formData.append("image-", file);
     });
-    CallApi("user/7oZGSZGGLfaFZNn3FYNX5PJS0292/images", "POST", formData)
+    CallApi(`user/${user.user_id}/images`, "POST", formData)
       .then(res => console.log(res))
       .catch(err => console.log(err));
   };

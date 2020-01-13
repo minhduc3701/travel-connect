@@ -55,7 +55,6 @@ class ProfileUpdate extends Component {
       this.props.actSendWebsiteToServer(CompanyProfile[4]);
     }
     if (CompanyProfile[5]) {
-      console.log(CompanyProfile[5].background);
       this.onSendImageBackground(CompanyProfile[5].background);
     }
     if (CompanyProfile[6]) {
@@ -170,12 +169,6 @@ const mapDispatchToProp = (dispatch, props) => {
     actCleanStore: () => {
       dispatch(actCleanReduxStore());
     }
-    // actFetchDataAgain: () => {
-    //   dispatch(actFetchActionRequest());
-    // }
-    // actSendMediaToServer: media => {
-    //   dispatch(actSaveMediaRequest(media));
-    // },
   };
 };
 

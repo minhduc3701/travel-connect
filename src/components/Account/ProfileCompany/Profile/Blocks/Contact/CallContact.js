@@ -22,7 +22,7 @@ class CallContact extends Component {
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
+        // console.log("Received values of form: ", values);
         // this.props.getState(this.state.step);
         this.setState({ loading: true, message: values });
         setTimeout(() => {

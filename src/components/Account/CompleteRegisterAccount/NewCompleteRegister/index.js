@@ -21,16 +21,11 @@ class CompleteRegister extends Component {
     };
   }
 
-  // onSubmit = () => {
-  //   this.props.actSendDataToServer(this.state.info);
-  // };
-
   onNextStep = () => {
     this.setState({
       step: this.state.step + 1,
       progress: this.state.progress + 25
     });
-    console.log(this.state);
     window.scrollTo({ top: 100, behavior: "smooth" });
   };
   onBackStep = () => {
@@ -116,26 +111,6 @@ class CompleteRegister extends Component {
             style={{ position: "absolute", top: 0, right: 0, padding: 15 }}
           />
         </div>
-
-        {/* <div className="block-w">
-          <Row className="align-items-center d-flex">
-            <Col span={12}>
-              <img
-                style={{ height: "60%" }}
-                src="https://image.freepik.com/free-vector/character-illustration-people-with-packages-shipment_53876-59858.jpg"
-                alt="...."
-              />
-            </Col>
-            <Col span={12}>
-              <h1 className="text-align-center size-6">
-                <IntlMessages id="welcome" /> {data.name}!
-              </h1>
-              <p className="text-align-center text-color-white">
-                <IntlMessages id="onlyFewStep" />
-              </p>
-            </Col>
-          </Row>
-        </div> */}
 
         {/* Progress */}
         <div>
