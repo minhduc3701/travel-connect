@@ -11,7 +11,8 @@ import {
   onNavStyleChange,
   setThemeType
 } from "appRedux/actions/Setting";
-
+import { getUserData, getUserDataSuccess } from "appRedux/actions/GetUser";
+import { setInitUrl, userSignInSuccess } from "appRedux/actions/Auth";
 import {
   LAYOUT_TYPE_BOXED,
   LAYOUT_TYPE_FRAMED,
@@ -23,7 +24,7 @@ import {
   NAV_STYLE_INSIDE_HEADER_HORIZONTAL,
   THEME_TYPE_DARK
 } from "../../constants/ThemeSetting";
-
+import CircularProgress from "components/GlobalComponent/CircularProgress";
 class App extends Component {
   setLayoutType = layoutType => {
     if (layoutType === LAYOUT_TYPE_FULL) {
@@ -61,6 +62,14 @@ class App extends Component {
     if (this.props.initURL === "") {
       this.props.setInitUrl(this.props.history.location.pathname);
     }
+    if (
+      this.props.authUser !== -1 &&
+      localStorage.getItem("user_info") === null
+    ) {
+      this.props.getUserData();
+    } else {
+      this.props.getUserDataSuccess();
+    }
     const params = new URLSearchParams(this.props.location.search);
     if (params.has("theme")) {
       this.props.setThemeType(params.get("theme"));
@@ -80,18 +89,29 @@ class App extends Component {
       themeType,
       layoutType,
       navStyle,
-      locale
+      locale,
+      initURL
     } = this.props;
     if (themeType === THEME_TYPE_DARK) {
       document.body.classList.add("dark-theme");
     }
     if (location.pathname === "/") {
-      return <Redirect to={"/dashboard"} />;
+      // if (authUser === -1) {
+      //   return (window.location.href =
+      //     "https://localhost:3001/signin/url=localhost:3000");
+      // }
+      if (initURL === "" || initURL === "/" || initURL === "/signin") {
+        return <Redirect to={"/dashboard"} />;
+      } else {
+        return <Redirect to={initURL} />;
+      }
     }
     this.setLayoutType(layoutType);
 
     this.setNavStyle(navStyle);
-
+    {
+      console.log(this.props.loading);
+    }
     const currentAppLocale = AppLocale[locale.locale];
     return (
       <ConfigProvider locale={currentAppLocale.antd}>
@@ -99,24 +119,40 @@ class App extends Component {
           locale={currentAppLocale.locale}
           messages={currentAppLocale.messages}
         >
-          <Route path={`${match.url}`} component={MainApp} />
+          {this.props.loading ? (
+            <CircularProgress />
+          ) : (
+            <Route path={`${match.url}`} component={MainApp} />
+          )}
         </IntlProvider>
       </ConfigProvider>
     );
   }
 }
 
-const mapStateToProps = ({ settings, state }) => {
+const mapStateToProps = ({ settings, state, auth, getUser }) => {
   const { locale, navStyle, themeType, layoutType } = settings;
-  return { locale, navStyle, themeType, layoutType, state };
-};
-
-const mapDispatchToProps = (dispatch, props) => {
+  const { loading, data } = getUser;
+  const { authUser, initURL } = auth;
   return {
-    setThemeType,
-    onNavStyleChange,
-    onLayoutTypeChange
+    locale,
+    navStyle,
+    themeType,
+    layoutType,
+    state,
+    loading,
+    data,
+    authUser,
+    initURL
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, {
+  setThemeType,
+  onNavStyleChange,
+  onLayoutTypeChange,
+  setInitUrl,
+  userSignInSuccess,
+  getUserData,
+  getUserDataSuccess
+})(App);

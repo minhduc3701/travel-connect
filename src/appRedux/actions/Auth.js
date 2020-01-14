@@ -1,105 +1,131 @@
 import {
-  FETCH_ERROR,
-  FETCH_START,
-  FETCH_SUCCESS,
+  HIDE_MESSAGE,
   INIT_URL,
+  ON_HIDE_LOADER,
+  ON_SHOW_LOADER,
+  SHOW_MESSAGE,
+  SIGNIN_FACEBOOK_USER,
+  SIGNIN_FACEBOOK_USER_SUCCESS,
+  SIGNIN_GITHUB_USER,
+  SIGNIN_GITHUB_USER_SUCCESS,
+  SIGNIN_GOOGLE_USER,
+  SIGNIN_GOOGLE_USER_SUCCESS,
+  SIGNIN_TWITTER_USER,
+  SIGNIN_TWITTER_USER_SUCCESS,
+  SIGNIN_USER,
+  SIGNIN_USER_SUCCESS,
+  SIGNOUT_USER,
   SIGNOUT_USER_SUCCESS,
-  USER_DATA,
-  USER_TOKEN_SET
-} from "../../constants/ActionTypes";
-import axios from "util/Api";
+  SIGNUP_USER,
+  SIGNUP_USER_SUCCESS
+} from "constants/ActionTypes";
 
+export const userSignUp = user => {
+  return {
+    type: SIGNUP_USER,
+    payload: user
+  };
+};
+export const userSignIn = user => {
+  return {
+    type: SIGNIN_USER,
+    payload: user
+  };
+};
+export const userSignOut = () => {
+  return {
+    type: SIGNOUT_USER
+  };
+};
+export const userSignUpSuccess = () => {
+  return {
+    type: SIGNUP_USER_SUCCESS
+    // payload: authUser
+  };
+};
+
+export const userSignInSuccess = authUser => {
+  return {
+    type: SIGNIN_USER_SUCCESS,
+    payload: authUser
+  };
+};
+export const userSignOutSuccess = () => {
+  return {
+    type: SIGNOUT_USER_SUCCESS
+  };
+};
+
+export const showAuthMessage = message => {
+  return {
+    type: SHOW_MESSAGE,
+    payload: message
+  };
+};
+
+export const userGoogleSignIn = () => {
+  return {
+    type: SIGNIN_GOOGLE_USER
+  };
+};
+export const userGoogleSignInSuccess = authUser => {
+  return {
+    type: SIGNIN_GOOGLE_USER_SUCCESS,
+    payload: authUser
+  };
+};
+export const userFacebookSignIn = () => {
+  return {
+    type: SIGNIN_FACEBOOK_USER
+  };
+};
+export const userFacebookSignInSuccess = authUser => {
+  return {
+    type: SIGNIN_FACEBOOK_USER_SUCCESS,
+    payload: authUser
+  };
+};
 export const setInitUrl = url => {
   return {
     type: INIT_URL,
     payload: url
   };
 };
-
-export const userSignUp = ({ email, password, name }) => {
-  return dispatch => {
-    dispatch({ type: FETCH_START });
-    axios
-      .post("signup", {
-        email: email,
-        password: password,
-        name: name
-      })
-      .then(({ data }) => {
-        if (data.result) {
-          localStorage.setItem(
-            "token",
-            JSON.stringify(data.token.access_token)
-          );
-          axios.defaults.headers.common["access-token"] =
-            "Bearer " + data.token.access_token;
-          dispatch({ type: FETCH_SUCCESS });
-          dispatch({ type: USER_TOKEN_SET, payload: data.token.access_token });
-          dispatch({ type: USER_DATA, payload: data.user });
-        } else {
-          dispatch({ type: FETCH_ERROR, payload: "Network Error" });
-        }
-      })
-      .catch(function (error) {
-        dispatch({ type: FETCH_ERROR, payload: error.message });
-      });
+export const userTwitterSignIn = () => {
+  return {
+    type: SIGNIN_TWITTER_USER
+  };
+};
+export const userTwitterSignInSuccess = authUser => {
+  return {
+    type: SIGNIN_TWITTER_USER_SUCCESS,
+    payload: authUser
+  };
+};
+export const userGithubSignIn = () => {
+  return {
+    type: SIGNIN_GITHUB_USER
+  };
+};
+export const userGithubSignInSuccess = authUser => {
+  return {
+    type: SIGNIN_GITHUB_USER_SUCCESS,
+    payload: authUser
+  };
+};
+export const showAuthLoader = () => {
+  return {
+    type: ON_SHOW_LOADER
   };
 };
 
-export const userSignIn = ({ email, password }) => {
-  return dispatch => {
-    dispatch({ type: FETCH_START });
-    axios
-      .post("auth/login", {
-        email: email,
-        password: password
-      })
-      .then(({ data }) => {
-        if (data.result) {
-          localStorage.setItem(
-            "token",
-            JSON.stringify(data.token.access_token)
-          );
-          axios.defaults.headers.common["access-token"] =
-            "Bearer " + data.token.access_token;
-          dispatch({ type: FETCH_SUCCESS });
-          dispatch({ type: USER_TOKEN_SET, payload: data.token.access_token });
-        } else {
-          dispatch({ type: FETCH_ERROR, payload: data.error });
-        }
-      })
-      .catch(function (error) {
-        dispatch({ type: FETCH_ERROR, payload: error.message });
-      });
+export const hideMessage = () => {
+  return {
+    type: HIDE_MESSAGE
   };
 };
-
-export const getUser = () => {
-  return dispatch => {
-    dispatch({ type: FETCH_START });
-    axios
-      .post("auth/me")
-      .then(({ data }) => {
-        if (data.result) {
-          dispatch({ type: FETCH_SUCCESS });
-          dispatch({ type: USER_DATA, payload: data.user });
-        } else {
-          dispatch({ type: FETCH_ERROR, payload: data.error });
-        }
-      })
-      .catch(function (error) {
-        dispatch({ type: FETCH_ERROR, payload: error.message });
-      });
-  };
-};
-
-export const userSignOut = () => {
-  return dispatch => {
-    dispatch({ type: FETCH_START });
-    setTimeout(() => {
-      localStorage.removeItem("token");
-      dispatch({ type: FETCH_SUCCESS });
-      dispatch({ type: SIGNOUT_USER_SUCCESS });
-    }, 2000);
+export const hideAuthLoader = () => {
+  return {
+    type: ON_HIDE_LOADER
   };
 };
