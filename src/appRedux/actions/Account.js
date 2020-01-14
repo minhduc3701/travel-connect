@@ -4,6 +4,7 @@ import {
   COMPANY_PROFILE_STEP4
 } from "../../constants/ActionTypes";
 import { CallApi_USER, CallApi_ACCOUNT } from "util/CallApi";
+import { notiChange } from "util/Notification";
 
 export const actFetchAction = profile => {
   return {
@@ -18,7 +19,7 @@ export const actFetchActionRequest = () => {
   return dispatch => {
     return CallApi_ACCOUNT(`VN/companies/${uId.company_id}`, "GET", null)
       .then(res => {
-        console.log(res);
+        // console.log(res);
         dispatch(actFetchAction({ ...res.data }));
       })
       .catch(err => {
@@ -72,12 +73,29 @@ export const actCreateCompanyRequest = (profile, file) => {
 };
 
 const onSendImage = (fileList, id) => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
   const formData = new FormData();
   fileList.forEach(file => {
     formData.append("image-", file);
   });
   CallApi_ACCOUNT(`VN/companies/${id.company_id}/licenceDocs`, "PUT", formData)
-    .then(res => console.log(res))
+    .then(res => {
+      let dataDup = uId;
+      for (const key in id) {
+        for (const newKey in dataDup) {
+          if (key === newKey) {
+            dataDup[newKey] = id[key];
+          }
+        }
+      }
+      if (res.data) {
+        localStorage.removeItem("user_info");
+        let newInfo = JSON.stringify(dataDup);
+        notiChange("success", "Cập nhật thành công");
+        localStorage.setItem("user_info", newInfo);
+        // onSendImage(file);
+      }
+    })
     .catch(err => console.log(err));
 };
 
@@ -108,3 +126,17 @@ export const actUpdateCompanyProfileRequest = profile => {
       });
   };
 };
+
+// export const actGetNewUserInfo = () => {
+//   let uId = JSON.parse(localStorage.getItem("user_info"));
+//   return dispatch => {
+//     return CallApi_USER(`users/${uId.user_id}`, "GET", null)
+//       .then(res => {
+//         console.log(uId.user_id);
+//         console.log(res);
+//       })
+//       .catch(err => {
+//         console.log(err);
+//       });
+//   };
+// };

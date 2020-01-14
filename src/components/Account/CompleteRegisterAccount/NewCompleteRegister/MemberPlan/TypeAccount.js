@@ -614,7 +614,7 @@ class TypeAccount extends Component {
     if (Array.isArray(e)) {
       return e;
     }
-    return e && e.fileList;
+    return e && e.fileList1;
   };
 
   onSendImage = () => {
@@ -788,7 +788,7 @@ class TypeAccount extends Component {
                 label="Thông tin xác minh:"
               >
                 {getFieldDecorator("company_verify", {
-                  valuePropName: "fileList",
+                  valuePropName: "fileList1",
                   getValueFromEvent: this.normFile
                 })(
                   <Dragger {...props}>
@@ -1048,7 +1048,7 @@ class TypeAccount extends Component {
                     label="Thông tin xác minh:"
                   >
                     {getFieldDecorator("tour_guide_profile", {
-                      valuePropName: "fileList",
+                      valuePropName: "fileList1",
                       getValueFromEvent: this.normFile
                     })(
                       <Dragger {...props}>
@@ -1164,7 +1164,7 @@ class TypeAccount extends Component {
                 label="Thông tin xác minh:"
               >
                 {getFieldDecorator("student_verify", {
-                  valuePropName: "fileList",
+                  valuePropName: "fileList1",
                   getValueFromEvent: this.normFile
                 })(
                   <Dragger {...props}>
