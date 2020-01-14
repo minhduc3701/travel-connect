@@ -9,7 +9,7 @@ import Processing from "./Blocks/Processing";
 import Rating from "./Blocks/Rating";
 import PropertiesCard from "./Blocks/PropertiesItemCard/PropertiesCard";
 import Socials from "./Blocks/Socials";
-import Media from "./Blocks/Media";
+// import Media from "./Blocks/Media";
 import Contact from "./Blocks/Contact";
 import Navigation from "./Blocks/Navigation";
 import StaticticGuest from "./Blocks/StaticticGuest";
@@ -27,6 +27,7 @@ class Profile extends Component {
   };
 
   componentWillMount() {
+    console.log("unmount");
     this.props.actFetchDataAgain();
   }
 
@@ -74,7 +75,7 @@ class Profile extends Component {
                 <StaticticGuest profile={profile} />
                 <Friends profile={profile} friendList={friendList} />
                 <Socials profile={profile} />
-                <Media profile={profile} />
+                {/* <Media profile={profile} /> */}
               </Col>
             </Row>
           </div>

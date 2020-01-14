@@ -169,6 +169,10 @@ class Info extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     let { profile } = this.props.profile;
+    let bussLength = null;
+    if (profile.company_business) {
+      bussLength = profile.company_business.length - 1;
+    }
     let src = `https://${
       this.state.website ? this.state.website : profile.company_website
     }`;
@@ -180,7 +184,13 @@ class Info extends React.Component {
           <Col xl={24} lg={24} md={24} sm={24} xs={24}>
             <h5 className=" gx-text-grey ">
               <Icon type="appstore" className="p-r-3" />
-              {profile.company_business}
+              {profile.company_business.map((buss, index) => {
+                if (index === bussLength) {
+                  return <span>{buss}...</span>;
+                } else {
+                  return <span>{buss}, </span>;
+                }
+              })}
             </h5>
           </Col>
           <Col

@@ -58,11 +58,26 @@ class Rating extends React.Component {
   render() {
     let { profile } = this.props;
     const data02 = [
-      { name: <IntlMessages id="account.profile.rating.unit.bad" />, value: profile.company_rating_bad },
-      { name: <IntlMessages id="account.profile.rating.unit.notgood" />, value: profile.company_rating_fail },
-      { name: <IntlMessages id="account.profile.rating.unit.normal" />, value: profile.company_rating_normal },
-      { name: <IntlMessages id="account.profile.rating.unit.good" />, value: profile.company_rating_good },
-      { name: <IntlMessages id="account.profile.rating.unit.great" />, value: profile.company_rating_great }
+      {
+        name: <IntlMessages id="account.profile.rating.unit.bad" />,
+        value: profile.company_rating_bad
+      },
+      {
+        name: <IntlMessages id="account.profile.rating.unit.notgood" />,
+        value: profile.company_rating_fail
+      },
+      {
+        name: <IntlMessages id="account.profile.rating.unit.normal" />,
+        value: profile.company_rating_normal
+      },
+      {
+        name: <IntlMessages id="account.profile.rating.unit.good" />,
+        value: profile.company_rating_good
+      },
+      {
+        name: <IntlMessages id="account.profile.rating.unit.great" />,
+        value: profile.company_rating_great
+      }
     ];
 
     return (
@@ -102,10 +117,14 @@ class Rating extends React.Component {
                   }}
                 >
                   <h2 className="h4 gx-mb-2 ">
-                    <IntlMessages id="general.text.total" />: {profile.company_rating} <IntlMessages id="account.profile.rating" />
+                    <IntlMessages id="general.text.total" />:{" "}
+                    {profile.company_rating}{" "}
+                    <IntlMessages id="account.profile.rating" />
                   </h2>
                   <br />
-                  <p className="gx-text-grey"><IntlMessages id="general.text.year" /> 2019</p>
+                  <p className="gx-text-grey">
+                    <IntlMessages id="general.text.year" /> 2019
+                  </p>
                   <div
                     style={{
                       width: "70%",
@@ -119,7 +138,9 @@ class Rating extends React.Component {
                         justifyContent: "space-between"
                       }}
                     >
-                      <span><IntlMessages id="account.profile.rating.unit.bad" /> :</span>
+                      <span>
+                        <IntlMessages id="account.profile.rating.unit.bad" /> :
+                      </span>
                       <span
                         style={{
                           display: "inline-block",
@@ -138,7 +159,10 @@ class Rating extends React.Component {
                         justifyContent: "space-between"
                       }}
                     >
-                      <span><IntlMessages id="account.profile.rating.unit.notgood" /> :</span>
+                      <span>
+                        <IntlMessages id="account.profile.rating.unit.notgood" />{" "}
+                        :
+                      </span>
                       <span
                         style={{
                           display: "inline-block",
@@ -157,7 +181,10 @@ class Rating extends React.Component {
                         justifyContent: "space-between"
                       }}
                     >
-                      <span><IntlMessages id="account.profile.rating.unit.normal" /> :</span>
+                      <span>
+                        <IntlMessages id="account.profile.rating.unit.normal" />{" "}
+                        :
+                      </span>
                       <span
                         style={{
                           display: "inline-block",
@@ -176,7 +203,9 @@ class Rating extends React.Component {
                         justifyContent: "space-between"
                       }}
                     >
-                      <span><IntlMessages id="account.profile.rating.unit.good" /> :</span>
+                      <span>
+                        <IntlMessages id="account.profile.rating.unit.good" /> :
+                      </span>
                       <span
                         style={{
                           display: "inline-block",
@@ -195,7 +224,10 @@ class Rating extends React.Component {
                         justifyContent: "space-between"
                       }}
                     >
-                      <span><IntlMessages id="account.profile.rating.unit.great" /> :</span>
+                      <span>
+                        <IntlMessages id="account.profile.rating.unit.great" />{" "}
+                        :
+                      </span>
                       <span
                         style={{
                           display: "inline-block",
@@ -229,66 +261,80 @@ class Rating extends React.Component {
                       className="view-all-comment gx-link "
                       onClick={() => this.viewAll()}
                     >
-                      <IntlMessages id="general.text.all" /> <IntlMessages id="account.profile.comment" />
+                      <IntlMessages id="general.text.all" />{" "}
+                      <IntlMessages id="account.profile.comment" />
                     </p>
                   </div>
                 </Col>
               </Row>
             ) : (
-                <Row>
-                  <Col xl={24} lg={24} md={24} sm={24} xs={24}>
-                    <div className="p-3 m-b-3 bg-color-white bor-rad-6">
-                      <Button
-                        onClick={() => this.closeViewAll()}
-                        style={{ height: 30 }}
-                      >
-                        <i className="icon icon-arrow-left"></i>
-                      </Button>
-                      <Row>
-                        <Col xl={10} lg={10} md={10} sm={24} xs={24}>
-                          <Select
-                            showSearch
-                            className="w-90"
-                            placeholder="Select a type mail"
-                            defaultValue="1"
-                          >
-                            <Option value="1"><IntlMessages id="general.all" /> <IntlMessages id="account.profile.comment" /></Option>
-                            <Option value="2"><IntlMessages id="account.profile.comment.filter.rating.unit.great" /></Option>
-                            <Option value="3"><IntlMessages id="account.profile.comment.filter.rating.unit.good" /></Option>
-                            <Option value="4"><IntlMessages id="account.profile.comment.filter.rating.unit.normal" /></Option>
-                            <Option value="5"><IntlMessages id="account.profile.comment.filter.rating.unit.notgood" /></Option>
-                            <Option value="6"><IntlMessages id="account.profile.comment.filter.rating.unit.bad" /></Option>
-                          </Select>
-                        </Col>
+              <Row>
+                <Col xl={24} lg={24} md={24} sm={24} xs={24}>
+                  <div className="p-3 m-b-3 bg-color-white bor-rad-6">
+                    <Button
+                      onClick={() => this.closeViewAll()}
+                      style={{ height: 30 }}
+                    >
+                      <i className="icon icon-arrow-left"></i>
+                    </Button>
+                    <Row>
+                      <Col xl={10} lg={10} md={10} sm={24} xs={24}>
+                        <Select
+                          showSearch
+                          className="w-90"
+                          placeholder="Select a type mail"
+                          defaultValue="1"
+                        >
+                          <Option value="1">
+                            <IntlMessages id="general.all" />{" "}
+                            <IntlMessages id="account.profile.comment" />
+                          </Option>
+                          <Option value="2">
+                            <IntlMessages id="account.profile.comment.filter.rating.unit.great" />
+                          </Option>
+                          <Option value="3">
+                            <IntlMessages id="account.profile.comment.filter.rating.unit.good" />
+                          </Option>
+                          <Option value="4">
+                            <IntlMessages id="account.profile.comment.filter.rating.unit.normal" />
+                          </Option>
+                          <Option value="5">
+                            <IntlMessages id="account.profile.comment.filter.rating.unit.notgood" />
+                          </Option>
+                          <Option value="6">
+                            <IntlMessages id="account.profile.comment.filter.rating.unit.bad" />
+                          </Option>
+                        </Select>
+                      </Col>
 
-                        <Col xl={4} lg={4} md={4} sm={24} xs={24}>
-                          <div className="text-align-center d-block">
-                            <Button
-                              className=""
-                              style={{
-                                backgroundColor: "#038FDE",
-                                color: "white"
-                              }}
-                            >
-                              <IntlMessages id="account.profile.comment.filter" />
-                            </Button>
-                          </div>
-                        </Col>
-                        <Col xl={10} lg={10} md={10} sm={24} xs={24}></Col>
-                      </Row>
-                      <br />
-                      <div style={{ height: 300, overflow: hidden }}>
-                        <ProductComment />
-                        <Pagination
-                          defaultCurrent={1}
-                          total={50}
-                          style={{ marginTop: 10, float: "right" }}
-                        />
-                      </div>
+                      <Col xl={4} lg={4} md={4} sm={24} xs={24}>
+                        <div className="text-align-center d-block">
+                          <Button
+                            className=""
+                            style={{
+                              backgroundColor: "#038FDE",
+                              color: "white"
+                            }}
+                          >
+                            <IntlMessages id="account.profile.comment.filter" />
+                          </Button>
+                        </div>
+                      </Col>
+                      <Col xl={10} lg={10} md={10} sm={24} xs={24}></Col>
+                    </Row>
+                    <br />
+                    <div style={{ height: 300, overflow: hidden }}>
+                      <ProductComment />
+                      <Pagination
+                        defaultCurrent={1}
+                        total={50}
+                        style={{ marginTop: 10, float: "right" }}
+                      />
                     </div>
-                  </Col>
-                </Row>
-              )}
+                  </div>
+                </Col>
+              </Row>
+            )}
           </TabPane>
         </Tabs>
       </div>

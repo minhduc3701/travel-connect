@@ -3,6 +3,8 @@ import { Col, Icon } from "antd";
 import { Button, Dropdown, Menu } from "antd";
 // import { Link } from "react-router-dom";
 import Info from "./Info";
+import background from "assets/images/travel-default-background.png";
+import logo from "assets/images/travel-default-logo.png";
 import IntlMessages from "util/IntlMessages";
 
 const btn_notification_menu = (
@@ -39,7 +41,13 @@ class Banner extends Component {
         <div className="aspect_box">
           <div className="aspect_box--inner aspect_box--retangle_1x4">
             <img
-              src={Account.company_background}
+              src={
+                Account.company_background
+                  ? Account.company_background
+                  : Account.company_background === ""
+                  ? background
+                  : background
+              }
               alt="banner"
               className="aspect_box__img aspect_box__img--cover"
             />
@@ -50,7 +58,13 @@ class Banner extends Component {
             <div className="aspect_box block__banner__avatar">
               <div className="aspect_box--inner aspect_box--square --circle block__banner__avatar--inner bg-color-white">
                 <img
-                  src={Account.company_logo}
+                  src={
+                    Account.company_logo
+                      ? Account.company_logo
+                      : Account.company_logo === ""
+                      ? logo
+                      : logo
+                  }
                   alt="banner"
                   className="aspect_box__img aspect_box__img--contain"
                 />

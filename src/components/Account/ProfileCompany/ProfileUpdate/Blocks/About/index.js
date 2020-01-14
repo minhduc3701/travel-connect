@@ -108,7 +108,7 @@ class About extends React.Component {
   };
 
   onSendImage = () => {
-    let user= JSON.parse(localStorage.getItem('user_info'))
+    let user = JSON.parse(localStorage.getItem("user_info"));
     const { fileList } = this.state;
     const formData = new FormData();
     fileList.forEach(file => {
@@ -172,6 +172,8 @@ class About extends React.Component {
         icon: "company",
         userList: "",
         desc: profile.company_business
+          ? profile.company_business[0]
+          : profile.company_business
       }
     ];
 
@@ -210,11 +212,11 @@ class About extends React.Component {
                   className="cursor-pointer cursor-pointer--zoom"
                 />
               ) : (
-                  <Icon
-                    className="size-4 cursor-pointer cursor-pointer--zoom"
-                    type="check-circle"
-                  />
-                )}
+                <Icon
+                  className="size-4 cursor-pointer cursor-pointer--zoom"
+                  type="check-circle"
+                />
+              )}
             </div>
           }
         />
@@ -252,7 +254,9 @@ class About extends React.Component {
                   xl={6}
                 >
                   <p className="text-align-right">
-                    {<IntlMessages id="account.profile.edit.about.update.companyname" />}
+                    {
+                      <IntlMessages id="account.profile.edit.about.update.companyname" />
+                    }
                   </p>
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
@@ -261,7 +265,9 @@ class About extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: <IntlMessages id="account.profile.edit.about.update.companyname.msg.error" />
+                          message: (
+                            <IntlMessages id="account.profile.edit.about.update.companyname.msg.error" />
+                          )
                         }
                       ]
                     })(<Input style={{ width: "80%" }} placeholder="Name" />)}
@@ -281,7 +287,9 @@ class About extends React.Component {
                   lg={6}
                   xl={6}
                 >
-                  <p className="text-align-right"><IntlMessages id="account.profile.edit.about.update.brandname" /></p>
+                  <p className="text-align-right">
+                    <IntlMessages id="account.profile.edit.about.update.brandname" />
+                  </p>
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                   <FormItem {...formItemLayout}>
@@ -289,7 +297,9 @@ class About extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: <IntlMessages id="account.profile.edit.about.update.brandname.msg.error" />
+                          message: (
+                            <IntlMessages id="account.profile.edit.about.update.brandname.msg.error" />
+                          )
                         }
                       ]
                     })(
@@ -311,7 +321,9 @@ class About extends React.Component {
                   lg={6}
                   xl={6}
                 >
-                  <p className="text-align-right"><IntlMessages id="account.profile.edit.about.update.licensenumber" /></p>
+                  <p className="text-align-right">
+                    <IntlMessages id="account.profile.edit.about.update.licensenumber" />
+                  </p>
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                   <FormItem {...formItemLayout}>
@@ -319,7 +331,9 @@ class About extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: <IntlMessages id="account.profile.edit.about.update.licensenumber.msg.error" />
+                          message: (
+                            <IntlMessages id="account.profile.edit.about.update.licensenumber.msg.error" />
+                          )
                         }
                       ]
                     })(
@@ -341,7 +355,9 @@ class About extends React.Component {
                   lg={6}
                   xl={6}
                 >
-                  <p className="text-align-right"><IntlMessages id="account.profile.edit.about.update.businesstype" /></p>
+                  <p className="text-align-right">
+                    <IntlMessages id="account.profile.edit.about.update.businesstype" />
+                  </p>
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                   <FormItem {...formItemLayout}>
@@ -349,7 +365,9 @@ class About extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: <IntlMessages id="account.profile.edit.about.update.businesstype.msg.error" />
+                          message: (
+                            <IntlMessages id="account.profile.edit.about.update.businesstype.msg.error" />
+                          )
                         }
                       ]
                     })(
@@ -383,7 +401,9 @@ class About extends React.Component {
                   lg={6}
                   xl={6}
                 >
-                  <p className="text-align-right"><IntlMessages id="account.profile.edit.about.update.licenseimage" /></p>
+                  <p className="text-align-right">
+                    <IntlMessages id="account.profile.edit.about.update.licenseimage" />
+                  </p>
                 </Col>
                 <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                   <FormItem {...formItemLayout}>
@@ -393,7 +413,8 @@ class About extends React.Component {
                     })(
                       <Upload {...props}>
                         <Button style={{ margin: 0 }}>
-                          <Icon type="upload" /> <IntlMessages id="account.profile.edit.about.update.licenseimage.btn.upload" />
+                          <Icon type="upload" />{" "}
+                          <IntlMessages id="account.profile.edit.about.update.licenseimage.btn.upload" />
                         </Button>
                       </Upload>
                     )}

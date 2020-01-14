@@ -3,6 +3,7 @@ import { Icon, Upload } from "antd";
 import { notiChange } from "util/Notification";
 import { connect } from "react-redux";
 import { actChangeBackground } from "appRedux/actions/CompanyProfile";
+import background from "assets/images/travel-default-background.png";
 
 class BannerBackground extends Component {
   state = {
@@ -19,7 +20,7 @@ class BannerBackground extends Component {
 
   onSaveBackground = () => {
     notiChange("success", "Change background success!");
-    this.props.actSaveData(this.state.file);
+    this.props.actSaveData(this.state.fileList);
   };
 
   render() {
@@ -60,7 +61,13 @@ class BannerBackground extends Component {
       <div className="aspect_box ">
         <div className="aspect_box--inner aspect_box--retangle_1x4 ">
           <img
-            src={profile.company_background}
+            src={
+              profile.company_background
+                ? profile.company_background
+                : profile.company_background === ""
+                ? background
+                : background
+            }
             alt="banner"
             className="aspect_box__img aspect_box__img--cover z-1"
           />
@@ -89,4 +96,3 @@ const mapDispatchToProps = (dispatch, props) => {
 };
 
 export default connect(null, mapDispatchToProps)(BannerBackground);
-
