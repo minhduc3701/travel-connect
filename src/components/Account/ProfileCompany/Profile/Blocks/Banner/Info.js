@@ -1,21 +1,25 @@
 import React from "react";
 import { Col, Icon, Row } from "antd";
+
 class Info extends React.Component {
   render() {
     let { Account } = this.props;
+    let bussLength = Account.company_business.length - 1;
     return (
       <div className="p-t-4">
-        <h3>
-          {Account.company_brandname}
-        </h3>
-        <h2 className="text-trans-upper">
-          {Account.company_name}
-        </h2>
+        <h3>{Account.company_brandname}</h3>
+        <h2 className="text-trans-upper">{Account.company_name}</h2>
         <Row>
           <Col xl={24} lg={24} md={24} sm={24} xs={24}>
             <h5 className=" gx-text-grey ">
               <Icon type="appstore" className="p-r-3" />
-              {Account.company_business}
+              {Account.company_business.map((buss, index) => {
+                if (index === bussLength) {
+                  return <span>{buss}...</span>;
+                } else {
+                  return <span>{buss}, </span>;
+                }
+              })}
             </h5>
           </Col>
           <Col xl={12} lg={12} md={12} sm={24} xs={24}>
