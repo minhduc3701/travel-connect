@@ -33,9 +33,12 @@ export const userSignIn = user => {
   };
 };
 export const userSignOut = () => {
-  return {
-    type: SIGNOUT_USER
-  };
+  document.cookie =
+    "request_token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global";
+  document.cookie =
+    "user_id= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global";
+  localStorage.removeItem("user_info");
+  return (window.location.href = "http://app.travelconnect.global/signin");
 };
 export const userSignUpSuccess = () => {
   return {
