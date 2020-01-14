@@ -8,7 +8,11 @@ class Photos extends Component {
           <ul className="gx-gallery-list bor-rad-0">
             {Account.company_medias.map((photo, index) => (
               <li key={index}>
-                <img alt="..." src={photo} />
+                <img
+                  style={{ height: "8em", objectFit: "cover" }}
+                  alt="..."
+                  src={photo}
+                />
               </li>
             ))}
           </ul>

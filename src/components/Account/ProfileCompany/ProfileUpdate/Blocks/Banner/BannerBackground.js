@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Icon, Upload } from "antd";
-import { notiChange } from "util/Notification";
+// import { notiChange } from "util/Notification";
 import { connect } from "react-redux";
 import { actChangeBackground } from "appRedux/actions/CompanyProfile";
 import background from "assets/images/travel-default-background.png";
@@ -14,12 +14,7 @@ class BannerBackground extends Component {
     fileList: []
   };
 
-  handleChange = ({ fileList }) => {
-    this.setState({ fileList }, () => this.onSaveBackground());
-  };
-
   onSaveBackground = () => {
-    notiChange("success", "Change background success!");
     this.props.actSaveData(this.state.fileList);
   };
 
@@ -48,10 +43,12 @@ class BannerBackground extends Component {
         });
       },
       beforeUpload: file => {
-        this.setState(state => ({
-          // fileList: file
-          fileList: [file]
-        }));
+        this.setState(
+          state => ({
+            fileList: [file]
+          }),
+          () => this.onSaveBackground()
+        );
         return false;
       },
       fileList
@@ -76,8 +73,6 @@ class BannerBackground extends Component {
             listType="picture-card"
             className="avatar-uploader aspect_box__img aspect_box__img--cover block__banner--upload z-2"
             {...props}
-            // beforeUpload={beforeUpload}
-            onChange={this.handleChange}
           >
             {uploadButton}
           </Upload>

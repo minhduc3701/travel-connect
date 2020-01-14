@@ -67,7 +67,8 @@ class Navigation extends Component {
             <Link title="Update" to="/profile">
               <Icon type="edit" className="m-r-1-i" />
               <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                <IntlMessages id="account.profile.edit.btn.preview" />
+                {/* <IntlMessages id="account.profile.edit.btn.preview" /> */}
+                Save Edit
               </span>
             </Link>
           </Menu.Item>

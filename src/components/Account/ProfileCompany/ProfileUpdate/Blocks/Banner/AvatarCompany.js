@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { notiChange } from "util/Notification";
+// import { notiChange } from "util/Notification";
 import { Icon, Upload } from "antd";
 import { connect } from "react-redux";
 import { actChangeLogo } from "appRedux/actions/CompanyProfile";
@@ -14,12 +14,7 @@ class AvatarCompany extends Component {
     fileList: []
   };
 
-  handleChange = ({ fileList }) => {
-    this.setState({ fileList }, () => this.onSaveLogo());
-  };
-
   onSaveLogo = () => {
-    notiChange("success", "Change background success!");
     this.props.actSaveData(this.state.fileList);
   };
 
@@ -48,10 +43,13 @@ class AvatarCompany extends Component {
         });
       },
       beforeUpload: file => {
-        this.setState(state => ({
-          // fileList: file
-          fileList: [file]
-        }));
+        this.setState(
+          state => ({
+            // fileList: file
+            fileList: [file]
+          }),
+          () => this.onSaveLogo()
+        );
         return false;
       },
       fileList
@@ -76,7 +74,7 @@ class AvatarCompany extends Component {
             listType="picture-card"
             className="avatar-uploader aspect_box__img aspect_box__img--cover block__banner__avatar--upload z-2"
             {...props}
-            onChange={this.handleChange}
+            // onChange={this.handleChange}
           >
             {imageUrl ? (
               <img
