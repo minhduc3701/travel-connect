@@ -72,7 +72,7 @@ class Personal extends Component {
       user_nation: null,
       user_city: null,
       user_district: null,
-      user_addresss: null
+      user_address: null
     },
     birth: "",
     fileList: [],
@@ -117,10 +117,10 @@ class Personal extends Component {
               user_nation: values.user_nation,
               user_city: values.user_district[0],
               user_district: values.user_district[1],
-              user_addresss: values.user_address
+              user_address: values.user_address
             }
           },
-          () => this.onSendDataToServer()
+          () => this.onSendDataToServer(this.state.fileList)
         );
       }
     });
@@ -133,11 +133,11 @@ class Personal extends Component {
     return e && e.fileList1;
   };
 
-  onSendDataToServer = () => {
-    this.props.onSendDataUser(this.state.person);
+  onSendDataToServer = file => {
+    this.props.onSendDataUser(this.state.person, file);
     this.props.getState(this.state.step);
     // if (this.state.fileList.length > 0) {
-    this.onSendImage();
+    // this.onSendImage();
     // }
   };
 
@@ -162,7 +162,18 @@ class Personal extends Component {
     });
     CallApi_USER(`users/${userInfo.user_id}/avatar`, "PATCH", formData)
       .then(res => {
-        console.log(res.data);
+        let dataDup = userInfo;
+        for (const key in dataDup) {
+          if (key === "user_logo") {
+            dataDup[key] = res.data.imageUrl;
+          }
+        }
+        if (res.data) {
+          console.log(dataDup);
+          // localStorage.removeItem("user_info");
+          // let newInfo = JSON.stringify(dataDup);
+          // localStorage.setItem("user_info", newInfo);
+        }
       })
       .catch(err => notiChange("error", "Somthing went wrong! Try again"));
   };
@@ -194,7 +205,6 @@ class Personal extends Component {
       },
       fileList
     };
-    console.log(this.state);
     return (
       <Row className="p-v-6">
         <Modal
@@ -202,7 +212,7 @@ class Personal extends Component {
           visible={this.state.visible}
           onCancel={this.handleCancel}
           footer={[
-            <Button onClick={this.handleCancel} type="primary">
+            <Button key={1} onClick={this.handleCancel} type="primary">
               Ok
             </Button>
           ]}
@@ -359,8 +369,8 @@ class Personal extends Component {
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    onSendDataUser: user => {
-      dispatch(actUpdateUserRequest(user));
+    onSendDataUser: (user, file) => {
+      dispatch(actUpdateUserRequest(user, file));
     }
   };
 };

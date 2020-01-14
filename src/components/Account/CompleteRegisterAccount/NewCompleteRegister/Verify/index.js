@@ -16,7 +16,7 @@ import {
   actSaveProfile4,
   actCreateCompanyRequest
 } from "../../../../../appRedux/actions/Account";
-import { CallApi_ACCOUNT } from "util/CallApi";
+// import { CallApi_ACCOUNT } from "util/CallApi";
 
 const FormItem = Form.Item;
 const Dragger = Upload.Dragger;
