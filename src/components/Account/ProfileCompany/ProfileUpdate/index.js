@@ -65,7 +65,6 @@ class ProfileUpdate extends Component {
   }
 
   onSendImageMedia = fileList => {
-    console.log(fileList);
     let user = JSON.parse(localStorage.getItem("user_info"));
     const formData = new FormData();
     fileList.forEach(file => {
@@ -77,7 +76,6 @@ class ProfileUpdate extends Component {
   };
 
   onSendImageBackground = backgrounds => {
-    console.log(backgrounds);
     let user = JSON.parse(localStorage.getItem("user_info"));
     const formData = new FormData();
     backgrounds.forEach(file => {
@@ -93,7 +91,6 @@ class ProfileUpdate extends Component {
   };
 
   onSendImageLogo = logo => {
-    console.log(logo);
     let user = JSON.parse(localStorage.getItem("user_info"));
     const formData = new FormData();
     logo.forEach(file => {
