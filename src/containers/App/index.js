@@ -25,6 +25,24 @@ import {
   THEME_TYPE_DARK
 } from "../../constants/ThemeSetting";
 import CircularProgress from "components/GlobalComponent/CircularProgress";
+
+const RestrictedRoute = ({ component: Component, authUser, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      authUser !== -1 ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/",
+            state: { from: props.location }
+          }}
+        />
+      )
+    }
+  />
+);
 class App extends Component {
   setLayoutType = layoutType => {
     if (layoutType === LAYOUT_TYPE_FULL) {
@@ -90,16 +108,17 @@ class App extends Component {
       layoutType,
       navStyle,
       locale,
-      initURL
+      initURL,
+      authUser
     } = this.props;
     if (themeType === THEME_TYPE_DARK) {
       document.body.classList.add("dark-theme");
     }
     if (location.pathname === "/") {
-      // if (authUser === -1) {
-      //   return (window.location.href =
-      //     "https://localhost:3001/signin/url=localhost:3000");
-      // }
+      if (authUser === -1) {
+        return (window.location.href =
+          "http://app.travelconnect.global/signin");
+      }
       if (initURL === "" || initURL === "/" || initURL === "/signin") {
         return <Redirect to={"/dashboard"} />;
       } else {
@@ -122,7 +141,11 @@ class App extends Component {
           {this.props.loading ? (
             <CircularProgress />
           ) : (
-            <Route path={`${match.url}`} component={MainApp} />
+            <RestrictedRoute
+              path={`${match.url}`}
+              authUser={authUser}
+              component={MainApp}
+            />
           )}
         </IntlProvider>
       </ConfigProvider>
