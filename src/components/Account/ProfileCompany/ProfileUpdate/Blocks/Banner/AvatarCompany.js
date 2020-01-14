@@ -3,6 +3,7 @@ import { notiChange } from "util/Notification";
 import { Icon, Upload } from "antd";
 import { connect } from "react-redux";
 import { actChangeLogo } from "appRedux/actions/CompanyProfile";
+import logo from "assets/images/travel-default-logo.png";
 
 class AvatarCompany extends Component {
   state = {
@@ -19,7 +20,7 @@ class AvatarCompany extends Component {
 
   onSaveLogo = () => {
     notiChange("success", "Change background success!");
-    this.props.actSaveData(this.state.file);
+    this.props.actSaveData(this.state.fileList);
   };
 
   render() {
@@ -60,7 +61,13 @@ class AvatarCompany extends Component {
       <div className="aspect_box block__banner__avatar z-4">
         <div className="aspect_box--inner aspect_box--square --circle block__banner__avatar--inner bg-color-white">
           <img
-            src={profile.company_logo}
+            src={
+              profile.company_logo
+                ? profile.company_logo
+                : profile.company_logo === ""
+                ? logo
+                : logo
+            }
             alt="banner"
             className="aspect_box__img aspect_box__img--contain z-1"
           />

@@ -49,7 +49,7 @@ class About extends React.Component {
         title: <IntlMessages id="account.profile.about.businesstype" />,
         icon: "company",
         userList: "",
-        desc: [Account.company_business]
+        desc: Account.company_business[0]
       }
     ];
 
