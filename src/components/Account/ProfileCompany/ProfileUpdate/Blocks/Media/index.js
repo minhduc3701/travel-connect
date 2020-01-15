@@ -32,7 +32,7 @@ class Media extends Component {
     if (Array.isArray(e)) {
       return e;
     }
-    return e && e.fileList;
+    return e && e.fileList1;
   };
 
   handleCancel = () => this.setState({ previewVisible: false });
@@ -64,6 +64,7 @@ class Media extends Component {
 
   render() {
     let { profile } = this.props;
+    console.log(this.state);
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
       <div>
@@ -87,12 +88,15 @@ class Media extends Component {
         });
       },
       beforeUpload: file => {
-        this.setState(state => ({
-          fileList: [...state.fileList, file],
-          file: {
-            company_medias: [...state.fileList, file]
-          }
-        }));
+        this.setState(
+          state => ({
+            fileList: [...state.fileList, file],
+            file: {
+              company_medias: [...state.fileList, file]
+            }
+          }),
+          this.onDoneChangeMedia()
+        );
         return false;
       },
       fileList
@@ -140,7 +144,7 @@ class Media extends Component {
               // fileList={profile.company_medias}
               fileList={fileList}
               onPreview={this.handlePreview}
-              onChange={this.handleChange}
+              // onChange={this.handleChange}
             >
               {fileList.length >= 8 ? null : uploadButton}
             </Upload>

@@ -9,7 +9,7 @@ import Processing from "./Blocks/Processing";
 import Rating from "./Blocks/Rating";
 import PropertiesCard from "./Blocks/PropertiesItemCard/PropertiesCard";
 import Socials from "./Blocks/Socials";
-// import Media from "./Blocks/Media";
+import Media from "./Blocks/Media";
 import Contact from "./Blocks/Contact";
 import Navigation from "./Blocks/Navigation";
 import StaticticGuest from "./Blocks/StaticticGuest";
@@ -27,7 +27,6 @@ class Profile extends Component {
   };
 
   componentWillMount() {
-    console.log("unmount");
     this.props.actFetchDataAgain();
   }
 
@@ -36,7 +35,7 @@ class Profile extends Component {
       this.setState({
         load: false
       });
-    }, 10000);
+    }, 3000);
   }
 
   render() {
@@ -53,7 +52,7 @@ class Profile extends Component {
 
     return (
       <Fragment>
-        {profile.Account.company_name ? (
+        {Account.company_name ? (
           <div className="gx-profile-content">
             <Banner profile={profile} />
             <Navigation />
@@ -68,19 +67,20 @@ class Profile extends Component {
                 </Row>
                 <EventsBanner profile={profile} />
                 <PropertiesCard profile={profile} />
-                <Rating profile={profile} />
+                {Account.company_rating > 0 ? (
+                  <Rating profile={profile} />
+                ) : null}
               </Col>
               <Col xl={8} lg={8} md={24} sm={24} xs={24}>
                 {warning}
                 <StaticticGuest profile={profile} />
                 <Friends profile={profile} friendList={friendList} />
                 <Socials profile={profile} />
-                {/* <Media profile={profile} /> */}
+                <Media profile={profile} />
               </Col>
             </Row>
           </div>
-        ) : profile.Account.company_name === undefined &&
-          this.state.load === false ? (
+        ) : Account.company_name === undefined && this.state.load === false ? (
           <Result
             status="500"
             title="Không tìm thấy hồ sơ công ty!"

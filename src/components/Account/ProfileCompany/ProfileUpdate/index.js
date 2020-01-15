@@ -9,7 +9,7 @@ import Processing from "./Blocks/Processing";
 import Rating from "./Blocks/Rating";
 import PropertiesCard from "./Blocks/PropertiesItemCard/PropertiesCard";
 import Socials from "./Blocks/Socials";
-// import Media from "./Blocks/Media";
+import Media from "./Blocks/Media";
 import Contact from "./Blocks/Contact";
 import Navigation from "./Blocks/Navigation";
 import StaticticGuest from "./Blocks/StaticticGuest";
@@ -18,6 +18,7 @@ import { CallApi_ACCOUNT } from "util/CallApi";
 import { connect } from "react-redux";
 import CircularProgress from "../../../GlobalComponent/CircularProgress";
 import { actFetchActionRequest } from "appRedux/actions/Account";
+// import { axios } from "axios";
 import {
   actSaveIntroRequest,
   actSaveSocialRequest,
@@ -79,7 +80,7 @@ class ProfileUpdate extends Component {
     let user = JSON.parse(localStorage.getItem("user_info"));
     const formData = new FormData();
     backgrounds.forEach(file => {
-      formData.append("File", file);
+      formData.append("image-", file);
     });
     CallApi_ACCOUNT(
       `VN/companies/${user.company_id}/backgrounds`,
@@ -135,7 +136,7 @@ class ProfileUpdate extends Component {
                 <StaticticGuest profile={Account} />
                 <Friends profile={Account} friendList={friendList} />
                 <Socials profile={Account} />
-                {/* <Media profile={Account} /> */}
+                <Media profile={Account} />
               </Col>
             </Row>
           </div>

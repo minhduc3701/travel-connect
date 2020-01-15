@@ -181,6 +181,7 @@ class Personal extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;
+    console.log(this.state);
     let userInfo = JSON.parse(localStorage.getItem("user_info"));
     let name = userInfo.user_name.split(" ");
     let nameWelcome = name[name.length - 1];

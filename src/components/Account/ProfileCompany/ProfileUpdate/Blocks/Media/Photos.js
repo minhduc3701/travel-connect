@@ -6,7 +6,7 @@ class Photos extends Component {
       <ul className="gx-gallery-list bor-rad-0">
         {photoList.map((photo, index) => (
           <li key={index}>
-            <img alt="..." src={photo} />
+            <img style={{ height: "8em", objectFit: "cover" }} alt="..." src={photo} />
           </li>
         ))}
       </ul>
