@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Row, Col, Button, Progress, Result, Icon } from "antd";
-import Company from "./Company";
 import Personal from "./Personal";
 import Activity from "./Activity";
 import Verify from "./Verify";
+import PersonCompany from "./PersonCompany";
+import CompanyManager from "./CompanyManager";
 // import IntlMessages from "util/IntlMessages";
 import { Link } from "react-router-dom";
 // import { notiChange } from "util/Notification";
@@ -128,10 +129,15 @@ class CompleteRegister extends Component {
 
         {/* Content component */}
         {this.state.step === 0 ? <Personal getState={this.onGetState} /> : null}
-        {this.state.step === 1 ? <Company getState={this.onGetState} /> : null}
-        {this.state.step === 2 ? <Activity getStep={this.onGetState} /> : null}
-        {this.state.step === 3 ? <Verify getState={this.onGetState} /> : null}
-        {this.state.step === 4 ? (
+        {this.state.step === 1 ? <Activity getStep={this.onGetState} /> : null}
+        {this.state.step === 2 ? (
+          <PersonCompany getState={this.onGetState} />
+        ) : null}
+        {this.state.step === 3 ? (
+          <CompanyManager getState={this.onGetState} />
+        ) : null}
+        {this.state.step === 4 ? <Verify getState={this.onGetState} /> : null}
+        {this.state.step === 5 ? (
           <div className="block-w bor-rad-6">
             <Result
               key="aa"
@@ -140,7 +146,7 @@ class CompleteRegister extends Component {
               title="Chúc mừng bạn đã cập nhật hồ sơ thành công!"
               // subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
               extra={[
-                <Link to="/home">
+                <Link to="/profile">
                   <Button onClick={this.onSubmit} type="primary" key="console">
                     Xác nhận
                   </Button>
@@ -151,7 +157,7 @@ class CompleteRegister extends Component {
         ) : null}
 
         {/* Button */}
-        <div className=" block-w bor-rad-6">
+        {/* <div className=" block-w bor-rad-6">
           {this.state.step === 0 ? (
             <div
               className=" d-flex"
@@ -244,6 +250,7 @@ class CompleteRegister extends Component {
           ) : null}
           {this.state.step === 4 ? null : null}
         </div>
+       */}
       </div>
     );
   }

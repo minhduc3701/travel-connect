@@ -11,7 +11,6 @@ export const actUpdateUser = user => {
 
 export const actUpdateUserRequest = (user, file) => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
-  console.log(user);
   return dispatch => {
     return CallApi_USER(`users/${uId.user_id}`, "PUT", user)
       .then(res => {

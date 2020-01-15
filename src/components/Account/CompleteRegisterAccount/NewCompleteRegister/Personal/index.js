@@ -78,8 +78,9 @@ class Personal extends Component {
     fileList: [],
     uploading: false,
     progress: 25,
-    step: 2,
-    visible: true
+    step: 1,
+    visible: true,
+    redirect: false
   };
 
   componentDidMount() {
@@ -136,9 +137,6 @@ class Personal extends Component {
   onSendDataToServer = file => {
     this.props.onSendDataUser(this.state.person, file);
     this.props.getState(this.state.step);
-    // if (this.state.fileList.length > 0) {
-    // this.onSendImage();
-    // }
   };
 
   handleChange = ({ fileList }) => {
@@ -181,7 +179,6 @@ class Personal extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;
-    console.log(this.state);
     let userInfo = JSON.parse(localStorage.getItem("user_info"));
     let name = userInfo.user_name.split(" ");
     let nameWelcome = name[name.length - 1];
@@ -264,7 +261,10 @@ class Personal extends Component {
         <Col xl={16} lg={16} md={16} sm={24} xs={24}>
           <div className="block-w bor-rad-6">
             <Divider>Hồ sơ cá nhân</Divider>
-            <Form onSubmit={this.handleSubmit}>
+            <Form
+              action="/complete-profile/activity"
+              onSubmit={this.handleSubmit}
+            >
               <FormItem {...formItemLayout} label="Ảnh đại diện">
                 {getFieldDecorator("user_logo", {
                   valuePropName: "fileList1",

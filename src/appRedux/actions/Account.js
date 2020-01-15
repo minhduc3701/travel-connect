@@ -93,7 +93,6 @@ const onSendImage = (fileList, id) => {
         let newInfo = JSON.stringify(dataDup);
         notiChange("success", "Cập nhật thành công");
         localStorage.setItem("user_info", newInfo);
-        // onSendImage(file);
       }
     })
     .catch(err => console.log(err));

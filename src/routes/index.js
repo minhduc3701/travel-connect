@@ -69,7 +69,6 @@ const App = ({ match }) => (
       <div className="gx-main-content-wrapper">
         {/* RENDER CONTENT HERE: */}
         <Switch>
-
           <Route
             path={`${match.url}dashboard`}
             component={asyncComponent(() =>
@@ -93,15 +92,6 @@ const App = ({ match }) => (
             path={`${match.url}upgrade-account`}
             component={asyncComponent(() =>
               import("../components/Account/UpgradeAccount")
-            )}
-          />
-
-          <Route
-            path={`${match.url}complete_profile`}
-            component={asyncComponent(() =>
-              import(
-                "../components/Account/CompleteRegisterAccount/CompleteRegister/index"
-              )
             )}
           />
           <Route

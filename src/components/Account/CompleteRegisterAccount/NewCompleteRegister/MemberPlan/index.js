@@ -81,7 +81,9 @@ class MemberPlan extends Component {
       <Row className="p-v-6">
         <Col xl={8} lg={8} md={8} sm={24} xs={24}>
           <div>
-            <h3 className="m-b-10">Lựa chọn hình thức làm việc trên sàn</h3>
+            <h3 className="m-b-10">
+              Lựa chọn hình thức làm việc trên nền tảng
+            </h3>
             <p>
               <Icon type="check-circle" /> Kiểm tra công ty của bạn đã tồng tại
               bằng cách tìm kiếm trên thanh công cụ

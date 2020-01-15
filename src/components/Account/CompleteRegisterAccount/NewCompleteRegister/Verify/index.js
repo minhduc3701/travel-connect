@@ -30,7 +30,7 @@ const formItemLayout = {
 class Verify extends Component {
   state = {
     progress: 100,
-    step: 4,
+    step: 5,
     detailStep4: {
       company_licence: null,
       company_licence_file: "",
@@ -95,6 +95,7 @@ class Verify extends Component {
   // };
 
   render() {
+    console.log(this.props);
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;
     const props = {
