@@ -69,7 +69,6 @@ const App = ({ match }) => (
       <div className="gx-main-content-wrapper">
         {/* RENDER CONTENT HERE: */}
         <Switch>
-
           <Route
             path={`${match.url}dashboard`}
             component={asyncComponent(() =>
@@ -95,15 +94,6 @@ const App = ({ match }) => (
               import("../components/Account/UpgradeAccount")
             )}
           />
-
-          <Route
-            path={`${match.url}complete_profile`}
-            component={asyncComponent(() =>
-              import(
-                "../components/Account/CompleteRegisterAccount/CompleteRegister/index"
-              )
-            )}
-          />
           <Route
             path={`${match.url}complete-profile`}
             component={asyncComponent(() =>
@@ -112,6 +102,27 @@ const App = ({ match }) => (
               )
             )}
           />
+          {/* [New Step] */}
+          <Route
+            path={`${match.url}user`}
+            component={asyncComponent(() =>
+              import("../components/Account/NewCompleteProfile/Personal")
+            )}
+          />
+          <Route
+            path={`${match.url}personal`}
+            exact
+            component={asyncComponent(() =>
+              import("../components/Account/NewCompleteProfile/PersonUser")
+            )}
+          />
+          {/* <Route
+            path={`${match.url}user/company`}
+            component={asyncComponent(() =>
+              import("../components/Account/NewCompleteProfile/PersonUser")
+            )}
+          /> */}
+
           <Route
             path={`${match.url}account-package`}
             component={asyncComponent(() =>

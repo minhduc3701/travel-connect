@@ -41,6 +41,7 @@ class Profile extends Component {
   render() {
     let { profile } = this.props;
     let { Account } = this.props.profile;
+    console.log(Account);
     let warning = null;
     for (const key in Account) {
       if (Account[key] !== "") {
@@ -80,7 +81,7 @@ class Profile extends Component {
               </Col>
             </Row>
           </div>
-        ) : Account.company_name === undefined && this.state.load === false ? (
+        ) : Account.company_id !== "" && this.state.load === false ? (
           <Result
             status="500"
             title="Không tìm thấy hồ sơ công ty!"

@@ -60,7 +60,6 @@ class PropertiesCard extends React.Component {
   render() {
     const { loader } = this.state;
     let { Account } = this.props.profile;
-    console.log(Account);
     return (
       <div className="block-w-nb" id="nav_product">
         <WidgetHeader

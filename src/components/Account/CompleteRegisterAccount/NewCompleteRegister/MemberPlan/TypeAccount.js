@@ -10,9 +10,9 @@ import {
   Select,
   Radio,
   Upload,
-  Cascader,
-  DatePicker,
-  Modal,
+  // Cascader,
+  // DatePicker,
+  // Modal,
   Button
 } from "antd";
 // import { notiChange } from "util/Notification";
@@ -29,55 +29,55 @@ const Option = Select.Option;
 // const InputGroup = Input.Group;
 const { OptGroup } = Select;
 
-const OPTIONS = [
-  "Lữ hành quốc tế Outbound",
-  "Lữ hành nội địa",
-  "Đại lý Du lịch",
-  "Vận tải",
-  "Hàng không",
-  "Cơ sỏ lưu trú",
-  "Nhà hàng"
-];
+// const OPTIONS = [
+//   "Lữ hành quốc tế Outbound",
+//   "Lữ hành nội địa",
+//   "Đại lý Du lịch",
+//   "Vận tải",
+//   "Hàng không",
+//   "Cơ sỏ lưu trú",
+//   "Nhà hàng"
+// ];
 
 const formItemLayout = {
   labelCol: { xs: 24, sm: 6 },
   wrapperCol: { xs: 24, sm: 18 }
 };
 
-const residences = [
-  {
-    value: "Hà Nội",
-    label: "Hà Nội",
-    children: [
-      {
-        value: "Đống Đa",
-        label: "Đống Đa"
-      },
-      {
-        value: "Cầu giấy",
-        label: "Cầu giấy"
-      },
-      {
-        value: "Hoàng Mai",
-        label: "Hoàng Mai"
-      }
-    ]
-  },
-  {
-    value: "Hồ Chí Minh",
-    label: "Hồ Chí Minh",
-    children: [
-      {
-        value: "Quận 1",
-        label: "Quận 1"
-      },
-      {
-        value: "Quận 2",
-        label: "Quận 2"
-      }
-    ]
-  }
-];
+// const residences = [
+//   {
+//     value: "Hà Nội",
+//     label: "Hà Nội",
+//     children: [
+//       {
+//         value: "Đống Đa",
+//         label: "Đống Đa"
+//       },
+//       {
+//         value: "Cầu giấy",
+//         label: "Cầu giấy"
+//       },
+//       {
+//         value: "Hoàng Mai",
+//         label: "Hoàng Mai"
+//       }
+//     ]
+//   },
+//   {
+//     value: "Hồ Chí Minh",
+//     label: "Hồ Chí Minh",
+//     children: [
+//       {
+//         value: "Quận 1",
+//         label: "Quận 1"
+//       },
+//       {
+//         value: "Quận 2",
+//         label: "Quận 2"
+//       }
+//     ]
+//   }
+// ];
 
 class TypeAccount extends Component {
   state = {
@@ -85,7 +85,7 @@ class TypeAccount extends Component {
     visiblePerson: false,
     visibleCompany: false,
     progress: 100,
-    step: 3,
+    step: 2,
     FreeLancer: 0,
     infoType: {
       company_business: null,
@@ -144,6 +144,7 @@ class TypeAccount extends Component {
         let business = this.state.business;
         this.setState(
           {
+            step: 3,
             infoType: {
               company_business: business,
               company_name: values.company_name,
@@ -173,7 +174,7 @@ class TypeAccount extends Component {
         // console.log("Received values of form: ", values);
         this.setState(
           {
-            step: 4,
+            step: 5,
             tourGuide: {
               tour_guide_company: values.tour_guide_company
                 ? values.tour_guide_company
@@ -200,7 +201,7 @@ class TypeAccount extends Component {
         // console.log("Received values of form: ", values);
         this.setState(
           {
-            step: 4,
+            step: 5,
             student: {
               student_specialized: values.student_specialized,
               student_info: values.student_info,
@@ -214,39 +215,41 @@ class TypeAccount extends Component {
       }
     });
   };
-  handleSubmitPerson = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        // console.log("Received values of form: ", values);
-        // this.props.getStateType(this.state.infoType);
-        // let establish = this.state.establish;
-        // let business = this.state.business;
-        this.setState(
-          {
-            step: 4,
-            infoPerson: {
-              user_position: values.user_position ? values.user_position : "",
-              infoUnit: values ? values : ""
-            },
-            visiblePerson: false,
-            visibleCompany: false
-          },
-          () => this.onSendDataPerson()
-        );
-      }
-    });
-  };
+  // handleSubmitPerson = e => {
+  //   e.preventDefault();
+  //   this.props.form.validateFields((err, values) => {
+  //     if (!err) {
+  //       // console.log("Received values of form: ", values);
+  //       // this.props.getStateType(this.state.infoType);
+  //       // let establish = this.state.establish;
+  //       // let business = this.state.business;
+  //       this.setState(
+  //         {
+  //           step: 5,
+  //           infoPerson: {
+  //             user_position: values.user_position ? values.user_position : "",
+  //             infoUnit: values ? values : ""
+  //           },
+  //           visiblePerson: false,
+  //           visibleCompany: false
+  //         },
+  //         () => this.onSendDataPerson()
+  //       );
+  //     }
+  //   });
+  // };
 
   onChosePerson = () => {
-    this.setState({
-      visiblePerson: true
-    });
+    this.props.getStateType(2, 50);
+    // this.setState({
+    //   visiblePerson: true
+    // });
   };
   onChoseCompany = () => {
-    this.setState({
-      visibleCompany: true
-    });
+    this.props.getStateType(3, 50);
+    // this.setState({
+    //   visibleCompany: true
+    // });
   };
 
   handleCancel = () => {
@@ -266,9 +269,9 @@ class TypeAccount extends Component {
   };
 
   onChoseAdmin = () => {
-    const { business } = this.state;
-    const { getFieldDecorator } = this.props.form;
-    const filteredOptions = OPTIONS.filter(o => !business.includes(o));
+    // const { business } = this.state;
+    // const { getFieldDecorator } = this.props.form;
+    // const filteredOptions = OPTIONS.filter(o => !business.includes(o));
     return (
       <Row style={{ paddingBottom: "2em" }}>
         <Col span={12}>
@@ -288,7 +291,7 @@ class TypeAccount extends Component {
             </p>
             <p className=" gx-mb-3">- Không yêu cầu giấy phép kinh doanh.</p>
           </div>
-          {this.state.visiblePerson ? (
+          {/* {this.state.visiblePerson ? (
             <Modal
               style={{ marginTop: "-5%" }}
               title=" Hồ sơ công việc cá nhân"
@@ -399,7 +402,7 @@ class TypeAccount extends Component {
                 </Form>
               </div>
             </Modal>
-          ) : null}
+          ) : null} */}
         </Col>
         <Col span={12}>
           <div
@@ -420,7 +423,7 @@ class TypeAccount extends Component {
               Yêu cầu có giấy phép hoạt động kinh doanh, chứng nhận,...
             </p>
           </div>
-          {this.state.visibleCompany ? (
+          {/* {this.state.visibleCompany ? (
             <Modal
               style={{ marginTop: "-5%" }}
               title="Đăng ký thông tin doanh nghiệp"
@@ -430,10 +433,6 @@ class TypeAccount extends Component {
             >
               <div>
                 <Form onSubmit={this.handleSubmitCompany}>
-                  {/* <FormItem
-                  {...formItemLayout}
-                  label=""
-                ></FormItem> */}
                   <FormItem {...formItemLayout} label="Lĩnh vực">
                     {getFieldDecorator("company_business", {
                       rules: [
@@ -589,8 +588,9 @@ class TypeAccount extends Component {
                   </div>
                 </Form>
               </div>
+            
             </Modal>
-          ) : null}
+          ) : null} */}
         </Col>
       </Row>
     );
