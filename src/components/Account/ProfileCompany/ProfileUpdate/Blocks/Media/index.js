@@ -64,7 +64,6 @@ class Media extends Component {
 
   render() {
     let { profile } = this.props;
-    console.log(this.state);
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
       <div>

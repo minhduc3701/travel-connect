@@ -38,6 +38,7 @@ class ProfileUpdate extends Component {
   }
 
   componentWillUnmount() {
+    console.log("unmount edit");
     let { CompanyProfile } = this.props.profile;
     if (CompanyProfile[0]) {
       this.props.actSendIntroToServer(CompanyProfile[0]);
@@ -76,32 +77,6 @@ class ProfileUpdate extends Component {
       .catch(err => console.log(err));
   };
 
-  onSendImageBackground = backgrounds => {
-    let user = JSON.parse(localStorage.getItem("user_info"));
-    const formData = new FormData();
-    backgrounds.forEach(file => {
-      formData.append("image-", file);
-    });
-    CallApi_ACCOUNT(
-      `VN/companies/${user.company_id}/backgrounds`,
-      "PUT",
-      formData
-    )
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-  };
-
-  onSendImageLogo = logo => {
-    let user = JSON.parse(localStorage.getItem("user_info"));
-    const formData = new FormData();
-    logo.forEach(file => {
-      formData.append("image-", file);
-    });
-    CallApi_ACCOUNT(`VN/companies/${user.company_id}/logos`, "PUT", formData)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-  };
-
   render() {
     let { Account } = this.props.profile;
     let warning = null;
@@ -129,7 +104,10 @@ class ProfileUpdate extends Component {
                 </Row>
                 <AddEvent />
                 <PropertiesCard profile={Account} />
-                <Rating profile={Account} />
+                {/* <Rating profile={Account} /> */}
+                {Account.company_rating > 0 ? (
+                  <Rating profile={Account} />
+                ) : null}
               </Col>
               <Col xl={8} lg={8} md={24} sm={24} xs={24}>
                 {warning}

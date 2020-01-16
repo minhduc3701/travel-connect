@@ -93,7 +93,7 @@ class Company extends Component {
         // console.log("Received values of form: ", values);
         // this.props.getStateType(this.state.infoType);
         let establish = this.state.establish;
-        let business = this.state.business;
+        let business = [this.state.business];
         this.setState(
           {
             infoType: {
@@ -133,7 +133,6 @@ class Company extends Component {
     const { getFieldDecorator } = this.props.form;
     const { business } = this.state;
     const filteredOptions = OPTIONS.filter(o => !business.includes(o));
-    // let company = this.props.data;
     return (
       <Row className="p-v-6">
         <Col xl={8} lg={8} md={8} sm={24} xs={24}>

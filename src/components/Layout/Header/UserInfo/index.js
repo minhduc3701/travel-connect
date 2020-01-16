@@ -5,14 +5,27 @@ import { Link } from "react-router-dom";
 import { userSignOut } from "appRedux/actions/Auth";
 import IntlMessages from "util/IntlMessages";
 import { HOME, ACCOUNT } from "constants/NavigateLink";
+import avatarDefault from "assets/images/placeholder.jpg";
+
 class UserInfo extends Component {
   render() {
     const domain = window.location.host;
     let srcAvatar = JSON.parse(localStorage.getItem("user_info"));
-
+    let nameUser = null;
+    let name = null;
+    if (srcAvatar.user_name) {
+      name = srcAvatar.user_name;
+      name = name.split(" ").slice(1, name.length);
+      nameUser = name.join(" ");
+    }
     const userMenuOptions = (
       <ul className="gx-user-popover">
-        <li className="p-v-1-i text-align-center text-ellipsis">Travel Connect Brand name</li>
+        <li className="p-v-1-i text-ellipsis">
+          {nameUser}{" "}
+          {srcAvatar.company_brandname && srcAvatar.company_brandname !== ""
+            ? `(${srcAvatar.company_brandname})`
+            : ""}
+        </li>
         <li className="p-v-1-i">
           {domain === "account.travelconnect.global" ? (
             <Link to="/dashboard" className="gx-text-dark">
@@ -20,10 +33,11 @@ class UserInfo extends Component {
               <IntlMessages id="general.default.account.dashboard" />
             </Link>
           ) : (
-              <a href={`${ACCOUNT}/dashboard`} className="gx-text-dark">
-                <Icon className="m-r-1" type="dashboard" /> <IntlMessages id="general.default.account.dashboard" />
-              </a>
-            )}
+            <a href={`${ACCOUNT}/dashboard`} className="gx-text-dark">
+              <Icon className="m-r-1" type="dashboard" />{" "}
+              <IntlMessages id="general.default.account.dashboard" />
+            </a>
+          )}
         </li>
         <li className="p-v-1-i">
           {domain === "account.travelconnect.global" ? (
@@ -32,21 +46,24 @@ class UserInfo extends Component {
               <IntlMessages id="general.default.account.profile" />
             </Link>
           ) : (
-              <a href={`${ACCOUNT}/profile`} className="gx-text-dark">
-                <Icon className="m-r-1" type="area-chart" /> <IntlMessages id="general.default.account.profile" />
-              </a>
-            )}
+            <a href={`${ACCOUNT}/profile`} className="gx-text-dark">
+              <Icon className="m-r-1" type="area-chart" />{" "}
+              <IntlMessages id="general.default.account.profile" />
+            </a>
+          )}
         </li>
         <li className="p-v-1-i">
           {domain === "account.travelconnect.global" ? (
             <Link to="/member-management" className="gx-text-dark">
-              <Icon className="m-r-1" type="solution" /> <IntlMessages id="general.default.account.membermanagement" />
+              <Icon className="m-r-1" type="solution" />{" "}
+              <IntlMessages id="general.default.account.membermanagement" />
             </Link>
           ) : (
-              <a href={`${ACCOUNT}/member-management`} className="gx-text-dark" >
-                <Icon className="m-r-1" type="solution" /> <IntlMessages id="general.default.account.membermanagement" />
-              </a>
-            )}
+            <a href={`${ACCOUNT}/member-management`} className="gx-text-dark">
+              <Icon className="m-r-1" type="solution" />{" "}
+              <IntlMessages id="general.default.account.membermanagement" />
+            </a>
+          )}
         </li>
         <li className="p-v-1-i">
           {domain === "account.travelconnect.global" ? (
@@ -55,27 +72,31 @@ class UserInfo extends Component {
               <IntlMessages id="general.default.account.upgradeaccount" />
             </Link>
           ) : (
-              <a href={`${ACCOUNT}/upgrade-account`} className="gx-text-dark">
-                <Icon className="m-r-1" type="trophy" /> <IntlMessages id="general.default.account.upgradeaccount" />
-              </a>
-            )}
+            <a href={`${ACCOUNT}/upgrade-account`} className="gx-text-dark">
+              <Icon className="m-r-1" type="trophy" />{" "}
+              <IntlMessages id="general.default.account.upgradeaccount" />
+            </a>
+          )}
         </li>
         <li className="bor-b p-t-1-i m-b-1-i"></li>
         <li className="p-v-1-i">
           {domain === "app.travelconnect.global" ? (
             <Link to="/user/settings" className="gx-text-dark">
-              <Icon className="m-r-1" type="user" /> <IntlMessages id="general.default.user.settings" />
+              <Icon className="m-r-1" type="user" />{" "}
+              <IntlMessages id="general.default.user.settings" />
             </Link>
           ) : (
-              <a href={`${HOME}/user/settings`} className="gx-text-dark">
-                <Icon className="m-r-1" type="user" /> <IntlMessages id="general.default.user.settings" />
-              </a>
-            )}
+            <a href={`${HOME}/user/settings`} className="gx-text-dark">
+              <Icon className="m-r-1" type="user" />{" "}
+              <IntlMessages id="general.default.user.settings" />
+            </a>
+          )}
         </li>
         <li className="gx-text-red" onClick={() => this.props.userSignOut()}>
-          <Icon className="m-r-1" type="poweroff" /> <IntlMessages id="general.default.logout" />
+          <Icon className="m-r-1" type="poweroff" />{" "}
+          <IntlMessages id="general.default.logout" />
         </li>
-      </ul >
+      </ul>
     );
 
     return (
@@ -87,9 +108,9 @@ class UserInfo extends Component {
       >
         <Avatar
           src={
-            srcAvatar.user_logo
+            srcAvatar.user_logo && srcAvatar.user_logo !== ""
               ? srcAvatar.user_logo
-              : `https://tix.vn/app/assets/img/avatar.png`
+              : avatarDefault
           }
           className="gx-avatar gx-pointer"
           alt=""

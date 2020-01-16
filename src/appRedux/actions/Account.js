@@ -1,7 +1,9 @@
 import {
   FETCH_PROFILE,
   COMPANY_PROFILE_STEP3,
-  COMPANY_PROFILE_STEP4
+  COMPANY_PROFILE_STEP4,
+  SAVE_LOCAL_BACKGROUND,
+  SAVE_LOCAL_LOGO
 } from "../../constants/ActionTypes";
 import { CallApi_USER, CallApi_ACCOUNT } from "util/CallApi";
 import { notiChange } from "util/Notification";
@@ -20,7 +22,7 @@ export const actFetchActionRequest = () => {
     return CallApi_ACCOUNT(`VN/companies/${uId.company_id}`, "GET", null)
       .then(res => {
         // console.log(res);
-        dispatch(actFetchAction({ ...res.data }));
+        dispatch(actFetchAction(res.data));
       })
       .catch(err => {
         console.log(err);
@@ -126,16 +128,15 @@ export const actUpdateCompanyProfileRequest = profile => {
   };
 };
 
-// export const actGetNewUserInfo = () => {
-//   let uId = JSON.parse(localStorage.getItem("user_info"));
-//   return dispatch => {
-//     return CallApi_USER(`users/${uId.user_id}`, "GET", null)
-//       .then(res => {
-//         console.log(uId.user_id);
-//         console.log(res);
-//       })
-//       .catch(err => {
-//         console.log(err);
-//       });
-//   };
-// };
+export const actSetNewImage = imageUrl => {
+  return {
+    type: SAVE_LOCAL_BACKGROUND,
+    imageUrl
+  };
+};
+export const actSetNewAvatar = imageUrl => {
+  return {
+    type: SAVE_LOCAL_LOGO,
+    imageUrl
+  };
+};

@@ -102,6 +102,27 @@ const App = ({ match }) => (
               )
             )}
           />
+          {/* [New Step] */}
+          <Route
+            path={`${match.url}user`}
+            component={asyncComponent(() =>
+              import("../components/Account/NewCompleteProfile/Personal")
+            )}
+          />
+          <Route
+            path={`${match.url}personal`}
+            exact
+            component={asyncComponent(() =>
+              import("../components/Account/NewCompleteProfile/PersonUser")
+            )}
+          />
+          {/* <Route
+            path={`${match.url}user/company`}
+            component={asyncComponent(() =>
+              import("../components/Account/NewCompleteProfile/PersonUser")
+            )}
+          /> */}
+
           <Route
             path={`${match.url}account-package`}
             component={asyncComponent(() =>

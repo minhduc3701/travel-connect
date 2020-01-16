@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { Icon, Upload } from "antd";
 import { connect } from "react-redux";
 import { actChangeLogo } from "appRedux/actions/CompanyProfile";
+import { actSetNewAvatar } from "appRedux/actions/Account";
+import { CallApi_ACCOUNT } from "util/CallApi";
 import logo from "assets/images/travel-default-logo.png";
 
 class AvatarCompany extends Component {
@@ -14,8 +16,19 @@ class AvatarCompany extends Component {
     fileList: []
   };
 
-  onSaveLogo = () => {
-    this.props.actSaveData(this.state.fileList);
+  onSendImageLogo = logo => {
+    let user = JSON.parse(localStorage.getItem("user_info"));
+    const formData = new FormData();
+    logo.forEach(file => {
+      formData.append("image-", file);
+    });
+    CallApi_ACCOUNT(`VN/companies/${user.company_id}/logos`, "PUT", formData)
+      .then(res => {
+        if (res.data) {
+          this.props.actSaveLogoLocal(res.data.logo);
+        }
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -48,7 +61,7 @@ class AvatarCompany extends Component {
             // fileList: file
             fileList: [file]
           }),
-          () => this.onSaveLogo()
+          () => this.onSendImageLogo(this.state.fileList)
         );
         return false;
       },
@@ -96,6 +109,9 @@ const mapDispatchToProps = (dispatch, props) => {
   return {
     actSaveData: logo => {
       dispatch(actChangeLogo(logo));
+    },
+    actSaveLogoLocal: logoL => {
+      dispatch(actSetNewAvatar(logoL));
     }
   };
 };

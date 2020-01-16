@@ -157,7 +157,7 @@ class CompleteRegister extends Component {
         ) : null}
 
         {/* Button */}
-        {/* <div className=" block-w bor-rad-6">
+        <div className=" block-w bor-rad-6">
           {this.state.step === 0 ? (
             <div
               className=" d-flex"
@@ -250,7 +250,6 @@ class CompleteRegister extends Component {
           ) : null}
           {this.state.step === 4 ? null : null}
         </div>
-       */}
       </div>
     );
   }
