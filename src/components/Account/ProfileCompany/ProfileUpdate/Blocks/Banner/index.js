@@ -36,7 +36,7 @@ class Banner extends Component {
     return (
       <div className="m-b-5">
         <BannerBackground profile={this.props} />
-        <div className="bg-color-white d-flex d-flex-wrap">
+        <div className="d-flex d-flex-wrap">
           <Col xl={6} lg={6} md={24} sm={24} xs={24} className="pos-rel">
             <AvatarCompany profile={this.props} />
             <div className="block__banner__avatar__extend">

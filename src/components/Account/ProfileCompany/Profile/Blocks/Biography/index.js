@@ -5,22 +5,22 @@ import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 const Biography = props => {
   let { Account } = props.profile;
   return (
-    <div className="block-w-nb">
-      <WidgetHeader title={<IntlMessages id="account.profile.introduction" />} />
+    <div style={{ minHeight: "16em" }}>
+      <WidgetHeader
+        title={<IntlMessages id="account.profile.introduction" />}
+      />
       <p className="gx-text-grey gx-fs-sm">
         {<IntlMessages id="account.profile.introduction.des" />}{" "}
         {Account.company_brandname}
       </p>
       <div className="text-align-justify">
         {!Account.length ? (
-          <p className="gx-font-weight-light">
-            {Account.company_introduction}
-          </p>
+          <p className="gx-font-weight-light">{Account.company_introduction}</p>
         ) : (
-            <p style={{ lineHeight: "1.5em" }}>
-              <IntlMessages id="account.profile.introduction.empty" />
-            </p>
-          )}
+          <p style={{ lineHeight: "1.5em" }}>
+            <IntlMessages id="account.profile.introduction.empty" />
+          </p>
+        )}
       </div>
     </div>
   );

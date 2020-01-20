@@ -41,7 +41,6 @@ class Profile extends Component {
   render() {
     let { profile } = this.props;
     let { Account } = this.props.profile;
-    console.log(Account);
     let warning = null;
     for (const key in Account) {
       if (Account[key] !== "") {
@@ -55,33 +54,39 @@ class Profile extends Component {
       <Fragment>
         {Account.company_name ? (
           <div className="gx-profile-content">
-            <Banner profile={profile} />
-            <Navigation />
+            <div className="block-w ">
+              <Banner profile={profile} />
+              <Navigation />
+            </div>
             <Row className="m-t-3-i">
               <Col xl={16} lg={16} md={24} sm={24} xs={24}>
-                <About profile={profile} />
-                <Biography profile={profile} />
-                <Contact profile={profile} />
-                <Row>
-                  <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-                  <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-                </Row>
-                <EventsBanner profile={profile} />
-                <PropertiesCard profile={profile} />
-                {Account.company_rating > 0 ? (
-                  <Rating profile={profile} />
-                ) : null}
+                <div className="block-w">
+                  <About profile={profile} />
+                  <Biography profile={profile} />
+                  <Contact profile={profile} />
+                  {/* <Row>
+                    <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+                    <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+                  </Row> */}
+                  <EventsBanner profile={profile} />
+                  <PropertiesCard profile={profile} />
+                  {Account.company_rating > 0 ? (
+                    <Rating profile={profile} />
+                  ) : null}
+                </div>
               </Col>
               <Col xl={8} lg={8} md={24} sm={24} xs={24}>
-                {warning}
-                <StaticticGuest profile={profile} />
-                <Friends profile={profile} friendList={friendList} />
-                <Socials profile={profile} />
-                <Media profile={profile} />
+                <div className="block-w">
+                  {warning}
+                  <StaticticGuest profile={profile} />
+                  <Friends profile={profile} friendList={friendList} />
+                  <Socials profile={profile} />
+                  <Media profile={profile} />
+                </div>
               </Col>
             </Row>
           </div>
-        ) : Account.company_id !== "" && this.state.load === false ? (
+        ) : Account.company_id === "" && this.state.load === false ? (
           <Result
             status="500"
             title="Không tìm thấy hồ sơ công ty!"

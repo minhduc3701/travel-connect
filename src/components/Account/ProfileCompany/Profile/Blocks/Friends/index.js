@@ -33,9 +33,11 @@ function Friends({ profile }) {
 
   return (
     <div>
-      {communities ? (
-        <div className="block-w-nb" id="nav_communities">
-          <WidgetHeader title={<IntlMessages id="account.profile.communities" />} />
+      {communities && communities.length > 0 ? (
+        <div style={{ paddingBottom: "3em" }} id="nav_communities">
+          <WidgetHeader
+            title={<IntlMessages id="account.profile.communities" />}
+          />
           <Slider className="gx-slick-slider" {...settings}>
             {communities.map((commu, index) => (
               <RoadMapItem key={index} data={commu} />
@@ -43,18 +45,21 @@ function Friends({ profile }) {
           </Slider>
         </div>
       ) : (
-          <div>
-            <WidgetHeader title={<IntlMessages id="account.profile.communities" />} />
-            <div className="gx-pt-2">
-              <ul className="gx-fnd-list gx-mb-0">
-                <p className="gx-font-weight-light">
-                  <i className="icon icon-sweet-alert"></i>
-                  <IntlMessages id="account.profile.communities.empty" />
-                </p>
-              </ul>
-            </div>
+        <div style={{ paddingBottom: "3em" }}>
+          <WidgetHeader
+            title={<IntlMessages id="account.profile.communities" />}
+          />
+          <div className="gx-pt-2">
+            <ul className="gx-fnd-list gx-mb-0" style={{ paddingLeft: "1em" }}>
+              <p className="gx-font-weight-light ">
+                <i className="icon icon-sweet-alert"></i>
+                <IntlMessages id="account.profile.communities.empty" />{" "}
+                <span className="gx-link">Here</span>
+              </p>
+            </ul>
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 

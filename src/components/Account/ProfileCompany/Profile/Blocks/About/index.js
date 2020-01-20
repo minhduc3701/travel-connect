@@ -54,7 +54,7 @@ class About extends React.Component {
     ];
 
     return (
-      <div className="block-w-nb" id="nav_introduction">
+      <div id="nav_introduction" style={{ minHeight: "16em" }}>
         <WidgetHeader title={<IntlMessages id="company.about" />} />
         <div className="gx-mb-2">
           <Row>

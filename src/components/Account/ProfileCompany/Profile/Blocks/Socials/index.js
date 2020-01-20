@@ -8,8 +8,10 @@ class Socials extends React.Component {
   render() {
     let { Account } = this.props.profile;
     return (
-      <div className="block-w-nb">
-        <WidgetHeader title={<IntlMessages id="account.profile.connectandshare" />} />
+      <div style={{ paddingBottom: "3em" }}>
+        <WidgetHeader
+          title={<IntlMessages id="account.profile.connectandshare" />}
+        />
         <div className="d-flex d-flex-wrap justify-space-between">
           <Col xl={12} lg={24} md={12} sm={12} xs={24}>
             <h4 className="gx-mb-2 text-ellipsis">

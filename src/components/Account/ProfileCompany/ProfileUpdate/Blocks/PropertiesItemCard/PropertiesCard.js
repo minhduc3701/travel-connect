@@ -29,7 +29,11 @@ class PropertiesCard extends React.Component {
   render() {
     let { profile } = this.props;
     return (
-      <div className="block-w-nb disable_layer_block" id="nav_product">
+      <div
+        className="block-w-nb disable_layer_block display-background-grey"
+        style={{ minHeight: "16em" }}
+        id="nav_product"
+      >
         <WidgetHeader
           styleName="d-flex"
           title={<IntlMessages id="account.profile.product" />}

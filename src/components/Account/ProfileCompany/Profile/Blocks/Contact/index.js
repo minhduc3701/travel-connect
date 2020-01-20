@@ -41,7 +41,7 @@ const Contact = props => {
   ];
 
   return (
-    <div className="block-w-nb" id="nav_contact">
+    <div id="nav_contact" style={{ minHeight: "16em" }}>
       <WidgetHeader title={<IntlMessages id="account.profile.contact" />} />
       <div className="gx-table-responsive">
         <Table

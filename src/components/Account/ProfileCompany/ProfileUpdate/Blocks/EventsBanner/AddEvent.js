@@ -11,14 +11,14 @@ class AddEvent extends React.Component {
     return (
       <Link to="/dashboard">
         <div
-          className="block-w-nb pos-rel cursor-pointer"
+          className="block-w-nb border-hover pos-rel cursor-pointer"
           style={{
             height: "20em",
             border: "1px grey dashed",
-            background: "#80808022"
+            background: "#c3c3c322"
           }}
         >
-          <h2
+          <h3
             className="text-color-white"
             style={{
               position: "absolute",
@@ -28,10 +28,12 @@ class AddEvent extends React.Component {
             }}
           >
             <Icon type="plus" className="m-r-1" />
-            {this.state.events
-              ? <IntlMessages id="account.profile.edit.event.guide" />
-              : <IntlMessages id="account.profile.edit.event.guide.empty" />}
-          </h2>
+            {this.state.events ? (
+              <IntlMessages id="account.profile.edit.event.guide" />
+            ) : (
+              <IntlMessages id="account.profile.edit.event.guide.empty" />
+            )}
+          </h3>
         </div>
       </Link>
     );

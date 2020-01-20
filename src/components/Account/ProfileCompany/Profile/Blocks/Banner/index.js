@@ -37,7 +37,7 @@ class Banner extends Component {
     let profile = this.props;
     let { Account } = profile.profile;
     return (
-      <div className="m-b-5">
+      <div className="m-b-5 ">
         <div className="aspect_box">
           <div className="aspect_box--inner aspect_box--retangle_1x4">
             <img

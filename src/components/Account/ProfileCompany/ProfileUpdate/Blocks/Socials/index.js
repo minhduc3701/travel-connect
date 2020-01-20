@@ -51,7 +51,7 @@ class Socials extends React.Component {
   render() {
     let { profile } = this.props;
     return (
-      <div className="block-w-nb">
+      <div className="block-w-nb" style={{ paddingBottom: "3em" }}>
         <WidgetHeader
           styleName="d-flex align-items-flex-end"
           title={<IntlMessages id="account.profile.connectandshare" />}
@@ -63,12 +63,12 @@ class Socials extends React.Component {
                   className="cursor-pointer cursor-pointer--zoom"
                 />
               ) : (
-                  <Icon
-                    onClick={() => this.onSaveSocial()}
-                    className="size-4 cursor-pointer cursor-pointer--zoom"
-                    type="check-circle"
-                  />
-                )}
+                <Icon
+                  onClick={() => this.onSaveSocial()}
+                  className="size-4 cursor-pointer cursor-pointer--zoom"
+                  type="check-circle"
+                />
+              )}
             </div>
           }
         />
@@ -83,7 +83,12 @@ class Socials extends React.Component {
                   }}
                   className=" d-flex align-items-center"
                 >
-                  <Icon type="facebook" className="size-5 m-r-1" theme="filled" /> Facebook
+                  <Icon
+                    type="facebook"
+                    className="size-5 m-r-1"
+                    theme="filled"
+                  />{" "}
+                  Facebook
                 </Link>
               </h4>
             </Col>
@@ -98,7 +103,12 @@ class Socials extends React.Component {
                   }}
                   className=" d-flex align-items-center"
                 >
-                  <Icon type="linkedin" className="size-5 m-r-1" theme="filled" /> Linkedin
+                  <Icon
+                    type="linkedin"
+                    className="size-5 m-r-1"
+                    theme="filled"
+                  />{" "}
+                  Linkedin
                 </Link>
               </h4>
             </Col>
@@ -113,7 +123,8 @@ class Socials extends React.Component {
                   }}
                   className=" d-flex align-items-center"
                 >
-                  <Icon type="gitlab" className="size-5 m-r-1" theme="filled" /> Gitlab
+                  <Icon type="gitlab" className="size-5 m-r-1" theme="filled" />{" "}
+                  Gitlab
                 </Link>
               </h4>
             </Col>
@@ -128,102 +139,111 @@ class Socials extends React.Component {
                   }}
                   className=" d-flex align-items-center"
                 >
-                  <Icon type="skype" className="size-5 m-r-1" theme="filled" /> Skype
+                  <Icon type="skype" className="size-5 m-r-1" theme="filled" />{" "}
+                  Skype
                 </Link>
               </h4>
             </Col>
           </div>
         ) : (
-            <div className="d-flex d-flex-wrap justify-space-between">
-              <Col xl={24} lg={24} md={12} sm={12} xs={24}>
-                <h4 className="gx-mb-2 text-ellipsis">
-                  <div className=" d-flex align-items-center">
-                    <Icon
-                      type="facebook"
-                      className="size-5 m-r-1"
-                      theme="filled"
-                    />
-                    <Input
-                      name="fb"
-                      onChange={this.onChangeInput}
-                      className="d-inline-block w-65-i"
-                      defaultValue={
-                        this.state.fb ? this.state.fb : profile.company_fb
-                      }
-                    />
-                  </div>
-                </h4>
-              </Col>
-              <Col xl={24} lg={24} md={12} sm={12} xs={24}>
-                <h4 className="gx-mb-2 text-ellipsis">
-                  <div className=" d-flex align-items-center">
-                    <Icon
-                      type="linkedin"
-                      className="size-5 m-r-1"
-                      theme="filled"
-                    />
-                    <Input
-                      name="linkedin"
-                      onChange={this.onChangeInput}
-                      className="d-inline-block w-65-i"
-                      defaultValue={
-                        this.state.linkedin
-                          ? this.state.linkedin
-                          : profile.company_linkedin
-                      }
-                    />
-                  </div>
-                </h4>
-              </Col>
-              <Col xl={24} lg={24} md={12} sm={12} xs={24}>
-                <h4 className="gx-mb-2 text-ellipsis">
-                  <div className=" d-flex align-items-center">
-                    <Icon type="gitlab" className="size-5 m-r-1" theme="filled" />
-                    <Input
-                      name="gitlab"
-                      onChange={this.onChangeInput}
-                      className="d-inline-block w-65-i"
-                      defaultValue={
-                        this.state.gitlab
-                          ? this.state.gitlab
-                          : profile.company_gitlab
-                      }
-                    />
-                  </div>
-                </h4>
-              </Col>
-              <Col xl={24} lg={24} md={12} sm={12} xs={24}>
-                <h4 className="gx-mb-2 text-ellipsis">
-                  <div className=" d-flex align-items-center">
-                    <Icon type="skype" className="size-5 m-r-1" theme="filled" />
-                    <Input
-                      name="skype"
-                      onChange={this.onChangeInput}
-                      className="d-inline-block w-65-i"
-                      defaultValue={
-                        this.state.skype
-                          ? this.state.skype
-                          : profile.company_skype
-                      }
-                    />
-                  </div>
-                </h4>
-              </Col>
-            </div>
-          )}
+          <div className="d-flex d-flex-wrap justify-space-between">
+            <Col xl={24} lg={24} md={12} sm={12} xs={24}>
+              <h4 className="gx-mb-2 text-ellipsis">
+                <div className=" d-flex align-items-center">
+                  <Icon
+                    type="facebook"
+                    className="size-5 m-r-1"
+                    theme="filled"
+                  />
+                  <Input
+                    name="fb"
+                    onChange={this.onChangeInput}
+                    className="d-inline-block w-65-i"
+                    defaultValue={
+                      this.state.fb ? this.state.fb : profile.company_fb
+                    }
+                  />
+                </div>
+              </h4>
+            </Col>
+            <Col xl={24} lg={24} md={12} sm={12} xs={24}>
+              <h4 className="gx-mb-2 text-ellipsis">
+                <div className=" d-flex align-items-center">
+                  <Icon
+                    type="linkedin"
+                    className="size-5 m-r-1"
+                    theme="filled"
+                  />
+                  <Input
+                    name="linkedin"
+                    onChange={this.onChangeInput}
+                    className="d-inline-block w-65-i"
+                    defaultValue={
+                      this.state.linkedin
+                        ? this.state.linkedin
+                        : profile.company_linkedin
+                    }
+                  />
+                </div>
+              </h4>
+            </Col>
+            <Col xl={24} lg={24} md={12} sm={12} xs={24}>
+              <h4 className="gx-mb-2 text-ellipsis">
+                <div className=" d-flex align-items-center">
+                  <Icon type="gitlab" className="size-5 m-r-1" theme="filled" />
+                  <Input
+                    name="gitlab"
+                    onChange={this.onChangeInput}
+                    className="d-inline-block w-65-i"
+                    defaultValue={
+                      this.state.gitlab
+                        ? this.state.gitlab
+                        : profile.company_gitlab
+                    }
+                  />
+                </div>
+              </h4>
+            </Col>
+            <Col xl={24} lg={24} md={12} sm={12} xs={24}>
+              <h4 className="gx-mb-2 text-ellipsis">
+                <div className=" d-flex align-items-center">
+                  <Icon type="skype" className="size-5 m-r-1" theme="filled" />
+                  <Input
+                    name="skype"
+                    onChange={this.onChangeInput}
+                    className="d-inline-block w-65-i"
+                    defaultValue={
+                      this.state.skype
+                        ? this.state.skype
+                        : profile.company_skype
+                    }
+                  />
+                </div>
+              </h4>
+            </Col>
+          </div>
+        )}
         <div
           className="gx-text-primary gx-fs-md gx-pointer gx-mb-4 gx-d-block gx-d-sm-none p-3 text-align-right"
           onClick={() => this.changeSocialsToEdit()}
         >
           {this.state.stt_socials === true ? (
             <div className="d-inline-block">
-              <Icon type="check-circle" className="cursor-pointer cursor-pointer--zoom" /> <IntlMessages id="general.btn.save" />
+              <Icon
+                type="check-circle"
+                className="cursor-pointer cursor-pointer--zoom"
+              />{" "}
+              <IntlMessages id="general.btn.save" />
             </div>
           ) : (
-              <div className="d-inline-block">
-                <Icon type="edit" className="cursor-pointer cursor-pointer--zoom" /> <IntlMessages id="general.btn.edit" />
-              </div>
-            )}
+            <div className="d-inline-block">
+              <Icon
+                type="edit"
+                className="cursor-pointer cursor-pointer--zoom"
+              />{" "}
+              <IntlMessages id="general.btn.edit" />
+            </div>
+          )}
         </div>
       </div>
     );
