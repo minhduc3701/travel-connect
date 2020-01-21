@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 import CircularProgress from "../../../GlobalComponent/CircularProgress";
 import { actFetchActionRequest } from "appRedux/actions/Account";
 import { Link } from "react-router-dom";
+import Cerfiticated from "./Blocks/Cerfiticated";
 
 class Profile extends Component {
   state = {
@@ -78,6 +79,7 @@ class Profile extends Component {
               <Col xl={8} lg={8} md={24} sm={24} xs={24}>
                 <div className="block-w">
                   {warning}
+                  <Cerfiticated />
                   <StaticticGuest profile={profile} />
                   <Friends profile={profile} friendList={friendList} />
                   <Socials profile={profile} />
