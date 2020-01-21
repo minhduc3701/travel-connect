@@ -26,7 +26,6 @@ class PropertiesCard extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const { loader, popular } = this.state;
     return (
       <div className="block-w">

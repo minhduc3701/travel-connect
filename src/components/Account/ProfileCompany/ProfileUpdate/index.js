@@ -38,7 +38,6 @@ class ProfileUpdate extends Component {
   }
 
   componentWillUnmount() {
-    console.log("unmount edit");
     let { CompanyProfile } = this.props.profile;
     if (CompanyProfile[0]) {
       this.props.actSendIntroToServer(CompanyProfile[0]);
