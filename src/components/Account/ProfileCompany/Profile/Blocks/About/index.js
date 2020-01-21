@@ -42,7 +42,8 @@ class About extends React.Component {
         title: <IntlMessages id="account.profile.about.product" />,
         icon: "product-list",
         userList: "",
-        desc: [Account.company_service]
+        desc: "Landtour"
+        // desc: [Account.company_service]
       },
       {
         id: 5,

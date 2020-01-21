@@ -25,7 +25,7 @@ class StaticticGuest extends React.Component {
           }
         />
         <Row>
-          <Col xl={24} lg={24} md={12} sm={12} xs={24}>
+          <Col xl={12} lg={12} md={12} sm={12} xs={12}>
             <HightLightItem
               colorTitle="primary"
               color="white"
@@ -37,7 +37,7 @@ class StaticticGuest extends React.Component {
               icon="diamond"
             />
           </Col>
-          <Col xl={24} lg={24} md={12} sm={12} xs={24}>
+          <Col xl={12} lg={12} md={12} sm={12} xs={12}>
             <HightLightItem
               colorTitle="primary"
               color="white"
@@ -49,7 +49,9 @@ class StaticticGuest extends React.Component {
               icon="inbuilt-apps"
             />
           </Col>
-          <Col xl={24} lg={24} md={12} sm={12} xs={24}>
+        </Row>
+        <Row>
+          <Col xl={12} lg={12} md={12} sm={12} xs={12}>
             <HightLightItem
               colorTitle="primary"
               color="white"
@@ -59,7 +61,7 @@ class StaticticGuest extends React.Component {
               icon="revenue-new"
             />
           </Col>
-          <Col xl={24} lg={24} md={12} sm={12} xs={24}>
+          <Col xl={12} lg={12} md={12} sm={12} xs={12}>
             <HightLightItem
               colorTitle="primary"
               color="white"

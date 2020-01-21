@@ -75,11 +75,13 @@ class Banner extends Component {
                 <div className="d-inline-block text-align-left">
                   <h5 className=" gx-text-grey m-b-0-i">
                     <Icon type="usergroup-add" className="p-r-1" />
-                    {Account.company_followers}
+                    368
+                    {/* {Account.company_followers} */}
                   </h5>
                   <h5 className=" gx-text-grey m-b-0-i">
                     <Icon type="eye" className="p-r-1" />
-                    {Account.company_views}
+                    279
+                    {/* {Account.company_views} */}
                   </h5>
                 </div>
               </div>

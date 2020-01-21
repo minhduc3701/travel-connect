@@ -18,6 +18,7 @@ import { CallApi_ACCOUNT } from "util/CallApi";
 import { connect } from "react-redux";
 import CircularProgress from "../../../GlobalComponent/CircularProgress";
 import { actFetchActionRequest } from "appRedux/actions/Account";
+import Cerfiticated from "./Blocks/Cerfiticated";
 // import { axios } from "axios";
 import {
   actSaveIntroRequest,
@@ -115,6 +116,7 @@ class ProfileUpdate extends Component {
               <Col xl={8} lg={8} md={24} sm={24} xs={24}>
                 <div className="block-w">
                   {warning}
+                  <Cerfiticated />
                   <StaticticGuest profile={Account} />
                   <Friends profile={Account} friendList={friendList} />
                   <Socials profile={Account} />
