@@ -34,16 +34,21 @@ const Contact = props => {
       title: <IntlMessages id="account.profile.contact.employee.action" />,
       dataIndex: "status",
       render: text => {
-        return <span className="gx-text-primary gx-pointer">
-          <i className="icon icon-forward gx-fs-sm gx-mr-2" />
-          <IntlMessages id="account.profile.contact.employee.connect" />
-        </span>;
+        return (
+          <span className="gx-text-primary gx-pointer">
+            <i className="icon icon-forward gx-fs-sm gx-mr-2" />
+            <IntlMessages id="account.profile.contact.employee.connect" />
+          </span>
+        );
       }
     }
   ];
 
   return (
-    <div className="block-w-nb disable_layer_block" id="nav_contact">
+    <div
+      className="block-w-nb disable_layer_block display-background-grey"
+      id="nav_contact"
+    >
       <WidgetHeader title={<IntlMessages id="account.profile.contact" />} />
       <div className="gx-table-responsive">
         <Table

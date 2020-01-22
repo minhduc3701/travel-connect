@@ -61,7 +61,7 @@ class PropertiesCard extends React.Component {
     const { loader } = this.state;
     let { Account } = this.props.profile;
     return (
-      <div className="block-w-nb" id="nav_product">
+      <div id="nav_product" style={{ minHeight: "16em" }}>
         <WidgetHeader
           styleName="d-flex"
           title={<IntlMessages id="account.profile.product" />}

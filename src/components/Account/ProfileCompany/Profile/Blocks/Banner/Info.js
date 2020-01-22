@@ -4,7 +4,7 @@ import { Col, Icon, Row } from "antd";
 class Info extends React.Component {
   render() {
     let { Account } = this.props;
-    let bussLength = Account.company_business.length - 1;
+    let bussLength = Account ? Account.company_business.length - 1 : null;
     return (
       <div className="p-t-4">
         <h3>{Account.company_brandname}</h3>

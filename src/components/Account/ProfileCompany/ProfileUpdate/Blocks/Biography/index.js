@@ -48,7 +48,7 @@ class Biography extends React.Component {
   render() {
     let { profile } = this.props;
     return (
-      <div className="block-w-nb">
+      <div style={{ minHeight: "16em", paddingBottom: "3em" }}>
         <WidgetHeader
           styleName="d-flex align-items-flex-end"
           title={<IntlMessages id="account.profile.introduction" />}
@@ -60,12 +60,12 @@ class Biography extends React.Component {
                   className="cursor-pointer cursor-pointer--zoom"
                 />
               ) : (
-                  <Icon
-                    onClick={() => this.onSaveData()}
-                    className="size-4 cursor-pointer cursor-pointer--zoom"
-                    type="check-circle"
-                  />
-                )}
+                <Icon
+                  onClick={() => this.onSaveData()}
+                  className="size-4 cursor-pointer cursor-pointer--zoom"
+                  type="check-circle"
+                />
+              )}
             </div>
           }
         />
@@ -85,17 +85,18 @@ class Biography extends React.Component {
                 : profile.company_introduction}
             </p>
           ) : (
-                <TextArea
-                  defaultValue={
-                    this.state.intro.company_introduction
-                      ? this.state.intro.company_introduction
-                      : profile.company_introduction
-                  }
-                  onChange={this.onChangeTextArea}
-                  placeholder="Introduction"
-                  autoSize={{ minRows: 8, maxRows: 10 }}
-                />
-              )}
+            <TextArea
+              defaultValue={
+                this.state.intro.company_introduction
+                  ? this.state.intro.company_introduction
+                  : profile.company_introduction
+              }
+              onChange={this.onChangeTextArea}
+              placeholder="Introduction"
+              maxLength={500}
+              autoSize={{ minRows: 8, maxRows: 10 }}
+            />
+          )}
         </div>
         <div
           className="gx-text-primary gx-fs-md gx-pointer gx-mb-4 gx-d-block gx-d-sm-none p-3 text-align-right"
@@ -103,13 +104,21 @@ class Biography extends React.Component {
         >
           {this.state.stt_biography === false ? (
             <div className="d-inline-block">
-              <Icon type="edit" className="cursor-pointer cursor-pointer--zoom" /> <IntlMessages id="general.btn.edit" />
+              <Icon
+                type="edit"
+                className="cursor-pointer cursor-pointer--zoom"
+              />{" "}
+              <IntlMessages id="general.btn.edit" />
             </div>
           ) : (
-              <div className="d-inline-block">
-                <Icon className="size-4 cursor-pointer cursor-pointer--zoom" type="check-circle" /> <IntlMessages id="general.btn.save" />
-              </div>
-            )}
+            <div className="d-inline-block">
+              <Icon
+                className="size-4 cursor-pointer cursor-pointer--zoom"
+                type="check-circle"
+              />{" "}
+              <IntlMessages id="general.btn.save" />
+            </div>
+          )}
         </div>
       </div>
     );

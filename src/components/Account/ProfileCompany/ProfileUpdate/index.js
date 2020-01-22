@@ -18,6 +18,7 @@ import { CallApi_ACCOUNT } from "util/CallApi";
 import { connect } from "react-redux";
 import CircularProgress from "../../../GlobalComponent/CircularProgress";
 import { actFetchActionRequest } from "appRedux/actions/Account";
+import Cerfiticated from "./Blocks/Cerfiticated";
 // import { axios } from "axios";
 import {
   actSaveIntroRequest,
@@ -38,7 +39,6 @@ class ProfileUpdate extends Component {
   }
 
   componentWillUnmount() {
-    console.log("unmount edit");
     let { CompanyProfile } = this.props.profile;
     if (CompanyProfile[0]) {
       this.props.actSendIntroToServer(CompanyProfile[0]);
@@ -91,30 +91,37 @@ class ProfileUpdate extends Component {
       <Fragment>
         {Account.company_name ? (
           <div className="gx-profile-content">
-            <Banner profile={Account} />
-            <Navigation />
+            <div className="block-w ">
+              <Banner profile={Account} />
+              <Navigation />
+            </div>
             <Row className="m-t-3-i">
               <Col xl={16} lg={16} md={24} sm={24} xs={24}>
-                <About profile={Account} />
-                <Biography profile={Account} />
-                <Contact profile={Account} />
-                <Row>
-                  <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-                  <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-                </Row>
-                <AddEvent />
-                <PropertiesCard profile={Account} />
-                {/* <Rating profile={Account} /> */}
-                {Account.company_rating > 0 ? (
-                  <Rating profile={Account} />
-                ) : null}
+                <div className="block-w">
+                  <About profile={Account} />
+                  <Biography profile={Account} />
+                  <Contact profile={Account} />
+                  <Row>
+                    <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+                    <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+                  </Row>
+                  <AddEvent />
+                  <PropertiesCard profile={Account} />
+                  {/* <Rating profile={Account} /> */}
+                  {Account.company_rating > 0 ? (
+                    <Rating profile={Account} />
+                  ) : null}
+                </div>
               </Col>
               <Col xl={8} lg={8} md={24} sm={24} xs={24}>
-                {warning}
-                <StaticticGuest profile={Account} />
-                <Friends profile={Account} friendList={friendList} />
-                <Socials profile={Account} />
-                <Media profile={Account} />
+                <div className="block-w">
+                  {warning}
+                  <Cerfiticated />
+                  <StaticticGuest profile={Account} />
+                  <Friends profile={Account} friendList={friendList} />
+                  <Socials profile={Account} />
+                  <Media profile={Account} />
+                </div>
               </Col>
             </Row>
           </div>

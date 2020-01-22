@@ -37,7 +37,6 @@ class PropertiesItemCard extends React.Component {
   };
 
   onChange = time => {
-    console.log(time);
     this.setState({ value: time });
   };
 
@@ -48,7 +47,6 @@ class PropertiesItemCard extends React.Component {
   };
 
   handleOk = e => {
-    console.log(e);
     this.setState({
       visibleRecommend: false
     });
@@ -56,7 +54,6 @@ class PropertiesItemCard extends React.Component {
   };
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visibleRecommend: false
     });

@@ -200,7 +200,7 @@ class About extends React.Component {
     };
 
     return (
-      <div className="block-w-nb" id="nav_introduction">
+      <div style={{ minHeight: "16em" }} id="nav_introduction">
         <WidgetHeader
           styleName="d-flex align-items-flex-end"
           title={<IntlMessages id="account.profile.edit.about.update" />}
