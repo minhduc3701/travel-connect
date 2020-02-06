@@ -23,6 +23,7 @@
   "newPartner": "New partner",
   "newProduct": "New product",
   "newTransaction": "New transaction",
+  "unFinishTransaction": "Transaction Continue",
   "newAccess": "New access",
   "today": "Today",
   "memberActivitiesLog": "Memmber's activities log",
@@ -863,6 +864,7 @@
   "home.settings.packageaccount": "Package Account",
   "__account": "------------------------------------------------------------------------------------",
   "account.default": "Account",
+  "account.quoteUnrep": "Quote",
   "account.dashboard": "Dashboard",
   "account.profile": "Profile",
   "account.profile.information": "Information",
@@ -960,5 +962,10 @@
   "__ota": "------------------------------------------------------------------------------------",
   "__recruitment": "------------------------------------------------------------------------------------",
   "__edu": "------------------------------------------------------------------------------------",
-  "__destination": "------------------------------------------------------------------------------------"
+  "__destination": "------------------------------------------------------------------------------------",
+  "dashboard.Conversion.Rate": "Conversion rate",
+  "dashboard.compare": "Compare with yesterday",
+  "dashboard.inviteMember": "Invite partner and get promotion",
+  "dashboard.inviteMember.detail": "Invite your partner to get promotion and reputation",
+  "dashboard.invitePartner": "Invite Partner"
 }

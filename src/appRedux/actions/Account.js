@@ -4,9 +4,11 @@ import {
   COMPANY_PROFILE_STEP4,
   SAVE_LOCAL_BACKGROUND,
   SAVE_LOCAL_LOGO
+  // FETCH_PROFILE_SDK_START
 } from "../../constants/ActionTypes";
 import { CallApi_USER, CallApi_ACCOUNT } from "util/CallApi";
 import { notiChange } from "util/Notification";
+// import firebase from "firebase/firebaseAcc";
 
 export const actFetchAction = profile => {
   return {
@@ -15,7 +17,7 @@ export const actFetchAction = profile => {
   };
 };
 
-//lay profile company
+// lay profile company
 export const actFetchActionRequest = () => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   return dispatch => {
@@ -29,6 +31,69 @@ export const actFetchActionRequest = () => {
       });
   };
 };
+// export const actFetchActionRequest = () => {
+//   let uId = JSON.parse(localStorage.getItem("user_info"));
+//   return dispatch => {
+//     dispatch({ type: FETCH_PROFILE_SDK_START });
+//     const AuthStr = "Bearer " + localStorage.getItem("request_token");
+//     firebase
+//       .firestore()
+//       .collection("companies")
+//       .doc("VN")
+//       .collection("companies")
+//       .doc(uId.company_id)
+//       .get()
+//       .then(data => {
+//         let requests = [];
+//         data.forEach(doc => {
+//           requests.push({
+//             company_address: doc.data().address,
+//             company_background: doc.data().background,
+//             company_brandname: doc.data().brandname,
+//             company_business: doc.data().business,
+//             company_city: doc.data().city,
+//             company_comments: doc.data().comments,
+//             company_communities: doc.data().communities,
+//             company_contacts: doc.data().contacts,
+//             company_deal: doc.data().deal,
+//             company_district: doc.data().district,
+//             company_establish: doc.data().establish,
+//             company_events: doc.data().events,
+//             company_fb: doc.data().fb,
+//             company_gitlab: doc.data().gitlab,
+//             company_introduction: doc.data().introduction,
+//             company_licence: doc.data().licence,
+//             company_licence_doc: doc.data().licenceDoc,
+//             company_linkedin: doc.data().linkedin,
+//             company_logo: doc.data().logo,
+//             company_medias: doc.data().medias,
+//             company_name: doc.data().name,
+//             company_nation: doc.data().nation,
+//             company_orders: doc.data().orders,
+//             company_partner: doc.data().partner,
+//             company_products: doc.data().products,
+//             company_products_number: doc.data().products_number,
+//             company_products_type: doc.data().products_type,
+//             company_rating: doc.data().rating,
+//             company_rating_bad: doc.data().rating_bad,
+//             company_rating_fail: doc.data().rating_fail,
+//             company_rating_good: doc.data().rating_good,
+//             company_rating_great: doc.data().rating_great,
+//             company_rating_normal: doc.data().rating_normal,
+//             company_skype: doc.data().skype,
+//             company_website: doc.data().website
+//           });
+//         });
+//         return requests;
+//       })
+//       .then(res => {
+//         console.log(res);
+//       })
+//       .catch(err => {
+//         console.log(err);
+//       });
+//   };
+// };
 
 export const actSaveProfile3 = step3 => {
   return {
