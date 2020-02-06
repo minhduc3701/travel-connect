@@ -8,8 +8,12 @@ import User from "./User";
 import Step from "./Step";
 import CompanyProfile from "./CompanyProfile";
 import GetUser from "./GetUser";
+import { firebaseReducer } from "react-redux-firebase";
+import { firestoreReducer } from "redux-firestore";
 
 const reducers = combineReducers({
+  firebase: firebaseReducer,
+  firestore: firestoreReducer,
   routing: routerReducer,
   settings: Settings,
   auth: Auth,

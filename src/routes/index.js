@@ -25,12 +25,12 @@ const App = ({ match }) => (
             import("../components/BreadCrumbNav/Account/Dashboard")
           )}
         />
-        <Route
+        {/* <Route
           path={`${match.url}company`}
           component={asyncComponent(() =>
             import("../components/BreadCrumbNav/Account/Profile")
           )}
-        />
+        /> */}
         <Route
           path={`${match.url}member-management`}
           component={asyncComponent(() =>
@@ -53,6 +53,38 @@ const App = ({ match }) => (
           path={`${match.url}complete-profile`}
           component={asyncComponent(() =>
             import("../components/BreadCrumbNav/Account/CompleteProfile")
+          )}
+        />
+        <Route
+          path={`${match.url}user`}
+          component={asyncComponent(() =>
+            import(
+              "../components/BreadCrumbNav/Account/NewCompleteProfile/User"
+            )
+          )}
+        />
+        <Route
+          path={`${match.url}personal`}
+          component={asyncComponent(() =>
+            import(
+              "../components/BreadCrumbNav/Account/NewCompleteProfile/User"
+            )
+          )}
+        />
+        <Route
+          path={`${match.url}company`}
+          component={asyncComponent(() =>
+            import(
+              "../components/BreadCrumbNav/Account/NewCompleteProfile/Company"
+            )
+          )}
+        />
+        <Route
+          path={`${match.url}verification`}
+          component={asyncComponent(() =>
+            import(
+              "../components/BreadCrumbNav/Account/NewCompleteProfile/Verification"
+            )
           )}
         />
         {/* Profile */}
@@ -94,14 +126,14 @@ const App = ({ match }) => (
               import("../components/Account/UpgradeAccount")
             )}
           />
-          <Route
+          {/* <Route
             path={`${match.url}complete-profile`}
             component={asyncComponent(() =>
               import(
                 "../components/Account/CompleteRegisterAccount/NewCompleteRegister/index"
               )
             )}
-          />
+          /> */}
           {/* [New Step] */}
           <Route
             path={`${match.url}user`}
@@ -114,6 +146,20 @@ const App = ({ match }) => (
             exact
             component={asyncComponent(() =>
               import("../components/Account/NewCompleteProfile/PersonUser")
+            )}
+          />
+          <Route
+            path={`${match.url}company`}
+            exact
+            component={asyncComponent(() =>
+              import("../components/Account/NewCompleteProfile/Company")
+            )}
+          />
+          <Route
+            path={`${match.url}verification`}
+            exact
+            component={asyncComponent(() =>
+              import("../components/Account/NewCompleteProfile/Verify")
             )}
           />
           {/* <Route

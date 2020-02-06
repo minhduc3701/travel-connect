@@ -19,6 +19,8 @@ import CircularProgress from "../../../GlobalComponent/CircularProgress";
 import { actFetchActionRequest } from "appRedux/actions/Account";
 import { Link } from "react-router-dom";
 import Cerfiticated from "./Blocks/Cerfiticated";
+// import { firebaseConnect, isLoaded } from "react-redux-firebase";
+// import { compose } from "redux";
 
 class Profile extends Component {
   state = {
@@ -122,3 +124,15 @@ const mapDispatchToProp = (dispatch, props) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProp)(Profile);
+
+// export default compose(
+//   firebaseConnect(props => {
+//     let user_info = JSON.parse(localStorage.getItem("user_info"));
+//     return [
+//       {
+//         collection: "companies"
+//       }
+//     ];
+//   }),
+//   connect(mapStateToProps, mapDispatchToProp)
+// )(Profile);
