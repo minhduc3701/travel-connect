@@ -19,7 +19,7 @@ import {
 import Permission from "./permission";
 import IntlMessages from "util/IntlMessages";
 import UploadPicture from "./Avatar";
-import { doneChange, failChange } from "util/Notification";
+import { doneChange, failChange, notiChange } from "util/Notification";
 
 const { Search } = Input;
 const FormItem = Form.Item;
@@ -86,8 +86,42 @@ class Dynamic extends React.Component {
     loading: false,
     visible: false,
     visible2: false,
-    tab: "1"
+    tab: "1",
+    newEmployee: "",
+    editEmoloyee: ""
   };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        // console.log("Received values of form: ", values);
+        // this.props.getState(this.state.step);
+        notiChange("success", "Add employee success!");
+        this.setState({
+          newEmployee: values,
+          visible: false,
+          visible2: false
+        });
+      }
+    });
+  };
+  handleSubmitEdit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        // console.log("Received values of form: ", values);
+        // this.props.getState(this.state.step);
+        notiChange("success", "Edit employee success!");
+        this.setState({
+          editEmoloyee: values,
+          visible: false,
+          visible2: false
+        });
+      }
+    });
+  };
+
   showModal = () => {
     this.setState({
       visible: true
@@ -107,7 +141,6 @@ class Dynamic extends React.Component {
   };
   handleCancel = () => {
     this.setState({ visible: false, visible2: false });
-    failChange();
   };
   handleChange = (pagination, filters, sorter) => {
     this.setState({
@@ -132,6 +165,7 @@ class Dynamic extends React.Component {
   };
 
   render() {
+    const { getFieldDecorator } = this.props.form;
     let { sortedInfo, filteredInfo } = this.state;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
@@ -276,120 +310,216 @@ class Dynamic extends React.Component {
           onChange={this.handleChange}
         />
 
-        <Modal
-          visible={this.state.visible}
-          title={<IntlMessages id="newemployee" />}
-          width={800}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          footer={[
-            <Button key="back" onClick={this.handleCancel}>
-              {<IntlMessages id="return" />}
-            </Button>,
-            <Button
-              key="submit"
-              type="primary"
-              loading={this.state.loading}
-              onClick={this.handleOk}
-            >
-              {<IntlMessages id="submit" />}
-            </Button>
-          ]}
-        >
-          <Row>
-            <Col span={12}>
+        {this.state.visible ? (
+          <Modal
+            visible={this.state.visible}
+            title={<IntlMessages id="newemployee" />}
+            width={800}
+            footer={null}
+          >
+            <Form onSubmit={this.handleSubmit}>
+              <Row>
+                <Col span={12}>
+                  <FormItem
+                    {...formItemLayout}
+                    label={<IntlMessages id="employee.name" />}
+                  >
+                    {getFieldDecorator("employee_name", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Enter employee name!"
+                        }
+                      ]
+                    })(<Input placeholder="Name" />)}
+                  </FormItem>
+                  <FormItem
+                    {...formItemLayout}
+                    label={<IntlMessages id="appModule.email" />}
+                  >
+                    {getFieldDecorator("employee_email", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Enter employee email!"
+                        }
+                      ]
+                    })(<Input placeholder="Email" />)}
+                  </FormItem>
+                  <FormItem
+                    {...formItemLayout}
+                    label={<IntlMessages id="appModule.password" />}
+                  >
+                    {getFieldDecorator("employee_password", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Enter password!"
+                        }
+                      ]
+                    })(<Input placeholder="Password" />)}
+                  </FormItem>
+                  <FormItem
+                    {...formItemLayout}
+                    label={<IntlMessages id="appModule.phone" />}
+                  >
+                    {getFieldDecorator("employee_phone", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Enter employee phone number!"
+                        }
+                      ]
+                    })(<Input placeholder="Số điện thoại" />)}
+                  </FormItem>
+                </Col>
+                <Col span={12}>
+                  <FormItem
+                    {...formItemLayout}
+                    label={<IntlMessages id="employee.position" />}
+                  >
+                    {getFieldDecorator("employee_position", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Enter employee position!"
+                        }
+                      ]
+                    })(<Input placeholder="Vị trí" />)}
+                  </FormItem>
+                  <FormItem
+                    {...formItemLayout}
+                    label={<IntlMessages id="employee.display" />}
+                  >
+                    {getFieldDecorator("employee_display", {
+                      rules: [
+                        {
+                          required: false,
+                          message: "Enter your company license number!"
+                        }
+                      ]
+                    })(<Switch />)}
+                  </FormItem>
+                  <FormItem {...formItemLayout} label="Avatar">
+                    {getFieldDecorator("employee_avatar", {
+                      rules: [
+                        {
+                          required: false,
+                          message: "Enter your company license number!"
+                        }
+                      ]
+                    })(<UploadPicture />)}
+                  </FormItem>
+                </Col>
+              </Row>
+              <div
+                className=" d-flex"
+                style={{
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "flex-end"
+                }}
+              >
+                <Button
+                  onClick={this.handleCancel}
+                  style={{ marginBottom: "0 !important" }}
+                >
+                  Return
+                </Button>
+                <Button
+                  htmlType="submit"
+                  type="primary"
+                  style={{ marginBottom: "0 !important" }}
+                >
+                  Complete
+                </Button>
+              </div>
+            </Form>
+          </Modal>
+        ) : null}
+        {this.state.visible2 ? (
+          <Modal
+            visible={this.state.visible2}
+            title="Edit employee"
+            width={600}
+            footer={null}
+          >
+            <Form onSubmit={this.handleSubmitEdit}>
               <FormItem
                 {...formItemLayout}
-                label={<IntlMessages id="employee.name" />}
+                label={<IntlMessages id="employee.position" />}
               >
-                <Input />
-              </FormItem>
-              <FormItem
-                {...formItemLayout}
-                label={<IntlMessages id="appModule.email" />}
-              >
-                <Input />
+                {getFieldDecorator("employee_position", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Enter employee position!"
+                    }
+                  ]
+                })(<Input placeholder="Vị trí" />)}
               </FormItem>
               <FormItem
                 {...formItemLayout}
                 label={<IntlMessages id="appModule.password" />}
               >
-                <Input type="password" />
-              </FormItem>
-              <FormItem
-                {...formItemLayout}
-                label={<IntlMessages id="appModule.phone" />}
-              >
-                <Input />
-              </FormItem>
-            </Col>
-            <Col span={12}>
-              <FormItem
-                {...formItemLayout}
-                label={<IntlMessages id="employee.position" />}
-              >
-                <Input />
+                {getFieldDecorator("employee_password", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Enter your password!"
+                    }
+                  ]
+                })(<Input placeholder="Password" />)}
               </FormItem>
               <FormItem
                 {...formItemLayout}
                 label={<IntlMessages id="employee.display" />}
               >
-                <Switch />
-              </FormItem>
+                {getFieldDecorator("employee.display", {
+                  rules: [
+                    {
+                      required: false,
+                      message: "Enter your company license number!"
+                    }
+                  ]
+                })(<Switch />)}
 
-              <FormItem {...formItemLayout} label="Avatar">
-                <UploadPicture />
+                <br />
+                <span className="gx-text-grey">
+                  Nếu bật, thông tin liên hệ của nhân viên này sẽ được hiển thị
+                  trên doanh nghiệp
+                </span>
               </FormItem>
-            </Col>
-          </Row>
-        </Modal>
-        <Modal
-          visible={this.state.visible2}
-          title="Tuan Linh"
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          width={600}
-          footer={[
-            <Button key="back" onClick={this.handleCancel}>
-              {<IntlMessages id="return" />}
-            </Button>,
-            <Button
-              key="submit"
-              type="primary"
-              loading={this.state.loading}
-              onClick={this.handleOk}
-            >
-              {<IntlMessages id="submit" />}
-            </Button>
-          ]}
-        >
-          <FormItem
-            {...formItemLayout}
-            label={<IntlMessages id="employee.position" />}
-          >
-            <Input defaultValue="Ceo" />
-          </FormItem>
-          <FormItem
-            {...formItemLayout}
-            label={<IntlMessages id="appModule.password" />}
-          >
-            <Input type="password" />
-          </FormItem>
-          <FormItem
-            {...formItemLayout}
-            label={<IntlMessages id="employee.display" />}
-          >
-            <Switch />
-            <br />
-            <span className="gx-text-grey">
-              Nếu bật, thông tin liên hệ của nhân viên này sẽ được hiển thị trên
-              doanh nghiệp
-            </span>
-          </FormItem>
-        </Modal>
+              <div
+                className=" d-flex"
+                style={{
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "flex-end"
+                }}
+              >
+                <Button
+                  onClick={this.handleCancel}
+                  style={{ marginBottom: "0 !important" }}
+                >
+                  Return
+                </Button>
+                <Button
+                  htmlType="submit"
+                  type="primary"
+                  style={{ marginBottom: "0 !important" }}
+                >
+                  Complete
+                </Button>
+              </div>
+            </Form>
+          </Modal>
+        ) : null}
       </Card>
     );
   }
 }
 
-export default Dynamic;
+const WrappedHorizontalLoginForm = Form.create()(Dynamic);
+
+export default WrappedHorizontalLoginForm;

@@ -1,72 +1,113 @@
 import React, { Component } from "react";
-import { Icon, Upload, message } from "antd";
-
-function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-}
-
-function beforeUpload(file) {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
-    }
-    return isJpgOrPng && isLt2M;
-}
+import { Icon, Upload } from "antd";
+// import { notiChange } from "util/Notification";
+import { connect } from "react-redux";
+import { actChangeBackground } from "appRedux/actions/CompanyProfile";
+import { actSetNewImage } from "appRedux/actions/Account";
+import background from "assets/images/travel-default-background.png";
+import { CallApi_ACCOUNT } from "util/CallApi";
 
 class BannerBackground extends Component {
+  state = {
+    loading: false,
+    file: {
+      background: []
+    },
+    fileList: []
+  };
 
-    state = {
-        loading: false,
+  onSendImageBackground = backgrounds => {
+    let user = JSON.parse(localStorage.getItem("user_info"));
+    const formData = new FormData();
+    backgrounds.forEach(file => {
+      formData.append("image-", file);
+    });
+    CallApi_ACCOUNT(
+      `VN/companies/${user.company_id}/backgrounds`,
+      "PUT",
+      formData
+    )
+      .then(res => {
+        if (res.data) {
+          this.props.actSaveBackgroundLocal(res.data.background);
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
+  render() {
+    let { fileList } = this.state;
+    let { profile } = this.props.profile;
+    const uploadButton = (
+      <div>
+        <Icon type={this.state.loading ? "loading" : "plus"} />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
+    // const { imageUrl } = this.state;
+
+    const props = {
+      showUploadList: false,
+      multiple: false,
+      onRemove: file => {
+        this.setState(state => {
+          const index = state.fileList.indexOf(file);
+          const newFileList = state.fileList.slice();
+          newFileList.splice(index, 1);
+          return {
+            fileList: newFileList
+          };
+        });
+      },
+      beforeUpload: file => {
+        this.setState(
+          state => ({
+            fileList: [file]
+          }),
+          () => this.onSendImageBackground(this.state.fileList)
+        );
+        return false;
+      },
+      fileList
     };
 
-    handleChange = info => {
-        if (info.file.status === 'uploading') {
-            this.setState({ loading: true });
-            return;
-        }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            getBase64(info.file.originFileObj, imageUrl =>
-                this.setState({
-                    imageUrl,
-                    loading: false,
-                }),
-            );
-        }
-    };
-    render() {
-        const uploadButton = (
-            <div>
-                <Icon type={this.state.loading ? 'loading' : 'plus'} />
-                <div className="ant-upload-text">Upload</div>
-            </div>
-        );
-        const { imageUrl } = this.state;
-        return (
-            <div className="aspect_box">
-                <div className="aspect_box--inner aspect_box--retangle_1x4">
-                    <img src="http://www.halongbooking.net/wp-content/uploads/2016/01/travel-banner-halong.jpg" alt="banner" className="aspect_box__img aspect_box__img--cover z-1" />
-                    <Upload
-                        name="avatar"
-                        listType="picture-card"
-                        className="avatar-uploader aspect_box__img aspect_box__img--cover block__banner--upload z-2"
-                        showUploadList={false}
-                        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                        beforeUpload={beforeUpload}
-                        onChange={this.handleChange}
-                    >
-                        {imageUrl ? <img src={imageUrl} alt="avatar" className="aspect_box__img aspect_box__img--cover z-3" /> : uploadButton}
-                    </Upload>
-                </div>
-            </div>
-        );
-    }
+    return (
+      <div className="aspect_box ">
+        <div className="aspect_box--inner aspect_box--retangle_1x4 ">
+          <img
+            src={
+              profile.company_background
+                ? profile.company_background
+                : profile.company_background === ""
+                ? background
+                : background
+            }
+            alt="banner"
+            className="aspect_box__img aspect_box__img--cover z-1"
+          />
+          <Upload
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader aspect_box__img aspect_box__img--cover block__banner--upload z-2"
+            {...props}
+          >
+            {uploadButton}
+          </Upload>
+        </div>
+      </div>
+    );
+  }
 }
 
-export default BannerBackground;
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    actSaveData: background => {
+      dispatch(actChangeBackground(background));
+    },
+    actSaveBackgroundLocal: bg => {
+      dispatch(actSetNewImage(bg));
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(BannerBackground);

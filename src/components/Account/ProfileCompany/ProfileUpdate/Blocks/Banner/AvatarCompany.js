@@ -1,72 +1,119 @@
 import React, { Component } from "react";
-import { Icon, Upload, message } from "antd";
-
-function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-}
-
-function beforeUpload(file) {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
-    }
-    return isJpgOrPng && isLt2M;
-}
+// import { notiChange } from "util/Notification";
+import { Icon, Upload } from "antd";
+import { connect } from "react-redux";
+import { actChangeLogo } from "appRedux/actions/CompanyProfile";
+import { actSetNewAvatar } from "appRedux/actions/Account";
+import { CallApi_ACCOUNT } from "util/CallApi";
+import logo from "assets/images/travel-default-logo.png";
 
 class AvatarCompany extends Component {
+  state = {
+    loading: false,
+    file: {
+      logo: []
+    },
+    fileList: []
+  };
 
-    state = {
-        loading: false,
+  onSendImageLogo = logo => {
+    let user = JSON.parse(localStorage.getItem("user_info"));
+    const formData = new FormData();
+    logo.forEach(file => {
+      formData.append("image-", file);
+    });
+    CallApi_ACCOUNT(`VN/companies/${user.company_id}/logos`, "PUT", formData)
+      .then(res => {
+        if (res.data) {
+          this.props.actSaveLogoLocal(res.data.logo);
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
+  render() {
+    let { fileList } = this.state;
+    let { profile } = this.props.profile;
+    const uploadButton = (
+      <div>
+        <Icon type={this.state.loading ? "loading" : "plus"} />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
+    const { imageUrl } = this.state;
+
+    const props = {
+      showUploadList: false,
+      multiple: false,
+      onRemove: file => {
+        this.setState(state => {
+          const index = state.fileList.indexOf(file);
+          const newFileList = state.fileList.slice();
+          newFileList.splice(index, 1);
+          return {
+            fileList: newFileList
+          };
+        });
+      },
+      beforeUpload: file => {
+        this.setState(
+          state => ({
+            // fileList: file
+            fileList: [file]
+          }),
+          () => this.onSendImageLogo(this.state.fileList)
+        );
+        return false;
+      },
+      fileList
     };
 
-    handleChange = info => {
-        if (info.file.status === 'uploading') {
-            this.setState({ loading: true });
-            return;
-        }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            getBase64(info.file.originFileObj, imageUrl =>
-                this.setState({
-                    imageUrl,
-                    loading: false,
-                }),
-            );
-        }
-    };
-    render() {
-        const uploadButton = (
-            <div>
-                <Icon type={this.state.loading ? 'loading' : 'plus'} />
-                <div className="ant-upload-text">Upload</div>
-            </div>
-        );
-        const { imageUrl } = this.state;
-        return (
-            <div className="aspect_box block__banner__avatar z-4">
-                <div className="aspect_box--inner aspect_box--square --circle block__banner__avatar--inner bg-color-white" >
-                    <img src="https://scontent.fhan5-5.fna.fbcdn.net/v/t1.0-1/p100x100/25442975_276028026257353_8090215628955438851_n.png?_nc_cat=101&_nc_oc=AQl2Y0toBu2NaUM4Da0Lkc69MePiriKQFnVbSOWplvE9VdbFPVp1sEiaftSAqjBIh2w&_nc_ht=scontent.fhan5-5.fna&oh=8c9443059fc00926ded386974e78813e&oe=5E78CCD3" alt="banner" className="aspect_box__img aspect_box__img--contain z-1" />
-                    <Upload
-                        name="avatar"
-                        listType="picture-card"
-                        className="avatar-uploader aspect_box__img aspect_box__img--cover block__banner__avatar--upload z-2"
-                        showUploadList={false}
-                        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                        beforeUpload={beforeUpload}
-                        onChange={this.handleChange}
-                    >
-                        {imageUrl ? <img src={imageUrl} alt="avatar" className="aspect_box__img aspect_box__img--cover z-3" /> : uploadButton}
-                    </Upload>
-                </div>
-            </div>
-        );
-    }
+    return (
+      <div className="aspect_box block__banner__avatar z-4">
+        <div className="aspect_box--inner aspect_box--square --circle block__banner__avatar--inner bg-color-white">
+          <img
+            src={
+              profile.company_logo
+                ? profile.company_logo
+                : profile.company_logo === ""
+                ? logo
+                : logo
+            }
+            alt="banner"
+            className="aspect_box__img aspect_box__img--contain z-1"
+          />
+          <Upload
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader aspect_box__img aspect_box__img--cover block__banner__avatar--upload z-2"
+            {...props}
+            // onChange={this.handleChange}
+          >
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt="avatar"
+                className="aspect_box__img aspect_box__img--cover z-3"
+              />
+            ) : (
+              uploadButton
+            )}
+          </Upload>
+        </div>
+      </div>
+    );
+  }
 }
 
-export default AvatarCompany;
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    actSaveData: logo => {
+      dispatch(actChangeLogo(logo));
+    },
+    actSaveLogoLocal: logoL => {
+      dispatch(actSetNewAvatar(logoL));
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AvatarCompany);

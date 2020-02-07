@@ -25,12 +25,12 @@ const App = ({ match }) => (
             import("../components/BreadCrumbNav/Account/Dashboard")
           )}
         />
-        <Route
+        {/* <Route
           path={`${match.url}company`}
           component={asyncComponent(() =>
             import("../components/BreadCrumbNav/Account/Profile")
           )}
-        />
+        /> */}
         <Route
           path={`${match.url}member-management`}
           component={asyncComponent(() =>
@@ -41,6 +41,50 @@ const App = ({ match }) => (
           path={`${match.url}upgrade-account`}
           component={asyncComponent(() =>
             import("../components/BreadCrumbNav/Account/UpgradeAccount")
+          )}
+        />
+        <Route
+          path={`${match.url}account-package`}
+          component={asyncComponent(() =>
+            import("../components/BreadCrumbNav/Account/UpgradeAccount")
+          )}
+        />
+        <Route
+          path={`${match.url}complete-profile`}
+          component={asyncComponent(() =>
+            import("../components/BreadCrumbNav/Account/CompleteProfile")
+          )}
+        />
+        <Route
+          path={`${match.url}user`}
+          component={asyncComponent(() =>
+            import(
+              "../components/BreadCrumbNav/Account/NewCompleteProfile/User"
+            )
+          )}
+        />
+        <Route
+          path={`${match.url}personal`}
+          component={asyncComponent(() =>
+            import(
+              "../components/BreadCrumbNav/Account/NewCompleteProfile/User"
+            )
+          )}
+        />
+        <Route
+          path={`${match.url}company`}
+          component={asyncComponent(() =>
+            import(
+              "../components/BreadCrumbNav/Account/NewCompleteProfile/Company"
+            )
+          )}
+        />
+        <Route
+          path={`${match.url}verification`}
+          component={asyncComponent(() =>
+            import(
+              "../components/BreadCrumbNav/Account/NewCompleteProfile/Verification"
+            )
           )}
         />
         {/* Profile */}
@@ -58,17 +102,13 @@ const App = ({ match }) => (
         {/* RENDER CONTENT HERE: */}
         <Switch>
           <Route
-            path={`${match.url}home`} // url
-            component={asyncComponent(() => import("../components/test"))} // component will render when url is match
-          />
-          <Route
             path={`${match.url}dashboard`}
             component={asyncComponent(() =>
               import("../components/Account/HomeDashboard")
             )}
           />
           <Route
-            path={`${match.url}company`}
+            path={`${match.url}profile`}
             component={asyncComponent(() =>
               import("../components/Account/ProfileCompany")
             )}
@@ -86,13 +126,53 @@ const App = ({ match }) => (
               import("../components/Account/UpgradeAccount")
             )}
           />
-
-          <Route
-            path={`${match.url}complete_profile`}
+          {/* <Route
+            path={`${match.url}complete-profile`}
             component={asyncComponent(() =>
               import(
-                "../components/Account/CompleteRegisterAccount/CompleteRegister/index"
+                "../components/Account/CompleteRegisterAccount/NewCompleteRegister/index"
               )
+            )}
+          /> */}
+          {/* [New Step] */}
+          <Route
+            path={`${match.url}user`}
+            component={asyncComponent(() =>
+              import("../components/Account/NewCompleteProfile/Personal")
+            )}
+          />
+          <Route
+            path={`${match.url}personal`}
+            exact
+            component={asyncComponent(() =>
+              import("../components/Account/NewCompleteProfile/PersonUser")
+            )}
+          />
+          <Route
+            path={`${match.url}company`}
+            exact
+            component={asyncComponent(() =>
+              import("../components/Account/NewCompleteProfile/Company")
+            )}
+          />
+          <Route
+            path={`${match.url}verification`}
+            exact
+            component={asyncComponent(() =>
+              import("../components/Account/NewCompleteProfile/Verify")
+            )}
+          />
+          {/* <Route
+            path={`${match.url}user/company`}
+            component={asyncComponent(() =>
+              import("../components/Account/NewCompleteProfile/PersonUser")
+            )}
+          /> */}
+
+          <Route
+            path={`${match.url}account-package`}
+            component={asyncComponent(() =>
+              import("../components/Account/UpgradeAccount/UpgradeAccount")
             )}
           />
         </Switch>
@@ -102,106 +182,3 @@ const App = ({ match }) => (
 );
 
 export default App;
-// import React from "react";
-// import { Switch } from "react-router-dom";
-// // if Have component to render, use 2 command line code below
-// import { Route } from "react-router-dom";
-// import asyncComponent from "util/asyncComponent";
-// const App = ({ match }) => (
-//   <div>
-//     <div
-//       className="gx-main-content-wrapper"
-//       style={{ padding: 0, width: "100%" }}
-//     >
-//       {/* RENDER BREADCRUMB HERE: */}
-//       <Switch>
-//         {/* HOME */}
-//         <Route
-//           path={`${match.url}home`}
-//           component={asyncComponent(() =>
-//             import("../components/BreadCrumbNav/BreadcrumbBar")
-//           )}
-//         />
-//         <Route
-//           path={`${match.url}dashboard`}
-//           component={asyncComponent(() =>
-//             import("../components/BreadCrumbNav/BreadcrumbBar")
-//           )}
-//         />
-//         <Route
-//           path={`${match.url}company`}
-//           component={asyncComponent(() =>
-//             import("../components/BreadCrumbNav/BreadcrumbBar")
-//           )}
-//         />
-//         <Route
-//           path={`${match.url}member-management`}
-//           component={asyncComponent(() =>
-//             import("../components/BreadCrumbNav/BreadcrumbBar")
-//           )}
-//         />
-//         <Route
-//           path={`${match.url}upgrade-account`}
-//           component={asyncComponent(() =>
-//             import("../components/BreadCrumbNav/BreadcrumbBar")
-//           )}
-//         />
-//         {/* Profile */}
-//         {/* Account */}
-//         {/* Events */}
-//         {/* Community */}
-//         {/* Business Matching */}
-//         {/* B2B Marketplace */}
-//         {/* OTA Channel */}
-//         {/* Recruitment */}
-//         {/* Education */}
-//         {/* Destination */}
-//       </Switch>
-//       <div className="gx-main-content-wrapper">
-//         {/* RENDER CONTENT HERE: */}
-//         <Switch>
-//           <Route
-//             path={`${match.url}home`} // url
-//             component={asyncComponent(() => import("../components/test"))} // component will render when url is match
-//           />
-//           <Route
-//             path={`${match.url}dashboard`}
-//             component={asyncComponent(() =>
-//               import("../components/Account/HomeDashboard")
-//             )}
-//           />
-//           <Route
-//             path={`${match.url}company`}
-//             component={asyncComponent(() =>
-//               import("../components/Account/ProfileCompany")
-//             )}
-//           />
-//           <Route
-//             path={`${match.url}member-management`}
-//             component={asyncComponent(() =>
-//               import("../components/Account/MemberManagement")
-//             )}
-//           />
-
-//           <Route
-//             path={`${match.url}upgrade-account`}
-//             component={asyncComponent(() =>
-//               import("../components/Account/UpgradeAccount")
-//             )}
-//           />
-
-//           <Route
-//             path={`${match.url}complete_profile`}
-//             component={asyncComponent(() =>
-//               import(
-//                 "../components/Account/CompleteRegisterAccount/CompleteRegister/index"
-//               )
-//             )}
-//           />
-//         </Switch>
-//       </div>
-//     </div>
-//   </div>
-// );
-
-// export default App;

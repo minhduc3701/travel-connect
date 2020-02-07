@@ -1,9 +1,9 @@
 import React from "react";
-import { Radio } from "antd";
+import { Radio, Icon } from "antd";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 
 import { albama, newJersy, popularList } from "./data";
-import CircularProgress from "components/GlobalComponent/CircularProgress";
+// import CircularProgress from "components/GlobalComponent/CircularProgress";
 import PropertiesItemCard from "./PropertiesItemCard";
 import IntlMessages from "util/IntlMessages";
 
@@ -27,12 +27,16 @@ class PropertiesCard extends React.Component {
   };
 
   render() {
-    const { loader, popular } = this.state;
+    let { profile } = this.props;
     return (
-      <div className="block-w-nb disable_layer_block" id="nav_product">
+      <div
+        className="block-w-nb disable_layer_block display-background-grey"
+        style={{ minHeight: "16em" }}
+        id="nav_product"
+      >
         <WidgetHeader
           styleName="d-flex"
-          title={<IntlMessages id="step.product" />}
+          title={<IntlMessages id="account.profile.product" />}
           extra={
             <div className="gx-mx-sm-2">
               <Radio.Group
@@ -41,36 +45,33 @@ class PropertiesCard extends React.Component {
                 onChange={this.handleChange}
               >
                 <Radio.Button value={0} className="m-b-0-i">
-                  <IntlMessages id="popular" />
+                  <IntlMessages id="account.profile.product.popular" />
                 </Radio.Button>
                 <Radio.Button value={1} className="m-b-0-i">
-                  <IntlMessages id="sidebar.b2bmarketplace.find.landtour" />{" "}
-                  (172)
+                  <IntlMessages id="account.profile.product.landtour" /> (172)
                 </Radio.Button>
                 <Radio.Button value={2} className="m-b-0-i">
-                  <IntlMessages id="sidebar.b2bmarketplace.find.grouptour" />{" "}
-                  (21)
+                  <IntlMessages id="account.profile.product.grouptour" /> (21)
                 </Radio.Button>
               </Radio.Group>
             </div>
           }
         />
 
-        {loader ? (
-          <CircularProgress className="gx-loader-400" />
-        ) : this.state.popular.length < 1 ? (
-          <p className="gx-font-weight-light">
-            <i className="icon icon-sweet-alert"></i>{" "}
-            <IntlMessages id="guide.company.product" />
-            <b>B2B Marketplace</b> >{" "}
-            <b>
-              <IntlMessages id="sidebar.b2b.service.inventory" />
-            </b>
-          </p>
-        ) : (
-          popular.map((data, index) => (
+        {profile.company_products.length > 0 ? (
+          profile.company_products.map((data, index) => (
             <PropertiesItemCard key={index} data={data} />
           ))
+        ) : (
+          <div>
+            <p className="gx-font-weight-light">
+              <Icon type="exclamation-circle" />{" "}
+              <IntlMessages id="account.profile.product.empty" />
+            </p>
+            <p>
+              <IntlMessages id="account.profile.product.empty.guide" />
+            </p>
+          </div>
         )}
       </div>
     );
@@ -78,3 +79,19 @@ class PropertiesCard extends React.Component {
 }
 
 export default PropertiesCard;
+// {profile.company_products ? (
+//   profile.company_products.map((data, index) => (
+//     <PropertiesItemCard key={index} data={data} />
+//   ))
+// ) : this.state.popular.length < 1 ? (
+//   <div>
+//         <p className="gx-font-weight-light">
+//           <Icon type="exclamation-circle" /> <IntlMessages id="account.profile.product.empty" />
+//         </p>
+//         <p>
+//           <IntlMessages id="account.profile.product.empty.guide" />
+//         </p>
+//       </div>
+// ) : (
+//   <CircularProgress className="gx-loader-400" />
+// )}

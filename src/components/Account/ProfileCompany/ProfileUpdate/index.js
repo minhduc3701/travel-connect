@@ -1,51 +1,165 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Col, Row } from "antd";
 import Banner from "./Blocks/Banner";
 import Biography from "./Blocks/Biography";
 import About from "./Blocks/About";
 import Friends from "./Blocks/Friends/index";
-import EventsBanner from "./Blocks/EventsBanner";
+import AddEvent from "./Blocks/EventsBanner/AddEvent";
 import Processing from "./Blocks/Processing";
 import Rating from "./Blocks/Rating";
 import PropertiesCard from "./Blocks/PropertiesItemCard/PropertiesCard";
 import Socials from "./Blocks/Socials";
-import Navigation from "./Blocks/Navigation";
 import Media from "./Blocks/Media";
 import Contact from "./Blocks/Contact";
+import Navigation from "./Blocks/Navigation";
 import StaticticGuest from "./Blocks/StaticticGuest";
 import { friendList } from "./data";
+import { CallApi_ACCOUNT } from "util/CallApi";
+import { connect } from "react-redux";
+import CircularProgress from "../../../GlobalComponent/CircularProgress";
+import { actFetchActionRequest } from "appRedux/actions/Account";
+import Cerfiticated from "./Blocks/Cerfiticated";
+// import { axios } from "axios";
+import {
+  actSaveIntroRequest,
+  actSaveSocialRequest,
+  actSaveWebsiteRequest,
+  actSaveAddressRequest,
+  actCleanReduxStore
+} from "../../../../appRedux/actions/CompanyProfile";
+// import { actFetchActionRequest } from "../../../../appRedux/actions/Account";
+
 class ProfileUpdate extends Component {
-	render() {
-		return (
-			<div className="gx-profile-content">
-				<Banner />
-				<Navigation />
-				<Row className="m-t-3-i">
-					<Col xl={16} lg={16} md={24} sm={24} xs={24}>
-						<About />
-						<Biography />
-						<Contact />
-						<Row>
-							<Col xl={12} lg={12} md={24} sm={24} xs={24}>
-							</Col>
-							<Col xl={12} lg={12} md={24} sm={24} xs={24}>
-							</Col>
-						</Row>
-						<EventsBanner />
-						<PropertiesCard />
-						<Rating />
-					</Col>
-					<Col xl={8} lg={8} md={24} sm={24} xs={24}>
-						<Processing />
-						<StaticticGuest />
-						<Friends friendList={friendList} />
-						<Socials />
-						<Media />
-					</Col>
-				</Row>
-			</div>
-		);
-	}
+  state = {
+    companyId: null
+  };
+
+  componentWillMount() {
+    this.props.actFetchDataAgain();
+  }
+
+  componentWillUnmount() {
+    let { CompanyProfile } = this.props.profile;
+    if (CompanyProfile[0]) {
+      this.props.actSendIntroToServer(CompanyProfile[0]);
+    }
+    if (CompanyProfile[1]) {
+      this.props.actSendAddressToServer(CompanyProfile[1]);
+    }
+    if (CompanyProfile[2]) {
+      this.props.actSendSocialToServer(CompanyProfile[2]);
+    }
+    if (CompanyProfile[3]) {
+      this.onSendImageMedia(CompanyProfile[3].company_medias);
+    }
+    if (CompanyProfile[4]) {
+      this.props.actSendWebsiteToServer(CompanyProfile[4]);
+    }
+    if (CompanyProfile[5]) {
+      this.onSendImageBackground(CompanyProfile[5]);
+    }
+    if (CompanyProfile[6]) {
+      this.onSendImageLogo(CompanyProfile[6]);
+    } else {
+      console.log("Nothing Change");
+    }
+    this.props.actCleanStore();
+  }
+
+  onSendImageMedia = fileList => {
+    let user = JSON.parse(localStorage.getItem("user_info"));
+    const formData = new FormData();
+    fileList.forEach(file => {
+      formData.append("image-", file);
+    });
+    CallApi_ACCOUNT(`VN/companies/${user.company_id}/medias`, "POST", formData)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
+
+  render() {
+    let { Account } = this.props.profile;
+    let warning = null;
+    for (const key in Account) {
+      if (Account[key] !== "") {
+        warning = null;
+      } else {
+        warning = <Processing Account={Account} />;
+      }
+    }
+    return (
+      <Fragment>
+        {Account.company_name ? (
+          <div className="gx-profile-content">
+            <div className="block-w ">
+              <Banner profile={Account} />
+              <Navigation />
+            </div>
+            <Row className="m-t-3-i">
+              <Col xl={16} lg={16} md={24} sm={24} xs={24}>
+                <div className="block-w">
+                  <About profile={Account} />
+                  <Biography profile={Account} />
+                  <Contact profile={Account} />
+                  <Row>
+                    <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+                    <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+                  </Row>
+                  <AddEvent />
+                  <PropertiesCard profile={Account} />
+                  {/* <Rating profile={Account} /> */}
+                  {Account.company_rating > 0 ? (
+                    <Rating profile={Account} />
+                  ) : null}
+                </div>
+              </Col>
+              <Col xl={8} lg={8} md={24} sm={24} xs={24}>
+                <div className="block-w">
+                  {warning}
+                  <Cerfiticated />
+                  <StaticticGuest profile={Account} />
+                  <Friends profile={Account} friendList={friendList} />
+                  <Socials profile={Account} />
+                  <Media profile={Account} />
+                </div>
+              </Col>
+            </Row>
+          </div>
+        ) : (
+          <CircularProgress />
+        )}
+      </Fragment>
+    );
+  }
 }
 
-export default ProfileUpdate;
+const mapStateToProps = state => {
+  return {
+    profile: state
+  };
+};
+
+const mapDispatchToProp = (dispatch, props) => {
+  return {
+    actSendIntroToServer: intro => {
+      dispatch(actSaveIntroRequest(intro));
+    },
+    actSendSocialToServer: social => {
+      dispatch(actSaveSocialRequest(social));
+    },
+    actSendWebsiteToServer: website => {
+      dispatch(actSaveWebsiteRequest(website));
+    },
+    actSendAddressToServer: address => {
+      dispatch(actSaveAddressRequest(address));
+    },
+    actCleanStore: () => {
+      dispatch(actCleanReduxStore());
+    },
+    actFetchDataAgain: () => {
+      dispatch(actFetchActionRequest());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProp)(ProfileUpdate);

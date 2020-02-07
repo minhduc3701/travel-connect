@@ -1,21 +1,23 @@
 // URL FOR MENU NAVIGATOR
 // ALREADY USE
-export const HOME = "http://localhost:3000/home";
-export const ACCOUNT = "http://localhost:3000/account";
-export const BUSINESS = "http://localhost:3000/business";
-export const B2B = "http://localhost:3000/b2b";
+export const HOME = "https://app.travelconnect.global";
+export const ACCOUNT = "http://account.travelconnect.global";
+export const BUSINESS = "https://business.travelconnect.global";
+export const B2B = "https://b2b.travelconnect.global";
 
 // NOT USE YET
-export const EVENTS = "http://localhost:3000/events";
-export const COMMUNITY = "http://localhost:3000/community";
-export const OTA = "";
-export const EDU = "http://localhost:3000/edu";
+export const EVENTS = "http://event.travelconnect.global";
+export const COMMUNITY = "http://community.travelconnect.global";
+export const OTA = "http://tc-ota.firebaseapp.com";
+export const EDU = "http://tc-edu.firebaseapp.com";
 export const DESTINATION = "";
 export const RECRUITMENT = "";
 
-//ACCOUNT
-export const ACCOUNT_DASHBOARD = "http://localhost:3000/dashboard";
-export const ACCOUNT_PROFILE = "http://localhost:3000/company";
-export const ACCOUNT_MEMBER_MANAGEMENT =
-  "http://localhost:3000/member-management";
-export const ACCOUNT_UPGRADE_ACCOUNT = "http://localhost:3000/upgrade-account";
+//URL FOR ACCOUNT
+export const API_PROFILE_COMPANY =
+  "https://us-central1-travelconnectapp.cloudfunctions.net/v1";
+export const API_USER_DETAIL =
+  "https://us-central1-tc-appglobal.cloudfunctions.net/v1";
+
+export const API_ACCOUNT =
+  "https://us-central1-tc-account.cloudfunctions.net/api/v1";

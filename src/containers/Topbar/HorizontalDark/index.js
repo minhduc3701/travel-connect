@@ -21,6 +21,7 @@ import {
   switchLanguage,
   toggleCollapsedSideNav
 } from "../../../appRedux/actions/Setting";
+import { HOME } from "../../../constants/NavigateLink";
 import { currencyData } from "../currencyData";
 import IntlMessages from "../../../util/IntlMessages";
 
@@ -103,6 +104,7 @@ class HorizontalDark extends Component {
 
   render() {
     const { locale, navCollapsed } = this.props;
+    const domain = window.location.host;
 
     return (
       <div className="gx-header-horizontal gx-header-horizontal-dark">
@@ -120,18 +122,37 @@ class HorizontalDark extends Component {
                   }}
                 />
               </div>
-              <Link
-                to="/"
-                className="gx-d-block gx-d-lg-none gx-pointer gx-mr-xs-3 gx-pt-xs-1 gx-w-logo"
-              >
-                <img alt="" src={require("assets/images/logo-beta.png")} />
-              </Link>
-              <Link
-                to="/"
-                className="gx-d-none gx-d-lg-block gx-pointer gx-mr-xs-5 gx-logo"
-              >
-                <img alt="" src={require("assets/images/logo-beta.png")} />
-              </Link>
+
+
+              {
+                domain === HOME ? (
+                  <Link
+                    to="/home"
+                    className="gx-d-block gx-d-lg-none gx-pointer gx-mr-xs-3 gx-pt-xs-1 gx-w-logo"
+                  >
+                    <img alt="" src={require("assets/images/logo-beta.png")} />
+                  </Link>
+                ) : (
+                    <a href={`${HOME}/home`} className="gx-d-block gx-d-lg-none gx-pointer gx-mr-xs-3 gx-pt-xs-1 gx-w-logo">
+                      <img alt="" src={require("assets/images/logo-beta.png")} />
+                    </a>
+                  )
+              }
+
+              {
+                domain === HOME ? (
+                  <Link
+                    to="/home"
+                    className="gx-d-none gx-d-lg-block gx-pointer gx-mr-xs-5 gx-logo"
+                  >
+                    <img alt="" src={require("assets/images/logo-beta.png")} />
+                  </Link>
+                ) : (
+                    <a href={`${HOME}/home`} className="gx-d-none gx-d-lg-block gx-pointer gx-mr-xs-5 gx-logo">
+                      <img alt="" src={require("assets/images/logo-beta.png")} />
+                    </a>
+                  )
+              }
               <div className="gx-header-search gx-d-none gx-d-lg-flex">
                 <SearchBox
                   styleName="gx-lt-icon-search-bar-lg"

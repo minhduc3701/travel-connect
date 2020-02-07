@@ -7,59 +7,69 @@ import IntlMessages from "util/IntlMessages";
 
 class StaticticGuest extends React.Component {
   render() {
+    let { profile } = this.props;
+
     return (
-      <div className="block-w-nb disable_layer_block" id="nav_statistics">
+      <div
+        className="block-w-nb disable_layer_block display-background-grey"
+        style={{ paddingBottom: "3em" }}
+        id="nav_statistics"
+      >
         <WidgetHeader
           title={
             <div>
               <span>
-                <IntlMessages id="Statistics" />
+                <IntlMessages id="account.profile.statistics" />
               </span>
             </div>
           }
         />
         <Row>
-          <Col xl={24} lg={24} md={12} sm={12} xs={24}>
+          <Col xl={12} lg={12} md={12} sm={12} xs={12}>
             <HightLightItem
               colorTitle="primary"
               color="white"
-              values="35"
-              title={<IntlMessages id="saleDataProduct" />}
-              info="Tổng số khách truy cập (xem trang sản phẩm) từ web và ứng dụng của Travel Connect. Một khách xem nhiều sản phẩm chỉ tính là 1 khách truy cập."
-              desc="Vs hôm qua 22.00%"
+              values={profile.company_products_number}
+              title={<IntlMessages id="account.profile.statistics.products" />}
+              info={
+                <IntlMessages id="account.profile.statistics.products.info" />
+              }
               icon="diamond"
             />
           </Col>
-          <Col xl={24} lg={24} md={12} sm={12} xs={24}>
+          <Col xl={12} lg={12} md={12} sm={12} xs={12}>
             <HightLightItem
               colorTitle="primary"
               color="white"
-              values="125.246"
-              title={<IntlMessages id="ordered" />}
-              info="Tổng số lần xem trang sản phẩm từ web và ứng dụng của Travel Connect."
-              desc="Vs hôm qua 12.33%"
+              values={profile.company_orders}
+              title={<IntlMessages id="account.profile.statistics.bought" />}
+              info={
+                <IntlMessages id="account.profile.statistics.bought.info" />
+              }
               icon="inbuilt-apps"
             />
           </Col>
-          <Col xl={24} lg={24} md={12} sm={12} xs={24}>
+        </Row>
+        <Row>
+          <Col xl={12} lg={12} md={12} sm={12} xs={12}>
             <HightLightItem
               colorTitle="primary"
               color="white"
-              values="146"
-              title={<IntlMessages id="deal" />}
-              info="Tổng số yêu cầu báo giá đã nhận được từ người mua"
-              desc="Vs hôm qua 110.00%"
+              values={profile.company_deal}
+              title={<IntlMessages id="account.profile.statistics.sold" />}
+              info={<IntlMessages id="account.profile.statistics.sold.info" />}
               icon="revenue-new"
             />
           </Col>
-          <Col xl={24} lg={24} md={12} sm={12} xs={24}>
+          <Col xl={12} lg={12} md={12} sm={12} xs={12}>
             <HightLightItem
               colorTitle="primary"
               color="white"
-              values="75"
-              title={<IntlMessages id="partnerCompany" />}
-              info="Số lượng khách truy cập và đặt hàng chia cho tổng số khách truy cập trong khoảng thời gian đã chọn. "
-              desc="Vs hôm qua 16.66%"
+              values={profile.company_partner}
+              title={<IntlMessages id="account.profile.statistics.partner" />}
+              info={
+                <IntlMessages id="account.profile.statistics.partner.info" />
+              }
               icon="profile"
             />
           </Col>

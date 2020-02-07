@@ -1,6 +1,7 @@
 import React from "react";
 import { Breadcrumb, Row, Col, Icon } from "antd";
 
+import IntlMessages from "util/IntlMessages";
 const BreadcrumbBar = () => {
   return (
     <div className="bg-color-white ">
@@ -17,10 +18,10 @@ const BreadcrumbBar = () => {
             </Breadcrumb.Item>
             <Breadcrumb.Item>
               <span className="gx-link">
-                <span>Account</span>
+                <span><IntlMessages id="account.default" /></span>
               </span>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Profile</Breadcrumb.Item>
+            <Breadcrumb.Item><IntlMessages id="account.profile" /></Breadcrumb.Item>
           </Breadcrumb>
         </Col>
       </Row>

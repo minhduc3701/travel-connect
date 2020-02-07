@@ -1,1 +1,2 @@
-export * from './Setting';
+export * from "./Setting";
+export * from "./GetUser";

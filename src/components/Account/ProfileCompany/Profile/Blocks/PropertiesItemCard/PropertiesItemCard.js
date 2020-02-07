@@ -2,6 +2,7 @@ import React from "react";
 import { Icon, Col } from "antd";
 import { doneChange, failChange } from "util/Notification";
 import { Link } from "react-router-dom";
+import IntlMessages from "util/IntlMessages";
 import "styles/containerToScroll.less";
 
 class PropertiesItemCard extends React.Component {
@@ -36,7 +37,6 @@ class PropertiesItemCard extends React.Component {
   };
 
   onChange = time => {
-    console.log(time);
     this.setState({ value: time });
   };
 
@@ -47,7 +47,6 @@ class PropertiesItemCard extends React.Component {
   };
 
   handleOk = e => {
-    console.log(e);
     this.setState({
       visibleRecommend: false
     });
@@ -55,7 +54,6 @@ class PropertiesItemCard extends React.Component {
   };
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visibleRecommend: false
     });
@@ -63,23 +61,31 @@ class PropertiesItemCard extends React.Component {
   };
 
   render() {
-    const { title } = this.props.data;
+    const Account = this.props.data;
     return (
       <div className="gx-featured-item">
         <div className="d-flex d-flex-wrap justify-space-between">
           <Col xl={20} lg={20} md={20} sm={24} xs={24}>
-            <h5 className="gx-mb-2 text-ellipsis">{title} - 7 ngày 6 đêm</h5>
+            {Account ? (
+              <h5 className="gx-mb-2 text-ellipsis">
+                {/* {Account.product_name} */}
+                {Account.product_name} - {Account.product_day}{" "}
+                <IntlMessages id="account.profile.product.unit.days" />{" "}
+                {Account.product_night}{" "}
+                <IntlMessages id="account.profile.product.unit.nights" />
+              </h5>
+            ) : null}
           </Col>
           <Col xl={4} lg={4} md={4} sm={24} xs={24}>
             <h5 className="text-align-right">
               <Link
                 target="blank"
                 to={{
-                  pathname: "/b2b/landtour/detail"
+                  pathname: `/find/${Account.product_type}/detail/${Account.product_id}`
                 }}
               >
                 <Icon type="double-right" className="m-r-1" />
-                Chi tiết
+                <IntlMessages id="account.profile.product.btn.detail" />
               </Link>
             </h5>
           </Col>
