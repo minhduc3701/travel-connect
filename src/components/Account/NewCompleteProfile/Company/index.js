@@ -164,7 +164,7 @@ class Company extends Component {
     //   fileList
     // };
     return (
-      <div className="block-w bor-rad-6">
+      <div className="block_shadow">
         {this.state.linkRe ? <Redirect to="/verification" /> : null}
         <WidgetHeader title="Hoàn thiện hồ sơ" />
         <Row className="p-v-6">

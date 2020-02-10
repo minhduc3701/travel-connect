@@ -170,7 +170,7 @@ class Company extends Component {
       fileList
     };
     return (
-      <div className="block-w bor-rad-6">
+      <div className="block_shadow">
         {this.state.linkRe ? (
           <Redirect to="https://app.travelconnect.global/home" />
         ) : null}
@@ -346,133 +346,133 @@ class Company extends Component {
                     </FormItem>
                   </Form>
                   {this.state.typeCompany === "other" &&
-                  this.state.notExist === false ? (
-                    <Form onSubmit={this.handleSubmitPerson}>
-                      <FormItem {...formItemLayout} label="Quốc gia: ">
-                        {getFieldDecorator("company_national", {
-                          rules: [
-                            {
-                              required: true,
-                              message: "Enter your company national!"
-                            }
-                          ]
-                        })(
-                          <Select defaultValue="vn" style={{ width: "100%" }}>
-                            <OptGroup label="Châu Á">
-                              <Option value="vn">Việt Nam</Option>
-                              <Option value="jp">Nhật Bản</Option>
-                            </OptGroup>
-                            <OptGroup label="Châu Âu">
-                              <Option value="fi">Pháp</Option>
-                            </OptGroup>
-                          </Select>
-                        )}
-                      </FormItem>
-                      <FormItem {...formItemLayout} label="Công ty: ">
-                        <InputGroup compact>
-                          <Select style={{ width: "30%" }} defaultValue="name">
-                            <Option value="name">Tên công ty</Option>
-                            <Option value="code">Mã số thuế</Option>
-                          </Select>
-                          {getFieldDecorator("company_detail", {
-                            rules: [
-                              {
-                                required: true,
-                                message: "Enter your company detail!"
-                              }
-                            ]
-                          })(<Input style={{ width: "50%" }} />)}
-
-                          <Button
-                            style={{ width: "20%" }}
-                            type="primary"
-                            htmlType="submit"
-                          >
-                            Tìm kiếm
-                          </Button>
-                        </InputGroup>
-                      </FormItem>
-                    </Form>
-                  ) : null}
-                  {this.state.typeCompany &&
-                  this.state.typeCompany !== "other" &&
-                  this.state.notExist === false ? (
-                    <div>
+                    this.state.notExist === false ? (
                       <Form onSubmit={this.handleSubmitPerson}>
-                        <FormItem {...formItemLayout} label="Chức vụ bản thân">
-                          {getFieldDecorator("user_position", {
+                        <FormItem {...formItemLayout} label="Quốc gia: ">
+                          {getFieldDecorator("company_national", {
                             rules: [
                               {
                                 required: true,
-                                message: "Enter your position!"
-                              }
-                            ]
-                          })(<Input placeholder="Chức vụ" />)}
-                        </FormItem>
-                        <FormItem {...formItemLayout} label="Email">
-                          {getFieldDecorator("person_email", {
-                            rules: [
-                              {
-                                required: true,
-                                message: "Enter your email!"
-                              }
-                            ]
-                          })(<Input placeholder="Email" />)}
-                        </FormItem>
-                        <FormItem {...formItemLayout} label="Số điện thoại">
-                          {getFieldDecorator("person_phone", {
-                            rules: [
-                              {
-                                required: true,
-                                message: "Enter your phone number!"
-                              }
-                            ]
-                          })(<Input placeholder="Số điện thoại" />)}
-                        </FormItem>
-                        <FormItem {...formItemLayout} label="Quận/ Huyện">
-                          {getFieldDecorator("person_district", {
-                            rules: [
-                              {
-                                required: true,
-                                message: "Select your district!"
+                                message: "Enter your company national!"
                               }
                             ]
                           })(
-                            <Cascader
-                              placeholder="Quận/ Huyện"
-                              options={residences}
-                            />
+                            <Select defaultValue="vn" style={{ width: "100%" }}>
+                              <OptGroup label="Châu Á">
+                                <Option value="vn">Việt Nam</Option>
+                                <Option value="jp">Nhật Bản</Option>
+                              </OptGroup>
+                              <OptGroup label="Châu Âu">
+                                <Option value="fi">Pháp</Option>
+                              </OptGroup>
+                            </Select>
                           )}
                         </FormItem>
-                        <FormItem {...formItemLayout} label="Địa chỉ">
-                          {getFieldDecorator("person_address", {
-                            rules: [
-                              {
-                                required: true,
-                                message: "Enter your address!"
-                              }
-                            ]
-                          })(<Input placeholder="Địa chỉ" />)}
-                        </FormItem>
-                        <div
-                          className=" d-flex"
-                          style={{
-                            width: "100%",
-                            alignItems: "center",
-                            justifyContent: "flex-end"
-                          }}
-                        >
-                          <Button
-                            type="primary"
-                            htmlType="submit"
-                            style={{ marginBottom: "0 !important" }}
-                          >
-                            Next
+                        <FormItem {...formItemLayout} label="Công ty: ">
+                          <InputGroup compact>
+                            <Select style={{ width: "30%" }} defaultValue="name">
+                              <Option value="name">Tên công ty</Option>
+                              <Option value="code">Mã số thuế</Option>
+                            </Select>
+                            {getFieldDecorator("company_detail", {
+                              rules: [
+                                {
+                                  required: true,
+                                  message: "Enter your company detail!"
+                                }
+                              ]
+                            })(<Input style={{ width: "50%" }} />)}
+
+                            <Button
+                              style={{ width: "20%" }}
+                              type="primary"
+                              htmlType="submit"
+                            >
+                              Tìm kiếm
                           </Button>
-                        </div>
+                          </InputGroup>
+                        </FormItem>
                       </Form>
-                    </div>
-                  ) : null}
+                    ) : null}
+                  {this.state.typeCompany &&
+                    this.state.typeCompany !== "other" &&
+                    this.state.notExist === false ? (
+                      <div>
+                        <Form onSubmit={this.handleSubmitPerson}>
+                          <FormItem {...formItemLayout} label="Chức vụ bản thân">
+                            {getFieldDecorator("user_position", {
+                              rules: [
+                                {
+                                  required: true,
+                                  message: "Enter your position!"
+                                }
+                              ]
+                            })(<Input placeholder="Chức vụ" />)}
+                          </FormItem>
+                          <FormItem {...formItemLayout} label="Email">
+                            {getFieldDecorator("person_email", {
+                              rules: [
+                                {
+                                  required: true,
+                                  message: "Enter your email!"
+                                }
+                              ]
+                            })(<Input placeholder="Email" />)}
+                          </FormItem>
+                          <FormItem {...formItemLayout} label="Số điện thoại">
+                            {getFieldDecorator("person_phone", {
+                              rules: [
+                                {
+                                  required: true,
+                                  message: "Enter your phone number!"
+                                }
+                              ]
+                            })(<Input placeholder="Số điện thoại" />)}
+                          </FormItem>
+                          <FormItem {...formItemLayout} label="Quận/ Huyện">
+                            {getFieldDecorator("person_district", {
+                              rules: [
+                                {
+                                  required: true,
+                                  message: "Select your district!"
+                                }
+                              ]
+                            })(
+                              <Cascader
+                                placeholder="Quận/ Huyện"
+                                options={residences}
+                              />
+                            )}
+                          </FormItem>
+                          <FormItem {...formItemLayout} label="Địa chỉ">
+                            {getFieldDecorator("person_address", {
+                              rules: [
+                                {
+                                  required: true,
+                                  message: "Enter your address!"
+                                }
+                              ]
+                            })(<Input placeholder="Địa chỉ" />)}
+                          </FormItem>
+                          <div
+                            className=" d-flex"
+                            style={{
+                              width: "100%",
+                              alignItems: "center",
+                              justifyContent: "flex-end"
+                            }}
+                          >
+                            <Button
+                              type="primary"
+                              htmlType="submit"
+                              style={{ marginBottom: "0 !important" }}
+                            >
+                              Next
+                          </Button>
+                          </div>
+                        </Form>
+                      </div>
+                    ) : null}
                   {this.state.notExist ? (
                     <div>
                       <Form onSubmit={this.handleSubmitPerson}>

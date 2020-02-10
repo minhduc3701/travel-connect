@@ -211,7 +211,7 @@ class Personal extends Component {
       fileList
     };
     return (
-      <div className="block-w bor-rad-6">
+      <div className="block_shadow">
         {this.state.companySelect ? (
           <Redirect to={`/${this.state.typeAccount}`} />
         ) : null}

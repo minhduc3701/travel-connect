@@ -8,7 +8,7 @@ const WelcomeCard = props => {
   let nameWelcome = name[name.length - 1];
   return (
     <div
-      className="block-w flow-hidden pos-rel w-100 z-1"
+      className="block_shadow flow-hidden pos-rel w-100 z-1"
       style={{
         minHeight: "200px",
         height: "calc(100% - 2em)"
