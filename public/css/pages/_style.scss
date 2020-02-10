@@ -1,4 +1,24 @@
 
+body {
+	font-size: 13px !important;
+}
+
+.text {
+	&-color {
+		&-primary {
+			color: var(--text-primary-color);
+		}
+
+		&-sub {
+			color: var(--text-sub-color);
+		}
+
+		&-disable {
+			color: var(--text-disable-color);
+		}
+	}
+}
+
 
 .h-150-i {
 	height: 150px !important;
@@ -450,6 +470,7 @@ div#calendar {
   background-color: #003366 !important;
 }
 
+
 .text-ellipsis {
   white-space: nowrap;
   overflow: hidden;
@@ -562,5 +583,58 @@ div#calendar {
 	    z-index: 10;
    	 	background-color: #80808022;
 
+	}
+}
+
+.block_shadow {
+	box-sizing: border-box;
+	border-radius: 10px;
+	// background: linear-gradient(145deg, #eeeeee11, #ffffff);
+	background: #fff;
+	padding: 1em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	box-shadow:  8px 8px 16px #dfdfdf, 
+	             -8px -8px 16px #ffffff;
+	border: 1px solid #dfdfdf;
+
+}
+
+.button_shadow {
+	box-sizing: border-box;
+	border-radius: 10px;
+	// background: linear-gradient(145deg, #eeeeee11, #ffffff);
+	background: #fff;
+	border: none;
+	box-shadow:  8px 8px 16px #dfdfdf, 
+	             -8px -8px 16px #ffffff;
+	cursor: pointer;
+	&:hover {
+		box-shadow: inset 8px 8px 16px #dfdfdf, 
+	              inset -8px -8px 16px #ffffff;
+	}
+}
+
+.shadow_default {
+	border-radius: 10px;
+	background: #fff;
+	// background: linear-gradient(145deg, #eeeeee11, #ffffff);
+	box-shadow:  8px 8px 16px #dfdfdf, 
+	             -8px -8px 16px #ffffff;
+}
+
+.border_horizontal {
+	border-left: 1px solid $border-color;
+	border-right: 1px solid $border-color;
+}
+
+.user_setting 
+{
+	.ant-tabs-content.ant-tabs-content-animated.ant-tabs-left-content {
+		padding:0
+	}	
+
+	p, span {
+		font-size: 13px;
 	}
 }
