@@ -102,7 +102,7 @@ class Company extends Component {
       fileList
     };
     return (
-      <div className="block-w bor-rad-6">
+      <div className="block_shadow">
         {this.state.linkRe ? (
           <Redirect to="https://app.travelconnect.global/home" />
         ) : null}
