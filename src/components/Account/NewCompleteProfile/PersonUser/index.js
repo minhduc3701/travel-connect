@@ -14,8 +14,8 @@ import {
 } from "antd";
 import { connect } from "react-redux";
 import { actUpdatePersonProfileRequest } from "appRedux/actions/Account";
+import { CreateUserWorkSDK } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
-import { Redirect } from "react-router-dom";
 
 const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
@@ -89,21 +89,44 @@ class Company extends Component {
     FreeLancer: 0,
     notExist: false,
     selectVisible: false,
-    linkRe: false
+    visibleSearch: false,
+    personAccDetail: null
   };
   handleSubmitPerson = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
-        // this.props.getStateType(this.state.infoType);
-        // let establish = this.state.establish;
-        // let business = this.state.business;
         this.setState(
           {
             infoPerson: {
               user_position: values.user_position ? values.user_position : "",
               infoUnit: values ? values : ""
+            },
+            personAccDetail: {
+              companyName: values.company_name ? values.company_name : "",
+              companyBrand: values.company_brandname
+                ? values.company_brandname
+                : "",
+              companyAddress: values.company_address
+                ? values.company_address
+                : "",
+              companyEmail: values.company_email ? values.company_email : "",
+              verifyPerson: values.user_verify ? values.user_verify : "",
+              companyBusiness: values.company_business
+                ? [values.company_business]
+                : "",
+              companyHeadquarters: values.company_headquarters
+                ? values.company_headquarters
+                : "",
+              tourGuide: values.tour_guide ? values.tour_guide : "",
+              companyNation: values.company_national
+                ? values.company_national
+                : "",
+              interested: values.user_interested ? values.user_interested : "",
+              specialized: values.user_specialized
+                ? values.user_specialized
+                : "",
+              position: values.user_position ? values.user_position : ""
             }
           },
           () => this.onSendDataPerson()
@@ -113,10 +136,10 @@ class Company extends Component {
   };
 
   onSendDataPerson = async () => {
-    await this.props.actSendDataToServer(this.state.infoPerson);
-    this.setState({
-      linkRe: true
-    });
+    let { params } = this.props.match;
+    let uId = JSON.parse(localStorage.getItem("user_info"));
+    let Id = params.id ? params.id : uId.user_id;
+    await this.props.actSendDataCompanyUser(this.state.personAccDetail, Id);
   };
 
   onSelectType = e => {
@@ -140,13 +163,13 @@ class Company extends Component {
   onOtherCompany = () => {
     this.setState({
       notExist: !this.state.notExist,
-      selectVisible: !this.state.selectVisible
+      selectVisible: !this.state.selectVisible,
+      visibleSearch: !this.state.visibleSearch
     });
   };
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    // let typePicked = this.props.typeMem;
     let { fileList } = this.state;
     const props = {
       multiple: true,
@@ -171,9 +194,6 @@ class Company extends Component {
     };
     return (
       <div className="block-w bor-rad-6">
-        {this.state.linkRe ? (
-          <Redirect to="https://app.travelconnect.global/home" />
-        ) : null}
         <WidgetHeader title="Hoàn thiện hồ sơ" />
         <Row className="p-v-6">
           <Col xl={8} lg={8} md={8} sm={24} xs={24}>
@@ -326,75 +346,72 @@ class Company extends Component {
               {this.state.typeAccount === "company" ? (
                 <Fragment>
                   <Form>
-                    <FormItem {...formItemLayout} label="Công ty">
-                      <Select
-                        disabled={this.state.selectVisible}
-                        placeholder="Công ty"
-                        onChange={this.onChoseCompany}
-                      >
-                        <Option value="Travel Connect">Travel Connect</Option>
-                        <Option value="Travel Đà Nẵng">Travel Đà Nẵng</Option>
-                        <Option value="An Bình">An Bình</Option>
-                        <Option value="Viet Travel">Viet Travel</Option>
-                        <Option value="Saigon Tourist">Saigon Tourist</Option>
-                        <Option value="other">Khác..</Option>
-                      </Select>
+                    <FormItem {...formItemLayout} label="Quốc gia: ">
+                      {getFieldDecorator("company_national", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Enter your company national!"
+                          }
+                        ]
+                      })(
+                        <Select
+                          placeholder="Quốc gia"
+                          disabled={this.state.visibleSearch}
+                          defaultValue="vn"
+                          style={{ width: "100%" }}
+                        >
+                          <OptGroup label="Châu Á">
+                            <Option value="vn">Việt Nam</Option>
+                            <Option value="jp">Nhật Bản</Option>
+                          </OptGroup>
+                          <OptGroup label="Châu Âu">
+                            <Option value="fi">Pháp</Option>
+                          </OptGroup>
+                        </Select>
+                      )}
+                    </FormItem>
+                    <FormItem {...formItemLayout} label="Công ty: ">
+                      <InputGroup compact>
+                        <Select
+                          disabled={this.state.visibleSearch}
+                          style={{ width: "30%" }}
+                          defaultValue="name"
+                        >
+                          <Option value="name">Tên công ty</Option>
+                          <Option value="code">Mã số thuế</Option>
+                        </Select>
+                        {getFieldDecorator("company_detail", {
+                          rules: [
+                            {
+                              required: true,
+                              message: "Enter your company detail!"
+                            }
+                          ]
+                        })(
+                          <Input
+                            disabled={this.state.visibleSearch}
+                            style={{ width: "50%" }}
+                          />
+                        )}
+
+                        <Button
+                          disabled={this.state.visibleSearch}
+                          style={{ width: "20%" }}
+                          type="primary"
+                          htmlType="submit"
+                        >
+                          Tìm kiếm
+                        </Button>
+                      </InputGroup>
                       <p className="gx-link" onClick={this.onOtherCompany}>
                         Công ty tôi đang làm việc hiện chưa đăng ký trên Travel
                         Connect
                       </p>
                     </FormItem>
                   </Form>
-                  {this.state.typeCompany === "other" &&
-                  this.state.notExist === false ? (
-                    <Form onSubmit={this.handleSubmitPerson}>
-                      <FormItem {...formItemLayout} label="Quốc gia: ">
-                        {getFieldDecorator("company_national", {
-                          rules: [
-                            {
-                              required: true,
-                              message: "Enter your company national!"
-                            }
-                          ]
-                        })(
-                          <Select defaultValue="vn" style={{ width: "100%" }}>
-                            <OptGroup label="Châu Á">
-                              <Option value="vn">Việt Nam</Option>
-                              <Option value="jp">Nhật Bản</Option>
-                            </OptGroup>
-                            <OptGroup label="Châu Âu">
-                              <Option value="fi">Pháp</Option>
-                            </OptGroup>
-                          </Select>
-                        )}
-                      </FormItem>
-                      <FormItem {...formItemLayout} label="Công ty: ">
-                        <InputGroup compact>
-                          <Select style={{ width: "30%" }} defaultValue="name">
-                            <Option value="name">Tên công ty</Option>
-                            <Option value="code">Mã số thuế</Option>
-                          </Select>
-                          {getFieldDecorator("company_detail", {
-                            rules: [
-                              {
-                                required: true,
-                                message: "Enter your company detail!"
-                              }
-                            ]
-                          })(<Input style={{ width: "50%" }} />)}
 
-                          <Button
-                            style={{ width: "20%" }}
-                            type="primary"
-                            htmlType="submit"
-                          >
-                            Tìm kiếm
-                          </Button>
-                        </InputGroup>
-                      </FormItem>
-                    </Form>
-                  ) : null}
-                  {this.state.typeCompany &&
+                  {/* {this.state.typeCompany &&
                   this.state.typeCompany !== "other" &&
                   this.state.notExist === false ? (
                     <div>
@@ -472,12 +489,12 @@ class Company extends Component {
                         </div>
                       </Form>
                     </div>
-                  ) : null}
+                  ) : null} */}
                   {this.state.notExist ? (
                     <div>
                       <Form onSubmit={this.handleSubmitPerson}>
                         <FormItem {...formItemLayout} label="Tên đơn vị">
-                          {getFieldDecorator("person_company_name", {
+                          {getFieldDecorator("company_name", {
                             rules: [
                               {
                                 required: true,
@@ -487,7 +504,7 @@ class Company extends Component {
                           })(<Input placeholder="Tên đơn vị" />)}
                         </FormItem>
                         <FormItem {...formItemLayout} label="Tên thương hiệu">
-                          {getFieldDecorator("person_company_brand", {
+                          {getFieldDecorator("company_brandname", {
                             rules: [
                               {
                                 required: true,
@@ -507,7 +524,7 @@ class Company extends Component {
                           })(<Input placeholder="Chức vụ" />)}
                         </FormItem>
                         <FormItem {...formItemLayout} label="Email">
-                          {getFieldDecorator("person_email", {
+                          {getFieldDecorator("company_email", {
                             rules: [
                               {
                                 required: true,
@@ -517,7 +534,7 @@ class Company extends Component {
                           })(<Input placeholder="Email" />)}
                         </FormItem>
                         <FormItem {...formItemLayout} label="Số điện thoại">
-                          {getFieldDecorator("person_phone", {
+                          {getFieldDecorator("company_phone", {
                             rules: [
                               {
                                 required: true,
@@ -527,7 +544,7 @@ class Company extends Component {
                           })(<Input placeholder="Số điện thoại" />)}
                         </FormItem>
                         <FormItem {...formItemLayout} label="Quận/ Huyện">
-                          {getFieldDecorator("person_district", {
+                          {getFieldDecorator("company_district", {
                             rules: [
                               {
                                 required: true,
@@ -542,7 +559,7 @@ class Company extends Component {
                           )}
                         </FormItem>
                         <FormItem {...formItemLayout} label="Địa chỉ">
-                          {getFieldDecorator("person_address", {
+                          {getFieldDecorator("company_address", {
                             rules: [
                               {
                                 required: true,
@@ -689,10 +706,10 @@ class Company extends Component {
                     </FormItem>
                     <FormItem
                       {...formItemLayout}
-                      onClick={() => this.onIncludeImage()}
+                      // onClick={() => this.onIncludeImage()}
                       label="Thông tin xác minh:"
                     >
-                      {getFieldDecorator("company_verify", {
+                      {getFieldDecorator("user_verify", {
                         valuePropName: "fileList1",
                         getValueFromEvent: this.normFile
                       })(
@@ -848,7 +865,7 @@ class Company extends Component {
                       })(<Input placeholder="Quốc gia đặt trụ sở" />)}
                     </FormItem>
                     <FormItem {...formItemLayout} label="Địa chỉ đặt trụ sở:">
-                      {getFieldDecorator("company_headquarters_address", {
+                      {getFieldDecorator("company_address", {
                         rules: [
                           {
                             required: true,
@@ -910,7 +927,7 @@ class Company extends Component {
                     </FormItem>
                     {this.state.FreeLancer === 1 ? (
                       <FormItem {...formItemLayout} label="Tên công ty">
-                        {getFieldDecorator("tour_guide_company", {
+                        {getFieldDecorator("company_name", {
                           rules: [
                             {
                               required: true,
@@ -926,7 +943,7 @@ class Company extends Component {
                           {...formItemLayout}
                           label="Loại hướng dẫn viên: "
                         >
-                          {getFieldDecorator("tour_guide_type", {
+                          {getFieldDecorator("tour_guide", {
                             rules: [
                               {
                                 required: true,
@@ -934,7 +951,10 @@ class Company extends Component {
                               }
                             ]
                           })(
-                            <Select style={{ width: "100%" }}>
+                            <Select
+                              placeholder="Loại hướng dẫn viên"
+                              style={{ width: "100%" }}
+                            >
                               <Option value="inbound">
                                 Hướng dẫn viên Inbound
                               </Option>
@@ -949,10 +969,10 @@ class Company extends Component {
                         </FormItem>
                         <FormItem
                           {...formItemLayout}
-                          onClick={() => this.onIncludeImage()}
+                          // onClick={() => this.onIncludeImage()}
                           label="Thông tin xác minh:"
                         >
-                          {getFieldDecorator("tour_guide_profile", {
+                          {getFieldDecorator("user_verify", {
                             valuePropName: "fileList1",
                             getValueFromEvent: this.normFile
                           })(
@@ -998,7 +1018,7 @@ class Company extends Component {
                 <div>
                   <Form onSubmit={this.handleSubmitPerson}>
                     <FormItem {...formItemLayout} label="Lĩnh vực theo học: ">
-                      {getFieldDecorator("student_specialized", {
+                      {getFieldDecorator("user_specialized", {
                         rules: [
                           {
                             required: true,
@@ -1006,7 +1026,10 @@ class Company extends Component {
                           }
                         ]
                       })(
-                        <Select style={{ width: "100%" }}>
+                        <Select
+                          placeholder="Lĩnh vực theo học"
+                          style={{ width: "100%" }}
+                        >
                           <OptGroup label="Du lịch">
                             <Option value="manager">Điều hành Tour</Option>
                             <Option value="sale">Nhân viên kinh doanh</Option>
@@ -1020,7 +1043,7 @@ class Company extends Component {
                       )}
                     </FormItem>
                     <FormItem {...formItemLayout} label="Thông tin quan tâm: ">
-                      {getFieldDecorator("student_info", {
+                      {getFieldDecorator("user_interested", {
                         rules: [
                           {
                             required: true,
@@ -1064,10 +1087,10 @@ class Company extends Component {
                     </FormItem>
                     <FormItem
                       {...formItemLayout}
-                      onClick={() => this.onIncludeImage()}
+                      // onClick={() => this.onIncludeImage()}
                       label="Thông tin xác minh:"
                     >
-                      {getFieldDecorator("student_verify", {
+                      {getFieldDecorator("user_verify", {
                         valuePropName: "fileList1",
                         getValueFromEvent: this.normFile
                       })(
@@ -1121,14 +1144,26 @@ class Company extends Component {
   }
 }
 
+const mapStateToProp = ({ CompanyProfile }) => {
+  return {
+    CompanyProfile
+  };
+};
+
 const mapDispatchToProps = (dispatch, props) => {
   return {
     actSendDataToServer: profile => {
       dispatch(actUpdatePersonProfileRequest(profile));
+    },
+    actSendDataCompanyUser: (data, id) => {
+      dispatch(CreateUserWorkSDK(data, id));
     }
   };
 };
 
 const WrappedHorizontalLoginForm = Form.create()(Company);
 
-export default connect(null, mapDispatchToProps)(WrappedHorizontalLoginForm);
+export default connect(
+  mapStateToProp,
+  mapDispatchToProps
+)(WrappedHorizontalLoginForm);

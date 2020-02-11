@@ -6,12 +6,13 @@ import {
   SAVE_DATA_ADDRESS,
   CLEAN_STORE_REDUX,
   SAVE_DATA_BACKGROUND,
-  SAVE_DATA_LOGO
+  SAVE_DATA_LOGO,
+  CREATE_USER_SDK_SUCCESS
 } from "../../constants/ActionTypes";
 
 // let initialState = [];
 
-let initialState = [null, null, null, null, null, null, null];
+let initialState = [null, null, null, null, null, null, null, null];
 
 const CompanyProfile = (state = initialState, action) => {
   let { intro, social, media, website, address, background, logo } = action;
@@ -52,6 +53,10 @@ const CompanyProfile = (state = initialState, action) => {
 
     case CLEAN_STORE_REDUX:
       state = [null, null, null, null, null, null, null];
+      return { ...state };
+
+    case CREATE_USER_SDK_SUCCESS:
+      state[7] = action.payload;
       return { ...state };
 
     default:

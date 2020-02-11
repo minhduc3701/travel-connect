@@ -64,7 +64,7 @@ const App = ({ match }) => (
           )}
         />
         <Route
-          path={`${match.url}personal`}
+          path={`${match.url}personal/:id`}
           component={asyncComponent(() =>
             import(
               "../components/BreadCrumbNav/Account/NewCompleteProfile/User"
@@ -142,7 +142,7 @@ const App = ({ match }) => (
             )}
           />
           <Route
-            path={`${match.url}personal`}
+            path={`${match.url}personal/:id`}
             exact
             component={asyncComponent(() =>
               import("../components/Account/NewCompleteProfile/PersonUser")
