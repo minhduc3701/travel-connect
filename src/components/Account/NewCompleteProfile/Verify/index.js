@@ -1,9 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Col, Input, Icon, Form, Row, Button, Select, Upload } from "antd";
 import { connect } from "react-redux";
-import { actUpdatePersonProfileRequest } from "appRedux/actions/Account";
+import { VerifyCompanySDK } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
-import { Redirect } from "react-router-dom";
+import firebase from "firebase/firebaseAcc";
+import { HOME } from "constants/NavigateLink";
 
 const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
@@ -40,21 +41,23 @@ class Company extends Component {
     fileList: [],
     imageFile: false,
     typeAccount: null,
-    linkRe: false
+    verifyData: {
+      license: null,
+      // licence_file: null,
+      licenceDoc: null,
+      confirm: null
+    }
   };
   handleSubmitPerson = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
-        // this.props.getStateType(this.state.infoType);
-        // let establish = this.state.establish;
-        // let business = this.state.business;
         this.setState(
           {
-            infoPerson: {
-              user_position: values.user_position ? values.user_position : "",
-              infoUnit: values ? values : ""
+            verifyData: {
+              license: values.company_licence,
+              // licenceDoc: licenceFile,
+              confirm: values.company_unit_confirm
             }
           },
           () => this.onSendDataPerson()
@@ -64,10 +67,7 @@ class Company extends Component {
   };
 
   onSendDataPerson = async () => {
-    await this.props.actSendDataToServer(this.state.infoPerson);
-    this.setState({
-      linkRe: true
-    });
+    await this.props.actSendDataToServer(this.state.verifyData);
   };
 
   onSelectType = e => {
@@ -76,12 +76,48 @@ class Company extends Component {
     });
   };
 
+  onUploadImage = async () => {
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    await this.state.fileList.forEach(fileItem => {
+      firebase
+        .storage()
+        .ref(`/${user_info.user_id}/${Date.now().toString()}`)
+        .put(fileItem)
+        .then(res => {
+          if (res) {
+            firebase
+              .firestore()
+              .collection("companies")
+              .doc(user_info.company_id)
+              .update({
+                licenceDoc: firebase.firestore.FieldValue.arrayUnion(
+                  res.metadata.fullPath
+                )
+              })
+              .then(ress => {
+                window.location.href = `${HOME}/home`;
+              });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
+  };
+
+  normFile = e => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
-    // let typePicked = this.props.typeMem;
     let { fileList } = this.state;
     const props = {
       multiple: true,
+      listType: "picture",
       onRemove: file => {
         this.setState(state => {
           const index = state.fileList.indexOf(file);
@@ -102,10 +138,7 @@ class Company extends Component {
       fileList
     };
     return (
-      <div className="block_shadow">
-        {this.state.linkRe ? (
-          <Redirect to="https://app.travelconnect.global/home" />
-        ) : null}
+      <div className="block-w bor-rad-6">
         <WidgetHeader title="Hoàn thiện hồ sơ" />
         <Row className="p-v-6">
           <Col xl={8} lg={8} md={8} sm={24} xs={24}>
@@ -152,10 +185,14 @@ class Company extends Component {
                       <p className="ant-upload-text">
                         Click hoặc kéo thả file tại khu vực này
                       </p>
-                      <p className="ant-upload-hint">
-                        Cập nhật/Upload giấy phép kinh doanh; Giấy phép hành
-                        nghề của công ty bạn tại đây
-                      </p>
+                      {this.state.fileList.length < 1 ? (
+                        <Fragment>
+                          <p className="ant-upload-hint">
+                            Cập nhật/Upload giấy phép kinh doanh Giấy phép hành
+                            nghề của công ty bạn tại đây
+                          </p>
+                        </Fragment>
+                      ) : null}
                     </Dragger>
                   )}
                 </FormItem>
@@ -217,11 +254,11 @@ class Company extends Component {
                     justifyContent: "flex-end"
                   }}
                 >
-                  {/* <Button style={{ marginBottom: "0 !important" }}>Return</Button> */}
                   <Button
                     htmlType="submit"
                     type="primary"
                     style={{ marginBottom: "0 !important" }}
+                    onClick={() => this.onUploadImage()}
                   >
                     Complete
                   </Button>
@@ -238,7 +275,7 @@ class Company extends Component {
 const mapDispatchToProps = (dispatch, props) => {
   return {
     actSendDataToServer: profile => {
-      dispatch(actUpdatePersonProfileRequest(profile));
+      dispatch(VerifyCompanySDK(profile));
     }
   };
 };

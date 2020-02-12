@@ -7,30 +7,22 @@ import {
   Form,
   Row,
   Button,
-  // Collapse,
-  // Radio,
   Select,
-  // Checkbox,
-  // Upload,
   DatePicker
 } from "antd";
 import { connect } from "react-redux";
 import { actUpdatePersonProfileRequest } from "appRedux/actions/Account";
+import { CreateCompanySDK } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import { Redirect } from "react-router-dom";
+import firebase from "firebase/firebaseAcc";
 
-// const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
-// const { Panel } = Collapse;
 const formItemLayout = {
   labelCol: { xs: 24, sm: 6 },
   wrapperCol: { xs: 24, sm: 18 }
 };
-
 const Option = Select.Option;
-// const InputGroup = Input.Group;
-// const { OptGroup } = Select;
-
 const residences = [
   {
     value: "hanoi",
@@ -65,7 +57,6 @@ const residences = [
     ]
   }
 ];
-
 const OPTIONS = [
   "Lữ hành quốc tế Outbound",
   "Lữ hành nội địa",
@@ -100,18 +91,49 @@ class Company extends Component {
     fileList: [],
     imageFile: false,
     typeAccount: null,
-    linkRe: false
+    linkRe: false,
+    company: {
+      address: null,
+      brandname: null,
+      city: null,
+      confirm: null,
+      createdAt: null,
+      district: null,
+      email: null,
+      establish: null,
+      licence: null,
+      name: null,
+      nation: null,
+      phone: null,
+      target: null,
+      licence_file: [],
+      business: []
+    }
   };
   handleSubmitCompany = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
+        let establish = this.state.establish ? this.state.establish : "";
         this.setState(
           {
-            infoPerson: {
-              user_position: "a",
-              infoUnit: "a"
+            company: {
+              address: values.company_address,
+              brandname: values.company_brandname,
+              city: values.company_district[0],
+              confirm: "",
+              createdAt: "",
+              district: values.company_district[1],
+              email: values.company_email,
+              establish: establish,
+              licence: "",
+              name: values.company_name,
+              nation: values.company_nation,
+              phone: values.company_phone,
+              target: values.company_target,
+              licence_file: [],
+              business: values.company_business
             }
           },
           () => this.onSendDataPerson()
@@ -121,7 +143,7 @@ class Company extends Component {
   };
 
   onSendDataPerson = async () => {
-    await this.props.actSendDataToServer(this.state.infoPerson);
+    await this.props.actCreateCompanySDK(this.state.company);
     this.setState({
       linkRe: true
     });
@@ -137,9 +159,30 @@ class Company extends Component {
     });
   };
 
+  onUpload = () => {
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    firebase
+      .storage()
+      .ref(`/${user_info.company_id}/${Date.now().toString()}`)
+      .put(this.state.fileList[0])
+      .then(res => {
+        if (res) {
+          firebase
+            .firestore()
+            .collection("companies")
+            .doc(user_info.company_id)
+            .update({
+              licenceDoc: `${res.metadata.fullPath}`
+            });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
-    // let { fileList } = this.state;
     let { business } = this.state;
     const filteredOptions = OPTIONS.filter(o => !business.includes(o));
     // const props = {
@@ -259,9 +302,9 @@ class Company extends Component {
                     ]
                   })(
                     <Select placeholder="Quốc gia">
-                      <Option value="vn">Việt Nam</Option>
-                      <Option value="kr">Korea</Option>
-                      <Option value="jp">Japan</Option>
+                      <Option value="VN">Việt Nam</Option>
+                      <Option value="KR">Korea</Option>
+                      <Option value="JP">Japan</Option>
                     </Select>
                   )}
                 </FormItem>
@@ -325,6 +368,7 @@ class Company extends Component {
                     type="primary"
                     htmlType="submit"
                     style={{ marginBottom: "0 !important" }}
+                    onClick={() => this.onUpload()}
                   >
                     Next
                   </Button>
@@ -342,6 +386,9 @@ const mapDispatchToProps = (dispatch, props) => {
   return {
     actSendDataToServer: profile => {
       dispatch(actUpdatePersonProfileRequest(profile));
+    },
+    actCreateCompanySDK: data => {
+      dispatch(CreateCompanySDK(data));
     }
   };
 };
