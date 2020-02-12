@@ -18,7 +18,7 @@ export function CallApi(endpoint, method = "GET", body) {
     console.log(err);
   });
 }
-// adsd
+
 export function CallApi_USER(endpoint, method = "GET", body) {
   let tokenID = JSON.parse(localStorage.getItem("request_token"));
   return axios({
