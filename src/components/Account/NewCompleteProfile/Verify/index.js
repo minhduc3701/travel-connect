@@ -52,9 +52,6 @@ class Company extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let licenceFile = values.company_licence_file
-          ? values.company_licence_file
-          : "";
         this.setState(
           {
             verifyData: {
@@ -87,7 +84,6 @@ class Company extends Component {
         .ref(`/${user_info.user_id}/${Date.now().toString()}`)
         .put(fileItem)
         .then(res => {
-          console.log(res);
           if (res) {
             firebase
               .firestore()
@@ -97,6 +93,9 @@ class Company extends Component {
                 licenceDoc: firebase.firestore.FieldValue.arrayUnion(
                   res.metadata.fullPath
                 )
+              })
+              .then(ress => {
+                window.location.href = `${HOME}/home`;
               });
           }
         })
@@ -104,8 +103,6 @@ class Company extends Component {
           console.log(err);
         });
     });
-
-    window.location.href = `${HOME}/home`;
   };
 
   normFile = e => {

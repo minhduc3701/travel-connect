@@ -6,8 +6,7 @@ import {
   SAVE_DATA_ADDRESS,
   CLEAN_STORE_REDUX,
   SAVE_DATA_BACKGROUND,
-  SAVE_DATA_LOGO,
-  CREATE_USER_SDK_SUCCESS
+  SAVE_DATA_LOGO
 } from "../../constants/ActionTypes";
 import { CallApi_ACCOUNT } from "util/CallApi";
 import firebaseAcc from "firebase/firebaseAcc";
@@ -256,11 +255,12 @@ export const CreateUserWorkSDK = (data, id) => {
 
 //create company
 export const CreateCompanySDK = data => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
   let companyData = {
     address: data.address,
     brandname: data.brandname,
     city: data.city,
-    createdAt: data.createdAt,
+    createdAt: new Date().toISOString(),
     district: data.district,
     email: data.email,
     establish: data.establish,
@@ -271,7 +271,7 @@ export const CreateCompanySDK = data => {
     target: data.target,
     business: data.business,
     licenceDoc: [],
-    admin: userId,
+    admin: uId.user_id,
     comments: [],
     communities: [],
     confirm: "",
@@ -280,7 +280,6 @@ export const CreateCompanySDK = data => {
     events: [],
     fb: "",
     gitlab: "",
-    licenceDoc: [],
     linkedin: "",
     medias: [],
     orders: 0,
@@ -293,7 +292,10 @@ export const CreateCompanySDK = data => {
     rating_good: 0,
     rating_great: 0,
     rating_normal: 0,
-    skype: ""
+    skype: "",
+    background: "",
+    logo: "",
+    website: ""
   };
 
   return dispatch => {
@@ -344,7 +346,6 @@ export const VerifyCompanySDK = data => {
       .doc(uId.company_id)
       .update(data)
       .then(res => {
-        console.log("1");
         notificationPop(
           "success",
           "Gửi yêu cầu xác minh thành công!",

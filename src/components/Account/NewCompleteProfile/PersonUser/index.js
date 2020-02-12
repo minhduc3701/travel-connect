@@ -172,9 +172,9 @@ class Company extends Component {
     });
   };
 
-  onUploadImage = async () => {
+  onUploadImage = () => {
     let user_info = JSON.parse(localStorage.getItem("user_info"));
-    await this.state.fileList.forEach(fileItem => {
+    this.state.fileList.forEach(fileItem => {
       firebase
         .storage()
         .ref(`/${user_info.user_id}/${Date.now().toString()}`)
@@ -189,6 +189,9 @@ class Company extends Component {
                 verifyPerson: firebase.firestore.FieldValue.arrayUnion(
                   res.metadata.fullPath
                 )
+              })
+              .then(ress => {
+                window.location.href = `${HOME}/home`;
               });
           }
         })
@@ -196,7 +199,6 @@ class Company extends Component {
           console.log(err);
         });
     });
-    window.location.href = `${HOME}/home`;
   };
 
   normFile = e => {
