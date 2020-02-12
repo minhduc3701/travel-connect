@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Col, Input, Icon, Form, Row, Button, Select, Upload } from "antd";
 import { connect } from "react-redux";
 import { VerifyCompanySDK } from "appRedux/actions/CompanyProfile";
@@ -108,6 +108,13 @@ class Company extends Component {
     window.location.href = `${HOME}/home`;
   };
 
+  normFile = e => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;
@@ -165,7 +172,7 @@ class Company extends Component {
                 </FormItem>
                 <FormItem {...formItemLayout} label="Giấy phép kinh doanh">
                   {getFieldDecorator("company_licence_file", {
-                    valuePropName: "fileList1",
+                    valuePropName: "fileList",
                     getValueFromEvent: this.normFile,
                     rules: [
                       {
@@ -181,10 +188,14 @@ class Company extends Component {
                       <p className="ant-upload-text">
                         Click hoặc kéo thả file tại khu vực này
                       </p>
-                      <p className="ant-upload-hint">
-                        Cập nhật/Upload giấy phép kinh doanh; Giấy phép hành
-                        nghề của công ty bạn tại đây
-                      </p>
+                      {this.state.fileList.length < 1 ? (
+                        <Fragment>
+                          <p className="ant-upload-hint">
+                            Cập nhật/Upload giấy phép kinh doanh Giấy phép hành
+                            nghề của công ty bạn tại đây
+                          </p>
+                        </Fragment>
+                      ) : null}
                     </Dragger>
                   )}
                 </FormItem>

@@ -199,6 +199,13 @@ class Company extends Component {
     window.location.href = `${HOME}/home`;
   };
 
+  normFile = e => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;
@@ -752,7 +759,7 @@ class Company extends Component {
                       label="Thông tin xác minh:"
                     >
                       {getFieldDecorator("user_verify", {
-                        valuePropName: "fileList1",
+                        valuePropName: "fileList",
                         getValueFromEvent: this.normFile
                       })(
                         <Dragger {...props}>
@@ -762,10 +769,14 @@ class Company extends Component {
                           <p className="ant-upload-text">
                             Click hoặc kéo thả file tại khu vực này
                           </p>
-                          <p className="ant-upload-hint">
-                            Cập nhật/Upload giấy tờ xác thực cá nhân như thẻ nhà
-                            báo, giấy phép hành nghề,...
-                          </p>
+                          {this.state.fileList.length < 1 ? (
+                            <p className="ant-upload-hint">
+                              Cập nhật/Upload giấy tờ xác thực cá nhân như chứng
+                              minh thư, thẻ sinh viên,...
+                            </p>
+                          ) : (
+                            ""
+                          )}
                         </Dragger>
                       )}
                     </FormItem>
@@ -1010,7 +1021,7 @@ class Company extends Component {
                           label="Thông tin xác minh:"
                         >
                           {getFieldDecorator("user_verify", {
-                            valuePropName: "fileList1",
+                            valuePropName: "fileList",
                             getValueFromEvent: this.normFile
                           })(
                             <Dragger {...props}>
@@ -1020,10 +1031,14 @@ class Company extends Component {
                               <p className="ant-upload-text">
                                 Click hoặc kéo thả file tại khu vực này
                               </p>
-                              <p className="ant-upload-hint">
-                                Cập nhật/Upload giấy tờ xác thực cá nhân như
-                                chứng minh thư, thẻ hướng dẫn viên,...
-                              </p>
+                              {this.state.fileList.length < 1 ? (
+                                <p className="ant-upload-hint">
+                                  Cập nhật/Upload giấy tờ xác thực cá nhân như
+                                  chứng minh thư, thẻ sinh viên,...
+                                </p>
+                              ) : (
+                                ""
+                              )}
                             </Dragger>
                           )}
                         </FormItem>
@@ -1125,7 +1140,7 @@ class Company extends Component {
                     </FormItem>
                     <FormItem {...formItemLayout} label="Thông tin xác minh:">
                       {getFieldDecorator("user_verify", {
-                        valuePropName: "fileList1",
+                        valuePropName: "fileList",
                         getValueFromEvent: this.normFile
                       })(
                         <Dragger {...props}>
@@ -1135,10 +1150,14 @@ class Company extends Component {
                           <p className="ant-upload-text">
                             Click hoặc kéo thả file tại khu vực này
                           </p>
-                          <p className="ant-upload-hint">
-                            Cập nhật/Upload giấy tờ xác thực cá nhân như chứng
-                            minh thư, thẻ sinh viên,...
-                          </p>
+                          {this.state.fileList.length < 1 ? (
+                            <p className="ant-upload-hint">
+                              Cập nhật/Upload giấy tờ xác thực cá nhân như chứng
+                              minh thư, thẻ sinh viên,...
+                            </p>
+                          ) : (
+                            ""
+                          )}
                         </Dragger>
                       )}
                     </FormItem>

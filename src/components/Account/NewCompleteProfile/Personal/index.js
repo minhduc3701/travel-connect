@@ -62,6 +62,14 @@ const residences = [
     ]
   }
 ];
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
 
 class Personal extends Component {
   state = {
@@ -156,7 +164,7 @@ class Personal extends Component {
     if (Array.isArray(e)) {
       return e;
     }
-    return e && e.fileList1;
+    return e && e.fileList;
   };
 
   onSendDataToServer = async file => {
@@ -226,14 +234,12 @@ class Personal extends Component {
       },
       beforeUpload: file => {
         this.setState(state => ({
-          // fileList: file
           fileList: [file]
         }));
         return false;
       },
       fileList
     };
-
     return (
       <div className="block_shadow">
         {this.state.companySelect ? (
