@@ -85,5 +85,4 @@ firebase.json
 .firebaserc
 .firebase 
 
-src/components/Layout
- 
+ src/components/Layout/
