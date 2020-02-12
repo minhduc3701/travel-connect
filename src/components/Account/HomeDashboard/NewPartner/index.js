@@ -45,7 +45,7 @@ class NewPartner extends React.Component {
       ]
     };
     return (
-      <div className="block-w">
+      <div className="block_shadow">
         <WidgetHeader
           styleName="gx-flex-row"
           title={<IntlMessage id="newPartner" />}

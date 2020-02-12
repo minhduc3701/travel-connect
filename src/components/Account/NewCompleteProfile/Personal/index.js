@@ -20,6 +20,7 @@ import { CallApi_USER } from "util/CallApi";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import { Redirect } from "react-router-dom";
 import { SendDataUserSDK } from "appRedux/actions/CompanyProfile";
+import firebase from "firebase/firebaseAcc";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -87,7 +88,9 @@ class Personal extends Component {
     company: null,
     companySelect: false,
     typeAccount: null,
-    link: null
+    link: null,
+    loading: false,
+    imageUrl: ""
   };
 
   componentDidMount() {
@@ -158,7 +161,6 @@ class Personal extends Component {
 
   onSendDataToServer = async file => {
     // await this.props.onSendDataUser(this.state.person, file);
-    // await this.onSendImage();
     await this.props.onSendDataUserSDK(this.state.person);
     this.setState({
       companySelect: true
@@ -183,14 +185,35 @@ class Personal extends Component {
     });
   };
 
+  onUpload = () => {
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    firebase
+      .storage()
+      .ref(`/${user_info.user_id}/${Date.now().toString()}`)
+      .put(this.state.fileList[0])
+      .then(res => {
+        if (res) {
+          firebase
+            .firestore()
+            .collection("users")
+            .doc(user_info.user_id)
+            .update({
+              imageUrl: `${res.metadata.fullPath}`
+            });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;
     let userInfo = JSON.parse(localStorage.getItem("user_info"));
-    // let name = userInfo.user_name.split(" ");
-    // let nameWelcome = name[name.length - 1];
     const props = {
       multiple: false,
+      listType: "picture",
       onRemove: file => {
         this.setState(state => {
           const index = state.fileList.indexOf(file);
@@ -210,14 +233,11 @@ class Personal extends Component {
       },
       fileList
     };
-    let cok = document.cookie;
-    let Token = cok.split(";");
-    let tokenID = Token[1].split("=");
-    let userId = tokenID[1];
+
     return (
-      <div className="block-w bor-rad-6">
+      <div className="block_shadow">
         {this.state.companySelect ? (
-          <Redirect to={`/${this.state.typeAccount}/${userId}`} />
+          <Redirect to={`/${this.state.typeAccount}`} />
         ) : null}
         <WidgetHeader title="Hồ sơ cá nhân" />
         <Row className="p-v-6">
@@ -269,19 +289,10 @@ class Personal extends Component {
                   valuePropName: "fileList1",
                   getValueFromEvent: this.normFile
                 })(
-                  <Upload {...props}>
-                    <Button>
+                  <Upload customRequest={this.customUpload} {...props}>
+                    <Button className="m-0-i">
                       <Icon type="upload" /> Click to Upload
                     </Button>
-                    {/* <img
-                          style={{
-                            width: "8em",
-                            height: "8em",
-                            objectFit: "cover"
-                          }}
-                          src={avatar}
-                          alt="..."
-                        /> */}
                   </Upload>
                 )}
               </FormItem>
@@ -373,6 +384,7 @@ class Personal extends Component {
                   style={{ marginLeft: "auto", marginBottom: "0 !important" }}
                   type="primary"
                   htmlType="submit"
+                  onClick={() => this.onUpload()}
                 >
                   Next
                 </Button>

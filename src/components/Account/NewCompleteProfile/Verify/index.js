@@ -3,6 +3,8 @@ import { Col, Input, Icon, Form, Row, Button, Select, Upload } from "antd";
 import { connect } from "react-redux";
 import { VerifyCompanySDK } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
+import firebase from "firebase/firebaseAcc";
+import { HOME } from "constants/NavigateLink";
 
 const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
@@ -57,8 +59,7 @@ class Company extends Component {
           {
             verifyData: {
               license: values.company_licence,
-              // licence_file: null,
-              licenceDoc: licenceFile,
+              // licenceDoc: licenceFile,
               confirm: values.company_unit_confirm
             }
           },
@@ -78,12 +79,41 @@ class Company extends Component {
     });
   };
 
+  onUploadImage = async () => {
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    await this.state.fileList.forEach(fileItem => {
+      firebase
+        .storage()
+        .ref(`/${user_info.user_id}/${Date.now().toString()}`)
+        .put(fileItem)
+        .then(res => {
+          console.log(res);
+          if (res) {
+            firebase
+              .firestore()
+              .collection("companies")
+              .doc(user_info.company_id)
+              .update({
+                licenceDoc: firebase.firestore.FieldValue.arrayUnion(
+                  res.metadata.fullPath
+                )
+              });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
+
+    window.location.href = `${HOME}/home`;
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
-    // let typePicked = this.props.typeMem;
     let { fileList } = this.state;
     const props = {
       multiple: true,
+      listType: "picture",
       onRemove: file => {
         this.setState(state => {
           const index = state.fileList.indexOf(file);
@@ -135,7 +165,7 @@ class Company extends Component {
                 </FormItem>
                 <FormItem {...formItemLayout} label="Giấy phép kinh doanh">
                   {getFieldDecorator("company_licence_file", {
-                    valuePropName: "fileList",
+                    valuePropName: "fileList1",
                     getValueFromEvent: this.normFile,
                     rules: [
                       {
@@ -216,11 +246,11 @@ class Company extends Component {
                     justifyContent: "flex-end"
                   }}
                 >
-                  {/* <Button style={{ marginBottom: "0 !important" }}>Return</Button> */}
                   <Button
                     htmlType="submit"
                     type="primary"
                     style={{ marginBottom: "0 !important" }}
+                    onClick={() => this.onUploadImage()}
                   >
                     Complete
                   </Button>

@@ -6,7 +6,7 @@ import SiteVisit from "./SiteVisit";
 class WelcomeUser extends React.Component {
 	render() {
 		return (
-			<div className="block-w">
+			<div className="block_shadow">
 				<div className="gx-card-body">
 					<Row>
 						<Col xl={16} lg={16} md={16} sm={24} xs={24} className="gx-visit-col">

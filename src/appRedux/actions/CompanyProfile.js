@@ -11,7 +11,6 @@ import {
 } from "../../constants/ActionTypes";
 import { CallApi_ACCOUNT } from "util/CallApi";
 import firebaseAcc from "firebase/firebaseAcc";
-import { HOME } from "constants/NavigateLink";
 import { notificationPop } from "util/Notification";
 
 let cok = document.cookie;
@@ -153,6 +152,7 @@ export const SendDataUserSDK = data => {
     city: data.city,
     address: data.address,
     imageUrl: data.logo,
+    verifyPerson: "",
     companyAddress: "",
     companyBrand: "",
     companyBusiness: [],
@@ -181,7 +181,11 @@ export const SendDataUserSDK = data => {
     sendEmail: false,
     sendNotiPush: false,
     sendNotiWeb: false,
+    specialized: "",
+    interested: "",
     timezone: "vn",
+    companyHeadquarters: "",
+    tourGuide: "",
     updateAt: "",
     website: "",
     zipcode: "",
@@ -194,17 +198,33 @@ export const SendDataUserSDK = data => {
       .doc(userId)
       .set(userData)
       .then(docRef => {
-        if (docRef.id) {
-          notificationPop(
-            "success",
-            "Chỉnh sửa hành công!",
-            "Bạn đã bổ sung thông tin cho tài khoản thành công !"
-          );
-          dispatch({
-            type: CREATE_USER_SDK_SUCCESS,
-            payload: docRef.id
-          });
+        let user_info = JSON.parse(localStorage.getItem("user_info"));
+        let userDetail = {
+          user_name: data.name,
+          user_birth: data.birth,
+          user_gender: data.gender,
+          user_phone: data.phone,
+          user_nation: data.nation,
+          user_district: data.district,
+          user_city: data.city,
+          user_address: data.address,
+          user_logo: data.logo
+        };
+
+        for (const item in userDetail) {
+          for (const info in user_info) {
+            if (item === info) {
+              user_info[info] = userDetail[item];
+            }
+          }
         }
+        localStorage.removeItem("user_info");
+        localStorage.setItem("user_info", JSON.stringify(user_info));
+        notificationPop(
+          "success",
+          "Chỉnh sửa hành công!",
+          "Bạn đã bổ sung thông tin cho tài khoản thành công !"
+        );
       })
       .catch(err => {
         console.log(err);
@@ -227,9 +247,7 @@ export const CreateUserWorkSDK = (data, id) => {
           "Bạn đã bổ sung thông tin cho tài khoản thành công !"
         );
       })
-      .then(redirect => {
-        window.location.href = `${HOME}/home`;
-      })
+
       .catch(err => {
         console.log(err);
       });
@@ -251,8 +269,8 @@ export const CreateCompanySDK = data => {
     nation: data.nation,
     phone: data.phone,
     target: data.target,
-    licence_file: data.licence_file,
     business: data.business,
+    licenceDoc: [],
     admin: userId,
     comments: [],
     communities: [],
@@ -262,7 +280,7 @@ export const CreateCompanySDK = data => {
     events: [],
     fb: "",
     gitlab: "",
-    licenceDoc: "",
+    licenceDoc: [],
     linkedin: "",
     medias: [],
     orders: 0,
@@ -289,7 +307,6 @@ export const CreateCompanySDK = data => {
           company_id: res.id,
           company_name: data.name,
           company_brandname: data.brandname,
-          company_logo: "",
           company_nation: data.nation,
           company_city: data.city,
           company_district: data.district,
@@ -327,12 +344,12 @@ export const VerifyCompanySDK = data => {
       .doc(uId.company_id)
       .update(data)
       .then(res => {
+        console.log("1");
         notificationPop(
           "success",
           "Gửi yêu cầu xác minh thành công!",
           "Bạn đã gửi yêu cầu xác minh thông tin công ty thành công! Ban quản trị sẽ kiểm tra thông tin và xác minh sớm nhất"
         );
-        window.location.href = `${HOME}/home`;
       })
       .catch(err => {
         console.log(err);

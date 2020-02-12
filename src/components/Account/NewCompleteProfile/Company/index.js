@@ -7,11 +7,7 @@ import {
   Form,
   Row,
   Button,
-  // Collapse,
-  // Radio,
   Select,
-  // Checkbox,
-  // Upload,
   DatePicker
 } from "antd";
 import { connect } from "react-redux";
@@ -19,19 +15,14 @@ import { actUpdatePersonProfileRequest } from "appRedux/actions/Account";
 import { CreateCompanySDK } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import { Redirect } from "react-router-dom";
+import firebase from "firebase/firebaseAcc";
 
-// const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
-// const { Panel } = Collapse;
 const formItemLayout = {
   labelCol: { xs: 24, sm: 6 },
   wrapperCol: { xs: 24, sm: 18 }
 };
-
 const Option = Select.Option;
-// const InputGroup = Input.Group;
-// const { OptGroup } = Select;
-
 const residences = [
   {
     value: "hanoi",
@@ -66,7 +57,6 @@ const residences = [
     ]
   }
 ];
-
 const OPTIONS = [
   "Lữ hành quốc tế Outbound",
   "Lữ hành nội địa",
@@ -169,6 +159,28 @@ class Company extends Component {
     });
   };
 
+  onUpload = () => {
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    firebase
+      .storage()
+      .ref(`/${user_info.company_id}/${Date.now().toString()}`)
+      .put(this.state.fileList[0])
+      .then(res => {
+        if (res) {
+          firebase
+            .firestore()
+            .collection("companies")
+            .doc(user_info.company_id)
+            .update({
+              licenceDoc: `${res.metadata.fullPath}`
+            });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     let { business } = this.state;
@@ -195,7 +207,7 @@ class Company extends Component {
     //   fileList
     // };
     return (
-      <div className="block-w bor-rad-6">
+      <div className="block_shadow">
         {this.state.linkRe ? <Redirect to="/verification" /> : null}
         <WidgetHeader title="Hoàn thiện hồ sơ" />
         <Row className="p-v-6">
@@ -356,6 +368,7 @@ class Company extends Component {
                     type="primary"
                     htmlType="submit"
                     style={{ marginBottom: "0 !important" }}
+                    onClick={() => this.onUpload()}
                   >
                     Next
                   </Button>

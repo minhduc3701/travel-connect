@@ -16,6 +16,8 @@ import { connect } from "react-redux";
 import { actUpdatePersonProfileRequest } from "appRedux/actions/Account";
 import { CreateUserWorkSDK } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
+import firebase from "firebase/firebaseAcc";
+import { HOME } from "constants/NavigateLink";
 
 const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
@@ -136,10 +138,12 @@ class Company extends Component {
   };
 
   onSendDataPerson = async () => {
-    let { params } = this.props.match;
     let uId = JSON.parse(localStorage.getItem("user_info"));
-    let Id = params.id ? params.id : uId.user_id;
-    await this.props.actSendDataCompanyUser(this.state.personAccDetail, Id);
+    console.log(uId.user_id);
+    await this.props.actSendDataCompanyUser(
+      this.state.personAccDetail,
+      uId.user_id
+    );
   };
 
   onSelectType = e => {
@@ -168,11 +172,39 @@ class Company extends Component {
     });
   };
 
+  onUploadImage = async () => {
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    await this.state.fileList.forEach(fileItem => {
+      firebase
+        .storage()
+        .ref(`/${user_info.user_id}/${Date.now().toString()}`)
+        .put(fileItem)
+        .then(res => {
+          if (res) {
+            firebase
+              .firestore()
+              .collection("users")
+              .doc(user_info.user_id)
+              .update({
+                verifyPerson: firebase.firestore.FieldValue.arrayUnion(
+                  res.metadata.fullPath
+                )
+              });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
+    window.location.href = `${HOME}/home`;
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;
     const props = {
       multiple: true,
+      listType: "picture",
       onRemove: file => {
         this.setState(state => {
           const index = state.fileList.indexOf(file);
@@ -371,47 +403,57 @@ class Company extends Component {
                         </Select>
                       )}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Công ty: ">
-                      <InputGroup compact>
-                        <Select
-                          disabled={this.state.visibleSearch}
-                          style={{ width: "30%" }}
-                          defaultValue="name"
-                        >
-                          <Option value="name">Tên công ty</Option>
-                          <Option value="code">Mã số thuế</Option>
-                        </Select>
-                        {getFieldDecorator("company_detail", {
+                  </Form>
+                  {this.state.typeCompany === "other" &&
+                  this.state.notExist === false ? (
+                    <Form onSubmit={this.handleSubmitPerson}>
+                      <FormItem {...formItemLayout} label="Quốc gia: ">
+                        {getFieldDecorator("company_national", {
                           rules: [
                             {
                               required: true,
-                              message: "Enter your company detail!"
+                              message: "Enter your company national!"
                             }
                           ]
                         })(
-                          <Input
-                            disabled={this.state.visibleSearch}
-                            style={{ width: "50%" }}
-                          />
+                          <Select defaultValue="vn" style={{ width: "100%" }}>
+                            <OptGroup label="Châu Á">
+                              <Option value="vn">Việt Nam</Option>
+                              <Option value="jp">Nhật Bản</Option>
+                            </OptGroup>
+                            <OptGroup label="Châu Âu">
+                              <Option value="fi">Pháp</Option>
+                            </OptGroup>
+                          </Select>
                         )}
+                      </FormItem>
+                      <FormItem {...formItemLayout} label="Công ty: ">
+                        <InputGroup compact>
+                          <Select style={{ width: "30%" }} defaultValue="name">
+                            <Option value="name">Tên công ty</Option>
+                            <Option value="code">Mã số thuế</Option>
+                          </Select>
+                          {getFieldDecorator("company_detail", {
+                            rules: [
+                              {
+                                required: true,
+                                message: "Enter your company detail!"
+                              }
+                            ]
+                          })(<Input style={{ width: "50%" }} />)}
 
-                        <Button
-                          disabled={this.state.visibleSearch}
-                          style={{ width: "20%" }}
-                          type="primary"
-                          htmlType="submit"
-                        >
-                          Tìm kiếm
-                        </Button>
-                      </InputGroup>
-                      <p className="gx-link" onClick={this.onOtherCompany}>
-                        Công ty tôi đang làm việc hiện chưa đăng ký trên Travel
-                        Connect
-                      </p>
-                    </FormItem>
-                  </Form>
-
-                  {/* {this.state.typeCompany &&
+                          <Button
+                            style={{ width: "20%" }}
+                            type="primary"
+                            htmlType="submit"
+                          >
+                            Tìm kiếm
+                          </Button>
+                        </InputGroup>
+                      </FormItem>
+                    </Form>
+                  ) : null}
+                  {this.state.typeCompany &&
                   this.state.typeCompany !== "other" &&
                   this.state.notExist === false ? (
                     <div>
@@ -489,7 +531,7 @@ class Company extends Component {
                         </div>
                       </Form>
                     </div>
-                  ) : null} */}
+                  ) : null}
                   {this.state.notExist ? (
                     <div>
                       <Form onSubmit={this.handleSubmitPerson}>
@@ -735,12 +777,6 @@ class Company extends Component {
                         justifyContent: "flex-end"
                       }}
                     >
-                      {/* <Button
-                    onClick={this.onBack}
-                    style={{ marginBottom: "0 !important" }}
-                  >
-                    Return
-                  </Button> */}
                       <Button
                         type="primary"
                         htmlType="submit"
@@ -748,6 +784,7 @@ class Company extends Component {
                           marginLeft: "auto",
                           marginBottom: "0 !important"
                         }}
+                        onClick={() => this.onUploadImage()}
                       >
                         Next
                       </Button>
@@ -1007,6 +1044,7 @@ class Company extends Component {
                           marginLeft: "auto",
                           marginBottom: "0 !important"
                         }}
+                        onClick={() => this.onUploadImage()}
                       >
                         Next
                       </Button>
@@ -1085,11 +1123,7 @@ class Company extends Component {
                         </Row>
                       )}
                     </FormItem>
-                    <FormItem
-                      {...formItemLayout}
-                      // onClick={() => this.onIncludeImage()}
-                      label="Thông tin xác minh:"
-                    >
+                    <FormItem {...formItemLayout} label="Thông tin xác minh:">
                       {getFieldDecorator("user_verify", {
                         valuePropName: "fileList1",
                         getValueFromEvent: this.normFile
@@ -1116,12 +1150,6 @@ class Company extends Component {
                         justifyContent: "flex-end"
                       }}
                     >
-                      {/* <Button
-                    onClick={this.onBack}
-                    style={{ marginBottom: "0 !important" }}
-                  >
-                    Return
-                  </Button> */}
                       <Button
                         type="primary"
                         htmlType="submit"
@@ -1129,6 +1157,7 @@ class Company extends Component {
                           marginLeft: "auto",
                           marginBottom: "0 !important"
                         }}
+                        onClick={() => this.onUploadImage()}
                       >
                         Next
                       </Button>

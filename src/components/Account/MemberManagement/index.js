@@ -288,7 +288,7 @@ class Dynamic extends React.Component {
     ];
 
     return (
-      <Card title={<IntlMessages id="sidebar.home.membermanagement" />}>
+      <Card className="block_shadow-i" title={<IntlMessages id="sidebar.home.membermanagement" />}>
         <Badge count={0}>
           <Button type="primary" onClick={this.showModal}>
             <IntlMessages id="newemployee" />

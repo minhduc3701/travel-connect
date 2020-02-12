@@ -4,7 +4,7 @@ import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import IntlMessages from "util/IntlMessages";
 const Statistic = ({ match }) => {
   return (
-    <div className="block-w">
+    <div className="block_shadow">
       <WidgetHeader
         title={
           <div>

@@ -4,7 +4,7 @@ import IntlMessages from "util/IntlMessages";
 
 const InviteMember = () => {
   return (
-    <div className="gx-bg-dark-primary block">
+    <div className="gx-bg-dark-primary block_shadow">
       <div className="gx-flex-row gx-justify-content-center gx-mb-3 gx-mb-md-4">
         <i className={`icon icon-refer gx-fs-xlxl gx-text-white`} />
       </div>
