@@ -82,7 +82,11 @@ class App extends Component {
     }
     if (
       this.props.authUser !== -1 &&
-      localStorage.getItem("user_info") === null
+      (localStorage.getItem("user_info") === null ||
+        localStorage.getItem("user_id") !==
+          document.cookie
+            .split(";")
+            [1 - document.cookie.indexOf("user_id")].split("=")[1])
     ) {
       this.props.getUserData();
     } else {
@@ -115,10 +119,10 @@ class App extends Component {
       document.body.classList.add("dark-theme");
     }
     if (location.pathname === "/") {
-      // if (authUser === -1) {
-      //   return (window.location.href =
-      //     "http://app.travelconnect.global/signin");
-      // }
+      if (authUser === -1) {
+        return (window.location.href =
+          "http://app.travelconnect.global/signin");
+      }
       if (initURL === "" || initURL === "/" || initURL === "/signin") {
         return <Redirect to={"/dashboard"} />;
       } else {
@@ -128,9 +132,6 @@ class App extends Component {
     this.setLayoutType(layoutType);
 
     this.setNavStyle(navStyle);
-    {
-      console.log(this.props.loading);
-    }
     const currentAppLocale = AppLocale[locale.locale];
     return (
       <ConfigProvider locale={currentAppLocale.antd}>

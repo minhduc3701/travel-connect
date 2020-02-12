@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Menu, Icon } from "antd";
 import { Link } from "react-router-dom";
-import IntlMessages from "../../util/IntlMessages";
+import IntlMessages from "util/IntlMessages";
 import {
   NAV_STYLE_ABOVE_HEADER,
   NAV_STYLE_BELOW_HEADER,
   NAV_STYLE_DEFAULT_HORIZONTAL,
   NAV_STYLE_INSIDE_HEADER_HORIZONTAL
-} from "../../constants/ThemeSetting";
-import { HOME, BUSINESS, B2B } from "../../constants/NavigateLink";
+} from "constants/ThemeSetting";
+import { HOME, BUSINESS, B2B, EVENTS } from "./NavigateLink";
 const SubMenu = Menu.SubMenu;
 // const MenuItemGroup = Menu.ItemGroup;
 
@@ -49,10 +49,10 @@ class HorizontalNav extends Component {
                 <IntlMessages id="general.default.home" />
               </Link>
             ) : (
-                <a href={`${HOME}/home`} className="menu-item">
-                  <IntlMessages id="general.default.home" />
-                </a>
-              )
+              <a href={`${HOME}/home`} className="menu-item">
+                <IntlMessages id="general.default.home" />
+              </a>
+            )
           }
         ></SubMenu>
 
@@ -121,7 +121,34 @@ class HorizontalNav extends Component {
           className={this.getNavStyleSubMenuClass(navStyle)}
           key="events"
           title={<IntlMessages id="general.default.event" />}
-        ></SubMenu>
+        >
+          <Menu.Item key="event_dashboard">
+            {domain === "event.travelconnect.global" ? (
+              <Link to="/dashboard">
+                <Icon type="dashboard" />
+                <IntlMessages id="general.default.event.dashboard" />
+              </Link>
+            ) : (
+              <a href={`${EVENTS}/dashboard`} className="menu-item">
+                <Icon type="dashboard" />
+                <IntlMessages id="general.default.event.dashboard" />
+              </a>
+            )}
+          </Menu.Item>
+          <Menu.Item key="event_dashboard">
+            {domain === "event.travelconnect.global" ? (
+              <Link to="/list">
+                <Icon type="ordered-list" />
+                <IntlMessages id="general.default.event.list" />
+              </Link>
+            ) : (
+              <a href={`${EVENTS}/list`} className="menu-item">
+                <Icon type="ordered-list" />
+                <IntlMessages id="general.default.event.list" />
+              </a>
+            )}
+          </Menu.Item>
+        </SubMenu>
 
         <SubMenu
           className={this.getNavStyleSubMenuClass(navStyle)}
@@ -141,11 +168,11 @@ class HorizontalNav extends Component {
                 <IntlMessages id="general.default.businessmatching.findpartner" />
               </Link>
             ) : (
-                <a href={`${BUSINESS}/findpartner`} className="menu-item">
-                  <Icon type="user-add" />
-                  <IntlMessages id="general.default.businessmatching.findpartner" />
-                </a>
-              )}
+              <a href={`${BUSINESS}/findpartner`} className="menu-item">
+                <Icon type="user-add" />
+                <IntlMessages id="general.default.businessmatching.findpartner" />
+              </a>
+            )}
           </Menu.Item>
           <Menu.Item key="businessmatching_appointmentManagement">
             {domain === "business.travelconnect.global" ? (
@@ -154,11 +181,11 @@ class HorizontalNav extends Component {
                 <IntlMessages id="general.default.businessmatching.appointmentmanagement" />
               </Link>
             ) : (
-                <a href={`${BUSINESS}/appointment`} className="menu-item">
-                  <Icon type="schedule" />
-                  <IntlMessages id="general.default.businessmatching.appointmentmanagement" />
-                </a>
-              )}
+              <a href={`${BUSINESS}/appointment`} className="menu-item">
+                <Icon type="schedule" />
+                <IntlMessages id="general.default.businessmatching.appointmentmanagement" />
+              </a>
+            )}
           </Menu.Item>
           <Menu.Item key="businessmatching_contact">
             {domain === "business.travelconnect.global" ? (
@@ -167,11 +194,11 @@ class HorizontalNav extends Component {
                 <IntlMessages id="general.default.businessmatching.contact" />
               </Link>
             ) : (
-                <a href={`${BUSINESS}/contact`} className="menu-item">
-                  <Icon type="read" />
-                  <IntlMessages id="general.default.businessmatching.contact" />
-                </a>
-              )}
+              <a href={`${BUSINESS}/contact`} className="menu-item">
+                <Icon type="read" />
+                <IntlMessages id="general.default.businessmatching.contact" />
+              </a>
+            )}
           </Menu.Item>
         </SubMenu>
         <SubMenu
@@ -186,25 +213,31 @@ class HorizontalNav extends Component {
                 <IntlMessages id="general.default.b2bmarketplace.dashboard" />
               </Link>
             ) : (
-                <a href={`${B2B}/dashboard`} className="menu-item ">
-                  <Icon type="dashboard" />
-                  <IntlMessages id="general.default.b2bmarketplace.dashboard" />
-                </a>
-              )}
+              <a href={`${B2B}/dashboard`} className="menu-item ">
+                <Icon type="dashboard" />
+                <IntlMessages id="general.default.b2bmarketplace.dashboard" />
+              </a>
+            )}
           </Menu.Item>
-          <SubMenu
-            className={this.getNavStyleSubMenuClass(navStyle)}
+
+          <Menu.ItemGroup
+            // className="gx-menu-horizontal border-grey"
             key="b2bmarketplace_sell"
             title={
-              <span>
-                <Icon type="gift" />
-                <IntlMessages id="general.default.b2bmarketplace.sell" />
+              <span style={{ fontSize: 13 }}>
+                --- {/* <Icon type="gift" />{" "} */}
+                <IntlMessages id="general.default.b2bmarketplace.sell" /> ---
               </span>
             }
           >
+            {/* <span>
+              <Icon type="gift" />
+              <IntlMessages id="general.default.b2bmarketplace.sell" />
+            </span> */}
+
             <SubMenu
-              className="gx-menu-horizontal"
-              key="b2bmarketplace_sell_inventory"
+              key="b2bmarketplace_sell_inventory "
+              className={this.getNavStyleSubMenuClass(navStyle)}
               title={
                 <span>
                   <Icon type="database" />
@@ -219,14 +252,11 @@ class HorizontalNav extends Component {
                     <IntlMessages id="general.default.b2bmarketplace.inventory.landtour" />
                   </Link>
                 ) : (
-                    <a
-                      href={`${B2B}/inventory/landtour`}
-                      className="menu-item "
-                    >
-                      <Icon type="rest" />
-                      <IntlMessages id="general.default.b2bmarketplace.inventory.landtour" />
-                    </a>
-                  )}
+                  <a href={`${B2B}/inventory/landtour`} className="menu-item ">
+                    <Icon type="rest" />
+                    <IntlMessages id="general.default.b2bmarketplace.inventory.landtour" />
+                  </a>
+                )}
               </Menu.Item>
               <Menu.Item key="b2bmarketplace_sell_inventory_grouptour">
                 {domain === "b2b.travelconnect.global" ? (
@@ -235,14 +265,11 @@ class HorizontalNav extends Component {
                     <IntlMessages id="general.default.b2bmarketplace.inventory.grouptour" />
                   </Link>
                 ) : (
-                    <a
-                      href={`${B2B}/inventory/grouptour`}
-                      className="menu-item "
-                    >
-                      <Icon type="rocket" />
-                      <IntlMessages id="general.default.b2bmarketplace.inventory.grouptour" />
-                    </a>
-                  )}
+                  <a href={`${B2B}/inventory/grouptour`} className="menu-item ">
+                    <Icon type="rocket" />
+                    <IntlMessages id="general.default.b2bmarketplace.inventory.grouptour" />
+                  </a>
+                )}
               </Menu.Item>
             </SubMenu>
             <Menu.Item key="b2bmarketplace_sell_request">
@@ -252,25 +279,28 @@ class HorizontalNav extends Component {
                   <IntlMessages id="general.default.b2bmarketplace.sell.requests" />
                 </Link>
               ) : (
-                  <a href={`${B2B}/transaction/sell`} className="menu-item ">
-                    <Icon type="gift" />
-                    <IntlMessages id="general.default.b2bmarketplace.sell.requests" />
-                  </a>
-                )}
+                <a href={`${B2B}/transaction/sell`} className="menu-item ">
+                  <Icon type="gift" />
+                  <IntlMessages id="general.default.b2bmarketplace.sell.requests" />
+                </a>
+              )}
             </Menu.Item>
-          </SubMenu>
-          <SubMenu
-            className={this.getNavStyleSubMenuClass(navStyle)}
+          </Menu.ItemGroup>
+          {/* </SubMenu> */}
+
+          {/* buy */}
+          <Menu.ItemGroup
             key="b2bmarketplace_buy"
+            className="gx-menu-horizontal border-grey"
             title={
-              <span>
-                <Icon type="shopping-cart" />
-                <IntlMessages id="general.default.b2bmarketplace.buy" />
+              <span style={{ fontSize: 13 }}>
+                --- {/* <Icon type="shopping-cart" />{" "} */}
+                <IntlMessages id="general.default.b2bmarketplace.buy" /> ---
               </span>
             }
           >
             <SubMenu
-              className="gx-menu-horizontal"
+              className={this.getNavStyleSubMenuClass(navStyle)}
               key="b2bmarketplace_buy_find"
               title={
                 <span>
@@ -286,24 +316,27 @@ class HorizontalNav extends Component {
                     <IntlMessages id="general.default.b2bmarketplace.buy.find.landtour" />
                   </Link>
                 ) : (
-                    <a href={`${B2B}/find/landtour`} className="menu-item ">
-                      <Icon type="rest" />
-                      <IntlMessages id="general.default.b2bmarketplace.buy.find.landtour" />
-                    </a>
-                  )}
+                  <a href={`${B2B}/find/landtour`} className="menu-item ">
+                    <Icon type="rest" />
+                    <IntlMessages id="general.default.b2bmarketplace.buy.find.landtour" />
+                  </a>
+                )}
               </Menu.Item>
-              <Menu.Item key="b2bmarketplace_buy_find_grouptour">
+              <Menu.Item
+                key="b2bmarketplace_buy_find_grouptour"
+                // className="border-black"
+              >
                 {domain === "b2b.travelconnect.global" ? (
                   <Link to="/find/grouptour">
                     <Icon type="rocket" />
                     <IntlMessages id="general.default.b2bmarketplace.buy.find.grouptour" />
                   </Link>
                 ) : (
-                    <a href={`${B2B}/find/grouptour`} className="menu-item ">
-                      <Icon type="rocket" />
-                      <IntlMessages id="general.default.b2bmarketplace.buy.find.grouptour" />
-                    </a>
-                  )}
+                  <a href={`${B2B}/find/grouptour`} className="menu-item ">
+                    <Icon type="rocket" />
+                    <IntlMessages id="general.default.b2bmarketplace.buy.find.grouptour" />
+                  </a>
+                )}
               </Menu.Item>
             </SubMenu>
             <Menu.Item key="b2bmarketplace_buy_request">
@@ -313,13 +346,13 @@ class HorizontalNav extends Component {
                   <IntlMessages id="general.default.b2bmarketplace.buy.requests" />
                 </Link>
               ) : (
-                  <a href={`${B2B}/transaction/buy`} className="menu-item ">
-                    <Icon type="shopping-cart" />
-                    <IntlMessages id="general.default.b2bmarketplace.buy.requests" />
-                  </a>
-                )}
+                <a href={`${B2B}/transaction/buy`} className="menu-item ">
+                  <Icon type="shopping-cart" />
+                  <IntlMessages id="general.default.b2bmarketplace.buy.requests" />
+                </a>
+              )}
             </Menu.Item>
-          </SubMenu>
+          </Menu.ItemGroup>
         </SubMenu>
 
         <SubMenu

@@ -12,7 +12,7 @@ import {
 import { connect } from "react-redux";
 import CustomScrollbars from "util/CustomScrollbars";
 
-import languageData from "../languageData";
+import languageData from "components/Layout/Header/languageData";
 import SearchBox from "components/Layout/Header/SearchBox";
 import UserInfo from "components/Layout/Header/UserInfo";
 import AppNotification from "components/Layout/Header/AppNotification";
@@ -20,7 +20,7 @@ import {
   switchLanguage,
   toggleCollapsedSideNav
 } from "../../../appRedux/actions/Setting";
-import HorizontalNav from "../HorizontalNav";
+import HorizontalNav from "components/Layout/Header/HorizontalNav";
 import { Link } from "react-router-dom";
 
 const { Header } = Layout;

@@ -3,7 +3,7 @@ import {
   API_PROFILE_COMPANY,
   API_USER_DETAIL,
   API_ACCOUNT
-} from "../constants/NavigateLink";
+} from "components/Layout/Header/NavigateLink";
 
 export function CallApi(endpoint, method = "GET", body) {
   let tokenID = JSON.parse(localStorage.getItem("request_token"));
