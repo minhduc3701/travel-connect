@@ -7,7 +7,7 @@ import IntlMessage from "util/IntlMessages";
 class StaticticGuest extends React.Component {
   render() {
     return (
-      <div className="block-w">
+      <div className="block_shadow">
         <WidgetHeader
           title={
             <div>
@@ -28,7 +28,7 @@ class StaticticGuest extends React.Component {
               values="35"
               title={<IntlMessage id="access" />}
               info="Tổng số khách truy cập (xem trang sản phẩm) từ web và ứng dụng của Travel Connect. Một khách xem nhiều sản phẩm chỉ tính là 1 khách truy cập."
-              desc="Vs hôm qua 22.00%"
+              desc={<IntlMessage id="dashboard.Conversion.Rate" />}
               icon="map-styled"
             />
           </Col>
@@ -39,7 +39,7 @@ class StaticticGuest extends React.Component {
               values="125.246"
               title={<IntlMessage id="view" />}
               info="Tổng số lần xem trang sản phẩm từ web và ứng dụng của Travel Connect."
-              desc="Vs hôm qua 12.33%"
+              desc={<IntlMessage id="dashboard.Conversion.Rate" />}
               icon="inbuilt-apps"
             />
           </Col>
@@ -50,7 +50,7 @@ class StaticticGuest extends React.Component {
               values="146"
               title={<IntlMessage id="request" />}
               info="Tổng số yêu cầu báo giá đã nhận được từ người mua"
-              desc="Vs hôm qua 110.00%"
+              desc={<IntlMessage id="dashboard.Conversion.Rate" />}
               icon="revenue-new"
             />
           </Col>
@@ -59,9 +59,9 @@ class StaticticGuest extends React.Component {
               colorTitle="primary"
               color="white"
               values="66.66%"
-              title="Tỷ lệ chuyển đổi"
+              title={<IntlMessage id="dashboard.Conversion.Rate" />}
               info="Số lượng khách truy cập và đặt hàng chia cho tổng số khách truy cập trong khoảng thời gian đã chọn. "
-              desc="Vs hôm qua 16.66%"
+              desc={<IntlMessage id="dashboard.Conversion.Rate" />}
               icon="visits"
             />
           </Col>

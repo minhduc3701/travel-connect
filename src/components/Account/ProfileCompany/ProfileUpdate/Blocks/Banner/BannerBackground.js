@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { Icon, Upload } from "antd";
-import { notiChange } from "util/Notification";
+// import { notiChange } from "util/Notification";
 import { connect } from "react-redux";
 import { actChangeBackground } from "appRedux/actions/CompanyProfile";
+import { actSetNewImage } from "appRedux/actions/Account";
 import background from "assets/images/travel-default-background.png";
+import { CallApi_ACCOUNT } from "util/CallApi";
 
 class BannerBackground extends Component {
   state = {
@@ -14,13 +16,23 @@ class BannerBackground extends Component {
     fileList: []
   };
 
-  handleChange = ({ fileList }) => {
-    this.setState({ fileList }, () => this.onSaveBackground());
-  };
-
-  onSaveBackground = () => {
-    notiChange("success", "Change background success!");
-    this.props.actSaveData(this.state.fileList);
+  onSendImageBackground = backgrounds => {
+    let user = JSON.parse(localStorage.getItem("user_info"));
+    const formData = new FormData();
+    backgrounds.forEach(file => {
+      formData.append("image-", file);
+    });
+    CallApi_ACCOUNT(
+      `VN/companies/${user.company_id}/backgrounds`,
+      "PUT",
+      formData
+    )
+      .then(res => {
+        if (res.data) {
+          this.props.actSaveBackgroundLocal(res.data.background);
+        }
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -48,10 +60,12 @@ class BannerBackground extends Component {
         });
       },
       beforeUpload: file => {
-        this.setState(state => ({
-          // fileList: file
-          fileList: [file]
-        }));
+        this.setState(
+          state => ({
+            fileList: [file]
+          }),
+          () => this.onSendImageBackground(this.state.fileList)
+        );
         return false;
       },
       fileList
@@ -76,8 +90,6 @@ class BannerBackground extends Component {
             listType="picture-card"
             className="avatar-uploader aspect_box__img aspect_box__img--cover block__banner--upload z-2"
             {...props}
-            // beforeUpload={beforeUpload}
-            onChange={this.handleChange}
           >
             {uploadButton}
           </Upload>
@@ -91,6 +103,9 @@ const mapDispatchToProps = (dispatch, props) => {
   return {
     actSaveData: background => {
       dispatch(actChangeBackground(background));
+    },
+    actSaveBackgroundLocal: bg => {
+      dispatch(actSetNewImage(bg));
     }
   };
 };

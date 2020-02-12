@@ -119,7 +119,7 @@ const activitiesData = [
 class HistoryActivities extends React.Component {
   render() {
     return (
-      <div className="block-w">
+      <div className="block_shadow">
         <WidgetHeader title={<IntlMessage id="memberActivitiesLog" />} />
         <ActivitiesList recentList={activitiesData} />
       </div>

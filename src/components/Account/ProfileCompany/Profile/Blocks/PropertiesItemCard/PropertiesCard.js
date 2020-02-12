@@ -61,7 +61,7 @@ class PropertiesCard extends React.Component {
     const { loader } = this.state;
     let { Account } = this.props.profile;
     return (
-      <div className="block-w-nb" id="nav_product">
+      <div id="nav_product" style={{ minHeight: "16em" }}>
         <WidgetHeader
           styleName="d-flex"
           title={<IntlMessages id="account.profile.product" />}
@@ -89,12 +89,8 @@ class PropertiesCard extends React.Component {
         />
         {loader ? (
           <CircularProgress className="gx-loader-400" />
-        ) : Account.company_products && this.state.dataList === null ? (
+        ) : Account.company_products.length > 0 ? (
           Account.company_products.map((data, index) => (
-            <PropertiesItemCard key={index} data={data} />
-          ))
-        ) : this.state.dataList ? (
-          this.state.dataList.map((data, index) => (
             <PropertiesItemCard key={index} data={data} />
           ))
         ) : (
@@ -114,3 +110,25 @@ class PropertiesCard extends React.Component {
 }
 
 export default PropertiesCard;
+
+// {loader ? (
+//   <CircularProgress className="gx-loader-400" />
+// ) : Account.company_products && this.state.dataList === null ? (
+//   Account.company_products.map((data, index) => (
+//     <PropertiesItemCard key={index} data={data} />
+//   ))
+// ) : this.state.dataList ? (
+//   this.state.dataList.map((data, index) => (
+//     <PropertiesItemCard key={index} data={data} />
+//   ))
+// ) : (
+//   <div>
+//     <p className="gx-font-weight-light">
+//       <Icon type="exclamation-circle" />{" "}
+//       <IntlMessages id="account.profile.product.empty" />
+//     </p>
+//     <p>
+//       <IntlMessages id="account.profile.product.empty.guide" />
+//     </p>
+//   </div>
+// )}

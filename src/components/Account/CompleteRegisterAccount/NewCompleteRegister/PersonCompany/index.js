@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Col, Cascader, Input, Divider, Icon, Form, Row, Button } from "antd";
+import { Col, Cascader, Input, Icon, Form, Row, Button } from "antd";
+import { connect } from "react-redux";
+import { actUpdatePersonProfileRequest } from "appRedux/actions/Account";
 
 const FormItem = Form.Item;
 
@@ -45,28 +47,38 @@ const residences = [
 
 class Company extends Component {
   state = {
-    progress: 75,
-    step: 2
+    progress: 100,
+    step: 5,
+    infoPerson: {
+      user_position: null,
+      infoUnit: null
+    }
   };
 
-  handleSubmit = e => {
+  handleSubmitPerson = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         // console.log("Received values of form: ", values);
-        this.props.getState(this.state.step);
-        this.setState({
-          person: values
-        });
+        // this.props.getStateType(this.state.infoType);
+        // let establish = this.state.establish;
+        // let business = this.state.business;
+        this.setState(
+          {
+            infoPerson: {
+              user_position: values.user_position ? values.user_position : "",
+              infoUnit: values ? values : ""
+            }
+          },
+          () => this.onSendDataPerson()
+        );
       }
     });
   };
 
-  onBack = () => {
-    this.setState({
-      step: 0
-    });
-    this.props.getState(this.state.step);
+  onSendDataPerson = () => {
+    this.props.getState(this.state.step, this.state.progress);
+    this.props.actSendDataToServer(this.state.infoPerson);
   };
 
   render() {
@@ -76,28 +88,22 @@ class Company extends Component {
       <Row className="p-v-6">
         <Col xl={8} lg={8} md={8} sm={24} xs={24}>
           <div>
-            <h3 className="m-b-10">Nội dung hoạt động</h3>
-            <p> Bao gồm các thông tin : </p>
+            <h3 className="m-b-10">Đại diện công ty</h3>
             <p>
-              <Icon type="check-circle" /> Đơn vị, công ty người dùng đang làm
-              việc
+              <Icon type="check-circle" style={{ marginRight: 5 }} />
+              Tham gia các hoạt động, mua bán, sự kiện trên sàn.
             </p>
             <p>
-              <Icon type="check-circle" /> Công việc, chức vụ người dùng đang
-              làm việc
-            </p>
-            <p>
-              <Icon type="check-circle" /> Thông tin xác minh của người dùng đối
-              với nơi đang làm việc
+              <Icon type="check-circle" style={{ marginRight: 5 }} />
+              Yêu cầu có giấy phép hoạt động kinh doanh, chứng nhận,..
             </p>
           </div>
         </Col>
         <Col xl={16} lg={16} md={16} sm={24} xs={24}>
           <div className="block-w bor-rad-6">
-            <Divider> Hồ sơ công việc </Divider>
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmitPerson}>
               <FormItem {...formItemLayout} label="Tên đơn vị">
-                {getFieldDecorator("company_name", {
+                {getFieldDecorator("person_company_name", {
                   rules: [
                     {
                       required: true,
@@ -107,7 +113,7 @@ class Company extends Component {
                 })(<Input placeholder="Tên đơn vị" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="Tên thương hiệu">
-                {getFieldDecorator("company_brand", {
+                {getFieldDecorator("person_company_brand", {
                   rules: [
                     {
                       required: true,
@@ -117,50 +123,50 @@ class Company extends Component {
                 })(<Input placeholder="Tên thương hiệu" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="Chức vụ bản thân">
-                {getFieldDecorator("position", {
+                {getFieldDecorator("user_position", {
                   rules: [
                     {
                       required: true,
                       message: "Enter your position!"
                     }
                   ]
-                })(<Input placeholder="Chức vụ bản thân" />)}
+                })(<Input placeholder="Chức vụ" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="Email">
-                {getFieldDecorator("company_email", {
+                {getFieldDecorator("person_email", {
                   rules: [
                     {
                       required: true,
-                      message: "Enter your company email!"
+                      message: "Enter your email!"
                     }
                   ]
                 })(<Input placeholder="Email" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="Số điện thoại">
-                {getFieldDecorator("company_phone", {
+                {getFieldDecorator("person_phone", {
                   rules: [
                     {
-                      required: false,
-                      message: "Enter your company phone number!"
+                      required: true,
+                      message: "Enter your phone number!"
                     }
                   ]
                 })(<Input placeholder="Số điện thoại" />)}
               </FormItem>
-              <FormItem {...formItemLayout} label="Quốc gia/ Quận/ Huyện">
-                {getFieldDecorator("company_district", {
+              <FormItem {...formItemLayout} label="Quận/ Huyện">
+                {getFieldDecorator("person_district", {
                   rules: [
                     {
                       required: true,
-                      message: "Enter your company district!"
+                      message: "Select your district!"
                     }
                   ]
-                })(<Cascader options={residences} />)}
+                })(<Cascader placeholder="Quận/ Huyện" options={residences} />)}
               </FormItem>
               <FormItem {...formItemLayout} label="Địa chỉ">
-                {getFieldDecorator("address", {
+                {getFieldDecorator("person_address", {
                   rules: [
                     {
-                      required: false,
+                      required: true,
                       message: "Enter your address!"
                     }
                   ]
@@ -175,7 +181,7 @@ class Company extends Component {
                 }}
               >
                 {/* <Button
-                  onClick={this.onBack}
+                  onClick={this.handleCancel}
                   style={{ marginBottom: "0 !important" }}
                 >
                   Return
@@ -183,7 +189,7 @@ class Company extends Component {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  style={{ marginLeft: "auto", marginBottom: "0 !important" }}
+                  style={{ marginBottom: "0 !important" }}
                 >
                   Next
                 </Button>
@@ -196,6 +202,14 @@ class Company extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    actSendDataToServer: profile => {
+      dispatch(actUpdatePersonProfileRequest(profile));
+    }
+  };
+};
+
 const WrappedHorizontalLoginForm = Form.create()(Company);
 
-export default WrappedHorizontalLoginForm;
+export default connect(null, mapDispatchToProps)(WrappedHorizontalLoginForm);

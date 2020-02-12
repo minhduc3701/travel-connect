@@ -9,7 +9,7 @@ import Processing from "./Blocks/Processing";
 import Rating from "./Blocks/Rating";
 import PropertiesCard from "./Blocks/PropertiesItemCard/PropertiesCard";
 import Socials from "./Blocks/Socials";
-// import Media from "./Blocks/Media";
+import Media from "./Blocks/Media";
 import Contact from "./Blocks/Contact";
 import Navigation from "./Blocks/Navigation";
 import StaticticGuest from "./Blocks/StaticticGuest";
@@ -18,6 +18,9 @@ import { connect } from "react-redux";
 import CircularProgress from "../../../GlobalComponent/CircularProgress";
 import { actFetchActionRequest } from "appRedux/actions/Account";
 import { Link } from "react-router-dom";
+import Cerfiticated from "./Blocks/Cerfiticated";
+// import { firebaseConnect, isLoaded } from "react-redux-firebase";
+// import { compose } from "redux";
 
 class Profile extends Component {
   state = {
@@ -27,7 +30,6 @@ class Profile extends Component {
   };
 
   componentWillMount() {
-    console.log("unmount");
     this.props.actFetchDataAgain();
   }
 
@@ -36,7 +38,7 @@ class Profile extends Component {
       this.setState({
         load: false
       });
-    }, 10000);
+    }, 3000);
   }
 
   render() {
@@ -53,34 +55,42 @@ class Profile extends Component {
 
     return (
       <Fragment>
-        {profile.Account.company_name ? (
+        {Account.company_name ? (
           <div className="gx-profile-content">
-            <Banner profile={profile} />
-            <Navigation />
+            <div className="block_shadow ">
+              <Banner profile={profile} />
+              <Navigation />
+            </div>
             <Row className="m-t-3-i">
               <Col xl={16} lg={16} md={24} sm={24} xs={24}>
-                <About profile={profile} />
-                <Biography profile={profile} />
-                <Contact profile={profile} />
-                <Row>
-                  <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-                  <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-                </Row>
-                <EventsBanner profile={profile} />
-                <PropertiesCard profile={profile} />
-                <Rating profile={profile} />
+                <div className="block_shadow">
+                  <About profile={profile} />
+                  <Biography profile={profile} />
+                  <Contact profile={profile} />
+                  {/* <Row>
+                    <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+                    <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+                  </Row> */}
+                  <EventsBanner profile={profile} />
+                  <PropertiesCard profile={profile} />
+                  {Account.company_rating > 0 ? (
+                    <Rating profile={profile} />
+                  ) : null}
+                </div>
               </Col>
               <Col xl={8} lg={8} md={24} sm={24} xs={24}>
-                {warning}
-                <StaticticGuest profile={profile} />
-                <Friends profile={profile} friendList={friendList} />
-                <Socials profile={profile} />
-                {/* <Media profile={profile} /> */}
+                <div className="block_shadow">
+                  {warning}
+                  <Cerfiticated />
+                  <StaticticGuest profile={profile} />
+                  <Friends profile={profile} friendList={friendList} />
+                  <Socials profile={profile} />
+                  <Media profile={profile} />
+                </div>
               </Col>
             </Row>
           </div>
-        ) : profile.Account.company_name === undefined &&
-          this.state.load === false ? (
+        ) : Account.company_id === "" && this.state.load === false ? (
           <Result
             status="500"
             title="Không tìm thấy hồ sơ công ty!"
@@ -92,8 +102,8 @@ class Profile extends Component {
             }
           />
         ) : (
-          <CircularProgress />
-        )}
+              <CircularProgress />
+            )}
       </Fragment>
     );
   }
@@ -114,3 +124,15 @@ const mapDispatchToProp = (dispatch, props) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProp)(Profile);
+
+// export default compose(
+//   firebaseConnect(props => {
+//     let user_info = JSON.parse(localStorage.getItem("user_info"));
+//     return [
+//       {
+//         collection: "companies"
+//       }
+//     ];
+//   }),
+//   connect(mapStateToProps, mapDispatchToProp)
+// )(Profile);

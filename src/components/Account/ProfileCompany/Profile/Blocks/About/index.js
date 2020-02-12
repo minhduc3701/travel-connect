@@ -42,7 +42,8 @@ class About extends React.Component {
         title: <IntlMessages id="account.profile.about.product" />,
         icon: "product-list",
         userList: "",
-        desc: [Account.company_service]
+        desc: "Landtour"
+        // desc: [Account.company_service]
       },
       {
         id: 5,
@@ -54,7 +55,7 @@ class About extends React.Component {
     ];
 
     return (
-      <div className="block-w-nb" id="nav_introduction">
+      <div id="nav_introduction" style={{ minHeight: "16em" }}>
         <WidgetHeader title={<IntlMessages id="company.about" />} />
         <div className="gx-mb-2">
           <Row>

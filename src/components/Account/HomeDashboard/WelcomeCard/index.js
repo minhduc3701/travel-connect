@@ -8,7 +8,7 @@ const WelcomeCard = props => {
   let nameWelcome = name[name.length - 1];
   return (
     <div
-      className="block-w flow-hidden pos-rel w-100 z-1"
+      className="block_shadow flow-hidden pos-rel w-100 z-1"
       style={{
         minHeight: "200px",
         height: "calc(100% - 2em)"
@@ -25,19 +25,28 @@ const WelcomeCard = props => {
         <ul className="gx-list-group">
           <li>
             <Icon type="message" />
-            <span>5 Tin nhắn chưa đọc</span>
+            <span>
+              5 <IntlMessages id="sellingRequest.newMessage" />
+            </span>
           </li>
           <li>
             <Icon type="mail" />
-            <span>2 báo giá mới</span>
+            <span>
+              2{" "}
+              <IntlMessages id="home.settings.notification.whatreceive.newquoterequest" />
+            </span>
           </li>
           <li>
             <Icon type="profile" />
-            <span>7 báo giá chưa phản hồi</span>
+            <span>
+              7 <IntlMessages id="account.quoteUnrep" />
+            </span>
           </li>
           <li>
             <Icon type="bell" />
-            <span>3 giao dịch chưa hoàn thành</span>
+            <span>
+              3 <IntlMessages id="unFinishTransaction" />
+            </span>
           </li>
         </ul>
       </div>

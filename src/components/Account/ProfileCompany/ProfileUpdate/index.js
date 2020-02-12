@@ -9,7 +9,7 @@ import Processing from "./Blocks/Processing";
 import Rating from "./Blocks/Rating";
 import PropertiesCard from "./Blocks/PropertiesItemCard/PropertiesCard";
 import Socials from "./Blocks/Socials";
-// import Media from "./Blocks/Media";
+import Media from "./Blocks/Media";
 import Contact from "./Blocks/Contact";
 import Navigation from "./Blocks/Navigation";
 import StaticticGuest from "./Blocks/StaticticGuest";
@@ -18,6 +18,8 @@ import { CallApi_ACCOUNT } from "util/CallApi";
 import { connect } from "react-redux";
 import CircularProgress from "../../../GlobalComponent/CircularProgress";
 import { actFetchActionRequest } from "appRedux/actions/Account";
+import Cerfiticated from "./Blocks/Cerfiticated";
+// import { axios } from "axios";
 import {
   actSaveIntroRequest,
   actSaveSocialRequest,
@@ -75,32 +77,6 @@ class ProfileUpdate extends Component {
       .catch(err => console.log(err));
   };
 
-  onSendImageBackground = backgrounds => {
-    let user = JSON.parse(localStorage.getItem("user_info"));
-    const formData = new FormData();
-    backgrounds.forEach(file => {
-      formData.append("File", file);
-    });
-    CallApi_ACCOUNT(
-      `VN/companies/${user.company_id}/backgrounds`,
-      "PUT",
-      formData
-    )
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-  };
-
-  onSendImageLogo = logo => {
-    let user = JSON.parse(localStorage.getItem("user_info"));
-    const formData = new FormData();
-    logo.forEach(file => {
-      formData.append("image-", file);
-    });
-    CallApi_ACCOUNT(`VN/companies/${user.company_id}/logos`, "PUT", formData)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-  };
-
   render() {
     let { Account } = this.props.profile;
     let warning = null;
@@ -115,33 +91,43 @@ class ProfileUpdate extends Component {
       <Fragment>
         {Account.company_name ? (
           <div className="gx-profile-content">
-            <Banner profile={Account} />
-            <Navigation />
+            <div className="block_shadow ">
+              <Banner profile={Account} />
+              <Navigation />
+            </div>
             <Row className="m-t-3-i">
               <Col xl={16} lg={16} md={24} sm={24} xs={24}>
-                <About profile={Account} />
-                <Biography profile={Account} />
-                <Contact profile={Account} />
-                <Row>
-                  <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-                  <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-                </Row>
-                <AddEvent />
-                <PropertiesCard profile={Account} />
-                <Rating profile={Account} />
+                <div className="block_shadow">
+                  <About profile={Account} />
+                  <Biography profile={Account} />
+                  <Contact profile={Account} />
+                  <Row>
+                    <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+                    <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
+                  </Row>
+                  <AddEvent />
+                  <PropertiesCard profile={Account} />
+                  {/* <Rating profile={Account} /> */}
+                  {Account.company_rating > 0 ? (
+                    <Rating profile={Account} />
+                  ) : null}
+                </div>
               </Col>
               <Col xl={8} lg={8} md={24} sm={24} xs={24}>
-                {warning}
-                <StaticticGuest profile={Account} />
-                <Friends profile={Account} friendList={friendList} />
-                <Socials profile={Account} />
-                {/* <Media profile={Account} /> */}
+                <div className="block_shadow">
+                  {warning}
+                  <Cerfiticated />
+                  <StaticticGuest profile={Account} />
+                  <Friends profile={Account} friendList={friendList} />
+                  <Socials profile={Account} />
+                  <Media profile={Account} />
+                </div>
               </Col>
             </Row>
           </div>
         ) : (
-          <CircularProgress />
-        )}
+            <CircularProgress />
+          )}
       </Fragment>
     );
   }

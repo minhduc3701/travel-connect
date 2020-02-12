@@ -8,7 +8,10 @@ import { connect } from "react-redux";
 class Navigation extends Component {
   render() {
     return (
-      <div className="block-w-nb block__nav__anchor">
+      <div
+        className="block-w-nb block__nav__anchor"
+        style={{ borderTop: "1px solid #00000020" }}
+      >
         <Menu mode="horizontal" className="bor-b-0">
           <Menu.Item key="contact">
             <a href="#nav_contact">
@@ -67,7 +70,8 @@ class Navigation extends Component {
             <Link title="Update" to="/profile">
               <Icon type="edit" className="m-r-1-i" />
               <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                <IntlMessages id="account.profile.edit.btn.preview" />
+                {/* <IntlMessages id="account.profile.edit.btn.preview" /> */}
+                Save Edit
               </span>
             </Link>
           </Menu.Item>
