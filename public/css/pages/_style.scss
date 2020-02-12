@@ -1,5 +1,17 @@
 body {
-    font-size: 13px !important;
+    font-size: var(--root-size);
+}
+
+body * {
+
+    & > p {
+        font-size: var(--root-size);
+    }
+
+    & > span {
+        font-size: var(--root-size);
+    }
+
 }
 
 .text {
@@ -87,6 +99,16 @@ body {
     }
     &-l-6 {
         border-radius: 6px 0 0 6px !important;
+    }
+
+    &-10 {
+        border-radius: 10px;
+    }
+    &-r-10 {
+        border-radius: 0 10px 10px 0 !important;
+    }
+    &-l-10 {
+        border-radius: 10px 0 0 10px !important;
     }
 }
 
@@ -630,3 +652,4 @@ div#calendar {
         font-size: 13px;
     }
 }
+
