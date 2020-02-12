@@ -4,27 +4,15 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { userSignOut } from "appRedux/actions/Auth";
 import IntlMessages from "util/IntlMessages";
-import { HOME, ACCOUNT } from "constants/NavigateLink";
-import avatarDefault from "assets/images/placeholder.jpg";
-
+import { HOME, ACCOUNT } from "components/Layout/Header/NavigateLink";
 class UserInfo extends Component {
   render() {
     const domain = window.location.host;
     let srcAvatar = JSON.parse(localStorage.getItem("user_info"));
-    let nameUser = null;
-    let name = null;
-    if (srcAvatar.user_name) {
-      name = srcAvatar.user_name;
-      name = name.split(" ").slice(1, name.length);
-      nameUser = name.join(" ");
-    }
     const userMenuOptions = (
       <ul className="gx-user-popover">
-        <li className="p-v-1-i text-ellipsis">
-          {nameUser}{" "}
-          {srcAvatar.company_brandname && srcAvatar.company_brandname !== ""
-            ? `(${srcAvatar.company_brandname})`
-            : ""}
+        <li className="p-v-1-i text-align-center text-ellipsis">
+          Travel Connect Brand name
         </li>
         <li className="p-v-1-i">
           {domain === "account.travelconnect.global" ? (
@@ -108,9 +96,11 @@ class UserInfo extends Component {
       >
         <Avatar
           src={
-            srcAvatar.user_logo && srcAvatar.user_logo !== ""
+            srcAvatar.user_logo
               ? srcAvatar.user_logo
-              : avatarDefault
+              : srcAvatar.user_logo === ""
+              ? `https://tix.vn/app/assets/img/avatar.png`
+              : `https://tix.vn/app/assets/img/avatar.png`
           }
           className="gx-avatar gx-pointer"
           alt=""

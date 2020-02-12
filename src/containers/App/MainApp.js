@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Layout } from "antd";
 
-import Sidebar from "../Sidebar/index";
+import Sidebar from "components/Layout/Header/Sidebar/index";
 import HorizontalDefault from "../Topbar/HorizontalDefault/index";
-import HorizontalDark from "../Topbar/HorizontalDark/index";
+import HorizontalDark from "components/Layout/Header/HorizontalDark/index";
 import InsideHeader from "../Topbar/InsideHeader/index";
 import AboveHeader from "../Topbar/AboveHeader/index";
 import BelowHeader from "../Topbar/BelowHeader/index";

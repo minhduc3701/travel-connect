@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import CustomScrollbars from "util/CustomScrollbars";
 import SidebarLogo from "./SidebarLogo";
-import { HOME, BUSINESS, B2B } from "../../constants/NavigateLink";
+import { HOME, BUSINESS, B2B, EVENTS } from "components/Layout/Header/NavigateLink";
 
 import Auxiliary from "util/Auxiliary";
 import UserProfile from "./UserProfile";
@@ -14,8 +14,8 @@ import {
 	NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
 	NAV_STYLE_NO_HEADER_MINI_SIDEBAR,
 	THEME_TYPE_LITE
-} from "../../constants/ThemeSetting";
-import IntlMessages from "../../util/IntlMessages";
+} from "constants/ThemeSetting";
+import IntlMessages from "util/IntlMessages";
 
 const SubMenu = Menu.SubMenu;
 class SidebarContent extends Component {
@@ -58,11 +58,14 @@ class SidebarContent extends Component {
 							mode="inline"
 							className="sidebar_menu"
 						>
-							<SubMenu
-								className={this.getNavStyleSubMenuClass(navStyle)}
+							<Menu.Item
+								// className={this.getNavStyleSubMenuClass(navStyle)}
 								key="home"
-								title={
-									domain === "app.travelconnect.global" ? (
+								// title={
+									
+								// }
+							>
+								{domain === "app.travelconnect.global" ? (
 										<Link to="/home">
 											<IntlMessages id="general.default.home" />
 										</Link>
@@ -70,9 +73,8 @@ class SidebarContent extends Component {
 											<a href={`${HOME}/home`} className="menu-item">
 												<IntlMessages id="general.default.home" />
 											</a>
-										)
-								}
-							></SubMenu>
+										)}
+							</Menu.Item>
 
 							{/* <SubMenu
 								className={this.getNavStyleSubMenuClass(navStyle)}
@@ -135,11 +137,38 @@ class SidebarContent extends Component {
 								</Menu.Item>
 							</SubMenu> */}
 
-							<SubMenu
-								className={this.getNavStyleSubMenuClass(navStyle)}
-								key="events"
-								title={<IntlMessages id="general.default.event" />}
-							></SubMenu>
+<SubMenu
+          className={this.getNavStyleSubMenuClass(navStyle)}
+          key="events"
+          title={<IntlMessages id="general.default.event" />}
+        >
+          <Menu.Item key="event_dashboard">
+            {domain === "event.travelconnect.global" ? (
+              <Link to="/dashboard">
+                <Icon type="dashboard" />
+                <IntlMessages id="general.default.event.dashboard" />
+              </Link>
+            ) : (
+              <a href={`${EVENTS}/dashboard`} className="menu-item">
+                <Icon type="dashboard" />
+                <IntlMessages id="general.default.event.dashboard" />
+              </a>
+            )}
+          </Menu.Item>
+          <Menu.Item key="event_dashboard">
+            {domain === "event.travelconnect.global" ? (
+              <Link to="/list">
+                <Icon type="ordered-list" />
+                <IntlMessages id="general.default.event.list" />
+              </Link>
+            ) : (
+              <a href={`${EVENTS}/list`} className="menu-item">
+                <Icon type="ordered-list" />
+                <IntlMessages id="general.default.event.list" />
+              </a>
+            )}
+          </Menu.Item>
+        </SubMenu>
 
 							<SubMenu
 								className={this.getNavStyleSubMenuClass(navStyle)}
