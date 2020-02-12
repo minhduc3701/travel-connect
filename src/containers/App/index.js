@@ -82,7 +82,11 @@ class App extends Component {
     }
     if (
       this.props.authUser !== -1 &&
-      localStorage.getItem("user_info") === null
+      (localStorage.getItem("user_info") === null ||
+        localStorage.getItem("user_id") !==
+          document.cookie
+            .split(";")
+            [1 - document.cookie.indexOf("user_id")].split("=")[1])
     ) {
       this.props.getUserData();
     } else {
@@ -128,9 +132,6 @@ class App extends Component {
     this.setLayoutType(layoutType);
 
     this.setNavStyle(navStyle);
-    {
-      console.log(this.props.loading);
-    }
     const currentAppLocale = AppLocale[locale.locale];
     return (
       <ConfigProvider locale={currentAppLocale.antd}>
