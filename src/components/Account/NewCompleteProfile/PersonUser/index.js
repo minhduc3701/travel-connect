@@ -17,7 +17,7 @@ import { actUpdatePersonProfileRequest } from "appRedux/actions/Account";
 import { CreateUserWorkSDK } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import firebase from "firebase/firebaseAcc";
-import { HOME } from "constants/NavigateLink";
+import { HOME } from "components/Layout/Header/NavigateLink";
 
 const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
