@@ -72,11 +72,17 @@ const App = ({ match }) => (
           )}
         />
         <Route
-          path={`${match.url}company`}
+          path={`${match.url}create-company`}
           component={asyncComponent(() =>
             import(
               "../components/BreadCrumbNav/Account/NewCompleteProfile/Company"
             )
+          )}
+        />
+        <Route
+          path={`${match.url}company`}
+          component={asyncComponent(() =>
+            import("../components/BreadCrumbNav/Account/Profile")
           )}
         />
         <Route
@@ -149,10 +155,17 @@ const App = ({ match }) => (
             )}
           />
           <Route
-            path={`${match.url}company`}
+            path={`${match.url}create-company`}
             exact
             component={asyncComponent(() =>
               import("../components/Account/NewCompleteProfile/Company")
+            )}
+          />
+          <Route
+            path={`${match.url}company/:id`}
+            exact
+            component={asyncComponent(() =>
+              import("../components/Account/ProfileCompany/ProfileGuest")
             )}
           />
           <Route

@@ -139,7 +139,6 @@ class Company extends Component {
 
   onSendDataPerson = async () => {
     let uId = JSON.parse(localStorage.getItem("user_info"));
-    console.log(uId.user_id);
     await this.props.actSendDataCompanyUser(
       this.state.personAccDetail,
       uId.user_id

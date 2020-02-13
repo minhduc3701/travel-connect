@@ -5,21 +5,20 @@ import IntlMessages from "util/IntlMessages";
 import CallContact from "./CallContact";
 
 const Contact = props => {
-  let { Account } = props.profile;
-
+  let { company_contacts } = props.profile;
   const columns = [
     {
       title: <IntlMessages id="account.profile.contact.employee.name" />,
       dataIndex: "image",
-      render: (text, Account) => {
+      render: (text, company_contacts) => {
         return (
           <div className="gx-flex-row gx-align-items-center">
             <img
               className="gx-rounded-circle gx-size-30 gx-mr-2"
-              src={Account.member_logo}
+              src={company_contacts.mLogo}
               alt=""
             />
-            <p className="gx-mb-0">{Account.member_name}</p>
+            <p className="gx-mb-0">{company_contacts.mName}</p>
           </div>
         );
       }
@@ -27,15 +26,15 @@ const Contact = props => {
     {
       title: <IntlMessages id="account.profile.contact.employee.job" />,
       dataIndex: "transfer",
-      render: (text, Account) => {
-        return <span className="gx-text-grey">{Account.member_job}</span>;
+      render: (text, company_contacts) => {
+        return <span className="gx-text-grey">{company_contacts.mJob}</span>;
       }
     },
     {
       title: <IntlMessages id="account.profile.contact.employee.action" />,
       dataIndex: "status",
-      render: (text, Account) => {
-        return <CallContact Account={Account} button_text={text} />;
+      render: (text, company_contacts) => {
+        return <CallContact Account={company_contacts} button_text={text} />;
       }
     }
   ];
@@ -47,7 +46,7 @@ const Contact = props => {
         <Table
           className="gx-table-no-bordered"
           columns={columns}
-          dataSource={Account.company_contacts}
+          dataSource={company_contacts}
           pagination={false}
           size="small"
         />

@@ -21,6 +21,7 @@ import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import { Redirect } from "react-router-dom";
 import { SendDataUserSDK } from "appRedux/actions/CompanyProfile";
 import firebase from "firebase/firebaseAcc";
+import IntlMessages from "util/IntlMessages";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -237,37 +238,45 @@ class Personal extends Component {
         {this.state.companySelect ? (
           <Redirect to={`/${this.state.typeAccount}`} />
         ) : null}
-        <WidgetHeader title="Hồ sơ cá nhân" />
+        <WidgetHeader
+          title={
+            <IntlMessages id="home.settings.privacy.settings.viewmyprofile" />
+          }
+        />
         <Row className="p-v-6">
           <Col xl={8} lg={8} md={8} sm={24} xs={24}>
             <div style={{ padding: "1em" }}>
-              <h4 className="m-b-5"> Bao gồm các thông tin cơ bản: </h4>
+              <h4 className="m-b-5">
+                {" "}
+                <IntlMessages id="account.complete.profile.guide.title" />:{" "}
+              </h4>
               <p>
-                <Icon type="check-circle" /> Ảnh đại diện: Hình ảnh cá nhân
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="account.complete.profile.guide.avatar" />
               </p>
               <p>
-                <Icon type="check-circle" /> Họ và tên: Họ và tên đầy đủ của
-                người dùng
+                <Icon type="check-circle" />
+                <IntlMessages id="account.complete.profile.guide.name" />
               </p>
               <p>
-                <Icon type="check-circle" /> Giới tính: Giới tính được khai trên
-                chứng minh thư
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="account.complete.profile.guide.gender" />
               </p>
               <p>
-                <Icon type="check-circle" /> Số điện thoại: Số điện thoại liên
-                lạc thường dùng
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="account.complete.profile.guide.phone" />
               </p>
               <p>
-                <Icon type="check-circle" /> Quốc gia: Quốc gia hiện đang sinh
-                sống
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="account.complete.profile.guide.nation" />
               </p>
               <p>
-                <Icon type="check-circle" /> Quận/huyện: Quận/huyện hiện đang
-                sinh sống
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="account.complete.profile.guide.district" />
               </p>
               <p>
-                <Icon type="check-circle" /> Địa chỉ: Khu vực hiện đang sinh
-                sống
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="account.complete.profile.guide.address" />
               </p>
               <img
                 src="https://image.freepik.com/free-vector/character-illustration-people-with-packages-shipment_53876-59858.jpg"
@@ -289,18 +298,25 @@ class Personal extends Component {
                 })(
                   <Upload customRequest={this.customUpload} {...props}>
                     <Button className="m-0-i">
-                      <Icon type="upload" /> Click to Upload
+                      <Icon type="upload" />{" "}
+                      <IntlMessages id="account.profile.edit.about.update.licenseimage.btn.upload" />
                     </Button>
                   </Upload>
                 )}
               </FormItem>
-              <FormItem {...formItemLayout} label="Họ và tên">
+              <FormItem
+                {...formItemLayout}
+                label={<IntlMessages id="employee.name" />}
+              >
                 {getFieldDecorator("user_name", {
                   rules: [{ required: true, message: "Enter your username!" }],
                   initialValue: userInfo.user_name
                 })(<Input placeholder="Họ và tên" />)}
               </FormItem>
-              <FormItem {...formItemLayout} label="Ngày sinh">
+              <FormItem
+                {...formItemLayout}
+                label={<IntlMessages id="listTravelers.birthDay" />}
+              >
                 {getFieldDecorator("user_birth", {
                   rules: [
                     { required: true, message: "Enter your date of birth!" }
@@ -313,7 +329,10 @@ class Personal extends Component {
                   />
                 )}
               </FormItem>
-              <FormItem {...formItemLayout} label="Giới tính">
+              <FormItem
+                {...formItemLayout}
+                label={<IntlMessages id="home.settings.general.gender" />}
+              >
                 {getFieldDecorator("user_gender", {
                   rules: [{ required: true, message: "Select your gendar!" }]
                 })(
@@ -324,12 +343,20 @@ class Personal extends Component {
                   </Select>
                 )}
               </FormItem>
-              <FormItem {...formItemLayout} label="Số điện thoại">
+              <FormItem
+                {...formItemLayout}
+                label={<IntlMessages id="home.settings.general.tel" />}
+              >
                 {getFieldDecorator("user_phone", {
                   rules: [{ required: true, message: "Enter your telephone!" }]
                 })(<Input name="telephone" placeholder="Số điện thoại" />)}
               </FormItem>
-              <FormItem {...formItemLayout} label="Quốc gia">
+              <FormItem
+                {...formItemLayout}
+                label={
+                  <IntlMessages id="account.profile.edit.information.address.update.companynation" />
+                }
+              >
                 {getFieldDecorator("user_nation", {
                   rules: [{ required: true, message: "Select your national!" }]
                 })(
@@ -340,25 +367,40 @@ class Personal extends Component {
                   </Select>
                 )}
               </FormItem>
-              <FormItem {...formItemLayout} label="Quận/ Huyện">
+              <FormItem
+                {...formItemLayout}
+                label={
+                  <IntlMessages id="account.profile.edit.information.address.update.companydistrict" />
+                }
+              >
                 {getFieldDecorator("user_district", {
                   rules: [{ required: true, message: "Select your district!" }]
                 })(
                   <Cascader
                     name="district"
                     options={residences}
-                    placeholder="Quận/ Huyện"
+                    placeholder="Quận Huyện"
                   />
                 )}
               </FormItem>
-              <FormItem {...formItemLayout} label="Địa chỉ">
+              <FormItem
+                {...formItemLayout}
+                label={<IntlMessages id="step.information.address" />}
+              >
                 {getFieldDecorator("user_address", {
                   rules: [{ required: true, message: "Enter your address!" }]
                 })(<Input name="address" placeholder="Địa chỉ" />)}
               </FormItem>
-              <FormItem {...formItemLayout} label="Kiểu tài khoản">
+              <FormItem
+                {...formItemLayout}
+                label={<IntlMessages id="account.complete.profile.type" />}
+              >
                 <Radio.Group onChange={this.onChangeRadio}>
-                  <Tooltip title="Cá nhân tham gia sử dụng dịch vụ của Travel Connect hoặc làm việc tại các đơn vị đặc thù">
+                  <Tooltip
+                    title={
+                      <IntlMessages id="account.complete.profile.type.personal.text" />
+                    }
+                  >
                     <Radio value="personal">Dành cho các cá nhân</Radio>
                   </Tooltip>
                   <br />

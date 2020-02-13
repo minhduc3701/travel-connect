@@ -162,7 +162,7 @@ export const SendDataUserSDK = data => {
     companyName: "",
     companyNation: "",
     companyTarget: "",
-    createAt: "",
+    createAt: new Date().toISOString(),
     currency: "vnd",
     email: "",
     language: "",
@@ -288,6 +288,7 @@ export const CreateCompanySDK = data => {
     products_number: 0,
     products_type: [],
     rating: 0,
+    rating_bad: 0,
     rating_fail: 0,
     rating_good: 0,
     rating_great: 0,
@@ -295,7 +296,9 @@ export const CreateCompanySDK = data => {
     skype: "",
     background: "",
     logo: "",
-    website: ""
+    website: "",
+    active: false,
+    introduction: ""
   };
 
   return dispatch => {
