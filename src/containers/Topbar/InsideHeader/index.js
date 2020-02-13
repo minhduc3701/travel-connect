@@ -3,12 +3,12 @@ import { Button, Dropdown, Icon, Layout, Menu, message, Popover } from "antd";
 import { connect } from "react-redux";
 import CustomScrollbars from "util/CustomScrollbars";
 
-import languageData from "../languageData";
+import languageData from "components/Layout/Header/languageData";
 import SearchBox from "components/Layout/Header/SearchBox";
 import UserInfo from "components/Layout/Header/UserInfo";
 import AppNotification from "components/Layout/Header/AppNotification";
 import MailNotification from "components/Layout/Header/MailNotification";
-import HorizontalNav from "../HorizontalNav";
+import HorizontalNav from "components/Layout/Header/HorizontalNav";
 import { Link } from "react-router-dom";
 import {
   switchLanguage,
@@ -136,6 +136,7 @@ class InsideHeader extends Component {
                 </li>
 
                 <li className="gx-notify">
+                  
                   <Popover
                     overlayClassName="gx-popover-horizantal"
                     placement="bottomRight"

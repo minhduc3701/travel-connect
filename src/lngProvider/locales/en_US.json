@@ -724,6 +724,8 @@
   "general.default.account.membermanagement": "Member Management",
   "general.default.account.upgradeaccount": "Upgrade Account",
   "general.default.event": "Event",
+  "general.default.event.dashboard": "Dashboard",
+  "general.default.event.list": "List Events",
   "general.default.community": "Community",
   "general.default.businessmatching": "Business Matching",
   "general.default.businessmatching.findpartner": "Find Partner",
@@ -965,6 +967,7 @@
   "account.complete.profile.type.personal.text": "Person join to user service of Travel Connect or work for special unit",
 
   "__event": "------------------------------------------------------------------------------------",
+
   "__community": "------------------------------------------------------------------------------------",
   "__businessMatching": "------------------------------------------------------------------------------------",
   "__b2b": "------------------------------------------------------------------------------------",

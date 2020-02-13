@@ -648,6 +648,8 @@
   "general.default.account.membermanagement": "Quản lý thành viên",
   "general.default.account.upgradeaccount": "Nâng cấp tài khoản",
   "general.default.event": "Sự kiện",
+  "general.default.event.dashboard": "Dashboard",
+  "general.default.event.list": "Danh sách sự kiện",
   "general.default.community": "Cộng đồng",
   "general.default.businessmatching": "Kết nối doanh nghiệp",
   "general.default.businessmatching.findpartner": "Tìm kiếm đối tác",

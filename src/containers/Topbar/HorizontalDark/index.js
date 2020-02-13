@@ -11,7 +11,7 @@ import {
 } from "antd";
 import { connect } from "react-redux";
 // import CustomScrollbars from "util/CustomScrollbars";
-import languageData from "../languageData";
+import languageData from "../../../components/Layout/Header/languageData";
 import SearchBox from "components/Layout/Header/SearchBox";
 import UserInfo from "components/Layout/Header/UserInfo";
 import AppNotification from "components/Layout/Header/AppNotification";
@@ -21,8 +21,7 @@ import {
   switchLanguage,
   toggleCollapsedSideNav
 } from "../../../appRedux/actions/Setting";
-import { HOME } from "../../../constants/NavigateLink";
-import { currencyData } from "../currencyData";
+import { currencyData } from "../../../components/Layout/Header/currencyData";
 import IntlMessages from "../../../util/IntlMessages";
 
 const { Header } = Layout;
@@ -104,7 +103,6 @@ class HorizontalDark extends Component {
 
   render() {
     const { locale, navCollapsed } = this.props;
-    const domain = window.location.host;
 
     return (
       <div className="gx-header-horizontal gx-header-horizontal-dark">
@@ -122,37 +120,18 @@ class HorizontalDark extends Component {
                   }}
                 />
               </div>
-
-
-              {
-                domain === HOME ? (
-                  <Link
-                    to="/home"
-                    className="gx-d-block gx-d-lg-none gx-pointer gx-mr-xs-3 gx-pt-xs-1 gx-w-logo"
-                  >
-                    <img alt="" src={require("assets/images/logo-beta.png")} />
-                  </Link>
-                ) : (
-                    <a href={`${HOME}/home`} className="gx-d-block gx-d-lg-none gx-pointer gx-mr-xs-3 gx-pt-xs-1 gx-w-logo">
-                      <img alt="" src={require("assets/images/logo-beta.png")} />
-                    </a>
-                  )
-              }
-
-              {
-                domain === HOME ? (
-                  <Link
-                    to="/home"
-                    className="gx-d-none gx-d-lg-block gx-pointer gx-mr-xs-5 gx-logo"
-                  >
-                    <img alt="" src={require("assets/images/logo-beta.png")} />
-                  </Link>
-                ) : (
-                    <a href={`${HOME}/home`} className="gx-d-none gx-d-lg-block gx-pointer gx-mr-xs-5 gx-logo">
-                      <img alt="" src={require("assets/images/logo-beta.png")} />
-                    </a>
-                  )
-              }
+              <Link
+                to="/"
+                className="gx-d-block gx-d-lg-none gx-pointer gx-mr-xs-3 gx-pt-xs-1 gx-w-logo"
+              >
+                <img alt="" src={require("assets/images/logo-beta.png")} />
+              </Link>
+              <Link
+                to="/"
+                className="gx-d-none gx-d-lg-block gx-pointer gx-mr-xs-5 gx-logo"
+              >
+                <img alt="" src={require("assets/images/logo-beta.png")} />
+              </Link>
               <div className="gx-header-search gx-d-none gx-d-lg-flex">
                 <SearchBox
                   styleName="gx-lt-icon-search-bar-lg"
@@ -205,20 +184,19 @@ class HorizontalDark extends Component {
                     </span>
                   </Popover>
                 </li>
-
-                <li className="gx-notify">
-                  <Popover
-                    overlayClassName="gx-popover-horizantal"
-                    placement="bottomRight"
-                    content={<AppNotification />}
-                    trigger="click"
-                  >
-                    <span className="gx-pointer gx-d-block">
-                      <i className="icon icon-notification" />
-                    </span>
-                  </Popover>
-                </li>
-
+  
+                  <li className="gx-notify">
+                    <Popover
+                      overlayClassName="gx-popover-horizantal"
+                      placement="bottomRight"
+                      content={<AppNotification />}
+                      trigger="click"
+                    >
+                      <span className="gx-pointer gx-d-block">
+                        <i className="icon icon-notification" />
+                      </span>
+                    </Popover>
+                  </li>
                 <li className="gx-language">
                   <Popover
                     overlayClassName="gx-popover-horizantal"
