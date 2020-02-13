@@ -19,7 +19,7 @@ import {
 import Permission from "./permission";
 import IntlMessages from "util/IntlMessages";
 import UploadPicture from "./Avatar";
-import { doneChange, failChange, notiChange } from "util/Notification";
+import { doneChange, notiChange } from "util/Notification";
 
 const { Search } = Input;
 const FormItem = Form.Item;

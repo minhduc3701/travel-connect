@@ -255,7 +255,7 @@ class Personal extends Component {
                 <IntlMessages id="account.complete.profile.guide.avatar" />
               </p>
               <p>
-                <Icon type="check-circle" />
+                <Icon type="check-circle" />{" "}
                 <IntlMessages id="account.complete.profile.guide.name" />
               </p>
               <p>
@@ -291,15 +291,17 @@ class Personal extends Component {
               style={{ borderLeft: "1px solid #00000020" }}
             >
               {/* Avatar */}
-              <FormItem {...formItemLayout} label="Ảnh đại diện">
+              <FormItem
+                {...formItemLayout}
+                label={<IntlMessages id="home.settings.general.avatar" />}
+              >
                 {getFieldDecorator("user_logo", {
                   valuePropName: "fileList1",
                   getValueFromEvent: this.normFile
                 })(
                   <Upload customRequest={this.customUpload} {...props}>
                     <Button className="m-0-i">
-                      <Icon type="upload" />{" "}
-                      <IntlMessages id="account.profile.edit.about.update.licenseimage.btn.upload" />
+                      <Icon type="upload" /> <IntlMessages id="clickToUpload" />
                     </Button>
                   </Upload>
                 )}
@@ -309,9 +311,14 @@ class Personal extends Component {
                 label={<IntlMessages id="employee.name" />}
               >
                 {getFieldDecorator("user_name", {
-                  rules: [{ required: true, message: "Enter your username!" }],
+                  rules: [
+                    {
+                      required: true,
+                      message: <IntlMessages id="rule.name.text" />
+                    }
+                  ],
                   initialValue: userInfo.user_name
-                })(<Input placeholder="Họ và tên" />)}
+                })(<Input placeholder="Name" />)}
               </FormItem>
               <FormItem
                 {...formItemLayout}
@@ -319,12 +326,15 @@ class Personal extends Component {
               >
                 {getFieldDecorator("user_birth", {
                   rules: [
-                    { required: true, message: "Enter your date of birth!" }
+                    {
+                      required: true,
+                      message: <IntlMessages id="rule.birth.text" />
+                    }
                   ]
                 })(
                   <DatePicker
                     style={{ width: "100%" }}
-                    placeholder="Ngày sinh"
+                    placeholder="Birthday"
                     onChange={this.onChange}
                   />
                 )}
@@ -334,9 +344,14 @@ class Personal extends Component {
                 label={<IntlMessages id="home.settings.general.gender" />}
               >
                 {getFieldDecorator("user_gender", {
-                  rules: [{ required: true, message: "Select your gendar!" }]
+                  rules: [
+                    {
+                      required: true,
+                      message: <IntlMessages id="rule.gender.text" />
+                    }
+                  ]
                 })(
-                  <Select placeholder="Giới tính">
+                  <Select placeholder="Gender">
                     <Option value="male">Nam</Option>
                     <Option value="female">Nữ</Option>
                     <Option value="other">Khác</Option>
@@ -348,8 +363,13 @@ class Personal extends Component {
                 label={<IntlMessages id="home.settings.general.tel" />}
               >
                 {getFieldDecorator("user_phone", {
-                  rules: [{ required: true, message: "Enter your telephone!" }]
-                })(<Input name="telephone" placeholder="Số điện thoại" />)}
+                  rules: [
+                    {
+                      required: true,
+                      message: <IntlMessages id="rule.phone.text" />
+                    }
+                  ]
+                })(<Input name="telephone" placeholder="Phone number" />)}
               </FormItem>
               <FormItem
                 {...formItemLayout}
@@ -358,12 +378,26 @@ class Personal extends Component {
                 }
               >
                 {getFieldDecorator("user_nation", {
-                  rules: [{ required: true, message: "Select your national!" }]
+                  rules: [
+                    {
+                      required: true,
+                      message: <IntlMessages id="rule.nation.text" />
+                    }
+                  ]
                 })(
-                  <Select name="national" showSearch placeholder="Quốc gia">
-                    <Option value="vn">Việt Nam</Option>
-                    <Option value="jp">Nhật bản</Option>
-                    <Option value="cn">Trung Quốc</Option>
+                  <Select name="national" showSearch placeholder="Nation">
+                    <Option value="VN">
+                      <IntlMessages id="nation.vietnam" />
+                    </Option>
+                    <Option value="JP">
+                      <IntlMessages id="nation.japan" />
+                    </Option>
+                    <Option value="CN">
+                      <IntlMessages id="nation.china" />
+                    </Option>
+                    <Option value="KR">
+                      <IntlMessages id="nation.korea" />
+                    </Option>
                   </Select>
                 )}
               </FormItem>
@@ -374,12 +408,17 @@ class Personal extends Component {
                 }
               >
                 {getFieldDecorator("user_district", {
-                  rules: [{ required: true, message: "Select your district!" }]
+                  rules: [
+                    {
+                      required: true,
+                      message: <IntlMessages id="rule.district.text" />
+                    }
+                  ]
                 })(
                   <Cascader
                     name="district"
                     options={residences}
-                    placeholder="Quận Huyện"
+                    placeholder="District"
                   />
                 )}
               </FormItem>
@@ -388,8 +427,13 @@ class Personal extends Component {
                 label={<IntlMessages id="step.information.address" />}
               >
                 {getFieldDecorator("user_address", {
-                  rules: [{ required: true, message: "Enter your address!" }]
-                })(<Input name="address" placeholder="Địa chỉ" />)}
+                  rules: [
+                    {
+                      required: true,
+                      message: <IntlMessages id="rule.address.text" />
+                    }
+                  ]
+                })(<Input name="address" placeholder="Address" />)}
               </FormItem>
               <FormItem
                 {...formItemLayout}
@@ -401,12 +445,18 @@ class Personal extends Component {
                       <IntlMessages id="account.complete.profile.type.personal.text" />
                     }
                   >
-                    <Radio value="personal">Dành cho các cá nhân</Radio>
+                    <Radio value="personal">
+                      <IntlMessages id="account.complete.profile.type.personal" />
+                    </Radio>
                   </Tooltip>
                   <br />
-                  <Tooltip title="Tạo công ty để hoạt động trên Travel Connect ( Yêu cầu đầy đủ thông tin, giấy phép,... )">
+                  <Tooltip
+                    title={
+                      <IntlMessages id="account.complete.profile.type.company.text" />
+                    }
+                  >
                     <Radio value="company">
-                      Dành cho doanh công ty, doanh nghiệp
+                      <IntlMessages id="account.complete.profile.type.company" />
                     </Radio>
                   </Tooltip>
                 </Radio.Group>
@@ -426,7 +476,7 @@ class Personal extends Component {
                   htmlType="submit"
                   onClick={() => this.onUpload()}
                 >
-                  Next
+                  <IntlMessages id="button.next" />
                 </Button>
               </div>
             </Form>

@@ -18,6 +18,7 @@ import { CreateUserWorkSDK } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import firebase from "firebase/firebaseAcc";
 import { HOME } from "components/Layout/Header/NavigateLink";
+import IntlMessages from "util/IntlMessages";
 
 const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
@@ -33,33 +34,33 @@ const { OptGroup } = Select;
 
 const residences = [
   {
-    value: "hanoi",
+    value: "Hà Nội",
     label: "Hà Nội",
     children: [
       {
-        value: "dongda",
+        value: "Đống Đa",
         label: "Đống Đa"
       },
       {
-        value: "caugiay",
+        value: "Cầu giấy",
         label: "Cầu giấy"
       },
       {
-        value: "hoangmai",
+        value: "Hoàng Mai",
         label: "Hoàng Mai"
       }
     ]
   },
   {
-    value: "saigon",
+    value: "Hồ Chí Minh",
     label: "Hồ Chí Minh",
     children: [
       {
-        value: "quan1",
+        value: "Quận 1",
         label: "Quận 1"
       },
       {
-        value: "quan2",
+        value: "Quận 2",
         label: "Quận 2"
       }
     ]
@@ -234,29 +235,36 @@ class Company extends Component {
     };
     return (
       <div className="block-w bor-rad-6">
-        <WidgetHeader title="Hoàn thiện hồ sơ" />
+        <WidgetHeader title={<IntlMessages id="account.personal.title" />} />
         <Row className="p-v-6">
           <Col xl={8} lg={8} md={8} sm={24} xs={24}>
             <div>
               <div>
-                <h3 className="m-b-10">Nội dung hoạt động</h3>
-                <p> Bao gồm các thông tin : </p>
+                <h3 style={{ fontSize: "1rem" }} className="m-b-10">
+                  <IntlMessages id="account.personal.detail" />
+                </h3>
                 <p>
-                  <Icon type="check-circle" /> Đơn vị, công ty người dùng đang
-                  làm việc
+                  {" "}
+                  <IntlMessages id="account.complete.profile.guide.title" /> :{" "}
                 </p>
                 <p>
-                  <Icon type="check-circle" /> Công việc, chức vụ người dùng
-                  đang làm việc
+                  <Icon type="check-circle" />{" "}
+                  <IntlMessages id="account.personal.company" />
                 </p>
                 <p>
-                  <Icon type="check-circle" /> Thông tin xác minh của người dùng
-                  đối với nơi đang làm việc
+                  <Icon type="check-circle" />{" "}
+                  <IntlMessages id="account.personal.position" />
+                </p>
+                <p>
+                  <Icon type="check-circle" />{" "}
+                  <IntlMessages id="account.personal.verify" />
                 </p>
               </div>
               {this.state.typeAccount === "social" ? (
                 <div>
-                  <h3 className=" m-v-5">Mô tả</h3>
+                  <h3 className=" m-v-5">
+                    <IntlMessages id="account.personal.Described" />{" "}
+                  </h3>
                   <p>Bạn đang làm việc tại các tổ chức xã hội và du lịch</p>
                   <p style={{ fontStyle: "italic" }}>
                     Bao gồm: Hiệp hội Du lịch, Câu lạc bộ, Chi hội Du lịch.
@@ -265,7 +273,9 @@ class Company extends Component {
               ) : null}
               {this.state.typeAccount === "journalist" ? (
                 <div>
-                  <h3 className=" m-v-5">Mô tả</h3>
+                  <h3 className=" m-v-5">
+                    <IntlMessages id="account.personal.Described" />{" "}
+                  </h3>
                   <p>Bạn đang làm việc tại các đơn vị báo chí</p>
                   <p style={{ fontStyle: "italic" }}>
                     Bao gồm: Các nhà báo, phóng viên, biên tập viên của các tòa
@@ -275,7 +285,9 @@ class Company extends Component {
               ) : null}
               {this.state.typeAccount === "government" ? (
                 <div>
-                  <h3 className=" m-v-5">Mô tả</h3>
+                  <h3 className=" m-v-5">
+                    <IntlMessages id="account.personal.Described" />{" "}
+                  </h3>
                   <p>Bạn đang làm việc tại các cơ quan quản lý nhà nước</p>
                   <p style={{ fontStyle: "italic" }}>
                     Bao gồm: Tổng cục Du lịch, Sở Văn hóa thông tin và Du lịch,
@@ -285,7 +297,9 @@ class Company extends Component {
               ) : null}
               {this.state.typeAccount === "embassy" ? (
                 <div>
-                  <h3 className=" m-v-5">Mô tả</h3>
+                  <h3 className=" m-v-5">
+                    <IntlMessages id="account.personal.Described" />{" "}
+                  </h3>
                   <p>Bạn đang làm việc tại Đại sứ quán/Lãnh sự quán</p>
                   <p style={{ fontStyle: "italic" }}>
                     Bao gồm: Tổng cục Du lịch, Sở Văn hóa thông tin và Du lịch,
@@ -295,7 +309,9 @@ class Company extends Component {
               ) : null}
               {this.state.typeAccount === "tourguide" ? (
                 <div>
-                  <h3 className=" m-v-5">Mô tả</h3>
+                  <h3 className=" m-v-5">
+                    <IntlMessages id="account.personal.Described" />{" "}
+                  </h3>
                   <p>Bạn là hướng dẫn viên du lịch</p>
                   <p style={{ fontStyle: "italic" }}>
                     Bao gồm: Các hướng dẫn viên trong và ngoài nước được cấp
@@ -305,7 +321,9 @@ class Company extends Component {
               ) : null}
               {this.state.typeAccount === "student" ? (
                 <div>
-                  <h3 className=" m-v-5">Mô tả</h3>
+                  <h3 className=" m-v-5">
+                    <IntlMessages id="account.personal.Described" />{" "}
+                  </h3>
                   <p>Bạn là sinh viên ngành du lịch</p>
                   <p style={{ fontStyle: "italic" }}>
                     Bao gồm: Sinh viên các trường đại học, cao đẳng, trung cấp
@@ -315,7 +333,9 @@ class Company extends Component {
               ) : null}
               {this.state.typeAccount === "company" ? (
                 <div>
-                  <h3 className=" m-v-5">Mô tả</h3>
+                  <h3 className=" m-v-5">
+                    <IntlMessages id="account.personal.Described" />{" "}
+                  </h3>
                   <p>Bạn đang làm việc tại công ty, doanh nghiệp du lịch</p>
                   <p style={{ fontStyle: "italic" }}>
                     <Icon type="check-circle" style={{ marginRight: 5 }} />
@@ -343,38 +363,48 @@ class Company extends Component {
               }}
             >
               <Form>
-                <FormItem {...formItemLayout} label="Lựa chọn đơn vị làm việc">
+                <FormItem
+                  {...formItemLayout}
+                  label={<IntlMessages id="account.personal.select" />}
+                >
                   <Select
-                    placeholder="Lựa chọn đơn vị làm việc"
+                    placeholder="Select working unit"
                     onChange={this.onSelectType}
                     style={{ width: "100%" }}
                   >
-                    <OptGroup label="Công ty">
+                    <OptGroup
+                      label={
+                        <IntlMessages id="home.settings.notification.whatreceive.company" />
+                      }
+                    >
                       <Option value="company">
-                        Làm việc tại công ty, doanh nghiệp du lịch hoặc các đơn
-                        vị truyền thông về du lịch
+                        <IntlMessages id="account.personal.select.company" />
                       </Option>
                     </OptGroup>
-                    <OptGroup label="Đơn vị đặc thù">
+                    <OptGroup
+                      label={
+                        <IntlMessages id="account.personal.special.unit" />
+                      }
+                    >
                       <Option value="social">
-                        Làm việc tại các tổ chức xã hội nghề nghiệp và du lịch
+                        <IntlMessages id="account.personal.select.social" />
                       </Option>
                       <Option value="journalist">
-                        Làm việc tại các đơn vị báo chí
+                        <IntlMessages id="account.personal.select.journalist" />
                       </Option>
                       <Option value="government">
-                        Làm việc tại các cơ quan quản lý nhà nước
+                        <IntlMessages id="account.personal.select.government" />
                       </Option>
                       <Option value="embassy">
-                        Làm việc tại Đại sứ quán/Lãnh sự quán
+                        <IntlMessages id="account.personal.select.embassy" />
                       </Option>
                     </OptGroup>
-                    <OptGroup label="Khác">
+                    <OptGroup label={<IntlMessages id="other" />}>
                       <Option value="tourguide">
-                        Là hướng dẫn viên du lịch
+                        <IntlMessages id="account.personal.select.tourguide" />
                       </Option>
                       <Option value="student">
-                        Là sinh viên ngành du lịch
+                        <IntlMessages id="account.personal.select.studen" />
                       </Option>
                     </OptGroup>
                   </Select>
@@ -386,27 +416,49 @@ class Company extends Component {
               {this.state.typeAccount === "company" ? (
                 <Fragment>
                   <Form>
-                    <FormItem {...formItemLayout} label="Quốc gia: ">
+                    <FormItem
+                      {...formItemLayout}
+                      label={
+                        <IntlMessages id="account.profile.edit.information.address.update.companynation" />
+                      }
+                    >
                       {getFieldDecorator("company_national", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company national!"
+                            message: <IntlMessages id="rule.nation.text" />
                           }
                         ]
                       })(
                         <Select
                           placeholder="Quốc gia"
                           disabled={this.state.visibleSearch}
-                          defaultValue="vn"
+                          defaultValue="VN"
                           style={{ width: "100%" }}
                         >
-                          <OptGroup label="Châu Á">
-                            <Option value="vn">Việt Nam</Option>
-                            <Option value="jp">Nhật Bản</Option>
+                          <OptGroup label={<IntlMessages id="asian" />}>
+                            <Option value="VN">
+                              <IntlMessages id="nation.vietnam" />
+                            </Option>
+                            <Option value="JP">
+                              <IntlMessages id="nation.japan" />
+                            </Option>
+                            <Option value="CN">
+                              <IntlMessages id="nation.china" />
+                            </Option>
+                            <Option value="KR">
+                              <IntlMessages id="nation.korea" />
+                            </Option>
                           </OptGroup>
-                          <OptGroup label="Châu Âu">
-                            <Option value="fi">Pháp</Option>
+                          <OptGroup label={<IntlMessages id="Europe" />}>
+                            <Option value="ENG">
+                              <IntlMessages id="nation.england" />
+                            </Option>
+                          </OptGroup>
+                          <OptGroup label={<IntlMessages id="Americas" />}>
+                            <Option value="USA">
+                              <IntlMessages id="nation.america" />
+                            </Option>
                           </OptGroup>
                         </Select>
                       )}

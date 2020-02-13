@@ -13,7 +13,7 @@ import {
 } from "antd";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import IntlMessages from "util/IntlMessages";
-import { doneChange, failChange } from "util/Notification";
+import { doneChange } from "util/Notification";
 const { Panel } = Collapse;
 const { Sider, Content } = Layout;
 const customPanelStyle = {
