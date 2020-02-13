@@ -42,5 +42,28 @@ export const notiChange = (type, mess) => {
       });
   }
 };
+export const notificationPop = (type, mess, desc) => {
+  let typePick = type ? type : "success";
+
+  switch (typePick) {
+    case typePick === "success":
+      return notification[typePick]({
+        message: mess,
+        description: desc
+      });
+
+    case typePick === "error":
+      return notification[typePick]({
+        message: mess,
+        description: desc
+      });
+
+    default:
+      return notification[typePick]({
+        message: mess,
+        description: desc
+      });
+  }
+};
 
 export default doneChange;

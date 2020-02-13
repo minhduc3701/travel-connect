@@ -7,7 +7,7 @@ class Navigation extends Component {
   render() {
     return (
       <div
-        className="block-w-nb block__nav__anchor"
+        className="block-w-nb block__nav__anchor m-b-0-i"
         style={{ borderTop: "1px solid #00000020" }}
       >
         <Menu mode="horizontal" className="bor-b-0">

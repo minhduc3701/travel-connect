@@ -91,13 +91,13 @@ class ProfileUpdate extends Component {
       <Fragment>
         {Account.company_name ? (
           <div className="gx-profile-content">
-            <div className="block-w ">
+            <div className="block_shadow ">
               <Banner profile={Account} />
               <Navigation />
             </div>
             <Row className="m-t-3-i">
               <Col xl={16} lg={16} md={24} sm={24} xs={24}>
-                <div className="block-w">
+                <div className="block_shadow">
                   <About profile={Account} />
                   <Biography profile={Account} />
                   <Contact profile={Account} />
@@ -114,7 +114,7 @@ class ProfileUpdate extends Component {
                 </div>
               </Col>
               <Col xl={8} lg={8} md={24} sm={24} xs={24}>
-                <div className="block-w">
+                <div className="block_shadow">
                   {warning}
                   <Cerfiticated />
                   <StaticticGuest profile={Account} />
@@ -126,8 +126,8 @@ class ProfileUpdate extends Component {
             </Row>
           </div>
         ) : (
-          <CircularProgress />
-        )}
+            <CircularProgress />
+          )}
       </Fragment>
     );
   }

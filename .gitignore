@@ -84,3 +84,5 @@ yarn.lock
 firebase.json
 .firebaserc
 .firebase 
+
+src/components/Layout

@@ -6,7 +6,7 @@ import IntlMessages from "util/IntlMessages";
 class AccountPackage extends React.Component {
   render() {
     return (
-      <div className="block-w">
+      <div className="block_shadow">
         <WidgetHeader
           title={<IntlMessages id="home.settings.packageaccount" />}
         />

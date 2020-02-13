@@ -7,7 +7,7 @@ import IntlMessage from "util/IntlMessages";
 class StaticticGuest extends React.Component {
   render() {
     return (
-      <div className="block-w">
+      <div className="block_shadow">
         <WidgetHeader
           title={
             <div>

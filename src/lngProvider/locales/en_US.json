@@ -728,6 +728,8 @@
   "general.default.account.membermanagement": "Member Management",
   "general.default.account.upgradeaccount": "Upgrade Account",
   "general.default.event": "Event",
+  "general.default.event.dashboard": "Dashboard",
+  "general.default.event.list": "List Events",
   "general.default.community": "Community",
   "general.default.businessmatching": "Business Matching",
   "general.default.businessmatching.findpartner": "Find Partner",
@@ -956,6 +958,7 @@
   "account.profile.edit.about.update.guide": "* This information has been verified. If you want to edit, enter the information you want to edit into the form and click on the SEND REQUEST button *",
 
   "__event": "------------------------------------------------------------------------------------",
+
   "__community": "------------------------------------------------------------------------------------",
   "__businessMatching": "------------------------------------------------------------------------------------",
   "__b2b": "------------------------------------------------------------------------------------",

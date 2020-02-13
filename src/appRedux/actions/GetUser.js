@@ -27,6 +27,12 @@ export const getUserData = () => {
       )
       .then(res => {
         localStorage.setItem("user_info", JSON.stringify(res.data));
+        localStorage.setItem(
+          "user_id",
+          document.cookie
+            .split(";")
+            [1 - document.cookie.indexOf("user_id")].split("=")[1]
+        );
       })
       .then(res => {
         dispatch({
