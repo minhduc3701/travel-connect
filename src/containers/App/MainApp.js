@@ -8,7 +8,7 @@ import InsideHeader from "../Topbar/InsideHeader/index";
 import AboveHeader from "../Topbar/AboveHeader/index";
 import BelowHeader from "../Topbar/BelowHeader/index";
 import Topbar from "../Topbar/index";
-import { footerText } from "../../components/Layout/Footer/config";
+import { footerText } from "components/Layout/Footer/config";
 import App from "routes/index";
 import { connect } from "react-redux";
 import {

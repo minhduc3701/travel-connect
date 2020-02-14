@@ -19,7 +19,7 @@ import {
 import Permission from "./permission";
 import IntlMessages from "util/IntlMessages";
 import UploadPicture from "./Avatar";
-import { doneChange, failChange, notiChange } from "util/Notification";
+import { doneChange, notiChange } from "util/Notification";
 
 const { Search } = Input;
 const FormItem = Form.Item;
@@ -153,9 +153,7 @@ class Dynamic extends React.Component {
     doneChange();
   };
 
-  cancel = e => {
-    failChange();
-  };
+  cancel = e => {};
 
   setSearch = value => {
     message.info(value);
@@ -241,7 +239,7 @@ class Dynamic extends React.Component {
         render: (text, record) => (
           <span>
             <span className="gx-link" onClick={this.showModal2}>
-              <Tooltip placement="topLeft" title="Edit">
+              <Tooltip placement="topLeft" title={<IntlMessages id="edit" />}>
                 <Icon type="edit" theme="filled" /> <IntlMessages id="edit" />
               </Tooltip>
             </span>
@@ -252,7 +250,7 @@ class Dynamic extends React.Component {
               <Popconfirm
                 onConfirm={this.confirm}
                 onCancel={this.cancel}
-                title="Are you sure lock this employee. This will prevent this account to log in ?"
+                title={<IntlMessages id="management.member.lock.title" />}
               >
                 <Tooltip
                   placement="topLeft"
@@ -260,7 +258,7 @@ class Dynamic extends React.Component {
                 >
                   <span style={{ color: "red" }}>
                     <Icon type="lock" theme="filled" />{" "}
-                    <IntlMessages id="lock" />
+                    <IntlMessages id="management.member.lock" />
                   </span>
                 </Tooltip>
               </Popconfirm>
@@ -269,7 +267,7 @@ class Dynamic extends React.Component {
               <Popconfirm
                 onConfirm={this.confirm}
                 onCancel={this.cancel}
-                title="Are you sure delete this employee ?"
+                title={<IntlMessages id="deleteConfirm.employee" />}
               >
                 <Tooltip
                   placement="topLeft"
@@ -277,7 +275,7 @@ class Dynamic extends React.Component {
                 >
                   <span style={{ color: "red" }}>
                     <Icon type="delete" theme="filled" />{" "}
-                    <IntlMessages id="delete" />
+                    <IntlMessages id="button.delete" />
                   </span>
                 </Tooltip>
               </Popconfirm>
@@ -288,32 +286,44 @@ class Dynamic extends React.Component {
     ];
 
     return (
-      <Card className="block_shadow-i" title={<IntlMessages id="sidebar.home.membermanagement" />}>
-        <Badge count={0}>
-          <Button type="primary" onClick={this.showModal}>
-            <IntlMessages id="newemployee" />
-          </Button>
-        </Badge>
-        <Search
-          style={{ width: "40%", float: "right" }}
-          placeholder="Search"
-          onSearch={value => this.setSearch(value)}
-          enterButton
-        />
+      <Card
+        className="block_shadow-i"
+        title={<IntlMessages id="sidebar.home.membermanagement" />}
+      >
+        <Row>
+          <Col xl={12} lg={12} md={24} sm={24} xs={24}>
+            <Badge count={0}>
+              <Button type="primary" onClick={this.showModal}>
+                <IntlMessages id="newemployee" />
+              </Button>
+            </Badge>
+          </Col>
+          <Col xl={12} lg={12} md={24} sm={24} xs={24}>
+            <Search
+              style={{ float: "right" }}
+              placeholder="Search"
+              onSearch={value => this.setSearch(value)}
+              enterButton
+            />
+          </Col>
+        </Row>
 
-        <Table
-          bordered={true}
-          className=" gx-table-no-bordered"
-          {...this.state}
-          columns={columns}
-          dataSource={data}
-          onChange={this.handleChange}
-        />
+        <div style={{ overflow: "auto" }}>
+          <Table
+            bordered={true}
+            className=" gx-table-no-bordered"
+            {...this.state}
+            columns={columns}
+            dataSource={data}
+            onChange={this.handleChange}
+          />
+        </div>
 
         {this.state.visible ? (
           <Modal
             visible={this.state.visible}
             title={<IntlMessages id="newemployee" />}
+            onCancel={this.handleCancel}
             width={800}
             footer={null}
           >
@@ -400,7 +410,10 @@ class Dynamic extends React.Component {
                       ]
                     })(<Switch />)}
                   </FormItem>
-                  <FormItem {...formItemLayout} label="Avatar">
+                  <FormItem
+                    {...formItemLayout}
+                    label={<IntlMessages id="avatar" />}
+                  >
                     {getFieldDecorator("employee_avatar", {
                       rules: [
                         {
@@ -424,14 +437,14 @@ class Dynamic extends React.Component {
                   onClick={this.handleCancel}
                   style={{ marginBottom: "0 !important" }}
                 >
-                  Return
+                  <IntlMessages id="general.btn.return" />
                 </Button>
                 <Button
                   htmlType="submit"
                   type="primary"
                   style={{ marginBottom: "0 !important" }}
                 >
-                  Complete
+                  <IntlMessages id="complete" />
                 </Button>
               </div>
             </Form>
@@ -440,7 +453,8 @@ class Dynamic extends React.Component {
         {this.state.visible2 ? (
           <Modal
             visible={this.state.visible2}
-            title="Edit employee"
+            title={<IntlMessages id="edit" />}
+            onCancel={this.handleCancel}
             width={600}
             footer={null}
           >
@@ -486,8 +500,7 @@ class Dynamic extends React.Component {
 
                 <br />
                 <span className="gx-text-grey">
-                  Nếu bật, thông tin liên hệ của nhân viên này sẽ được hiển thị
-                  trên doanh nghiệp
+                  <IntlMessages id="management.member.display.employee" />
                 </span>
               </FormItem>
               <div
@@ -502,14 +515,14 @@ class Dynamic extends React.Component {
                   onClick={this.handleCancel}
                   style={{ marginBottom: "0 !important" }}
                 >
-                  Return
+                  <IntlMessages id="general.btn.return" />
                 </Button>
                 <Button
                   htmlType="submit"
                   type="primary"
                   style={{ marginBottom: "0 !important" }}
                 >
-                  Complete
+                  <IntlMessages id="complete" />
                 </Button>
               </div>
             </Form>
