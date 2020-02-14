@@ -29,10 +29,6 @@ class Profile extends Component {
     load: true
   };
 
-  componentWillMount() {
-    this.props.actFetchDataAgain();
-  }
-
   componentDidMount() {
     setTimeout(() => {
       this.setState({
@@ -45,6 +41,7 @@ class Profile extends Component {
     let { Account } = this.props.profile;
     let warning = null;
     let requests = null;
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
     isLoaded(this.props.profileData) &&
       this.props.profileData.forEach(doc => {
         requests = {
@@ -96,7 +93,8 @@ class Profile extends Component {
 
     return (
       <Fragment>
-        {requests ? (
+        {!isLoaded(this.props.profileData) === false &&
+        user_info.company_id !== "" ? (
           <div className="gx-profile-content">
             <div className="block_shadow ">
               <Banner profile={requests} />
@@ -131,11 +129,11 @@ class Profile extends Component {
               </Col>
             </Row>
           </div>
-        ) : requests === null && this.state.load === false ? (
+        ) : user_info.company_id === "" && this.state.load === false ? (
           <Result
             status="500"
             title="Không tìm thấy hồ sơ công ty!"
-            subTitle="Kết nối của bạn gặp vấn đề. Hãy kiểm tra lại kết nối!"
+            subTitle="Kết nối của bạn gặp vấn đề hoặc tài khoản của bạn chưa có công ty. Hãy kiểm tra lại!"
             extra={
               <Link to={{ pathname: "/profile" }}>
                 <Button type="primary">Thử lại</Button>

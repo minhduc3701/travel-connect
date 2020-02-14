@@ -1020,5 +1020,6 @@
   "management.member.permission.product2": "Create, Edit and Remove product account created",
   "management.member.permission.buy": "Allow buy product from other company",
   "management.member.permission.sell": "Allow transaction sell products of company for other company",
-  "management.member.hide.text": "This employee is not displayed on company's contact info"
+  "management.member.hide.text": "This employee is not displayed on company's contact info",
+  "update.profile": "Update profile"
 }

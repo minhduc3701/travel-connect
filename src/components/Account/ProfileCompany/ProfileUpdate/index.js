@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Col, Row } from "antd";
+import { Col, Row, Button, Result } from "antd";
 import Banner from "./Blocks/Banner";
 import Biography from "./Blocks/Biography";
 import About from "./Blocks/About";
@@ -20,13 +20,14 @@ import CircularProgress from "../../../GlobalComponent/CircularProgress";
 import { actFetchActionRequest } from "appRedux/actions/Account";
 import Cerfiticated from "./Blocks/Cerfiticated";
 import {
-  actSaveIntroRequest,
-  actSaveSocialRequest,
-  actSaveWebsiteRequest,
-  actSaveAddressRequest,
+  actSaveIntroRequestSDK,
+  actSaveSocialRequestSDK,
+  actSaveWebsiteRequestSDK,
+  actSaveAddressRequestSDK,
   actCleanReduxStore
 } from "../../../../appRedux/actions/CompanyProfile";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
+import { Link } from "react-router-dom";
 import { compose } from "redux";
 
 class ProfileUpdate extends Component {
@@ -40,6 +41,7 @@ class ProfileUpdate extends Component {
 
   componentWillUnmount() {
     let { CompanyProfile } = this.props.profile;
+    console.log(CompanyProfile);
     if (CompanyProfile[0]) {
       this.props.actSendIntroToServer(CompanyProfile[0]);
     }
@@ -80,6 +82,7 @@ class ProfileUpdate extends Component {
   render() {
     let warning = null;
     let requests = null;
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
     isLoaded(this.props.profileData) &&
       this.props.profileData.forEach(doc => {
         requests = {
@@ -130,7 +133,8 @@ class ProfileUpdate extends Component {
     }
     return (
       <Fragment>
-        {requests ? (
+        {!isLoaded(this.props.profileData) === false &&
+        user_info.company_id !== "" ? (
           <div className="gx-profile-content">
             <div className="block_shadow ">
               <Banner profile={requests} />
@@ -166,6 +170,17 @@ class ProfileUpdate extends Component {
               </Col>
             </Row>
           </div>
+        ) : user_info.company_id === "" && this.state.load === false ? (
+          <Result
+            status="500"
+            title="Không tìm thấy hồ sơ công ty!"
+            subTitle="Kết nối của bạn gặp vấn đề hoặc tài khoản của bạn chưa có công ty. Hãy kiểm tra lại!"
+            extra={
+              <Link to={{ pathname: "/profile" }}>
+                <Button type="primary">Thử lại</Button>
+              </Link>
+            }
+          />
         ) : (
           <CircularProgress />
         )}
@@ -185,16 +200,16 @@ const mapStateToProps = state => {
 const mapDispatchToProp = (dispatch, props) => {
   return {
     actSendIntroToServer: intro => {
-      dispatch(actSaveIntroRequest(intro));
+      dispatch(actSaveIntroRequestSDK(intro));
     },
     actSendSocialToServer: social => {
-      dispatch(actSaveSocialRequest(social));
+      dispatch(actSaveSocialRequestSDK(social));
     },
     actSendWebsiteToServer: website => {
-      dispatch(actSaveWebsiteRequest(website));
+      dispatch(actSaveWebsiteRequestSDK(website));
     },
     actSendAddressToServer: address => {
-      dispatch(actSaveAddressRequest(address));
+      dispatch(actSaveAddressRequestSDK(address));
     },
     actCleanStore: () => {
       dispatch(actCleanReduxStore());

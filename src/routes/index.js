@@ -86,6 +86,18 @@ const App = ({ match }) => (
           )}
         />
         <Route
+          path={`${match.url}profile`}
+          component={asyncComponent(() =>
+            import("../components/BreadCrumbNav/Account/Profile")
+          )}
+        />
+        <Route
+          path={`${match.url}profile/update`}
+          component={asyncComponent(() =>
+            import("../components/BreadCrumbNav/Account/Profile")
+          )}
+        />
+        <Route
           path={`${match.url}verification`}
           component={asyncComponent(() =>
             import(

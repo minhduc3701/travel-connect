@@ -35,7 +35,6 @@ const btn_notification_menu = (
 class Banner extends Component {
   render() {
     let { profile } = this.props;
-    // let { Account } = profile.profile;
     return (
       <div className="m-b-5 ">
         <div className="aspect_box">

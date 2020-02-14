@@ -2,6 +2,7 @@ import React from "react";
 import { Table } from "antd";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import IntlMessages from "util/IntlMessages";
+import logo from "assets/images/placeholder.jpg";
 
 const Contact = props => {
   let { company_contacts } = props.profile;
@@ -15,8 +16,10 @@ const Contact = props => {
           <div className="gx-flex-row gx-align-items-center">
             <img
               className="gx-rounded-circle gx-size-30 gx-mr-2"
-              src={company_contacts.mLogo}
-              alt=""
+              src={
+                company_contacts.mLogo === "" ? logo : company_contacts.mLogo
+              }
+              alt={company_contacts.mName}
             />
             <p className="gx-mb-0">{company_contacts.mName}</p>
           </div>

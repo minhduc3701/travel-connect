@@ -25,33 +25,33 @@ const formItemLayout = {
 const Option = Select.Option;
 const residences = [
   {
-    value: "hanoi",
+    value: "Hà Nội",
     label: "Hà Nội",
     children: [
       {
-        value: "dongda",
+        value: "Đống Đa",
         label: "Đống Đa"
       },
       {
-        value: "caugiay",
+        value: "Cầu giấy",
         label: "Cầu giấy"
       },
       {
-        value: "hoangmai",
+        value: "Hoàng Mai",
         label: "Hoàng Mai"
       }
     ]
   },
   {
-    value: "saigon",
+    value: "Hồ Chí Minh",
     label: "Hồ Chí Minh",
     children: [
       {
-        value: "quan1",
+        value: "Quận 1",
         label: "Quận 1"
       },
       {
-        value: "quan2",
+        value: "Quận 2",
         label: "Quận 2"
       }
     ]
