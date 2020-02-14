@@ -455,7 +455,7 @@ class Personal extends Component {
                       <IntlMessages id="account.complete.profile.type.company.text" />
                     }
                   >
-                    <Radio value="company">
+                    <Radio value="create-company">
                       <IntlMessages id="account.complete.profile.type.company" />
                     </Radio>
                   </Tooltip>

@@ -945,5 +945,6 @@
   "management.member.permission.product1": "Tạo, sửa và hủy sản phẩm",
   "management.member.permission.product2": "Tạo sản phẩm, chỉ sửa và hủy những sản phẩm mà tài khoản tạo",
   "management.member.permission.buy": "Được mua sản phẩm của công ty khác trên sàn",
-  "management.member.permission.sell": "Được tham gia vào giao dịch bán các sản phẩm của công ty chủ quản cho các doanh nghiệp khác"
+  "management.member.permission.sell": "Được tham gia vào giao dịch bán các sản phẩm của công ty chủ quản cho các doanh nghiệp khác",
+  "update.profile": "Cập nhật hồ sơ"
 }

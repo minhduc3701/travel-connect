@@ -12,10 +12,6 @@ import { CallApi_ACCOUNT } from "util/CallApi";
 import firebaseAcc from "firebase/firebaseAcc";
 import { notificationPop } from "util/Notification";
 
-let cok = document.cookie;
-let Token = cok.split(";");
-let tokenID = Token[1].split("=");
-let userId = tokenID[1];
 // Intro
 export const actSaveIntro = intro => {
   return {
@@ -141,6 +137,7 @@ export const actChangeLogo = logo => {
 
 //create complete user profile account
 export const SendDataUserSDK = data => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
   let userData = {
     name: data.name,
     birth: data.birth,
@@ -194,7 +191,7 @@ export const SendDataUserSDK = data => {
     firebaseAcc
       .firestore()
       .collection("users")
-      .doc(userId)
+      .doc(uId.user_id)
       .set(userData)
       .then(docRef => {
         let user_info = JSON.parse(localStorage.getItem("user_info"));
@@ -275,7 +272,15 @@ export const CreateCompanySDK = data => {
     comments: [],
     communities: [],
     confirm: "",
-    contacts: [],
+    contacts: [
+      {
+        mId: uId.user_id,
+        mJob: "CEO",
+        mLogo: uId.user_logo,
+        mName: uId.user_name,
+        mStatus: true
+      }
+    ],
     deal: 0,
     events: [],
     fb: "",
@@ -354,6 +359,88 @@ export const VerifyCompanySDK = data => {
           "Gửi yêu cầu xác minh thành công!",
           "Bạn đã gửi yêu cầu xác minh thông tin công ty thành công! Ban quản trị sẽ kiểm tra thông tin và xác minh sớm nhất"
         );
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+export const actSaveIntroRequestSDK = intro => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  let introData = {
+    introduction: intro
+  };
+  return dispatch => {
+    firebaseAcc
+      .firestore()
+      .collection("companies")
+      .doc(uId.company_id)
+      .update(introData)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+export const actSaveSocialRequestSDK = social => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  let socialData = {
+    fb: social.company_fb,
+    gitlab: social.company_gitlab,
+    skype: social.company_skype,
+    linkedin: social.company_linkedin
+  };
+  return dispatch => {
+    firebaseAcc
+      .firestore()
+      .collection("companies")
+      .doc(uId.company_id)
+      .update(socialData)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+export const actSaveWebsiteRequestSDK = website => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  let websiteData = {
+    website: website.company_website
+  };
+  return dispatch => {
+    firebaseAcc
+      .firestore()
+      .collection("companies")
+      .doc(uId.company_id)
+      .update(websiteData)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+export const actSaveAddressRequestSDK = address => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  let addressData = {
+    address: address.company_address,
+    city: address.company_city,
+    district: address.company_district,
+    nation: address.company_nation
+  };
+  return dispatch => {
+    firebaseAcc
+      .firestore()
+      .collection("companies")
+      .doc(uId.company_id)
+      .update(addressData)
+      .then(res => {
+        console.log(res);
       })
       .catch(err => {
         console.log(err);
