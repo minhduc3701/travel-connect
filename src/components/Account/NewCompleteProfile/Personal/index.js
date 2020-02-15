@@ -195,11 +195,29 @@ class Personal extends Component {
       .then(res => {
         if (res) {
           firebase
-            .firestore()
-            .collection("users")
-            .doc(user_info.user_id)
-            .update({
-              imageUrl: `${res.metadata.fullPath}`
+            .storage()
+            .ref(res.metadata.fullPath)
+            .getDownloadURL()
+            .then(url => {
+              firebase
+                .firestore()
+                .collection("users")
+                .doc(user_info.user_id)
+                .update({
+                  imageUrl: url
+                });
+              let data = {
+                user_logo: url
+              };
+              for (const logo in data) {
+                for (const info in user_info) {
+                  if (logo === info) {
+                    user_info[info] = data[logo];
+                  }
+                }
+              }
+              localStorage.removeItem("user_info");
+              localStorage.setItem("user_info", JSON.stringify(user_info));
             });
         }
       })

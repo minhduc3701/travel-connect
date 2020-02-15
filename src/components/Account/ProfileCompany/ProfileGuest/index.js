@@ -16,7 +16,6 @@ import StaticticGuest from "./Blocks/StaticticGuest";
 import { friendList } from "./data";
 import { connect } from "react-redux";
 import CircularProgress from "../../../GlobalComponent/CircularProgress";
-import { actFetchActionRequest } from "appRedux/actions/Account";
 import { Link } from "react-router-dom";
 import Cerfiticated from "./Blocks/Cerfiticated";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
@@ -28,10 +27,6 @@ class Profile extends Component {
     loading: null,
     load: true
   };
-
-  componentWillMount() {
-    this.props.actFetchDataAgain();
-  }
 
   componentDidMount() {
     setTimeout(() => {
@@ -158,14 +153,6 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProp = (dispatch, props) => {
-  return {
-    actFetchDataAgain: () => {
-      dispatch(actFetchActionRequest());
-    }
-  };
-};
-
 export default compose(
   firestoreConnect(props => {
     let { params } = props.match;
@@ -177,5 +164,5 @@ export default compose(
       }
     ];
   }),
-  connect(mapStateToProps, mapDispatchToProp)
+  connect(mapStateToProps, null)
 )(Profile);
