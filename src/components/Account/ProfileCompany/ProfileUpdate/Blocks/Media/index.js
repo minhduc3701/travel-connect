@@ -7,6 +7,7 @@ import IntlMessages from "util/IntlMessages";
 import Photos from "./Photos";
 import { connect } from "react-redux";
 import { actSaveMedia } from "appRedux/actions/CompanyProfile";
+import firebase from "firebase/firebaseAcc";
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -32,7 +33,7 @@ class Media extends Component {
     if (Array.isArray(e)) {
       return e;
     }
-    return e && e.fileList1;
+    return e && e.fileList;
   };
 
   handleCancel = () => this.setState({ previewVisible: false });
@@ -60,6 +61,33 @@ class Media extends Component {
 
   onDoneChangeMedia = () => {
     this.props.onSendDataStore(this.state.file);
+    this.onUploadImage();
+  };
+
+  onUploadImage = async () => {
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    await this.state.fileList.forEach(fileItem => {
+      firebase
+        .storage()
+        .ref(`/${user_info.user_id}/${Date.now().toString()}`)
+        .put(fileItem)
+        .then(res => {
+          if (res) {
+            firebase
+              .firestore()
+              .collection("companies")
+              .doc(user_info.company_id)
+              .update({
+                medias: firebase.firestore.FieldValue.arrayUnion(
+                  res.metadata.fullPath
+                )
+              });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
   };
 
   render() {
@@ -130,20 +158,14 @@ class Media extends Component {
             ) : (
               <p>Album media is empty!</p>
             )}
-            {/* <p className="gx-text-primary gx-fs-md gx-pointer gx-d-block text-align-right">
-                                    Go to gallery
-                                    <i className={`icon icon-long-arrow-right gx-fs-xxl gx-ml-2 gx-d-inline-flex gx-vertical-align-middle`} />
-                                </p> */}
           </div>
         ) : (
           <div className="clearfix">
             <Upload
               {...props}
               listType="picture-card"
-              // fileList={profile.company_medias}
               fileList={fileList}
               onPreview={this.handlePreview}
-              // onChange={this.handleChange}
             >
               {fileList.length >= 8 ? null : uploadButton}
             </Upload>
@@ -171,7 +193,6 @@ class Media extends Component {
           ) : (
             <div className="d-inline-block">
               <Icon
-                onClick={() => this.onSendDataStore()}
                 className="size-4 cursor-pointer cursor-pointer--zoom"
                 type="check-circle"
               />{" "}

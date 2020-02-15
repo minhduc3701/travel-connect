@@ -2,23 +2,26 @@ import React from "react";
 import { Table } from "antd";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import IntlMessages from "util/IntlMessages";
+import logo from "assets/images/placeholder.jpg";
 
 const Contact = props => {
-  let { profile } = props;
+  let { company_contacts } = props.profile;
 
   const columns = [
     {
       title: <IntlMessages id="account.profile.contact.employee.name" />,
       dataIndex: "image",
-      render: (text, profile) => {
+      render: (text, company_contacts) => {
         return (
           <div className="gx-flex-row gx-align-items-center">
             <img
               className="gx-rounded-circle gx-size-30 gx-mr-2"
-              src={profile.member_logo}
-              alt=""
+              src={
+                company_contacts.mLogo === "" ? logo : company_contacts.mLogo
+              }
+              alt={company_contacts.mName}
             />
-            <p className="gx-mb-0">{profile.member_name}</p>
+            <p className="gx-mb-0">{company_contacts.mName}</p>
           </div>
         );
       }
@@ -26,8 +29,8 @@ const Contact = props => {
     {
       title: <IntlMessages id="account.profile.contact.employee.job" />,
       dataIndex: "transfer",
-      render: (text, profile) => {
-        return <span className="gx-text-grey">{profile.member_job}</span>;
+      render: (text, company_contacts) => {
+        return <span className="gx-text-grey">{company_contacts.mJob}</span>;
       }
     },
     {
@@ -54,7 +57,7 @@ const Contact = props => {
         <Table
           className="gx-table-no-bordered"
           columns={columns}
-          dataSource={profile.company_contacts}
+          dataSource={company_contacts}
           pagination={false}
           size="small"
         />

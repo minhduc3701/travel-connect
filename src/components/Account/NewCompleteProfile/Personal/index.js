@@ -21,6 +21,7 @@ import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import { Redirect } from "react-router-dom";
 import { SendDataUserSDK } from "appRedux/actions/CompanyProfile";
 import firebase from "firebase/firebaseAcc";
+import IntlMessages from "util/IntlMessages";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -237,37 +238,45 @@ class Personal extends Component {
         {this.state.companySelect ? (
           <Redirect to={`/${this.state.typeAccount}`} />
         ) : null}
-        <WidgetHeader title="Hồ sơ cá nhân" />
+        <WidgetHeader
+          title={
+            <IntlMessages id="home.settings.privacy.settings.viewmyprofile" />
+          }
+        />
         <Row className="p-v-6">
           <Col xl={8} lg={8} md={8} sm={24} xs={24}>
             <div style={{ padding: "1em" }}>
-              <h4 className="m-b-5"> Bao gồm các thông tin cơ bản: </h4>
+              <h4 className="m-b-5">
+                {" "}
+                <IntlMessages id="account.complete.profile.guide.title" />:{" "}
+              </h4>
               <p>
-                <Icon type="check-circle" /> Ảnh đại diện: Hình ảnh cá nhân
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="account.complete.profile.guide.avatar" />
               </p>
               <p>
-                <Icon type="check-circle" /> Họ và tên: Họ và tên đầy đủ của
-                người dùng
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="account.complete.profile.guide.name" />
               </p>
               <p>
-                <Icon type="check-circle" /> Giới tính: Giới tính được khai trên
-                chứng minh thư
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="account.complete.profile.guide.gender" />
               </p>
               <p>
-                <Icon type="check-circle" /> Số điện thoại: Số điện thoại liên
-                lạc thường dùng
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="account.complete.profile.guide.phone" />
               </p>
               <p>
-                <Icon type="check-circle" /> Quốc gia: Quốc gia hiện đang sinh
-                sống
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="account.complete.profile.guide.nation" />
               </p>
               <p>
-                <Icon type="check-circle" /> Quận/huyện: Quận/huyện hiện đang
-                sinh sống
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="account.complete.profile.guide.district" />
               </p>
               <p>
-                <Icon type="check-circle" /> Địa chỉ: Khu vực hiện đang sinh
-                sống
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="account.complete.profile.guide.address" />
               </p>
               <img
                 src="https://image.freepik.com/free-vector/character-illustration-people-with-packages-shipment_53876-59858.jpg"
@@ -282,89 +291,172 @@ class Personal extends Component {
               style={{ borderLeft: "1px solid #00000020" }}
             >
               {/* Avatar */}
-              <FormItem {...formItemLayout} label="Ảnh đại diện">
+              <FormItem
+                {...formItemLayout}
+                label={<IntlMessages id="home.settings.general.avatar" />}
+              >
                 {getFieldDecorator("user_logo", {
                   valuePropName: "fileList1",
                   getValueFromEvent: this.normFile
                 })(
                   <Upload customRequest={this.customUpload} {...props}>
                     <Button className="m-0-i">
-                      <Icon type="upload" /> Click to Upload
+                      <Icon type="upload" /> <IntlMessages id="clickToUpload" />
                     </Button>
                   </Upload>
                 )}
               </FormItem>
-              <FormItem {...formItemLayout} label="Họ và tên">
+              <FormItem
+                {...formItemLayout}
+                label={<IntlMessages id="employee.name" />}
+              >
                 {getFieldDecorator("user_name", {
-                  rules: [{ required: true, message: "Enter your username!" }],
+                  rules: [
+                    {
+                      required: true,
+                      message: <IntlMessages id="rule.name.text" />
+                    }
+                  ],
                   initialValue: userInfo.user_name
-                })(<Input placeholder="Họ và tên" />)}
+                })(<Input placeholder="Name" />)}
               </FormItem>
-              <FormItem {...formItemLayout} label="Ngày sinh">
+              <FormItem
+                {...formItemLayout}
+                label={<IntlMessages id="listTravelers.birthDay" />}
+              >
                 {getFieldDecorator("user_birth", {
                   rules: [
-                    { required: true, message: "Enter your date of birth!" }
+                    {
+                      required: true,
+                      message: <IntlMessages id="rule.birth.text" />
+                    }
                   ]
                 })(
                   <DatePicker
                     style={{ width: "100%" }}
-                    placeholder="Ngày sinh"
+                    placeholder="Birthday"
                     onChange={this.onChange}
                   />
                 )}
               </FormItem>
-              <FormItem {...formItemLayout} label="Giới tính">
+              <FormItem
+                {...formItemLayout}
+                label={<IntlMessages id="home.settings.general.gender" />}
+              >
                 {getFieldDecorator("user_gender", {
-                  rules: [{ required: true, message: "Select your gendar!" }]
+                  rules: [
+                    {
+                      required: true,
+                      message: <IntlMessages id="rule.gender.text" />
+                    }
+                  ]
                 })(
-                  <Select placeholder="Giới tính">
+                  <Select placeholder="Gender">
                     <Option value="male">Nam</Option>
                     <Option value="female">Nữ</Option>
                     <Option value="other">Khác</Option>
                   </Select>
                 )}
               </FormItem>
-              <FormItem {...formItemLayout} label="Số điện thoại">
+              <FormItem
+                {...formItemLayout}
+                label={<IntlMessages id="home.settings.general.tel" />}
+              >
                 {getFieldDecorator("user_phone", {
-                  rules: [{ required: true, message: "Enter your telephone!" }]
-                })(<Input name="telephone" placeholder="Số điện thoại" />)}
+                  rules: [
+                    {
+                      required: true,
+                      message: <IntlMessages id="rule.phone.text" />
+                    }
+                  ]
+                })(<Input name="telephone" placeholder="Phone number" />)}
               </FormItem>
-              <FormItem {...formItemLayout} label="Quốc gia">
+              <FormItem
+                {...formItemLayout}
+                label={
+                  <IntlMessages id="account.profile.edit.information.address.update.companynation" />
+                }
+              >
                 {getFieldDecorator("user_nation", {
-                  rules: [{ required: true, message: "Select your national!" }]
+                  rules: [
+                    {
+                      required: true,
+                      message: <IntlMessages id="rule.nation.text" />
+                    }
+                  ]
                 })(
-                  <Select name="national" showSearch placeholder="Quốc gia">
-                    <Option value="vn">Việt Nam</Option>
-                    <Option value="jp">Nhật bản</Option>
-                    <Option value="cn">Trung Quốc</Option>
+                  <Select name="national" showSearch placeholder="Nation">
+                    <Option value="VN">
+                      <IntlMessages id="nation.vietnam" />
+                    </Option>
+                    <Option value="JP">
+                      <IntlMessages id="nation.japan" />
+                    </Option>
+                    <Option value="CN">
+                      <IntlMessages id="nation.china" />
+                    </Option>
+                    <Option value="KR">
+                      <IntlMessages id="nation.korea" />
+                    </Option>
                   </Select>
                 )}
               </FormItem>
-              <FormItem {...formItemLayout} label="Quận/ Huyện">
+              <FormItem
+                {...formItemLayout}
+                label={
+                  <IntlMessages id="account.profile.edit.information.address.update.companydistrict" />
+                }
+              >
                 {getFieldDecorator("user_district", {
-                  rules: [{ required: true, message: "Select your district!" }]
+                  rules: [
+                    {
+                      required: true,
+                      message: <IntlMessages id="rule.district.text" />
+                    }
+                  ]
                 })(
                   <Cascader
                     name="district"
                     options={residences}
-                    placeholder="Quận/ Huyện"
+                    placeholder="District"
                   />
                 )}
               </FormItem>
-              <FormItem {...formItemLayout} label="Địa chỉ">
+              <FormItem
+                {...formItemLayout}
+                label={<IntlMessages id="step.information.address" />}
+              >
                 {getFieldDecorator("user_address", {
-                  rules: [{ required: true, message: "Enter your address!" }]
-                })(<Input name="address" placeholder="Địa chỉ" />)}
+                  rules: [
+                    {
+                      required: true,
+                      message: <IntlMessages id="rule.address.text" />
+                    }
+                  ]
+                })(<Input name="address" placeholder="Address" />)}
               </FormItem>
-              <FormItem {...formItemLayout} label="Kiểu tài khoản">
+              <FormItem
+                {...formItemLayout}
+                label={<IntlMessages id="account.complete.profile.type" />}
+              >
                 <Radio.Group onChange={this.onChangeRadio}>
-                  <Tooltip title="Cá nhân tham gia sử dụng dịch vụ của Travel Connect hoặc làm việc tại các đơn vị đặc thù">
-                    <Radio value="personal">Dành cho các cá nhân</Radio>
+                  <Tooltip
+                    title={
+                      <IntlMessages id="account.complete.profile.type.personal.text" />
+                    }
+                  >
+                    <Radio value="personal">
+                      <IntlMessages id="account.complete.profile.type.personal" />
+                    </Radio>
                   </Tooltip>
                   <br />
-                  <Tooltip title="Tạo công ty để hoạt động trên Travel Connect ( Yêu cầu đầy đủ thông tin, giấy phép,... )">
-                    <Radio value="company">
-                      Dành cho doanh công ty, doanh nghiệp
+                  <Tooltip
+                    title={
+                      <IntlMessages id="account.complete.profile.type.company.text" />
+                    }
+                  >
+                    <Radio value="create-company">
+                      <IntlMessages id="account.complete.profile.type.company" />
                     </Radio>
                   </Tooltip>
                 </Radio.Group>
@@ -384,7 +476,7 @@ class Personal extends Component {
                   htmlType="submit"
                   onClick={() => this.onUpload()}
                 >
-                  Next
+                  <IntlMessages id="button.next" />
                 </Button>
               </div>
             </Form>

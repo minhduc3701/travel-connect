@@ -34,17 +34,16 @@ const btn_notification_menu = (
 
 class Banner extends Component {
   render() {
-    let profile = this.props;
-    let { Account } = profile.profile;
+    let { profile } = this.props;
     return (
       <div className="m-b-5 ">
         <div className="aspect_box">
           <div className="aspect_box--inner aspect_box--retangle_1x4">
             <img
               src={
-                Account.company_background
-                  ? Account.company_background
-                  : Account.company_background === ""
+                profile.company_background
+                  ? profile.company_background
+                  : profile.company_background === ""
                   ? background
                   : background
               }
@@ -59,9 +58,9 @@ class Banner extends Component {
               <div className="aspect_box--inner aspect_box--square --circle block__banner__avatar--inner bg-color-white">
                 <img
                   src={
-                    Account.company_logo
-                      ? Account.company_logo
-                      : Account.company_logo === ""
+                    profile.company_logo
+                      ? profile.company_logo
+                      : profile.company_logo === ""
                       ? logo
                       : logo
                   }
@@ -76,19 +75,19 @@ class Banner extends Component {
                   <h5 className=" gx-text-grey m-b-0-i">
                     <Icon type="usergroup-add" className="p-r-1" />
                     368
-                    {/* {Account.company_followers} */}
+                    {/* {profile.company_followers} */}
                   </h5>
                   <h5 className=" gx-text-grey m-b-0-i">
                     <Icon type="eye" className="p-r-1" />
                     279
-                    {/* {Account.company_views} */}
+                    {/* {profile.company_views} */}
                   </h5>
                 </div>
               </div>
             </div>
           </Col>
           <Col xl={18} lg={18} md={24} sm={24} xs={24} className="pos-rel">
-            <Info Account={Account} />
+            <Info Account={profile} />
           </Col>
           <Col
             xl={24}
