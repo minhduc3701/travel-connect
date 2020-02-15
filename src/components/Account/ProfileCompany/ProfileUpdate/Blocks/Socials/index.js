@@ -1,5 +1,4 @@
 import React from "react";
-import doneChange from "util/Notification";
 import { Link } from "react-router-dom";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import { connect } from "react-redux";
@@ -19,7 +18,6 @@ class Socials extends React.Component {
 
   changeSocialsToEdit = () => {
     if (this.state.stt_socials === true) {
-      doneChange();
       this.setState({ stt_socials: false });
     }
     if (this.state.stt_socials === false) this.setState({ stt_socials: true });
