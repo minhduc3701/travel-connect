@@ -17,7 +17,7 @@ import { actUpdatePersonProfileRequest } from "appRedux/actions/Account";
 import { CreateUserWorkSDK } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import firebase from "firebase/firebaseAcc";
-import { HOME } from "components/Layout/Header/NavigateLink";
+// import { HOME } from "components/Layout/Header/NavigateLink";
 import IntlMessages from "util/IntlMessages";
 
 const Dragger = Upload.Dragger;
@@ -29,9 +29,7 @@ const formItemLayout = {
 };
 
 const Option = Select.Option;
-// const InputGroup = Input.Group;
 const { OptGroup } = Select;
-
 const residences = [
   {
     value: "Hà Nội",
@@ -101,10 +99,6 @@ class Company extends Component {
       if (!err) {
         this.setState(
           {
-            infoPerson: {
-              user_position: values.user_position ? values.user_position : "",
-              infoUnit: values ? values : ""
-            },
             personAccDetail: {
               companyName: values.company_name ? values.company_name : "",
               companyBrand: values.company_brandname
@@ -114,10 +108,11 @@ class Company extends Component {
                 ? values.company_address
                 : "",
               companyEmail: values.company_email ? values.company_email : "",
-              verifyPerson: values.user_verify ? values.user_verify : "",
+              // verifyPerson: values.user_verify ? values.user_verify : "",
               companyBusiness: values.company_business
                 ? [values.company_business]
                 : "",
+              companyPhone: values.company_phone ? [values.company_phone] : "",
               companyHeadquarters: values.company_headquarters
                 ? values.company_headquarters
                 : "",
@@ -129,7 +124,14 @@ class Company extends Component {
               specialized: values.user_specialized
                 ? values.user_specialized
                 : "",
-              position: values.user_position ? values.user_position : ""
+              companyCity: values.company_district
+                ? values.company_district[0]
+                : "",
+              companyDistrict: values.company_district
+                ? values.company_district[1]
+                : "",
+              position: values.user_position ? values.user_position : "",
+              type: this.state.typeAccount
             }
           },
           () => this.onSendDataPerson()
@@ -139,11 +141,7 @@ class Company extends Component {
   };
 
   onSendDataPerson = async () => {
-    let uId = JSON.parse(localStorage.getItem("user_info"));
-    await this.props.actSendDataCompanyUser(
-      this.state.personAccDetail,
-      uId.user_id
-    );
+    await this.props.actSendDataCompanyUser(this.state.personAccDetail);
   };
 
   onSelectType = e => {
@@ -155,6 +153,11 @@ class Company extends Component {
   onChoseCompany = e => {
     this.setState({
       typeCompany: e
+    });
+  };
+  onNotExist = e => {
+    this.setState({
+      notExist: !this.state.notExist
     });
   };
 
@@ -192,29 +195,10 @@ class Company extends Component {
                   .doc(user_info.user_id)
                   .update({
                     verifyPerson: firebase.firestore.FieldValue.arrayUnion(url)
-                  })
-                  .then(ress => {
-                    window.location.href = `${HOME}/home`;
                   });
               });
           }
         })
-        // .then(res => {
-        //   if (res) {
-        //     firebase
-        //       .firestore()
-        //       .collection("users")
-        //       .doc(user_info.user_id)
-        //       .update({
-        //         verifyPerson: firebase.firestore.FieldValue.arrayUnion(
-        //           res.metadata.fullPath
-        //         )
-        //       })
-        //       .then(ress => {
-        //         window.location.href = `${HOME}/home`;
-        //       });
-        //   }
-        // })
         .catch(err => {
           console.log(err);
         });
@@ -483,31 +467,8 @@ class Company extends Component {
                         </Select>
                       )}
                     </FormItem>
-                  </Form>
-                  {this.state.typeCompany === "other" &&
-                  this.state.notExist === false ? (
-                    <Form onSubmit={this.handleSubmitPerson}>
-                      <FormItem {...formItemLayout} label="Quốc gia: ">
-                        {getFieldDecorator("company_national", {
-                          rules: [
-                            {
-                              required: true,
-                              message: "Enter your company national!"
-                            }
-                          ]
-                        })(
-                          <Select defaultValue="vn" style={{ width: "100%" }}>
-                            <OptGroup label="Châu Á">
-                              <Option value="vn">Việt Nam</Option>
-                              <Option value="jp">Nhật Bản</Option>
-                            </OptGroup>
-                            <OptGroup label="Châu Âu">
-                              <Option value="fi">Pháp</Option>
-                            </OptGroup>
-                          </Select>
-                        )}
-                      </FormItem>
-                      <FormItem {...formItemLayout} label="Công ty: ">
+                    <FormItem {...formItemLayout} label="Công ty: ">
+                      <Fragment>
                         <InputGroup compact>
                           <Select style={{ width: "30%" }} defaultValue="name">
                             <Option value="name">Tên công ty</Option>
@@ -523,16 +484,20 @@ class Company extends Component {
                           })(<Input style={{ width: "50%" }} />)}
 
                           <Button
-                            style={{ width: "20%" }}
+                            style={{ width: "20%", margin: 0 }}
                             type="primary"
                             htmlType="submit"
                           >
                             Tìm kiếm
                           </Button>
                         </InputGroup>
-                      </FormItem>
-                    </Form>
-                  ) : null}
+                        <p className="gx-link" onClick={this.onNotExist}>
+                          Công ty tôi làm việc chưa tồn tại trên Travel Connect
+                        </p>
+                      </Fragment>
+                    </FormItem>
+                  </Form>
+
                   {this.state.typeCompany &&
                   this.state.typeCompany !== "other" &&
                   this.state.notExist === false ? (
@@ -713,7 +678,6 @@ class Company extends Component {
               ) : null}
               {this.state.typeAccount === "social" ? (
                 <div>
-                  {/* <p>Hãy cho chúng tôi công việc hiện tại của bạn</p> */}
                   <Form onSubmit={this.handleSubmitPerson}>
                     <FormItem {...formItemLayout} label="Tên tổ chức:">
                       {getFieldDecorator("company_name", {
@@ -1276,8 +1240,8 @@ const mapDispatchToProps = (dispatch, props) => {
     actSendDataToServer: profile => {
       dispatch(actUpdatePersonProfileRequest(profile));
     },
-    actSendDataCompanyUser: (data, id) => {
-      dispatch(CreateUserWorkSDK(data, id));
+    actSendDataCompanyUser: data => {
+      dispatch(CreateUserWorkSDK(data));
     }
   };
 };

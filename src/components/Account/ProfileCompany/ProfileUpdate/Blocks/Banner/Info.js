@@ -1,5 +1,5 @@
 import React from "react";
-import { doneChange, notiChange } from "util/Notification";
+import { notiChange } from "util/Notification";
 import {
   Col,
   Icon,
@@ -116,7 +116,6 @@ class Info extends React.Component {
   };
 
   handleOk = e => {
-    doneChange();
     this.setState({
       stt_address: false
     });
