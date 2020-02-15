@@ -69,18 +69,22 @@ class Media extends Component {
     await this.state.fileList.forEach(fileItem => {
       firebase
         .storage()
-        .ref(`/${user_info.user_id}/${Date.now().toString()}`)
+        .ref(`/${user_info.company_id}/${Date.now().toString()}`)
         .put(fileItem)
         .then(res => {
           if (res) {
             firebase
-              .firestore()
-              .collection("companies")
-              .doc(user_info.company_id)
-              .update({
-                medias: firebase.firestore.FieldValue.arrayUnion(
-                  res.metadata.fullPath
-                )
+              .storage()
+              .ref(res.metadata.fullPath)
+              .getDownloadURL()
+              .then(url => {
+                firebase
+                  .firestore()
+                  .collection("companies")
+                  .doc(user_info.company_id)
+                  .update({
+                    medias: firebase.firestore.FieldValue.arrayUnion(url)
+                  });
               });
           }
         })

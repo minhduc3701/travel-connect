@@ -147,7 +147,7 @@ export const SendDataUserSDK = data => {
     district: data.district,
     city: data.city,
     address: data.address,
-    imageUrl: data.logo,
+    imageUrl: "",
     verifyPerson: "",
     companyAddress: "",
     companyBrand: "",
@@ -203,8 +203,7 @@ export const SendDataUserSDK = data => {
           user_nation: data.nation,
           user_district: data.district,
           user_city: data.city,
-          user_address: data.address,
-          user_logo: data.logo
+          user_address: data.address
         };
 
         for (const item in userDetail) {
@@ -365,6 +364,7 @@ export const VerifyCompanySDK = data => {
       });
   };
 };
+
 export const actSaveIntroRequestSDK = intro => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   let introData = {
@@ -384,6 +384,7 @@ export const actSaveIntroRequestSDK = intro => {
       });
   };
 };
+
 export const actSaveSocialRequestSDK = social => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   let socialData = {
@@ -406,6 +407,7 @@ export const actSaveSocialRequestSDK = social => {
       });
   };
 };
+
 export const actSaveWebsiteRequestSDK = website => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   let websiteData = {
@@ -425,6 +427,7 @@ export const actSaveWebsiteRequestSDK = website => {
       });
   };
 };
+
 export const actSaveAddressRequestSDK = address => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   let addressData = {

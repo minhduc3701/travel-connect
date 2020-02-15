@@ -182,19 +182,39 @@ class Company extends Component {
         .then(res => {
           if (res) {
             firebase
-              .firestore()
-              .collection("users")
-              .doc(user_info.user_id)
-              .update({
-                verifyPerson: firebase.firestore.FieldValue.arrayUnion(
-                  res.metadata.fullPath
-                )
-              })
-              .then(ress => {
-                window.location.href = `${HOME}/home`;
+              .storage()
+              .ref(res.metadata.fullPath)
+              .getDownloadURL()
+              .then(url => {
+                firebase
+                  .firestore()
+                  .collection("users")
+                  .doc(user_info.user_id)
+                  .update({
+                    verifyPerson: firebase.firestore.FieldValue.arrayUnion(url)
+                  })
+                  .then(ress => {
+                    window.location.href = `${HOME}/home`;
+                  });
               });
           }
         })
+        // .then(res => {
+        //   if (res) {
+        //     firebase
+        //       .firestore()
+        //       .collection("users")
+        //       .doc(user_info.user_id)
+        //       .update({
+        //         verifyPerson: firebase.firestore.FieldValue.arrayUnion(
+        //           res.metadata.fullPath
+        //         )
+        //       })
+        //       .then(ress => {
+        //         window.location.href = `${HOME}/home`;
+        //       });
+        //   }
+        // })
         .catch(err => {
           console.log(err);
         });
