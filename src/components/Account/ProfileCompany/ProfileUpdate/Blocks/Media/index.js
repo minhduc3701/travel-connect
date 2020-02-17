@@ -3,8 +3,6 @@ import { Upload, Icon, Modal } from "antd";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import IntlMessages from "util/IntlMessages";
 import Photos from "./Photos";
-import { connect } from "react-redux";
-import { actSaveMedia } from "appRedux/actions/CompanyProfile";
 import firebase from "firebase/firebaseAcc";
 
 function getBase64(file) {
@@ -136,7 +134,6 @@ class Media extends Component {
         url: profile.company_medias[i]
       });
     }
-    console.log(imageList);
 
     return (
       <div className="block-w-nb" id="nav_media">
@@ -214,12 +211,4 @@ class Media extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    onSendDataStore: media => {
-      dispatch(actSaveMedia(media));
-    }
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Media);
+export default Media;

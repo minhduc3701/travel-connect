@@ -37,7 +37,6 @@ class Profile extends Component {
   }
 
   render() {
-    let { Account } = this.props.profile;
     let warning = null;
     let requests = null;
     isLoaded(this.props.profileData) &&
@@ -103,13 +102,9 @@ class Profile extends Component {
                   <About profile={requests} />
                   <Biography profile={requests} />
                   <Contact profile={requests} />
-                  {/* <Row>
-                     <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-                     <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-                   </Row> */}
                   <EventsBanner profile={requests} />
                   <PropertiesCard profile={requests} />
-                  {Account.company_rating > 0 ? (
+                  {requests.company_rating > 0 ? (
                     <Rating profile={requests} />
                   ) : null}
                 </div>

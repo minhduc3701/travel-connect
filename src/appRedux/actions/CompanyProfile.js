@@ -187,7 +187,7 @@ export const SendDataUserSDK = data => {
     website: "",
     zipcode: "",
     unitSuggest: [],
-    type:"basic"
+    type: "basic"
   };
   return dispatch => {
     firebaseAcc
@@ -229,7 +229,7 @@ export const SendDataUserSDK = data => {
   };
 };
 
-export const CreateUserWorkSDK = (data) => {
+export const CreateUserWorkSDK = data => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   return dispatch => {
     firebaseAcc
@@ -337,10 +337,24 @@ export const CreateCompanySDK = data => {
         localStorage.setItem("user_info", JSON.stringify(user_info));
         notificationPop(
           "success",
-          "Chỉnh sửa hành công!",
-          "Bạn đã tạo công ty thành công! Hãy tiếp tục xác minh công ty để được phê duyệt"
+          "Tạo công ty thành công!",
+          "Bạn đã tạo công ty thành công! Hãy tiếp tục xác minh công ty để được phê duyệt hoạt động tại Travel Connect"
         );
       })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
+export const PositionUserSDK = () => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  return dispatch => {
+    firebaseAcc
+      .firestore()
+      .collection("users")
+      .doc(uId.user_id)
+      .update({ position: "CEO" })
       .catch(err => {
         console.log(err);
       });
@@ -357,6 +371,13 @@ export const VerifyCompanySDK = data => {
       .doc(uId.company_id)
       .update(data)
       .then(res => {
+        for (const key in uId) {
+          if (key === "company_active") {
+            uId[key] = true;
+          }
+        }
+        localStorage.removeItem("user_info");
+        localStorage.setItem("user_info", JSON.stringify(uId));
         notificationPop(
           "success",
           "Gửi yêu cầu xác minh thành công!",
@@ -380,9 +401,6 @@ export const actSaveIntroRequestSDK = intro => {
       .collection("companies")
       .doc(uId.company_id)
       .update(introData)
-      .then(res => {
-        console.log(res);
-      })
       .catch(err => {
         console.log(err);
       });
@@ -403,9 +421,6 @@ export const actSaveSocialRequestSDK = social => {
       .collection("companies")
       .doc(uId.company_id)
       .update(socialData)
-      .then(res => {
-        console.log(res);
-      })
       .catch(err => {
         console.log(err);
       });
@@ -423,9 +438,6 @@ export const actSaveWebsiteRequestSDK = website => {
       .collection("companies")
       .doc(uId.company_id)
       .update(websiteData)
-      .then(res => {
-        console.log(res);
-      })
       .catch(err => {
         console.log(err);
       });
@@ -446,9 +458,6 @@ export const actSaveAddressRequestSDK = address => {
       .collection("companies")
       .doc(uId.company_id)
       .update(addressData)
-      .then(res => {
-        console.log(res);
-      })
       .catch(err => {
         console.log(err);
       });
