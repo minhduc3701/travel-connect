@@ -11,6 +11,7 @@ import {
 import { CallApi_ACCOUNT } from "util/CallApi";
 import firebaseAcc from "firebase/firebaseAcc";
 import { notificationPop } from "util/Notification";
+import { HOME } from "components/Layout/Header/NavigateLink";
 
 // Intro
 export const actSaveIntro = intro => {
@@ -147,7 +148,7 @@ export const SendDataUserSDK = data => {
     district: data.district,
     city: data.city,
     address: data.address,
-    imageUrl: data.logo,
+    imageUrl: "",
     verifyPerson: "",
     companyAddress: "",
     companyBrand: "",
@@ -185,7 +186,8 @@ export const SendDataUserSDK = data => {
     updateAt: "",
     website: "",
     zipcode: "",
-    unitSuggest: []
+    unitSuggest: [],
+    type:"basic"
   };
   return dispatch => {
     firebaseAcc
@@ -203,8 +205,7 @@ export const SendDataUserSDK = data => {
           user_nation: data.nation,
           user_district: data.district,
           user_city: data.city,
-          user_address: data.address,
-          user_logo: data.logo
+          user_address: data.address
         };
 
         for (const item in userDetail) {
@@ -228,7 +229,7 @@ export const SendDataUserSDK = data => {
   };
 };
 
-export const CreateUserWorkSDK = (data, id) => {
+export const CreateUserWorkSDK = (data) => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   return dispatch => {
     firebaseAcc
@@ -243,7 +244,9 @@ export const CreateUserWorkSDK = (data, id) => {
           "Bạn đã bổ sung thông tin cho tài khoản thành công !"
         );
       })
-
+      .then(ress => {
+        window.location.href = `${HOME}/home`;
+      })
       .catch(err => {
         console.log(err);
       });
@@ -365,10 +368,11 @@ export const VerifyCompanySDK = data => {
       });
   };
 };
+
 export const actSaveIntroRequestSDK = intro => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   let introData = {
-    introduction: intro
+    introduction: intro.company_introduction
   };
   return dispatch => {
     firebaseAcc
@@ -384,6 +388,7 @@ export const actSaveIntroRequestSDK = intro => {
       });
   };
 };
+
 export const actSaveSocialRequestSDK = social => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   let socialData = {
@@ -406,6 +411,7 @@ export const actSaveSocialRequestSDK = social => {
       });
   };
 };
+
 export const actSaveWebsiteRequestSDK = website => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   let websiteData = {
@@ -425,6 +431,7 @@ export const actSaveWebsiteRequestSDK = website => {
       });
   };
 };
+
 export const actSaveAddressRequestSDK = address => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   let addressData = {

@@ -4,7 +4,7 @@ import { Icon, Upload } from "antd";
 import { connect } from "react-redux";
 import { actChangeLogo } from "appRedux/actions/CompanyProfile";
 import { actSetNewAvatar } from "appRedux/actions/Account";
-import { CallApi_ACCOUNT } from "util/CallApi";
+import firebaseAcc from "firebase/firebaseAcc";
 import logo from "assets/images/travel-default-logo.png";
 
 class AvatarCompany extends Component {
@@ -17,18 +17,31 @@ class AvatarCompany extends Component {
   };
 
   onSendImageLogo = logo => {
-    let user = JSON.parse(localStorage.getItem("user_info"));
-    const formData = new FormData();
-    logo.forEach(file => {
-      formData.append("image-", file);
-    });
-    CallApi_ACCOUNT(`VN/companies/${user.company_id}/logos`, "PUT", formData)
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    firebaseAcc
+      .storage()
+      .ref(`/${user_info.company_id}/${Date.now().toString()}`)
+      .put(this.state.fileList[0])
       .then(res => {
-        if (res.data) {
-          this.props.actSaveLogoLocal(res.data.logo);
+        if (res) {
+          firebaseAcc
+            .storage()
+            .ref(res.metadata.fullPath)
+            .getDownloadURL()
+            .then(url => {
+              firebaseAcc
+                .firestore()
+                .collection("companies")
+                .doc(user_info.company_id)
+                .update({
+                  logo: url
+                });
+            });
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   render() {
