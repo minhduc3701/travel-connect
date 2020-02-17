@@ -12,7 +12,10 @@ import {
 } from "antd";
 import { connect } from "react-redux";
 import { actUpdatePersonProfileRequest } from "appRedux/actions/Account";
-import { CreateCompanySDK } from "appRedux/actions/CompanyProfile";
+import {
+  CreateCompanySDK,
+  PositionUserSDK
+} from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import { Redirect } from "react-router-dom";
 import firebase from "firebase/firebaseAcc";
@@ -114,7 +117,6 @@ class Company extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
         let establish = this.state.establish ? this.state.establish : "";
         this.setState(
           {
@@ -144,6 +146,7 @@ class Company extends Component {
 
   onSendDataPerson = async () => {
     await this.props.actCreateCompanySDK(this.state.company);
+    await this.props.actUpdatePositionSDK();
     this.setState({
       linkRe: true
     });
@@ -389,6 +392,9 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     actCreateCompanySDK: data => {
       dispatch(CreateCompanySDK(data));
+    },
+    actUpdatePositionSDK: data => {
+      dispatch(PositionUserSDK(data));
     }
   };
 };
