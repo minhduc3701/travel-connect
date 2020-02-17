@@ -151,6 +151,7 @@ export const SendDataUserSDK = data => {
     imageUrl: "",
     verifyPerson: "",
     companyAddress: "",
+    companyActive: false,
     companyBrand: "",
     companyBusiness: [],
     companyCity: "",
@@ -160,6 +161,7 @@ export const SendDataUserSDK = data => {
     companyName: "",
     companyNation: "",
     companyTarget: "",
+    companyActive: false,
     createAt: new Date().toISOString(),
     currency: "vnd",
     email: "",
@@ -264,7 +266,7 @@ export const CreateCompanySDK = data => {
     district: data.district,
     email: data.email,
     establish: data.establish,
-    licence: data.licence,
+    license: data.license,
     name: data.name,
     nation: data.nation,
     phone: data.phone,
@@ -324,7 +326,8 @@ export const CreateCompanySDK = data => {
           company_city: data.city,
           company_district: data.district,
           company_address: data.address,
-          company_business: data.business
+          company_business: data.business,
+          user_position: "CEO"
         };
         for (const item in newDataForLocal) {
           for (const info in user_info) {
@@ -384,6 +387,20 @@ export const VerifyCompanySDK = data => {
           "Bạn đã gửi yêu cầu xác minh thông tin công ty thành công! Ban quản trị sẽ kiểm tra thông tin và xác minh sớm nhất"
         );
       })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
+export const VerifyActiveSDK = () => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  return dispatch => {
+    firebaseAcc
+      .firestore()
+      .collection("users")
+      .doc(uId.user_id)
+      .update({ companyActive: true })
       .catch(err => {
         console.log(err);
       });

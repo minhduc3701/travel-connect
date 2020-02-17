@@ -4,7 +4,7 @@ import { Switch } from "react-router-dom";
 import { Route } from "react-router-dom";
 import asyncComponent from "util/asyncComponent";
 
-let user_info = JSON.parse(localStorage.getItem("user_info"));
+// let user_info = JSON.parse(localStorage.getItem("user_info"));
 const App = ({ match }) => (
   <div>
     <div
@@ -166,15 +166,13 @@ const App = ({ match }) => (
               import("../components/Account/ProfileCompany/ProfileGuest")
             )}
           />
-          {user_info.company_id !== "" ? (
-            <Route
-              path={`${match.url}verification`}
-              exact
-              component={asyncComponent(() =>
-                import("../components/Account/NewCompleteProfile/Verify")
-              )}
-            />
-          ) : null}
+          <Route
+            path={`${match.url}verification`}
+            exact
+            component={asyncComponent(() =>
+              import("../components/Account/NewCompleteProfile/Verify")
+            )}
+          />
           <Route
             path={`${match.url}account-package`}
             component={asyncComponent(() =>
