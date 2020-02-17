@@ -797,7 +797,13 @@ class Company extends Component {
                     >
                       {getFieldDecorator("user_verify", {
                         valuePropName: "fileList",
-                        getValueFromEvent: this.normFile
+                        getValueFromEvent: this.normFile,
+                        rules: [
+                          {
+                            required: true,
+                            message: "Upload your infomation to verify!"
+                          }
+                        ]
                       })(
                         <Dragger {...props}>
                           <p className="ant-upload-drag-icon">
@@ -1059,7 +1065,13 @@ class Company extends Component {
                         >
                           {getFieldDecorator("user_verify", {
                             valuePropName: "fileList",
-                            getValueFromEvent: this.normFile
+                            getValueFromEvent: this.normFile,
+                            rules: [
+                              {
+                                required: true,
+                                message: "Upload your infomation verify!"
+                              }
+                            ]
                           })(
                             <Dragger {...props}>
                               <p className="ant-upload-drag-icon">

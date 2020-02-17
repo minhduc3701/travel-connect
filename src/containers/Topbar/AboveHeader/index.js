@@ -198,7 +198,6 @@ class AboveHeader extends Component {
                 </li>
 
                 <li className="gx-notify">
-                  
                   <Popover
                     overlayClassName="gx-popover-horizantal"
                     placement="bottomRight"
@@ -212,7 +211,6 @@ class AboveHeader extends Component {
                 </li>
                 <li>
                   <TimezonePicker
-                    // onChange={console.log}
                     defaultValue={"America/New_York"}
                     unselectLabel="No Timezone"
                     style={{

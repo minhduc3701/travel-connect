@@ -123,7 +123,6 @@ class About extends React.Component {
   };
 
   onSendDataToServer = () => {
-    console.log("sent");
     // this.onSendImage();
     // this.props.actSendRequestToServer(this.state.requestChange);
   };

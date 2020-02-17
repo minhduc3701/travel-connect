@@ -35,7 +35,6 @@ class ProfileUpdate extends Component {
 
   componentWillUnmount() {
     let { CompanyProfile } = this.props.profile;
-    console.log(CompanyProfile);
     if (CompanyProfile[0]) {
       this.props.actSendIntroToServer(CompanyProfile[0]);
     }
@@ -48,14 +47,6 @@ class ProfileUpdate extends Component {
     if (CompanyProfile[4]) {
       this.props.actSendWebsiteToServer(CompanyProfile[4]);
     }
-    if (CompanyProfile[5]) {
-      this.onSendImageBackground(CompanyProfile[5]);
-    }
-    if (CompanyProfile[6]) {
-      this.onSendImageLogo(CompanyProfile[6]);
-    } else {
-      console.log("Nothing Change");
-    }
     this.props.actCleanStore();
   }
 
@@ -67,6 +58,7 @@ class ProfileUpdate extends Component {
       this.props.profileData.forEach(doc => {
         requests = {
           company_id: doc.id,
+          company_admin: doc.admin,
           company_background: doc.background,
           company_logo: doc.logo,
           company_brandname: doc.brandname,
@@ -102,13 +94,11 @@ class ProfileUpdate extends Component {
         };
       });
 
-    if (requests) {
-      for (const key in requests) {
-        if (requests[key] !== "") {
-          warning = null;
-        } else {
-          warning = <Processing Account={requests} />;
-        }
+    for (const key in requests) {
+      if (requests[key] !== "") {
+        warning = null;
+      } else {
+        warning = <Processing Account={requests} />;
       }
     }
     return (

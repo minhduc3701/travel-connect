@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { Icon, Upload } from "antd";
 // import { notiChange } from "util/Notification";
-import { connect } from "react-redux";
-import { actChangeBackground } from "appRedux/actions/CompanyProfile";
-import { actSetNewImage } from "appRedux/actions/Account";
 import background from "assets/images/travel-default-background.png";
 import firebaseAcc from "firebase/firebaseAcc";
 
@@ -84,13 +81,7 @@ class BannerBackground extends Component {
       <div className="aspect_box ">
         <div className="aspect_box--inner aspect_box--retangle_1x4 ">
           <img
-            src={
-              profile.company_background
-                ? profile.company_background
-                : profile.company_background === ""
-                ? background
-                : background
-            }
+            src={profile.company_background === "" ? background : background}
             alt="banner"
             className="aspect_box__img aspect_box__img--cover z-1"
           />
@@ -108,15 +99,4 @@ class BannerBackground extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    actSaveData: background => {
-      dispatch(actChangeBackground(background));
-    },
-    actSaveBackgroundLocal: bg => {
-      dispatch(actSetNewImage(bg));
-    }
-  };
-};
-
-export default connect(null, mapDispatchToProps)(BannerBackground);
+export default BannerBackground;

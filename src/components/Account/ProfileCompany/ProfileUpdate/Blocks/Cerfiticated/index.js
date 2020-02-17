@@ -14,22 +14,6 @@ function Cerfiticated() {
           </div>
         }
       />
-      {/* <Row>
-        <Col span={24}>
-          <div className="d-flex">
-            <img
-              src="https://www.hotelelaphusabrac.com/EasyEdit/UserFiles/logotipi/travelife.png"
-              alt="travel-life"
-              style={{ width: "8em", height: "7em", objectFit: "contain" }}
-            />
-            <img
-              src="http://vnpi-hcm.vn/wp-content/uploads/2018/03/Logo-ISO-.jpg"
-              alt="iso-9001"
-              style={{ width: "8em", height: "7em", objectFit: "contain" }}
-            />
-          </div>
-        </Col>
-      </Row> */}
       <Row className="d-flex">
         <Col span={24}>
           <img

@@ -53,24 +53,10 @@ class Navigation extends Component {
               <IntlMessages id="account.profile.media" />
             </a>
           </Menu.Item>
-          {/* <Menu.Item key="setting_company" className=" f-r f-clear-fix">
-                        <Link title="Setting" to="/profile/setting">
-                            <Icon type="tool" className="m-r-1-i" />
-                            <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                                <IntlMessages id="account.profile.settings" />
-                            </span>
-                        </Link>
-                    </Menu.Item> */}
-
-          <Menu.Item
-            // onClick={() => this.props.actFetchDataAgain()}
-            key="edit_profile"
-            className=" f-r"
-          >
+          <Menu.Item key="edit_profile" className=" f-r">
             <Link title="Update" to="/profile">
               <Icon type="edit" className="m-r-1-i" />
               <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                {/* <IntlMessages id="account.profile.edit.btn.preview" /> */}
                 Save Edit
               </span>
             </Link>
