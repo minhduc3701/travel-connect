@@ -161,7 +161,6 @@ class Personal extends Component {
   };
 
   onSendDataToServer = async file => {
-    // await this.props.onSendDataUser(this.state.person, file);
     await this.props.onSendDataUserSDK(this.state.person);
     this.setState({
       companySelect: true

@@ -20,52 +20,14 @@ import Permission from "./permission";
 import IntlMessages from "util/IntlMessages";
 import UploadPicture from "./Avatar";
 import { doneChange, notiChange } from "util/Notification";
+import { connect } from "react-redux";
+import { firestoreConnect, isLoaded } from "react-redux-firebase";
+import { compose } from "redux";
+import CircularProgress from "components/GlobalComponent/CircularProgress";
+import firebaseAcc from "firebase/firebaseAcc";
 
 const { Search } = Input;
 const FormItem = Form.Item;
-
-const data = [
-  {
-    key: 1,
-    name: "Tuấn Linh",
-    position: `CEO`,
-    status: `Show`,
-    mail: `linhlt@travelconnect.vn`,
-    phone: "0376895670"
-  },
-  {
-    key: 2,
-    name: "Giáo sư",
-    position: `Sale Manager`,
-    status: `Show`,
-    mail: `linhlt@travelconnect.vn`,
-    phone: "0376895670"
-  },
-  {
-    key: 3,
-    name: "Đức Anh",
-    position: `Sale`,
-    status: `Hide`,
-    mail: `linhlt@travelconnect.vn`,
-    phone: "0376895670"
-  },
-  {
-    key: 4,
-    name: "Dr. Tùng",
-    position: `Sale Manager`,
-    status: `Show`,
-    mail: `linhlt@travelconnect.vn`,
-    phone: "0376895670"
-  },
-  {
-    key: 5,
-    name: "Dr. Nam",
-    position: `Sale`,
-    status: `Show`,
-    mail: `linhlt@travelconnect.vn`,
-    phone: "0376895670"
-  }
-];
 
 const showHeader = true;
 
@@ -92,11 +54,26 @@ class Dynamic extends React.Component {
   };
 
   handleSubmit = e => {
+    // firebaseAcc
+    //   .auth()
+    //   .getRedirectResult()
+    //   .then(function(result) {
+    //     if (result.credential) {
+    //       // This gives you the OAuth Access Token for that provider.
+    //       var token = result.credential.accessToken;
+    //     }
+    //     var user = result.user;
+    //   });
+
+    // Start a sign in process for an unauthenticated user.
+
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
-        // this.props.getState(this.state.step);
+        const cretedMember = firebaseAcc
+          .functions()
+          .httpsCallable("createMember");
+        cretedMember(values);
         notiChange("success", "Add employee success!");
         this.setState({
           newEmployee: values,
@@ -106,12 +83,35 @@ class Dynamic extends React.Component {
       }
     });
   };
+
+  handleSubmitMember = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.setState(
+          {
+            member: {
+              email: values.employee_email,
+              phoneNumber: values.employee_phone,
+              password: values.employee_password,
+              displayName: values.employee_name,
+              photoURL: values.employee_avatar
+            }
+          },
+          () => this.onSendDataPerson()
+        );
+      }
+    });
+  };
+
   handleSubmitEdit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
-        // this.props.getState(this.state.step);
+        const cretedMember = firebaseAcc
+          .functions()
+          .httpsCallable("createMember");
+        cretedMember(values);
         notiChange("success", "Edit employee success!");
         this.setState({
           editEmoloyee: values,
@@ -162,20 +162,38 @@ class Dynamic extends React.Component {
     });
   };
 
+  // onUploadImage = async () => {
+  //   let user_info = JSON.parse(localStorage.getItem("user_info"));
+  //   await this.state.fileList.forEach(fileItem => {
+  //     firebase
+  //       .storage()
+  //       .ref(`/memberDefault/${Date.now().toString()}`)
+  //       .put(fileItem)
+  //       .then()
+  //       .catch(err => {
+  //         console.log(err);
+  //       });
+  //   });
+  // };
+
   render() {
     const { getFieldDecorator } = this.props.form;
+    let data = [];
+    isLoaded(this.props.members) &&
+      this.props.members.forEach(doc => {
+        data.push({
+          key: doc.id || " - ",
+          name: doc.name || " - ",
+          position: doc.position || "- ",
+          status: doc.contact || "Hide",
+          mail: doc.email || " - ",
+          phone: doc.phone || " - "
+        });
+      });
     let { sortedInfo, filteredInfo } = this.state;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
     const columns = [
-      // {
-      //   title: "Avatar",
-      //   dataIndex: "avatar",
-      //   key: "avatar",
-      //   render: avatar => (
-      //     <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-      //   )
-      // },
       {
         title: <IntlMessages id="employee.name" />,
         dataIndex: "name",
@@ -309,14 +327,18 @@ class Dynamic extends React.Component {
         </Row>
 
         <div style={{ overflow: "auto" }}>
-          <Table
-            bordered={true}
-            className=" gx-table-no-bordered"
-            {...this.state}
-            columns={columns}
-            dataSource={data}
-            onChange={this.handleChange}
-          />
+          {!isLoaded(this.props.members) ? (
+            <CircularProgress />
+          ) : (
+            <Table
+              bordered={true}
+              className=" gx-table-no-bordered"
+              {...this.state}
+              columns={columns}
+              dataSource={data}
+              onChange={this.handleChange}
+            />
+          )}
         </div>
 
         {this.state.visible ? (
@@ -535,4 +557,26 @@ class Dynamic extends React.Component {
 
 const WrappedHorizontalLoginForm = Form.create()(Dynamic);
 
-export default WrappedHorizontalLoginForm;
+// export default WrappedHorizontalLoginForm;
+
+const mapStateToProps = ({ firestore }) => {
+  const { members } = firestore.ordered;
+  return {
+    members
+  };
+};
+
+export default compose(
+  firestoreConnect(props => {
+    const user_info = JSON.parse(localStorage.getItem("user_info"));
+    return [
+      {
+        collection: "users",
+        where: ["companyId", "==", user_info.company_id],
+        limit: 10,
+        storeAs: "members"
+      }
+    ];
+  }),
+  connect(mapStateToProps, null)
+)(WrappedHorizontalLoginForm);
