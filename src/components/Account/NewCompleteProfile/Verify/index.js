@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { VerifyCompanySDK } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import firebase from "firebase/firebaseAcc";
+import { HOME } from "components/Layout/Header/NavigateLink";
 
 const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
@@ -42,7 +43,8 @@ class Company extends Component {
       license: null,
       // licence_file: null,
       licenceDoc: null,
-      confirm: null
+      confirm: null,
+      active: false
     }
   };
   handleSubmitPerson = e => {
@@ -54,7 +56,8 @@ class Company extends Component {
             verifyData: {
               license: values.company_licence,
               // licenceDoc: licenceFile,
-              confirm: values.company_unit_confirm
+              confirm: values.company_unit_confirm,
+              active: true
             }
           },
           () => this.onSendDataPerson()
@@ -78,7 +81,7 @@ class Company extends Component {
     await this.state.fileList.forEach(fileItem => {
       firebase
         .storage()
-        .ref(`/${user_info.user_id}/${Date.now().toString()}`)
+        .ref(`/${user_info.company_id}/${Date.now().toString()}`)
         .put(fileItem)
         .then(res => {
           if (res) {
@@ -89,14 +92,14 @@ class Company extends Component {
               .then(url => {
                 firebase
                   .firestore()
-                  .collection("users")
-                  .doc(user_info.user_id)
+                  .collection("companies")
+                  .doc(user_info.company_id)
                   .update({
-                    licenceDoc: firebase.firestore.FieldValue.arrayUnion(url)
+                    licenseDoc: firebase.firestore.FieldValue.arrayUnion(url)
+                  })
+                  .then(ress => {
+                    window.location.href = `${HOME}/home`;
                   });
-                // .then(ress => {
-                //   window.location.href = `${HOME}/home`;
-                // });
               });
           }
         })
