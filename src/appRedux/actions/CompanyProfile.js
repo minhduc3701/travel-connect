@@ -266,13 +266,13 @@ export const CreateCompanySDK = data => {
     district: data.district,
     email: data.email,
     establish: data.establish,
-    license: data.license,
+    license: data.licence,
     name: data.name,
     nation: data.nation,
     phone: data.phone,
     target: data.target,
     business: data.business,
-    licenceDoc: [],
+    licenseDoc: [],
     admin: uId.user_id,
     comments: [],
     communities: [],
@@ -310,7 +310,6 @@ export const CreateCompanySDK = data => {
     active: false,
     introduction: ""
   };
-
   return dispatch => {
     firebaseAcc
       .firestore()
@@ -327,6 +326,7 @@ export const CreateCompanySDK = data => {
           company_district: data.district,
           company_address: data.address,
           company_business: data.business,
+          company_active: false,
           user_position: "CEO"
         };
         for (const item in newDataForLocal) {

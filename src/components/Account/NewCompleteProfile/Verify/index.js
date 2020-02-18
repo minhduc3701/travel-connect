@@ -95,7 +95,7 @@ class Company extends Component {
                   .collection("companies")
                   .doc(user_info.company_id)
                   .update({
-                    licenceDoc: firebase.firestore.FieldValue.arrayUnion(url)
+                    licenseDoc: firebase.firestore.FieldValue.arrayUnion(url)
                   })
                   .then(ress => {
                     window.location.href = `${HOME}/home`;
