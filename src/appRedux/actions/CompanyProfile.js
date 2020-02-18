@@ -480,3 +480,10 @@ export const actSaveAddressRequestSDK = address => {
       });
   };
 };
+
+// createdMember
+
+export const addMember = data => {
+  const cretedMember = firebaseAcc.functions().httpsCallable("createMember");
+  return cretedMember(data);
+};

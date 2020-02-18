@@ -3,6 +3,7 @@ import "firebase/firestore";
 import "firebase/database";
 import "firebase/auth";
 import "firebase/storage";
+import "firebase/functions";
 const firebaseConfig = {
   apiKey: "AIzaSyA13DiR0f31WdTkv9ahV76boHPCe6nZ14E",
   authDomain: "tc-account.firebaseapp.com",
