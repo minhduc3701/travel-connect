@@ -130,7 +130,6 @@ class Company extends Component {
       },
       beforeUpload: file => {
         this.setState(state => ({
-          // fileList: file
           fileList: [...state.fileList, file]
         }));
         return false;
@@ -197,14 +196,6 @@ class Company extends Component {
                   )}
                 </FormItem>
                 <FormItem {...formItemLayout} label="Bản đăng ký PDF ">
-                  {/* {getFieldDecorator("company_license_number", {
-                    rules: [
-                      {
-                        required: false,
-                        message: "Enter your company license number!"
-                      }
-                    ]
-                  })(<Button>Download</Button>)} */}
                   <Button>Download</Button>
                 </FormItem>
                 <FormItem {...formItemLayout} label="Đơn vị xác minh: ">

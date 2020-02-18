@@ -185,27 +185,7 @@ class Company extends Component {
     const { getFieldDecorator } = this.props.form;
     let { business } = this.state;
     const filteredOptions = OPTIONS.filter(o => !business.includes(o));
-    // const props = {
-    //   multiple: true,
-    //   onRemove: file => {
-    //     this.setState(state => {
-    //       const index = state.fileList.indexOf(file);
-    //       const newFileList = state.fileList.slice();
-    //       newFileList.splice(index, 1);
-    //       return {
-    //         fileList: newFileList
-    //       };
-    //     });
-    //   },
-    //   beforeUpload: file => {
-    //     this.setState(state => ({
-    //       // fileList: file
-    //       fileList: [...state.fileList, file]
-    //     }));
-    //     return false;
-    //   },
-    //   fileList
-    // };
+
     return (
       <div className="block_shadow">
         {this.state.linkRe ? <Redirect to="/verification" /> : null}
