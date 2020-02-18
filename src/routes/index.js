@@ -4,6 +4,7 @@ import { Switch } from "react-router-dom";
 import { Route } from "react-router-dom";
 import asyncComponent from "util/asyncComponent";
 
+let user_info = JSON.parse(localStorage.getItem("user_info"));
 const App = ({ match }) => (
   <div>
     <div
@@ -25,12 +26,6 @@ const App = ({ match }) => (
             import("../components/BreadCrumbNav/Account/Dashboard")
           )}
         />
-        {/* <Route
-          path={`${match.url}company`}
-          component={asyncComponent(() =>
-            import("../components/BreadCrumbNav/Account/Profile")
-          )}
-        /> */}
         <Route
           path={`${match.url}member-management`}
           component={asyncComponent(() =>
@@ -127,21 +122,12 @@ const App = ({ match }) => (
               import("../components/Account/MemberManagement")
             )}
           />
-
           <Route
             path={`${match.url}upgrade-account`}
             component={asyncComponent(() =>
               import("../components/Account/UpgradeAccount")
             )}
           />
-          {/* <Route
-            path={`${match.url}complete-profile`}
-            component={asyncComponent(() =>
-              import(
-                "../components/Account/CompleteRegisterAccount/NewCompleteRegister/index"
-              )
-            )}
-          /> */}
           {/* [New Step] */}
           <Route
             path={`${match.url}user`}
@@ -170,20 +156,15 @@ const App = ({ match }) => (
               import("../components/Account/ProfileCompany/ProfileGuest")
             )}
           />
-          <Route
-            path={`${match.url}verification`}
-            exact
-            component={asyncComponent(() =>
-              import("../components/Account/NewCompleteProfile/Verify")
-            )}
-          />
-          {/* <Route
-            path={`${match.url}user/company`}
-            component={asyncComponent(() =>
-              import("../components/Account/NewCompleteProfile/PersonUser")
-            )}
-          /> */}
-
+          {user_info.company_id !== "" ? (
+            <Route
+              path={`${match.url}verification`}
+              exact
+              component={asyncComponent(() =>
+                import("../components/Account/NewCompleteProfile/Verify")
+              )}
+            />
+          ) : null}
           <Route
             path={`${match.url}account-package`}
             component={asyncComponent(() =>

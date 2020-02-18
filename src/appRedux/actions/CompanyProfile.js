@@ -11,6 +11,7 @@ import {
 import { CallApi_ACCOUNT } from "util/CallApi";
 import firebaseAcc from "firebase/firebaseAcc";
 import { notificationPop } from "util/Notification";
+import { HOME } from "components/Layout/Header/NavigateLink";
 
 // Intro
 export const actSaveIntro = intro => {
@@ -147,7 +148,7 @@ export const SendDataUserSDK = data => {
     district: data.district,
     city: data.city,
     address: data.address,
-    imageUrl: data.logo,
+    imageUrl: "",
     verifyPerson: "",
     companyAddress: "",
     companyBrand: "",
@@ -185,7 +186,8 @@ export const SendDataUserSDK = data => {
     updateAt: "",
     website: "",
     zipcode: "",
-    unitSuggest: []
+    unitSuggest: [],
+    type: "basic"
   };
   return dispatch => {
     firebaseAcc
@@ -203,8 +205,7 @@ export const SendDataUserSDK = data => {
           user_nation: data.nation,
           user_district: data.district,
           user_city: data.city,
-          user_address: data.address,
-          user_logo: data.logo
+          user_address: data.address
         };
 
         for (const item in userDetail) {
@@ -228,7 +229,7 @@ export const SendDataUserSDK = data => {
   };
 };
 
-export const CreateUserWorkSDK = (data, id) => {
+export const CreateUserWorkSDK = data => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   return dispatch => {
     firebaseAcc
@@ -243,7 +244,9 @@ export const CreateUserWorkSDK = (data, id) => {
           "Bạn đã bổ sung thông tin cho tài khoản thành công !"
         );
       })
-
+      .then(ress => {
+        window.location.href = `${HOME}/home`;
+      })
       .catch(err => {
         console.log(err);
       });
@@ -334,10 +337,24 @@ export const CreateCompanySDK = data => {
         localStorage.setItem("user_info", JSON.stringify(user_info));
         notificationPop(
           "success",
-          "Chỉnh sửa hành công!",
-          "Bạn đã tạo công ty thành công! Hãy tiếp tục xác minh công ty để được phê duyệt"
+          "Tạo công ty thành công!",
+          "Bạn đã tạo công ty thành công! Hãy tiếp tục xác minh công ty để được phê duyệt hoạt động tại Travel Connect"
         );
       })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
+export const PositionUserSDK = () => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  return dispatch => {
+    firebaseAcc
+      .firestore()
+      .collection("users")
+      .doc(uId.user_id)
+      .update({ position: "CEO" })
       .catch(err => {
         console.log(err);
       });
@@ -354,6 +371,13 @@ export const VerifyCompanySDK = data => {
       .doc(uId.company_id)
       .update(data)
       .then(res => {
+        for (const key in uId) {
+          if (key === "company_active") {
+            uId[key] = true;
+          }
+        }
+        localStorage.removeItem("user_info");
+        localStorage.setItem("user_info", JSON.stringify(uId));
         notificationPop(
           "success",
           "Gửi yêu cầu xác minh thành công!",
@@ -365,10 +389,11 @@ export const VerifyCompanySDK = data => {
       });
   };
 };
+
 export const actSaveIntroRequestSDK = intro => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   let introData = {
-    introduction: intro
+    introduction: intro.company_introduction
   };
   return dispatch => {
     firebaseAcc
@@ -376,14 +401,12 @@ export const actSaveIntroRequestSDK = intro => {
       .collection("companies")
       .doc(uId.company_id)
       .update(introData)
-      .then(res => {
-        console.log(res);
-      })
       .catch(err => {
         console.log(err);
       });
   };
 };
+
 export const actSaveSocialRequestSDK = social => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   let socialData = {
@@ -398,14 +421,12 @@ export const actSaveSocialRequestSDK = social => {
       .collection("companies")
       .doc(uId.company_id)
       .update(socialData)
-      .then(res => {
-        console.log(res);
-      })
       .catch(err => {
         console.log(err);
       });
   };
 };
+
 export const actSaveWebsiteRequestSDK = website => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   let websiteData = {
@@ -417,14 +438,12 @@ export const actSaveWebsiteRequestSDK = website => {
       .collection("companies")
       .doc(uId.company_id)
       .update(websiteData)
-      .then(res => {
-        console.log(res);
-      })
       .catch(err => {
         console.log(err);
       });
   };
 };
+
 export const actSaveAddressRequestSDK = address => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   let addressData = {
@@ -439,9 +458,6 @@ export const actSaveAddressRequestSDK = address => {
       .collection("companies")
       .doc(uId.company_id)
       .update(addressData)
-      .then(res => {
-        console.log(res);
-      })
       .catch(err => {
         console.log(err);
       });

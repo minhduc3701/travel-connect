@@ -38,7 +38,6 @@ class Profile extends Component {
   }
 
   render() {
-    let { Account } = this.props.profile;
     let warning = null;
     let requests = null;
     let user_info = JSON.parse(localStorage.getItem("user_info"));
@@ -46,6 +45,7 @@ class Profile extends Component {
       this.props.profileData.forEach(doc => {
         requests = {
           company_id: doc.id,
+          company_admin: doc.admin,
           company_background: doc.background,
           company_logo: doc.logo,
           company_brandname: doc.brandname,
@@ -98,7 +98,7 @@ class Profile extends Component {
           <div className="gx-profile-content">
             <div className="block_shadow ">
               <Banner profile={requests} />
-              <Navigation />
+              <Navigation profile={requests} />
             </div>
             <Row className="m-t-3-i">
               <Col xl={16} lg={16} md={24} sm={24} xs={24}>
@@ -106,13 +106,9 @@ class Profile extends Component {
                   <About profile={requests} />
                   <Biography profile={requests} />
                   <Contact profile={requests} />
-                  {/* <Row>
-                     <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-                     <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-                   </Row> */}
                   <EventsBanner profile={requests} />
                   <PropertiesCard profile={requests} />
-                  {Account.company_rating > 0 ? (
+                  {requests.company_rating > 0 ? (
                     <Rating profile={requests} />
                   ) : null}
                 </div>

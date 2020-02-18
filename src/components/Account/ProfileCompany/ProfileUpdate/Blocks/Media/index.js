@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-// import { photoList } from "./data";
-import doneChange from "util/Notification";
 import { Upload, Icon, Modal } from "antd";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import IntlMessages from "util/IntlMessages";
 import Photos from "./Photos";
-import { connect } from "react-redux";
-import { actSaveMedia } from "appRedux/actions/CompanyProfile";
 import firebase from "firebase/firebaseAcc";
 
 function getBase64(file) {
@@ -42,7 +38,6 @@ class Media extends Component {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
-
     this.setState({
       previewImage: file.url || file.preview,
       previewVisible: true
@@ -53,14 +48,12 @@ class Media extends Component {
 
   changeMediaToEdit = () => {
     if (this.state.stt_media === true) {
-      doneChange();
       this.setState({ stt_media: false });
     }
     if (this.state.stt_media === false) this.setState({ stt_media: true });
   };
 
   onDoneChangeMedia = () => {
-    this.props.onSendDataStore(this.state.file);
     this.onUploadImage();
   };
 
@@ -69,18 +62,22 @@ class Media extends Component {
     await this.state.fileList.forEach(fileItem => {
       firebase
         .storage()
-        .ref(`/${user_info.user_id}/${Date.now().toString()}`)
+        .ref(`/${user_info.company_id}/${Date.now().toString()}`)
         .put(fileItem)
         .then(res => {
           if (res) {
             firebase
-              .firestore()
-              .collection("companies")
-              .doc(user_info.company_id)
-              .update({
-                medias: firebase.firestore.FieldValue.arrayUnion(
-                  res.metadata.fullPath
-                )
+              .storage()
+              .ref(res.metadata.fullPath)
+              .getDownloadURL()
+              .then(url => {
+                firebase
+                  .firestore()
+                  .collection("companies")
+                  .doc(user_info.company_id)
+                  .update({
+                    medias: firebase.firestore.FieldValue.arrayUnion(url)
+                  });
               });
           }
         })
@@ -128,6 +125,15 @@ class Media extends Component {
       },
       fileList
     };
+    let imageList = [];
+    for (let i = 0; i < profile.company_medias.length; i++) {
+      imageList.push({
+        uid: i,
+        name: `image-${i}`,
+        status: "done",
+        url: profile.company_medias[i]
+      });
+    }
 
     return (
       <div className="block-w-nb" id="nav_media">
@@ -153,7 +159,7 @@ class Media extends Component {
         />
         {this.state.stt_media === false ? (
           <div>
-            {profile.company_medias ? (
+            {profile.company_medias.length > 0 ? (
               <Photos photoList={profile.company_medias} />
             ) : (
               <p>Album media is empty!</p>
@@ -164,7 +170,7 @@ class Media extends Component {
             <Upload
               {...props}
               listType="picture-card"
-              fileList={fileList}
+              fileList={imageList}
               onPreview={this.handlePreview}
             >
               {fileList.length >= 8 ? null : uploadButton}
@@ -205,12 +211,4 @@ class Media extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    onSendDataStore: media => {
-      dispatch(actSaveMedia(media));
-    }
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Media);
+export default Media;

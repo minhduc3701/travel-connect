@@ -14,10 +14,8 @@ import Contact from "./Blocks/Contact";
 import Navigation from "./Blocks/Navigation";
 import StaticticGuest from "./Blocks/StaticticGuest";
 import { friendList } from "./data";
-import { CallApi_ACCOUNT } from "util/CallApi";
 import { connect } from "react-redux";
 import CircularProgress from "../../../GlobalComponent/CircularProgress";
-import { actFetchActionRequest } from "appRedux/actions/Account";
 import Cerfiticated from "./Blocks/Cerfiticated";
 import {
   actSaveIntroRequestSDK,
@@ -35,13 +33,8 @@ class ProfileUpdate extends Component {
     companyId: null
   };
 
-  componentWillMount() {
-    this.props.actFetchDataAgain();
-  }
-
   componentWillUnmount() {
     let { CompanyProfile } = this.props.profile;
-    console.log(CompanyProfile);
     if (CompanyProfile[0]) {
       this.props.actSendIntroToServer(CompanyProfile[0]);
     }
@@ -51,33 +44,11 @@ class ProfileUpdate extends Component {
     if (CompanyProfile[2]) {
       this.props.actSendSocialToServer(CompanyProfile[2]);
     }
-    if (CompanyProfile[3]) {
-      this.onSendImageMedia(CompanyProfile[3].company_medias);
-    }
     if (CompanyProfile[4]) {
       this.props.actSendWebsiteToServer(CompanyProfile[4]);
     }
-    if (CompanyProfile[5]) {
-      this.onSendImageBackground(CompanyProfile[5]);
-    }
-    if (CompanyProfile[6]) {
-      this.onSendImageLogo(CompanyProfile[6]);
-    } else {
-      console.log("Nothing Change");
-    }
     this.props.actCleanStore();
   }
-
-  onSendImageMedia = fileList => {
-    let user = JSON.parse(localStorage.getItem("user_info"));
-    const formData = new FormData();
-    fileList.forEach(file => {
-      formData.append("image-", file);
-    });
-    CallApi_ACCOUNT(`VN/companies/${user.company_id}/medias`, "POST", formData)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-  };
 
   render() {
     let warning = null;
@@ -87,6 +58,7 @@ class ProfileUpdate extends Component {
       this.props.profileData.forEach(doc => {
         requests = {
           company_id: doc.id,
+          company_admin: doc.admin,
           company_background: doc.background,
           company_logo: doc.logo,
           company_brandname: doc.brandname,
@@ -122,13 +94,11 @@ class ProfileUpdate extends Component {
         };
       });
 
-    if (requests) {
-      for (const key in requests) {
-        if (requests[key] !== "") {
-          warning = null;
-        } else {
-          warning = <Processing Account={requests} />;
-        }
+    for (const key in requests) {
+      if (requests[key] !== "") {
+        warning = null;
+      } else {
+        warning = <Processing Account={requests} />;
       }
     }
     return (
@@ -213,9 +183,6 @@ const mapDispatchToProp = (dispatch, props) => {
     },
     actCleanStore: () => {
       dispatch(actCleanReduxStore());
-    },
-    actFetchDataAgain: () => {
-      dispatch(actFetchActionRequest());
     }
   };
 };

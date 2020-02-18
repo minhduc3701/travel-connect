@@ -16,7 +16,6 @@ import StaticticGuest from "./Blocks/StaticticGuest";
 import { friendList } from "./data";
 import { connect } from "react-redux";
 import CircularProgress from "../../../GlobalComponent/CircularProgress";
-import { actFetchActionRequest } from "appRedux/actions/Account";
 import { Link } from "react-router-dom";
 import Cerfiticated from "./Blocks/Cerfiticated";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
@@ -29,10 +28,6 @@ class Profile extends Component {
     load: true
   };
 
-  componentWillMount() {
-    this.props.actFetchDataAgain();
-  }
-
   componentDidMount() {
     setTimeout(() => {
       this.setState({
@@ -42,7 +37,6 @@ class Profile extends Component {
   }
 
   render() {
-    let { Account } = this.props.profile;
     let warning = null;
     let requests = null;
     isLoaded(this.props.profileData) &&
@@ -108,13 +102,9 @@ class Profile extends Component {
                   <About profile={requests} />
                   <Biography profile={requests} />
                   <Contact profile={requests} />
-                  {/* <Row>
-                     <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-                     <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
-                   </Row> */}
                   <EventsBanner profile={requests} />
                   <PropertiesCard profile={requests} />
-                  {Account.company_rating > 0 ? (
+                  {requests.company_rating > 0 ? (
                     <Rating profile={requests} />
                   ) : null}
                 </div>
@@ -158,14 +148,6 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProp = (dispatch, props) => {
-  return {
-    actFetchDataAgain: () => {
-      dispatch(actFetchActionRequest());
-    }
-  };
-};
-
 export default compose(
   firestoreConnect(props => {
     let { params } = props.match;
@@ -177,5 +159,5 @@ export default compose(
       }
     ];
   }),
-  connect(mapStateToProps, mapDispatchToProp)
+  connect(mapStateToProps, null)
 )(Profile);

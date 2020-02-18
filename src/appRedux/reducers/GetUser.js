@@ -16,7 +16,6 @@ export default (state = INIT_STATE, action) => {
       return { ...state, loading: true };
 
     case GET_USER_DATA_SUCCESS:
-      console.log("success in");
       return {
         ...state,
         data: action.payload,

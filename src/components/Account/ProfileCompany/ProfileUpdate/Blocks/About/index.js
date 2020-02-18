@@ -13,7 +13,7 @@ import {
 import AboutItem from "./AboutItem";
 import IntlMessages from "util/IntlMessages";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
-import { notiChange } from "util/Notification";
+import { notificationPop } from "util/Notification";
 import { connect } from "react-redux";
 import { actChangeLicenseRequest } from "appRedux/actions/Account";
 import { CallApi } from "util/CallApi";
@@ -70,7 +70,11 @@ class About extends React.Component {
             },
             () => this.onSendDataToServer()
           );
-          notiChange("success", "Send message success!");
+          notificationPop(
+            "success",
+            "Gửi yêu cầu thành công!",
+            "Yêu cầu của bạn sẽ được ban quản trị xét duyệt trong thời gian sớm nhất!"
+          );
         }, 1500);
       }
     });
@@ -93,7 +97,6 @@ class About extends React.Component {
     this.setState({ loading: true });
     setTimeout(() => {
       this.setState({ loading: false, visible: false });
-      notiChange("success", "Send request success!");
     }, 3000);
   };
 
@@ -120,8 +123,8 @@ class About extends React.Component {
   };
 
   onSendDataToServer = () => {
-    this.onSendImage();
-    this.props.actSendRequestToServer(this.state.requestChange);
+    // this.onSendImage();
+    // this.props.actSendRequestToServer(this.state.requestChange);
   };
 
   render() {

@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { VerifyCompanySDK } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import firebase from "firebase/firebaseAcc";
-import { HOME } from "components/Layout/Header/NavigateLink";
 
 const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
@@ -12,9 +11,7 @@ const formItemLayout = {
   labelCol: { xs: 24, sm: 6 },
   wrapperCol: { xs: 24, sm: 18 }
 };
-
 const Option = Select.Option;
-// const InputGroup = Input.Group;
 const { OptGroup } = Select;
 
 class Company extends Component {
@@ -86,16 +83,20 @@ class Company extends Component {
         .then(res => {
           if (res) {
             firebase
-              .firestore()
-              .collection("companies")
-              .doc(user_info.company_id)
-              .update({
-                licenceDoc: firebase.firestore.FieldValue.arrayUnion(
-                  res.metadata.fullPath
-                )
-              })
-              .then(ress => {
-                window.location.href = `${HOME}/home`;
+              .storage()
+              .ref(res.metadata.fullPath)
+              .getDownloadURL()
+              .then(url => {
+                firebase
+                  .firestore()
+                  .collection("users")
+                  .doc(user_info.user_id)
+                  .update({
+                    licenceDoc: firebase.firestore.FieldValue.arrayUnion(url)
+                  });
+                // .then(ress => {
+                //   window.location.href = `${HOME}/home`;
+                // });
               });
           }
         })
@@ -172,7 +173,7 @@ class Company extends Component {
                     getValueFromEvent: this.normFile,
                     rules: [
                       {
-                        required: false,
+                        required: true,
                         message: "Upload your company license!"
                       }
                     ]

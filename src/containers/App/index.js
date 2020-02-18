@@ -33,13 +33,13 @@ const RestrictedRoute = ({ component: Component, authUser, ...rest }) => (
       authUser !== -1 ? (
         <Component {...props} />
       ) : (
-          <Redirect
-            to={{
-              pathname: "/",
-              state: { from: props.location }
-            }}
-          />
-        )
+        <Redirect
+          to={{
+            pathname: "/",
+            state: { from: props.location }
+          }}
+        />
+      )
     }
   />
 );
@@ -84,8 +84,9 @@ class App extends Component {
       this.props.authUser !== -1 &&
       (localStorage.getItem("user_info") === null ||
         localStorage.getItem("user_id") !==
-        document.cookie
-          .split(";")[1 - document.cookie.indexOf("user_id")].split("=")[1])
+          document.cookie
+            .split(";")
+            [1 - document.cookie.indexOf("user_id")].split("=")[1])
     ) {
       this.props.getUserData();
     } else {
@@ -141,12 +142,12 @@ class App extends Component {
           {this.props.loading ? (
             <CircularProgress />
           ) : (
-              <RestrictedRoute
-                path={`${match.url}`}
-                authUser={authUser}
-                component={MainApp}
-              />
-            )}
+            <RestrictedRoute
+              path={`${match.url}`}
+              authUser={authUser}
+              component={MainApp}
+            />
+          )}
         </IntlProvider>
       </ConfigProvider>
     );

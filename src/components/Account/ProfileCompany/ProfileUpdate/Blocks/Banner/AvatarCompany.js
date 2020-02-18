@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 // import { notiChange } from "util/Notification";
 import { Icon, Upload } from "antd";
-import { connect } from "react-redux";
-import { actChangeLogo } from "appRedux/actions/CompanyProfile";
-import { actSetNewAvatar } from "appRedux/actions/Account";
-import { CallApi_ACCOUNT } from "util/CallApi";
+import firebaseAcc from "firebase/firebaseAcc";
 import logo from "assets/images/travel-default-logo.png";
 
 class AvatarCompany extends Component {
@@ -17,18 +14,31 @@ class AvatarCompany extends Component {
   };
 
   onSendImageLogo = logo => {
-    let user = JSON.parse(localStorage.getItem("user_info"));
-    const formData = new FormData();
-    logo.forEach(file => {
-      formData.append("image-", file);
-    });
-    CallApi_ACCOUNT(`VN/companies/${user.company_id}/logos`, "PUT", formData)
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    firebaseAcc
+      .storage()
+      .ref(`/${user_info.company_id}/${Date.now().toString()}`)
+      .put(this.state.fileList[0])
       .then(res => {
-        if (res.data) {
-          this.props.actSaveLogoLocal(res.data.logo);
+        if (res) {
+          firebaseAcc
+            .storage()
+            .ref(res.metadata.fullPath)
+            .getDownloadURL()
+            .then(url => {
+              firebaseAcc
+                .firestore()
+                .collection("companies")
+                .doc(user_info.company_id)
+                .update({
+                  logo: url
+                });
+            });
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -72,13 +82,7 @@ class AvatarCompany extends Component {
       <div className="aspect_box block__banner__avatar z-4">
         <div className="aspect_box--inner aspect_box--square --circle block__banner__avatar--inner bg-color-white">
           <img
-            src={
-              profile.company_logo
-                ? profile.company_logo
-                : profile.company_logo === ""
-                ? logo
-                : logo
-            }
+            src={profile.company_logo === "" ? logo : logo}
             alt="banner"
             className="aspect_box__img aspect_box__img--contain z-1"
           />
@@ -105,15 +109,4 @@ class AvatarCompany extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    actSaveData: logo => {
-      dispatch(actChangeLogo(logo));
-    },
-    actSaveLogoLocal: logoL => {
-      dispatch(actSetNewAvatar(logoL));
-    }
-  };
-};
-
-export default connect(null, mapDispatchToProps)(AvatarCompany);
+export default AvatarCompany;
