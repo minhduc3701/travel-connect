@@ -147,6 +147,4 @@ class UpgradeAccount extends Component {
   }
 }
 
-// const Membership = Form.create()(DynamicRules);
-
 export default UpgradeAccount;

@@ -100,16 +100,6 @@ const App = ({ match }) => (
             )
           )}
         />
-        {/* Profile */}
-        {/* Account */}
-        {/* Events */}
-        {/* Community */}
-        {/* Business Matching */}
-        {/* B2B Marketplace */}
-        {/* OTA Channel */}
-        {/* Recruitment */}
-        {/* Education */}
-        {/* Destination */}
       </Switch>
       <div className="gx-main-content-wrapper">
         {/* RENDER CONTENT HERE: */}
