@@ -303,6 +303,7 @@ export const CreateCompanySDK = data => {
     rating_good: 0,
     rating_great: 0,
     rating_normal: 0,
+    requets: 0,
     skype: "",
     background: "",
     logo: "",

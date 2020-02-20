@@ -32,6 +32,15 @@ class AvatarCompany extends Component {
                 .doc(user_info.company_id)
                 .update({
                   logo: url
+                })
+                .then(res => {
+                  for (const info in user_info) {
+                    if (info === "company_logo") {
+                      user_info[info] = url;
+                    }
+                  }
+                  localStorage.removeItem("user_info");
+                  localStorage.setItem("user_info", JSON.stringify(user_info));
                 });
             });
         }
