@@ -61,18 +61,17 @@ class PropertiesItemCard extends React.Component {
   };
 
   render() {
-    const Account = this.props.data;
+    const { productList } = this.props.data;
     return (
-      <Tooltip title={`${Account.product_name}`}>
+      <Tooltip title={`${productList.productName}`}>
         <div className="gx-featured-item">
           <div className="d-flex d-flex-wrap justify-space-between">
             <Col xl={20} lg={20} md={20} sm={24} xs={24}>
-              {Account ? (
+              {productList ? (
                 <h5 className="gx-mb-2 text-ellipsis">
-                  {/* {Account.product_name} */}
-                  {Account.product_name} - {Account.product_day}{" "}
+                  {productList.productName} - {productList.productDay}{" "}
                   <IntlMessages id="account.profile.product.unit.days" />{" "}
-                  {Account.product_night}{" "}
+                  {productList.productNight}{" "}
                   <IntlMessages id="account.profile.product.unit.nights" />
                 </h5>
               ) : null}
@@ -82,7 +81,7 @@ class PropertiesItemCard extends React.Component {
                 <Link
                   target="blank"
                   to={{
-                    pathname: `/find/${Account.product_type}/detail/${Account.product_id}`
+                    pathname: `/find/${productList.productType}/detail/${productList.productId}`
                   }}
                 >
                   <Icon type="double-right" className="m-r-1" />

@@ -159,9 +159,9 @@ class App extends Component {
         firebaseAcc
           .auth()
           .signInWithCustomToken(token)
-          // .then(user => {
-          //   document.cookie = `login=${user.uid}`;
-          // })
+          .then(user => {
+            document.cookie = `login=${user.uid}`;
+          })
           .catch(function(error) {
             console.log(error);
           });
