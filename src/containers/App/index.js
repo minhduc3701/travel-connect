@@ -81,22 +81,22 @@ class App extends Component {
     if (this.props.initURL === "") {
       this.props.setInitUrl(this.props.history.location.pathname);
     }
-    try {
-      if (
-        this.props.authUser !== -1 &&
-        (localStorage.getItem("user_info") === null ||
-          localStorage.getItem("user_id") !==
-            document.cookie
-              .split(";")
-              [1 - document.cookie.indexOf("user_id")].split("=")[1])
-      ) {
-        this.props.getUserData();
-      } else {
-        this.props.getUserDataSuccess();
-      }
-    } catch (err) {
-      window.location.href = "http://app.travelconnect.global/signin";
+    // try {
+    if (
+      this.props.authUser !== -1 &&
+      (localStorage.getItem("user_info") === null ||
+        localStorage.getItem("user_id") !==
+          document.cookie
+            .split(";")
+            [1 - document.cookie.indexOf("user_id")].split("=")[1])
+    ) {
+      this.props.getUserData();
+    } else {
+      this.props.getUserDataSuccess();
     }
+    // } catch (err) {
+    //   window.location.href = "http://app.travelconnect.global/signin";
+    // }
 
     const params = new URLSearchParams(this.props.location.search);
     if (params.has("theme")) {
@@ -159,9 +159,9 @@ class App extends Component {
         firebaseAcc
           .auth()
           .signInWithCustomToken(token)
-          .then(user => {
-            document.cookie = `login=${user.uid}`;
-          })
+          // .then(user => {
+          //   document.cookie = `login=${user.uid}`;
+          // })
           .catch(function(error) {
             console.log(error);
           });
