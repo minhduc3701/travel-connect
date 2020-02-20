@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import { Icon, Upload } from "antd";
 // import { notiChange } from "util/Notification";
-import { connect } from "react-redux";
-import { actChangeBackground } from "appRedux/actions/CompanyProfile";
-import { actSetNewImage } from "appRedux/actions/Account";
 import background from "assets/images/travel-default-background.png";
-import { CallApi_ACCOUNT } from "util/CallApi";
+import firebaseAcc from "firebase/firebaseAcc";
 
 class BannerBackground extends Component {
   state = {
@@ -17,22 +14,31 @@ class BannerBackground extends Component {
   };
 
   onSendImageBackground = backgrounds => {
-    let user = JSON.parse(localStorage.getItem("user_info"));
-    const formData = new FormData();
-    backgrounds.forEach(file => {
-      formData.append("image-", file);
-    });
-    CallApi_ACCOUNT(
-      `VN/companies/${user.company_id}/backgrounds`,
-      "PUT",
-      formData
-    )
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    firebaseAcc
+      .storage()
+      .ref(`/${user_info.company_id}/${Date.now().toString()}`)
+      .put(this.state.fileList[0])
       .then(res => {
-        if (res.data) {
-          this.props.actSaveBackgroundLocal(res.data.background);
+        if (res) {
+          firebaseAcc
+            .storage()
+            .ref(res.metadata.fullPath)
+            .getDownloadURL()
+            .then(url => {
+              firebaseAcc
+                .firestore()
+                .collection("companies")
+                .doc(user_info.company_id)
+                .update({
+                  background: url
+                });
+            });
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -75,13 +81,7 @@ class BannerBackground extends Component {
       <div className="aspect_box ">
         <div className="aspect_box--inner aspect_box--retangle_1x4 ">
           <img
-            src={
-              profile.company_background
-                ? profile.company_background
-                : profile.company_background === ""
-                ? background
-                : background
-            }
+            src={profile.company_background === "" ? background : background}
             alt="banner"
             className="aspect_box__img aspect_box__img--cover z-1"
           />
@@ -99,15 +99,4 @@ class BannerBackground extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    actSaveData: background => {
-      dispatch(actChangeBackground(background));
-    },
-    actSaveBackgroundLocal: bg => {
-      dispatch(actSetNewImage(bg));
-    }
-  };
-};
-
-export default connect(null, mapDispatchToProps)(BannerBackground);
+export default BannerBackground;

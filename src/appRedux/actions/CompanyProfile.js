@@ -11,11 +11,8 @@ import {
 import { CallApi_ACCOUNT } from "util/CallApi";
 import firebaseAcc from "firebase/firebaseAcc";
 import { notificationPop } from "util/Notification";
+import { HOME } from "components/Layout/Header/NavigateLink";
 
-let cok = document.cookie;
-let Token = cok.split(";");
-let tokenID = Token[1].split("=");
-let userId = tokenID[1];
 // Intro
 export const actSaveIntro = intro => {
   return {
@@ -141,6 +138,7 @@ export const actChangeLogo = logo => {
 
 //create complete user profile account
 export const SendDataUserSDK = data => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
   let userData = {
     name: data.name,
     birth: data.birth,
@@ -150,9 +148,10 @@ export const SendDataUserSDK = data => {
     district: data.district,
     city: data.city,
     address: data.address,
-    imageUrl: data.logo,
+    imageUrl: "",
     verifyPerson: "",
     companyAddress: "",
+    companyActive: false,
     companyBrand: "",
     companyBusiness: [],
     companyCity: "",
@@ -162,7 +161,8 @@ export const SendDataUserSDK = data => {
     companyName: "",
     companyNation: "",
     companyTarget: "",
-    createAt: "",
+    companyActive: false,
+    createAt: new Date().toISOString(),
     currency: "vnd",
     email: "",
     language: "",
@@ -188,13 +188,14 @@ export const SendDataUserSDK = data => {
     updateAt: "",
     website: "",
     zipcode: "",
-    unitSuggest: []
+    unitSuggest: [],
+    type: "basic"
   };
   return dispatch => {
     firebaseAcc
       .firestore()
       .collection("users")
-      .doc(userId)
+      .doc(uId.user_id)
       .set(userData)
       .then(docRef => {
         let user_info = JSON.parse(localStorage.getItem("user_info"));
@@ -206,8 +207,7 @@ export const SendDataUserSDK = data => {
           user_nation: data.nation,
           user_district: data.district,
           user_city: data.city,
-          user_address: data.address,
-          user_logo: data.logo
+          user_address: data.address
         };
 
         for (const item in userDetail) {
@@ -231,7 +231,7 @@ export const SendDataUserSDK = data => {
   };
 };
 
-export const CreateUserWorkSDK = (data, id) => {
+export const CreateUserWorkSDK = data => {
   let uId = JSON.parse(localStorage.getItem("user_info"));
   return dispatch => {
     firebaseAcc
@@ -246,7 +246,9 @@ export const CreateUserWorkSDK = (data, id) => {
           "Bạn đã bổ sung thông tin cho tài khoản thành công !"
         );
       })
-
+      .then(ress => {
+        window.location.href = `${HOME}/home`;
+      })
       .catch(err => {
         console.log(err);
       });
@@ -264,18 +266,26 @@ export const CreateCompanySDK = data => {
     district: data.district,
     email: data.email,
     establish: data.establish,
-    licence: data.licence,
+    license: data.licence,
     name: data.name,
     nation: data.nation,
     phone: data.phone,
     target: data.target,
     business: data.business,
-    licenceDoc: [],
+    licenseDoc: [],
     admin: uId.user_id,
     comments: [],
     communities: [],
     confirm: "",
-    contacts: [],
+    contacts: [
+      {
+        mId: uId.user_id,
+        mJob: "CEO",
+        mLogo: uId.user_logo,
+        mName: uId.user_name,
+        mStatus: true
+      }
+    ],
     deal: 0,
     events: [],
     fb: "",
@@ -288,16 +298,19 @@ export const CreateCompanySDK = data => {
     products_number: 0,
     products_type: [],
     rating: 0,
+    rating_bad: 0,
     rating_fail: 0,
     rating_good: 0,
     rating_great: 0,
     rating_normal: 0,
+    requets: 0,
     skype: "",
     background: "",
     logo: "",
-    website: ""
+    website: "",
+    active: false,
+    introduction: ""
   };
-
   return dispatch => {
     firebaseAcc
       .firestore()
@@ -313,7 +326,9 @@ export const CreateCompanySDK = data => {
           company_city: data.city,
           company_district: data.district,
           company_address: data.address,
-          company_business: data.business
+          company_business: data.business,
+          company_active: false,
+          user_position: "CEO"
         };
         for (const item in newDataForLocal) {
           for (const info in user_info) {
@@ -326,10 +341,24 @@ export const CreateCompanySDK = data => {
         localStorage.setItem("user_info", JSON.stringify(user_info));
         notificationPop(
           "success",
-          "Chỉnh sửa hành công!",
-          "Bạn đã tạo công ty thành công! Hãy tiếp tục xác minh công ty để được phê duyệt"
+          "Tạo công ty thành công!",
+          "Bạn đã tạo công ty thành công! Hãy tiếp tục xác minh công ty để được phê duyệt hoạt động tại Travel Connect"
         );
       })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
+export const PositionUserSDK = () => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  return dispatch => {
+    firebaseAcc
+      .firestore()
+      .collection("users")
+      .doc(uId.user_id)
+      .update({ position: "CEO" })
       .catch(err => {
         console.log(err);
       });
@@ -346,6 +375,13 @@ export const VerifyCompanySDK = data => {
       .doc(uId.company_id)
       .update(data)
       .then(res => {
+        for (const key in uId) {
+          if (key === "company_active") {
+            uId[key] = true;
+          }
+        }
+        localStorage.removeItem("user_info");
+        localStorage.setItem("user_info", JSON.stringify(uId));
         notificationPop(
           "success",
           "Gửi yêu cầu xác minh thành công!",
@@ -356,4 +392,99 @@ export const VerifyCompanySDK = data => {
         console.log(err);
       });
   };
+};
+
+export const VerifyActiveSDK = () => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  return dispatch => {
+    firebaseAcc
+      .firestore()
+      .collection("users")
+      .doc(uId.user_id)
+      .update({ companyActive: true })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
+export const actSaveIntroRequestSDK = intro => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  let introData = {
+    introduction: intro.company_introduction
+  };
+  return dispatch => {
+    firebaseAcc
+      .firestore()
+      .collection("companies")
+      .doc(uId.company_id)
+      .update(introData)
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
+export const actSaveSocialRequestSDK = social => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  let socialData = {
+    fb: social.company_fb,
+    gitlab: social.company_gitlab,
+    skype: social.company_skype,
+    linkedin: social.company_linkedin
+  };
+  return dispatch => {
+    firebaseAcc
+      .firestore()
+      .collection("companies")
+      .doc(uId.company_id)
+      .update(socialData)
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
+export const actSaveWebsiteRequestSDK = website => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  let websiteData = {
+    website: website.company_website
+  };
+  return dispatch => {
+    firebaseAcc
+      .firestore()
+      .collection("companies")
+      .doc(uId.company_id)
+      .update(websiteData)
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
+export const actSaveAddressRequestSDK = address => {
+  let uId = JSON.parse(localStorage.getItem("user_info"));
+  let addressData = {
+    address: address.company_address,
+    city: address.company_city,
+    district: address.company_district,
+    nation: address.company_nation
+  };
+  return dispatch => {
+    firebaseAcc
+      .firestore()
+      .collection("companies")
+      .doc(uId.company_id)
+      .update(addressData)
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
+// createdMember
+
+export const addMember = data => {
+  const cretedMember = firebaseAcc.functions().httpsCallable("createMember");
+  return cretedMember(data);
 };

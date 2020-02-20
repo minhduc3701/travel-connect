@@ -5,6 +5,8 @@ import IntlMessages from "util/IntlMessages";
 
 class Navigation extends Component {
   render() {
+    let { profile } = this.props;
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
     return (
       <div
         className="block-w-nb block__nav__anchor m-b-0-i"
@@ -51,22 +53,16 @@ class Navigation extends Component {
               <IntlMessages id="account.profile.media" />
             </a>
           </Menu.Item>
-          {/* <Menu.Item key="setting_company" className=" f-r f-clear-fix">
-                        <Link title="Setting" to="/profile/setting">
-                            <Icon type="tool" className="m-r-1-i" />
-                            <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                                <IntlMessages id="account.profile.settings" />
-                            </span>
-                        </Link>
-                    </Menu.Item> */}
-          <Menu.Item key="edit_profile" className=" f-r">
-            <Link title="Update" to="/profile/update">
-              <Icon type="edit" className="m-r-1-i" />
-              <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                <IntlMessages id="account.profile.edit" />
-              </span>
-            </Link>
-          </Menu.Item>
+          {user_info.user_id === profile.company_admin ? (
+            <Menu.Item key="edit_profile" className=" f-r">
+              <Link title="Update" to="/profile/update">
+                <Icon type="edit" className="m-r-1-i" />
+                <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
+                  <IntlMessages id="account.profile.edit" />
+                </span>
+              </Link>
+            </Menu.Item>
+          ) : null}
         </Menu>
       </div>
     );

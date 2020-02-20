@@ -12,9 +12,7 @@ const formItemLayout = {
   labelCol: { xs: 24, sm: 6 },
   wrapperCol: { xs: 24, sm: 18 }
 };
-
 const Option = Select.Option;
-// const InputGroup = Input.Group;
 const { OptGroup } = Select;
 
 class Company extends Component {
@@ -45,7 +43,8 @@ class Company extends Component {
       license: null,
       // licence_file: null,
       licenceDoc: null,
-      confirm: null
+      confirm: null,
+      active: false
     }
   };
   handleSubmitPerson = e => {
@@ -57,7 +56,8 @@ class Company extends Component {
             verifyData: {
               license: values.company_licence,
               // licenceDoc: licenceFile,
-              confirm: values.company_unit_confirm
+              confirm: values.company_unit_confirm,
+              active: true
             }
           },
           () => this.onSendDataPerson()
@@ -81,21 +81,25 @@ class Company extends Component {
     await this.state.fileList.forEach(fileItem => {
       firebase
         .storage()
-        .ref(`/${user_info.user_id}/${Date.now().toString()}`)
+        .ref(`/${user_info.company_id}/${Date.now().toString()}`)
         .put(fileItem)
         .then(res => {
           if (res) {
             firebase
-              .firestore()
-              .collection("companies")
-              .doc(user_info.company_id)
-              .update({
-                licenceDoc: firebase.firestore.FieldValue.arrayUnion(
-                  res.metadata.fullPath
-                )
-              })
-              .then(ress => {
-                window.location.href = `${HOME}/home`;
+              .storage()
+              .ref(res.metadata.fullPath)
+              .getDownloadURL()
+              .then(url => {
+                firebase
+                  .firestore()
+                  .collection("companies")
+                  .doc(user_info.company_id)
+                  .update({
+                    licenseDoc: firebase.firestore.FieldValue.arrayUnion(url)
+                  })
+                  .then(ress => {
+                    window.location.href = `${HOME}/home`;
+                  });
               });
           }
         })
@@ -130,7 +134,6 @@ class Company extends Component {
       },
       beforeUpload: file => {
         this.setState(state => ({
-          // fileList: file
           fileList: [...state.fileList, file]
         }));
         return false;
@@ -173,7 +176,7 @@ class Company extends Component {
                     getValueFromEvent: this.normFile,
                     rules: [
                       {
-                        required: false,
+                        required: true,
                         message: "Upload your company license!"
                       }
                     ]
@@ -197,14 +200,6 @@ class Company extends Component {
                   )}
                 </FormItem>
                 <FormItem {...formItemLayout} label="Bản đăng ký PDF ">
-                  {/* {getFieldDecorator("company_license_number", {
-                    rules: [
-                      {
-                        required: false,
-                        message: "Enter your company license number!"
-                      }
-                    ]
-                  })(<Button>Download</Button>)} */}
                   <Button>Download</Button>
                 </FormItem>
                 <FormItem {...formItemLayout} label="Đơn vị xác minh: ">

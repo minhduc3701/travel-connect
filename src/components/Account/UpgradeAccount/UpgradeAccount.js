@@ -75,7 +75,6 @@ class UpgradeAccount extends Component {
                 dataIndex="standard"
                 key="standard"
                 render={text => {
-                  console.log(text);
                   return (
                     <span style={{ lineHeight: 3 }}>
                       {text ? (
@@ -147,7 +146,5 @@ class UpgradeAccount extends Component {
     );
   }
 }
-
-// const Membership = Form.create()(DynamicRules);
 
 export default UpgradeAccount;

@@ -12,7 +12,10 @@ import {
 } from "antd";
 import { connect } from "react-redux";
 import { actUpdatePersonProfileRequest } from "appRedux/actions/Account";
-import { CreateCompanySDK } from "appRedux/actions/CompanyProfile";
+import {
+  CreateCompanySDK,
+  PositionUserSDK
+} from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import { Redirect } from "react-router-dom";
 import firebase from "firebase/firebaseAcc";
@@ -25,33 +28,33 @@ const formItemLayout = {
 const Option = Select.Option;
 const residences = [
   {
-    value: "hanoi",
+    value: "Hà Nội",
     label: "Hà Nội",
     children: [
       {
-        value: "dongda",
+        value: "Đống Đa",
         label: "Đống Đa"
       },
       {
-        value: "caugiay",
+        value: "Cầu giấy",
         label: "Cầu giấy"
       },
       {
-        value: "hoangmai",
+        value: "Hoàng Mai",
         label: "Hoàng Mai"
       }
     ]
   },
   {
-    value: "saigon",
+    value: "Hồ Chí Minh",
     label: "Hồ Chí Minh",
     children: [
       {
-        value: "quan1",
+        value: "Quận 1",
         label: "Quận 1"
       },
       {
-        value: "quan2",
+        value: "Quận 2",
         label: "Quận 2"
       }
     ]
@@ -114,7 +117,6 @@ class Company extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
         let establish = this.state.establish ? this.state.establish : "";
         this.setState(
           {
@@ -144,6 +146,7 @@ class Company extends Component {
 
   onSendDataPerson = async () => {
     await this.props.actCreateCompanySDK(this.state.company);
+    await this.props.actUpdatePositionSDK();
     this.setState({
       linkRe: true
     });
@@ -185,27 +188,7 @@ class Company extends Component {
     const { getFieldDecorator } = this.props.form;
     let { business } = this.state;
     const filteredOptions = OPTIONS.filter(o => !business.includes(o));
-    // const props = {
-    //   multiple: true,
-    //   onRemove: file => {
-    //     this.setState(state => {
-    //       const index = state.fileList.indexOf(file);
-    //       const newFileList = state.fileList.slice();
-    //       newFileList.splice(index, 1);
-    //       return {
-    //         fileList: newFileList
-    //       };
-    //     });
-    //   },
-    //   beforeUpload: file => {
-    //     this.setState(state => ({
-    //       // fileList: file
-    //       fileList: [...state.fileList, file]
-    //     }));
-    //     return false;
-    //   },
-    //   fileList
-    // };
+
     return (
       <div className="block_shadow">
         {this.state.linkRe ? <Redirect to="/verification" /> : null}
@@ -389,6 +372,9 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     actCreateCompanySDK: data => {
       dispatch(CreateCompanySDK(data));
+    },
+    actUpdatePositionSDK: data => {
+      dispatch(PositionUserSDK(data));
     }
   };
 };

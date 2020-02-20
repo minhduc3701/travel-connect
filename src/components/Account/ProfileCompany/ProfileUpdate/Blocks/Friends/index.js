@@ -17,7 +17,6 @@ function Friends({ friendList, profile }) {
     slidesToShow: 1,
     slidesToScroll: 1
   };
-  console.log(profile.company_communities);
   return (
     <div>
       {profile.company_communities && profile.company_communities.length > 0 ? (
@@ -53,31 +52,5 @@ function Friends({ friendList, profile }) {
       )}
     </div>
   );
-
-  // if (friendList.length < 1) {
-  //   return (
-  //     <div className="block-w-nb disable_layer_block">
-  //       <WidgetHeader title={<IntlMessages id="company.communities" />} />
-  //       <div className="gx-pt-2">
-  //         <ul className="gx-fnd-list gx-mb-0">
-  //           <p className="gx-font-weight-light">
-  //             <i className="icon icon-sweet-alert"></i> You not have any
-  //             communities yet. You can join one in...
-  //           </p>
-  //         </ul>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-  // return (
-  //   <div className="block-w-nb disable_layer_block" id="nav_communities">
-  //     <WidgetHeader title={<IntlMessages id="company.communities" />} />
-  //     <Slider className="gx-slick-slider" {...settings}>
-  //       {friendList.map((media, index) => (
-  //         <RoadMapItem key={index} data={media} />
-  //       ))}
-  //     </Slider>
-  //   </div>
-  // );
 }
 export default Friends;

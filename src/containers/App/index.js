@@ -25,6 +25,7 @@ import {
   THEME_TYPE_DARK
 } from "../../constants/ThemeSetting";
 import CircularProgress from "components/GlobalComponent/CircularProgress";
+import firebaseAcc from "firebase/firebaseAcc";
 
 const RestrictedRoute = ({ component: Component, authUser, ...rest }) => (
   <Route
@@ -33,13 +34,13 @@ const RestrictedRoute = ({ component: Component, authUser, ...rest }) => (
       authUser !== -1 ? (
         <Component {...props} />
       ) : (
-          <Redirect
-            to={{
-              pathname: "/",
-              state: { from: props.location }
-            }}
-          />
-        )
+        <Redirect
+          to={{
+            pathname: "/",
+            state: { from: props.location }
+          }}
+        />
+      )
     }
   />
 );
@@ -80,17 +81,23 @@ class App extends Component {
     if (this.props.initURL === "") {
       this.props.setInitUrl(this.props.history.location.pathname);
     }
-    if (
-      this.props.authUser !== -1 &&
-      (localStorage.getItem("user_info") === null ||
-        localStorage.getItem("user_id") !==
-        document.cookie
-          .split(";")[1 - document.cookie.indexOf("user_id")].split("=")[1])
-    ) {
-      this.props.getUserData();
-    } else {
-      this.props.getUserDataSuccess();
+    try {
+      if (
+        this.props.authUser !== -1 &&
+        (localStorage.getItem("user_info") === null ||
+          localStorage.getItem("user_id") !==
+            document.cookie
+              .split(";")
+              [1 - document.cookie.indexOf("user_id")].split("=")[1])
+      ) {
+        this.props.getUserData();
+      } else {
+        this.props.getUserDataSuccess();
+      }
+    } catch (err) {
+      window.location.href = "http://app.travelconnect.global/signin";
     }
+
     const params = new URLSearchParams(this.props.location.search);
     if (params.has("theme")) {
       this.props.setThemeType(params.get("theme"));
@@ -118,10 +125,10 @@ class App extends Component {
       document.body.classList.add("dark-theme");
     }
     if (location.pathname === "/") {
-      // if (authUser === -1) {
-      //   return (window.location.href =
-      //     "http://app.travelconnect.global/signin");
-      // }
+      if (authUser === -1) {
+        return (window.location.href =
+          "http://app.travelconnect.global/signin");
+      }
       if (initURL === "" || initURL === "/" || initURL === "/signin") {
         return <Redirect to={"/dashboard"} />;
       } else {
@@ -132,6 +139,34 @@ class App extends Component {
 
     this.setNavStyle(navStyle);
     const currentAppLocale = AppLocale[locale.locale];
+    firebaseAcc.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        var id = document.cookie.match("(^|;) ?" + "user_id" + "=([^;]*)(;|$)");
+        let uid = id[2];
+        if (user.uid !== uid) {
+          firebaseAcc.auth().signOut();
+          document.cookie =
+            "acc_token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;";
+          document.cookie =
+            "user_id= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;";
+        }
+      } else {
+        // console.log(document.cookie.indexOf("acc_token"));
+        var v = document.cookie.match(
+          "(^|;) ?" + "acc_token" + "=([^;]*)(;|$)"
+        );
+        let token = v[2];
+        firebaseAcc
+          .auth()
+          .signInWithCustomToken(token)
+          .then(user => {
+            document.cookie = `login=${user.uid}`;
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
+    });
     return (
       <ConfigProvider locale={currentAppLocale.antd}>
         <IntlProvider
@@ -141,12 +176,12 @@ class App extends Component {
           {this.props.loading ? (
             <CircularProgress />
           ) : (
-              <RestrictedRoute
-                path={`${match.url}`}
-                authUser={authUser}
-                component={MainApp}
-              />
-            )}
+            <RestrictedRoute
+              path={`${match.url}`}
+              authUser={authUser}
+              component={MainApp}
+            />
+          )}
         </IntlProvider>
       </ConfigProvider>
     );

@@ -13,7 +13,7 @@ import {
 } from "antd";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import IntlMessages from "util/IntlMessages";
-import { doneChange, failChange } from "util/Notification";
+import { doneChange } from "util/Notification";
 const { Panel } = Collapse;
 const { Sider, Content } = Layout;
 const customPanelStyle = {
@@ -46,7 +46,6 @@ class Permission extends React.Component {
   };
   handleCancel = () => {
     this.setState({ visible: false });
-    failChange();
   };
   changeTab = e => {
     if (e !== undefined) this.setState({ tab: e });
@@ -55,7 +54,7 @@ class Permission extends React.Component {
     return (
       <Fragment>
         <span onClick={this.showModal}>
-          <Tooltip placement="topLeft" title="Permission">
+          <Tooltip placement="topLeft" title={<IntlMessages id="permission" />}>
             <Icon type="tool" theme="filled" /> <IntlMessages id="permission" />
           </Tooltip>
         </span>
@@ -199,37 +198,6 @@ class Permission extends React.Component {
                             title={<IntlMessages id="productManagement" />}
                           />
                           <Card>
-                            {/* <Row className="align-items-center">
-                              <Col
-                                xs={24}
-                                sm={24}
-                                md={22}
-                                lg={22}
-                                xl={22}
-                                className="p-r-1-i p-d-l-0"
-                              >
-                                <p className="text-align-left">
-                                  Tạo, sửa và hủy sản phẩm.
-                                  <br />
-                                  <span class="gx-text-grey">
-                                    *Chỉ sửa và hủy những sản phẩm được chính
-                                    chủ tài khoản tạo*
-                                  </span>
-                                </p>
-                              </Col>
-                              <Col
-                                className="text-align-center"
-                                xs={24}
-                                sm={24}
-                                md={2}
-                                lg={2}
-                                xl={2}
-                              >
-                                <Row className="m-b-3 align-items-center text-align-center">
-                                  <Switch defaultChecked />
-                                </Row>
-                              </Col>
-                            </Row> */}
                             <Row className="m-b-3 align-items-center">
                               <Col
                                 xs={24}
@@ -240,7 +208,7 @@ class Permission extends React.Component {
                                 className="p-r-1-i p-d-l-0"
                               >
                                 <p className="text-align-right">
-                                  Tạo, sửa và hủy sản phẩm
+                                  <IntlMessages id="management.member.permission.product1" />
                                 </p>
                               </Col>
                               <Col
@@ -254,8 +222,7 @@ class Permission extends React.Component {
                                 <Row className="m-b-3-i align-items-center">
                                   <Col xs={18} sm={18} md={18} lg={20} xl={20}>
                                     <p className="m-b-0-i">
-                                      Tạo sản phẩm, chỉ sửa và hủy những sản
-                                      phẩm mà tài khoản tạo
+                                      <IntlMessages id="management.member.permission.product2" />
                                     </p>
                                   </Col>
                                   <Col
@@ -286,7 +253,9 @@ class Permission extends React.Component {
                                 xl={6}
                                 className="p-r-1-i p-d-l-0"
                               >
-                                <p className="text-align-left">Mua sản phẩm</p>
+                                <p className="text-align-left">
+                                  <IntlMessages id="general.default.b2bmarketplace.buy" />
+                                </p>
                               </Col>
                               <Col
                                 className="bor-b"
@@ -299,8 +268,7 @@ class Permission extends React.Component {
                                 <Row className="m-b-3-i align-items-center">
                                   <Col xs={18} sm={18} md={18} lg={20} xl={20}>
                                     <p className="m-b-0-i">
-                                      Được mua sản phẩm của công ty khác trên
-                                      sàn
+                                      <IntlMessages id="management.member.permission.buy" />
                                     </p>
                                   </Col>
                                   <Col
@@ -325,7 +293,10 @@ class Permission extends React.Component {
                                 xl={6}
                                 className="p-r-1-i p-d-l-0"
                               >
-                                <p className="text-align-left">Bán sản phẩm</p>
+                                <p className="text-align-left">
+                                  {" "}
+                                  <IntlMessages id="general.default.b2bmarketplace.sell" />
+                                </p>
                               </Col>
                               <Col
                                 className="bor-b"
@@ -338,9 +309,7 @@ class Permission extends React.Component {
                                 <Row className="m-b-3-i align-items-center">
                                   <Col xs={18} sm={18} md={18} lg={20} xl={20}>
                                     <p className="m-b-0-i">
-                                      Được tham gia vào giao dịch bán các sản
-                                      phẩm của công ty chủ quản cho các doanh
-                                      nghiệp khác
+                                      <IntlMessages id="management.member.permission.sell" />
                                     </p>
                                   </Col>
                                   <Col

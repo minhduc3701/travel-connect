@@ -5,24 +5,32 @@ import {
 } from "constants/ActionTypes";
 import axios from "util/TcApp";
 export const getUserData = () => {
-  console.log("in");
   return dispatch => {
     dispatch({ type: GET_USER_DATA_START });
     // console.log(document.cookie.indexOf("request_token"));
     axios
       .get(
-        "users/" + document.cookie.split(";")[document.cookie.indexOf("user_id")].split("=")[1],
+        "users/" +
+          document.cookie
+            .split(";")
+            [document.cookie.indexOf("user_id")].split("=")[1],
         {
           headers: {
             Authorization:
-              "Bearer " + document.cookie.split(";")[1 - document.cookie.indexOf("user_id")].split("=")[1]
+              "Bearer " +
+              document.cookie
+                .split(";")
+                [1 - document.cookie.indexOf("user_id")].split("=")[1]
           }
         }
       )
       .then(res => {
         localStorage.setItem("user_info", JSON.stringify(res.data));
         localStorage.setItem(
-          "user_id", document.cookie.split(";")[1 - document.cookie.indexOf("user_id")].split("=")[1]
+          "user_id",
+          document.cookie
+            .split(";")
+            [1 - document.cookie.indexOf("user_id")].split("=")[1]
         );
       })
       .then(res => {

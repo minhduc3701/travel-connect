@@ -4,6 +4,7 @@ import { Switch } from "react-router-dom";
 import { Route } from "react-router-dom";
 import asyncComponent from "util/asyncComponent";
 
+// let user_info = JSON.parse(localStorage.getItem("user_info"));
 const App = ({ match }) => (
   <div>
     <div
@@ -25,12 +26,6 @@ const App = ({ match }) => (
             import("../components/BreadCrumbNav/Account/Dashboard")
           )}
         />
-        {/* <Route
-          path={`${match.url}company`}
-          component={asyncComponent(() =>
-            import("../components/BreadCrumbNav/Account/Profile")
-          )}
-        /> */}
         <Route
           path={`${match.url}member-management`}
           component={asyncComponent(() =>
@@ -72,11 +67,29 @@ const App = ({ match }) => (
           )}
         />
         <Route
-          path={`${match.url}company`}
+          path={`${match.url}create-company`}
           component={asyncComponent(() =>
             import(
               "../components/BreadCrumbNav/Account/NewCompleteProfile/Company"
             )
+          )}
+        />
+        <Route
+          path={`${match.url}company`}
+          component={asyncComponent(() =>
+            import("../components/BreadCrumbNav/Account/Profile")
+          )}
+        />
+        <Route
+          path={`${match.url}profile`}
+          component={asyncComponent(() =>
+            import("../components/BreadCrumbNav/Account/Profile")
+          )}
+        />
+        <Route
+          path={`${match.url}profile/update`}
+          component={asyncComponent(() =>
+            import("../components/BreadCrumbNav/Account/Profile")
           )}
         />
         <Route
@@ -87,16 +100,6 @@ const App = ({ match }) => (
             )
           )}
         />
-        {/* Profile */}
-        {/* Account */}
-        {/* Events */}
-        {/* Community */}
-        {/* Business Matching */}
-        {/* B2B Marketplace */}
-        {/* OTA Channel */}
-        {/* Recruitment */}
-        {/* Education */}
-        {/* Destination */}
       </Switch>
       <div className="gx-main-content-wrapper">
         {/* RENDER CONTENT HERE: */}
@@ -119,21 +122,12 @@ const App = ({ match }) => (
               import("../components/Account/MemberManagement")
             )}
           />
-
           <Route
             path={`${match.url}upgrade-account`}
             component={asyncComponent(() =>
               import("../components/Account/UpgradeAccount")
             )}
           />
-          {/* <Route
-            path={`${match.url}complete-profile`}
-            component={asyncComponent(() =>
-              import(
-                "../components/Account/CompleteRegisterAccount/NewCompleteRegister/index"
-              )
-            )}
-          /> */}
           {/* [New Step] */}
           <Route
             path={`${match.url}user`}
@@ -149,10 +143,17 @@ const App = ({ match }) => (
             )}
           />
           <Route
-            path={`${match.url}company`}
+            path={`${match.url}create-company`}
             exact
             component={asyncComponent(() =>
               import("../components/Account/NewCompleteProfile/Company")
+            )}
+          />
+          <Route
+            path={`${match.url}company/:id`}
+            exact
+            component={asyncComponent(() =>
+              import("../components/Account/ProfileCompany/ProfileGuest")
             )}
           />
           <Route
@@ -162,13 +163,6 @@ const App = ({ match }) => (
               import("../components/Account/NewCompleteProfile/Verify")
             )}
           />
-          {/* <Route
-            path={`${match.url}user/company`}
-            component={asyncComponent(() =>
-              import("../components/Account/NewCompleteProfile/PersonUser")
-            )}
-          /> */}
-
           <Route
             path={`${match.url}account-package`}
             component={asyncComponent(() =>

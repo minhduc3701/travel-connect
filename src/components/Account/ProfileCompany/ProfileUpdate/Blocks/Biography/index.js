@@ -2,7 +2,6 @@ import React from "react";
 import IntlMessages from "util/IntlMessages";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import { connect } from "react-redux";
-import doneChange from "util/Notification";
 import { Input, Icon } from "antd";
 import { actSaveIntro } from "appRedux/actions/CompanyProfile";
 
@@ -20,7 +19,6 @@ class Biography extends React.Component {
 
   changeBiographyToEdit = () => {
     if (this.state.stt_biography === true) {
-      doneChange();
       this.setState({ stt_biography: false });
     }
     if (this.state.stt_biography === false)
