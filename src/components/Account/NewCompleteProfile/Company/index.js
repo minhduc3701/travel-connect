@@ -146,7 +146,7 @@ class Company extends Component {
 
   onSendDataPerson = async () => {
     await this.props.actCreateCompanySDK(this.state.company);
-    await this.props.actUpdatePositionSDK();
+    this.props.actUpdatePositionSDK();
     this.setState({
       linkRe: true
     });
@@ -373,8 +373,8 @@ const mapDispatchToProps = (dispatch, props) => {
     actCreateCompanySDK: data => {
       dispatch(CreateCompanySDK(data));
     },
-    actUpdatePositionSDK: data => {
-      dispatch(PositionUserSDK(data));
+    actUpdatePositionSDK: () => {
+      dispatch(PositionUserSDK());
     }
   };
 };

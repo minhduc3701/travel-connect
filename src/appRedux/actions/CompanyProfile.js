@@ -161,7 +161,6 @@ export const SendDataUserSDK = data => {
     companyName: "",
     companyNation: "",
     companyTarget: "",
-    companyActive: false,
     createAt: new Date().toISOString(),
     currency: "vnd",
     email: "",

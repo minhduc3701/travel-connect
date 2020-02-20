@@ -125,10 +125,10 @@ class App extends Component {
       document.body.classList.add("dark-theme");
     }
     if (location.pathname === "/") {
-      if (authUser === -1) {
-        return (window.location.href =
-          "http://app.travelconnect.global/signin");
-      }
+      // if (authUser === -1) {
+      //   return (window.location.href =
+      //     "http://app.travelconnect.global/signin");
+      // }
       if (initURL === "" || initURL === "/" || initURL === "/signin") {
         return <Redirect to={"/dashboard"} />;
       } else {
@@ -139,34 +139,34 @@ class App extends Component {
 
     this.setNavStyle(navStyle);
     const currentAppLocale = AppLocale[locale.locale];
-    firebaseAcc.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        var id = document.cookie.match("(^|;) ?" + "user_id" + "=([^;]*)(;|$)");
-        let uid = id[2];
-        if (user.uid !== uid) {
-          firebaseAcc.auth().signOut();
-          document.cookie =
-            "acc_token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;";
-          document.cookie =
-            "user_id= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;";
-        }
-      } else {
-        // console.log(document.cookie.indexOf("acc_token"));
-        var v = document.cookie.match(
-          "(^|;) ?" + "acc_token" + "=([^;]*)(;|$)"
-        );
-        let token = v[2];
-        firebaseAcc
-          .auth()
-          .signInWithCustomToken(token)
-          .then(user => {
-            document.cookie = `login=${user.uid}`;
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
-      }
-    });
+    // firebaseAcc.auth().onAuthStateChanged(function(user) {
+    //   if (user) {
+    //     var id = document.cookie.match("(^|;) ?" + "user_id" + "=([^;]*)(;|$)");
+    //     let uid = id[2];
+    //     if (user.uid !== uid) {
+    //       firebaseAcc.auth().signOut();
+    //       document.cookie =
+    //         "acc_token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;";
+    //       document.cookie =
+    //         "user_id= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;";
+    //     }
+    //   } else {
+    //     // console.log(document.cookie.indexOf("acc_token"));
+    //     var v = document.cookie.match(
+    //       "(^|;) ?" + "acc_token" + "=([^;]*)(;|$)"
+    //     );
+    //     let token = v[2];
+    //     firebaseAcc
+    //       .auth()
+    //       .signInWithCustomToken(token)
+    //       .then(user => {
+    //         document.cookie = `login=${user.uid}`;
+    //       })
+    //       .catch(function(error) {
+    //         console.log(error);
+    //       });
+    //   }
+    // });
     return (
       <ConfigProvider locale={currentAppLocale.antd}>
         <IntlProvider
