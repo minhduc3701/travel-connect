@@ -11,6 +11,9 @@ import Topbar from "../Topbar/index";
 import { footerText } from "components/Layout/Footer/config";
 import App from "routes/index";
 import { connect } from "react-redux";
+import { firestoreConnect, isLoaded } from "react-redux-firebase";
+import { compose } from "redux";
+import CircularProgress from "components/GlobalComponent/CircularProgress";
 import {
   NAV_STYLE_ABOVE_HEADER,
   NAV_STYLE_BELOW_HEADER,
@@ -93,8 +96,56 @@ export class MainApp extends Component {
 
   render() {
     const { match, width, navStyle } = this.props;
+    isLoaded(this.props.userAcc) &&
+      localStorage.setItem(
+        "user_info",
+        JSON.stringify({
+          user_id: this.props.userAcc[0].id,
+          user_logo: this.props.userAcc[0].imageUrl,
+          user_name: this.props.userAcc[0].name,
+          user_website: this.props.userAcc[0].website,
+          user_birth: this.props.userAcc[0].birth,
+          user_gender: this.props.userAcc[0].gender,
+          user_email: this.props.userAcc[0].email,
+          user_phone: this.props.userAcc[0].phone,
+          user_address: this.props.userAcc[0].address,
+          user_district: this.props.userAcc[0].district,
+          user_city: this.props.userAcc[0].city,
+          user_nation: this.props.userAcc[0].nation,
+          user_zipcode: this.props.userAcc[0].zipcode,
+          user_position: this.props.userAcc[0].position,
+          user_package: this.props.userAcc[0].package,
+          user_language: this.props.userAcc[0].language,
+          user_timezone: this.props.userAcc[0].timezone,
+          user_currency: this.props.userAcc[0].currency,
+          user_notiNewRequest: this.props.userAcc[0].notiNewRequest,
+          user_notiCompany: this.props.userAcc[0].notiCompany,
+          user_notiCommunity: this.props.userAcc[0].notiCommunity,
+          user_notiEvents: this.props.userAcc[0].notiEvents,
+          user_notiCurrentRequest: this.props.userAcc[0].notiCurrentRequest,
+          user_notiSystem: this.props.userAcc[0].notiSystem,
+          user_notiFlow: this.props.userAcc[0].notiFlow,
+          user_sendEmail: this.props.userAcc[0].sendEmail,
+          user_sendNotiPush: this.props.userAcc[0].sendNotiPush,
+          user_sendNotiWeb: this.props.userAcc[0].sendNotiWeb,
+          user_private: this.props.userAcc[0].private,
+          user_notiLogin: this.props.userAcc[0].notiLogin,
+          company_id: this.props.userAcc[0].companyId,
+          company_name: this.props.userAcc[0].companyName,
+          company_brandname: this.props.userAcc[0].companyBrand,
+          company_logo: this.props.userAcc[0].companyLogo,
+          company_nation: this.props.userAcc[0].companyNation,
+          company_city: this.props.userAcc[0].companyCity,
+          company_district: this.props.userAcc[0].companyDistrict,
+          company_address: this.props.userAcc[0].companyAddress,
+          company_business: this.props.userAcc[0].companyBusiness,
+          company_active: this.props.userAcc[0].companyActive
+        })
+      );
 
-    return (
+    return !isLoaded(this.props.userAcc) ? (
+      <CircularProgress />
+    ) : (
       <Layout className="gx-app-layout">
         {this.getSidebar(navStyle, width)}
         <Layout>
@@ -114,8 +165,23 @@ export class MainApp extends Component {
   }
 }
 
-const mapStateToProps = ({ settings }) => {
+const mapStateToProps = ({ settings, firestore }) => {
   const { width, navStyle } = settings;
-  return { width, navStyle };
+  const { userAcc } = firestore.ordered;
+  return { width, navStyle, userAcc };
 };
-export default connect(mapStateToProps)(MainApp);
+// export default connect(mapStateToProps)(MainApp);
+export default compose(
+  firestoreConnect(props => {
+    var id = document.cookie.match("(^|;) ?" + "user_id" + "=([^;]*)(;|$)");
+    let uid = id[2];
+    return [
+      {
+        collection: "users",
+        doc: uid,
+        storeAs: "userAcc"
+      }
+    ];
+  }),
+  connect(mapStateToProps, null)
+)(MainApp);
