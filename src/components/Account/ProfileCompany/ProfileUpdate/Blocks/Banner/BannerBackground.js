@@ -10,7 +10,8 @@ class BannerBackground extends Component {
     file: {
       background: []
     },
-    fileList: []
+    fileList: [],
+    imageUrl: null
   };
 
   onSendImageBackground = backgrounds => {
@@ -32,6 +33,11 @@ class BannerBackground extends Component {
                 .doc(user_info.company_id)
                 .update({
                   background: url
+                })
+                .then(res => {
+                  this.setState({
+                    imageUrl: url
+                  });
                 });
             });
         }
@@ -50,7 +56,7 @@ class BannerBackground extends Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     );
-    // const { imageUrl } = this.state;
+    const { imageUrl } = this.state;
 
     const props = {
       showUploadList: false,
@@ -81,7 +87,11 @@ class BannerBackground extends Component {
       <div className="aspect_box ">
         <div className="aspect_box--inner aspect_box--retangle_1x4 ">
           <img
-            src={profile.company_background === "" ? background : background}
+            src={
+              profile.company_background === ""
+                ? background
+                : profile.company_background
+            }
             alt="banner"
             className="aspect_box__img aspect_box__img--cover z-1"
           />
@@ -91,7 +101,15 @@ class BannerBackground extends Component {
             className="avatar-uploader aspect_box__img aspect_box__img--cover block__banner--upload z-2"
             {...props}
           >
-            {uploadButton}
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt="avatar"
+                className="aspect_box__img aspect_box__img--cover z-3"
+              />
+            ) : (
+              uploadButton
+            )}
           </Upload>
         </div>
       </div>

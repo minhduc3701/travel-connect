@@ -10,7 +10,8 @@ class AvatarCompany extends Component {
     file: {
       logo: []
     },
-    fileList: []
+    fileList: [],
+    imageUrl: null
   };
 
   onSendImageLogo = logo => {
@@ -34,6 +35,9 @@ class AvatarCompany extends Component {
                   logo: url
                 })
                 .then(res => {
+                  this.setState({
+                    imageUrl: url
+                  });
                   for (const info in user_info) {
                     if (info === "company_logo") {
                       user_info[info] = url;
@@ -91,7 +95,7 @@ class AvatarCompany extends Component {
       <div className="aspect_box block__banner__avatar z-4">
         <div className="aspect_box--inner aspect_box--square --circle block__banner__avatar--inner bg-color-white">
           <img
-            src={profile.company_logo === "" ? logo : logo}
+            src={profile.company_logo === "" ? logo : profile.company_logo}
             alt="banner"
             className="aspect_box__img aspect_box__img--contain z-1"
           />
