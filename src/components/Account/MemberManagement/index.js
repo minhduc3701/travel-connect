@@ -13,18 +13,20 @@ import {
   message,
   Switch,
   Col,
-  Row
+  Row,
+  notification
 } from "antd";
 // import WidgetHeader from "components/WidgetHeader";
 import Permission from "./permission";
 import IntlMessages from "util/IntlMessages";
 import UploadPicture from "./Avatar";
-import { doneChange, notiChange } from "util/Notification";
+import { doneChange } from "util/Notification";
 import { connect } from "react-redux";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import CircularProgress from "components/GlobalComponent/CircularProgress";
-import firebaseAcc from "firebase/firebaseAcc";
+import firebase from "firebase/firebaseAcc";
+import { actCreateMember_SDK } from "appRedux/actions/User";
 
 const { Search } = Input;
 const FormItem = Form.Item;
@@ -64,62 +66,124 @@ class Dynamic extends React.Component {
     //     }
     //     var user = result.user;
     //   });
-
     // Start a sign in process for an unauthenticated user.
-
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        const cretedMember = firebaseAcc
-          .functions()
-          .httpsCallable("createMember");
-        cretedMember(values);
-        notiChange("success", "Add employee success!");
-        this.setState({
-          newEmployee: values,
-          visible: false,
-          visible2: false
-        });
-      }
-    });
+    // e.preventDefault();
+    // this.props.form.validateFields((err, values) => {
+    //   if (!err) {
+    //     const cretedMember = firebaseAcc
+    //       .functions()
+    //       .httpsCallable("createMember");
+    //     cretedMember(values);
+    //     notiChange("success", "Add employee success!");
+    //     this.setState({
+    //       newEmployee: values,
+    //       visible: false,
+    //       visible2: false
+    //     });
+    //   }
+    // });
   };
 
-  handleSubmitMember = e => {
+  handleSubmitCreate = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.setState(
-          {
-            member: {
-              email: values.employee_email,
-              phoneNumber: values.employee_phone,
-              password: values.employee_password,
-              displayName: values.employee_name,
-              photoURL: values.employee_avatar
-            }
-          },
-          () => this.onSendDataPerson()
-        );
+        try {
+          firebase
+            .app("FirebaseApp")
+            .auth()
+            .createUserWithEmailAndPassword(
+              values.employee_email,
+              values.employee_password
+            )
+            .then(data => {
+              const userCredentials = {
+                imageUrl: "",
+                name: values.employee_name,
+                website: "",
+                birth: "",
+                gender: "",
+                email: values.employee_email,
+                phone: values.employee_phone,
+                address: "",
+                district: "",
+                city: "",
+                nation: "",
+                zipcode: "",
+                position: values.employee_position,
+                companyId: "",
+                companyName: "",
+                companyBrand: "",
+                companyLogo: "",
+                companyNation: "",
+                companyCity: "",
+                companyDistrict: "",
+                companyAddress: "",
+                companyBusiness: "",
+                package: "",
+                language: "",
+                timezone: "",
+                currency: "",
+                notiNewRequest: false,
+                notiCompany: false,
+                notiCommunity: false,
+                notiEvents: false,
+                notiCurrentRequest: false,
+                notiSystem: false,
+                notiFlow: false,
+                sendEmail: false,
+                sendNotiPush: false,
+                sendNotiWeb: false,
+                status: values.employee_display,
+                private: "only",
+                permission: [],
+                notiRole: [],
+                notiLogin: false,
+                createdAt: new Date().toISOString(),
+                companyActive: false
+              };
+              firebase
+                .app("FirebaseApp")
+                .firestore()
+                .doc(`/users/${data.user.uid}`)
+                .set(userCredentials);
+              firebase
+                .app("FirebaseAcc")
+                .firestore()
+                .doc(`/users/${data.user.uid}`)
+                .set(userCredentials);
+              firebase.auth().currentUser.sendEmailVerification();
+            })
+            .catch(error => {
+              let err = "";
+              if (error.code === "auth/email-already-in-use")
+                err = "The email address is already in use by another account";
+              else err = "Invalid account information";
+              notification.open({
+                message: err
+              });
+            });
+        } catch (error) {}
       }
     });
   };
 
   handleSubmitEdit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        const cretedMember = firebaseAcc
-          .functions()
-          .httpsCallable("createMember");
-        cretedMember(values);
-        notiChange("success", "Edit employee success!");
-        this.setState({
-          editEmoloyee: values,
-          visible: false,
-          visible2: false
-        });
-      }
-    });
+    // e.preventDefault();
+    // this.props.form.validateFields((err, values) => {
+    //   if (!err) {
+    //     const cretedMember = firebaseAcc
+    //       .functions()
+    //       .httpsCallable("createMember");
+    //     cretedMember(values);
+    //     notiChange("success", "Edit employee success!");
+    //     this.setState({
+    //       editEmoloyee: values,
+    //       visible: false,
+    //       visible2: false
+    //     });
+    //   }
+    // });
   };
 
   showModal = () => {
@@ -178,6 +242,7 @@ class Dynamic extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    console.log(this.state);
     let data = [];
     isLoaded(this.props.members) &&
       this.props.members.forEach(doc => {
@@ -302,7 +367,6 @@ class Dynamic extends React.Component {
         )
       }
     ];
-
     return (
       <Card
         className="block_shadow-i"
@@ -349,7 +413,7 @@ class Dynamic extends React.Component {
             width={800}
             footer={null}
           >
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmitCreate}>
               <Row>
                 <Col span={12}>
                   <FormItem
@@ -426,7 +490,7 @@ class Dynamic extends React.Component {
                     {getFieldDecorator("employee_display", {
                       rules: [
                         {
-                          required: false,
+                          required: true,
                           message: "Enter your company license number!"
                         }
                       ]
@@ -555,10 +619,6 @@ class Dynamic extends React.Component {
   }
 }
 
-const WrappedHorizontalLoginForm = Form.create()(Dynamic);
-
-// export default WrappedHorizontalLoginForm;
-
 const mapStateToProps = ({ firestore }) => {
   const { members } = firestore.ordered;
   return {
@@ -566,6 +626,15 @@ const mapStateToProps = ({ firestore }) => {
   };
 };
 
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    actCreateMember: data => {
+      dispatch(actCreateMember_SDK(data));
+    }
+  };
+};
+
+const WrappedHorizontalLoginForm = Form.create()(Dynamic);
 export default compose(
   firestoreConnect(props => {
     const user_info = JSON.parse(localStorage.getItem("user_info"));
@@ -578,5 +647,5 @@ export default compose(
       }
     ];
   }),
-  connect(mapStateToProps, null)
+  connect(mapStateToProps, mapDispatchToProps)
 )(WrappedHorizontalLoginForm);
