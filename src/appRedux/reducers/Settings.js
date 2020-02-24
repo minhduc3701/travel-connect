@@ -24,12 +24,14 @@ const initialSettings = {
   pathname: "",
   width: window.innerWidth,
   isDirectionRTL: false,
-  locale: JSON.parse(localStorage.getItem("user_info")).user_language || {
-    languageId: "english",
-    locale: "en",
-    name: "English",
-    icon: "us"
-  }
+  locale: JSON.parse(localStorage.getItem("user_info"))
+    ? JSON.parse(localStorage.getItem("user_info")).user_language
+    : {
+        languageId: "english",
+        locale: "en",
+        name: "English",
+        icon: "us"
+      }
 };
 
 const settings = (state = initialSettings, action) => {
