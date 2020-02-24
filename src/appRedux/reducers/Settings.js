@@ -1,4 +1,8 @@
-import {SWITCH_LANGUAGE, TOGGLE_COLLAPSED_NAV, WINDOW_WIDTH} from "constants/ActionTypes";
+import {
+  SWITCH_LANGUAGE,
+  TOGGLE_COLLAPSED_NAV,
+  WINDOW_WIDTH
+} from "constants/ActionTypes";
 import {
   LAYOUT_TYPE,
   LAYOUT_TYPE_FULL,
@@ -17,20 +21,20 @@ const initialSettings = {
   themeType: THEME_TYPE_SEMI_DARK,
   colorSelection: THEME_COLOR_SELECTION_PRESET,
 
-  pathname: '',
+  pathname: "",
   width: window.innerWidth,
   isDirectionRTL: false,
-  locale: {
-    languageId: 'english',
-    locale: 'en',
-    name: 'English',
-    icon: 'us'
+  locale: JSON.parse(localStorage.getItem("user_info")).user_language || {
+    languageId: "english",
+    locale: "en",
+    name: "English",
+    icon: "us"
   }
 };
 
 const settings = (state = initialSettings, action) => {
   switch (action.type) {
-    case '@@router/LOCATION_CHANGE':
+    case "@@router/LOCATION_CHANGE":
       return {
         ...state,
         pathname: action.payload.pathname,
@@ -44,7 +48,7 @@ const settings = (state = initialSettings, action) => {
     case WINDOW_WIDTH:
       return {
         ...state,
-        width: action.width,
+        width: action.width
       };
     case THEME_TYPE:
       return {
@@ -69,9 +73,10 @@ const settings = (state = initialSettings, action) => {
       };
 
     case SWITCH_LANGUAGE:
+      console.log(action.payload);
       return {
         ...state,
-        locale: action.payload,
+        locale: action.payload
       };
     default:
       return state;

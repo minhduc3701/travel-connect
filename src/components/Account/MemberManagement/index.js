@@ -54,19 +54,6 @@ class Dynamic extends React.Component {
   };
 
   handleSubmit = e => {
-    // firebaseAcc
-    //   .auth()
-    //   .getRedirectResult()
-    //   .then(function(result) {
-    //     if (result.credential) {
-    //       // This gives you the OAuth Access Token for that provider.
-    //       var token = result.credential.accessToken;
-    //     }
-    //     var user = result.user;
-    //   });
-
-    // Start a sign in process for an unauthenticated user.
-
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
