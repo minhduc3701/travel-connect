@@ -276,5 +276,4 @@ const mapDispatchToProps = (dispatch, props) => {
 };
 
 const WrappedHorizontalLoginForm = Form.create()(Company);
-
 export default connect(null, mapDispatchToProps)(WrappedHorizontalLoginForm);
