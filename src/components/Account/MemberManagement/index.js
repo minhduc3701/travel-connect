@@ -56,6 +56,7 @@ class Dynamic extends React.Component {
   };
 
   handleSubmit = e => {
+<<<<<<< HEAD
     // firebaseAcc
     //   .auth()
     //   .getRedirectResult()
@@ -82,6 +83,23 @@ class Dynamic extends React.Component {
     //     });
     //   }
     // });
+=======
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const cretedMember = firebaseAcc
+          .functions()
+          .httpsCallable("createMember");
+        cretedMember(values);
+        notiChange("success", "Add employee success!");
+        this.setState({
+          newEmployee: values,
+          visible: false,
+          visible2: false
+        });
+      }
+    });
+>>>>>>> 8b2079e54586c86a4795abd040b54ae3252c7e7a
   };
 
   handleSubmitCreate = e => {

@@ -26,5 +26,3 @@ addLocaleData(AppLocale.fr.data);
 addLocaleData(AppLocale.vi.data);
 
 export default AppLocale;
-
-
