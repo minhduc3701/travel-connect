@@ -24,12 +24,34 @@ const initialSettings = {
   pathname: "",
   width: window.innerWidth,
   isDirectionRTL: false,
-  locale: JSON.parse(localStorage.getItem("user_info")).user_language || {
-    languageId: "english",
-    locale: "en",
-    name: "English",
-    icon: "us"
-  }
+  locale: JSON.parse(localStorage.getItem("user_info"))
+    ? JSON.parse(localStorage.getItem("user_info")).user_language
+      ? {
+          languageId:
+            JSON.parse(localStorage.getItem("user_info")).user_language
+              .languageId || "english",
+          locale:
+            JSON.parse(localStorage.getItem("user_info")).user_language
+              .locale || "en",
+          name:
+            JSON.parse(localStorage.getItem("user_info")).user_language.name ||
+            "English",
+          icon:
+            JSON.parse(localStorage.getItem("user_info")).user_language.icon ||
+            "us"
+        }
+      : {
+          languageId: "english",
+          locale: "en",
+          name: "English",
+          icon: "us"
+        }
+    : {
+        languageId: "english",
+        locale: "en",
+        name: "English",
+        icon: "us"
+      }
 };
 
 const settings = (state = initialSettings, action) => {
