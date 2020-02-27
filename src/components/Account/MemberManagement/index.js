@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   Badge,
   Icon,
@@ -14,13 +14,15 @@ import {
   Switch,
   Col,
   Row,
-  notification
+  notification,
+  Upload,
+  Select
 } from "antd";
 // import WidgetHeader from "components/WidgetHeader";
 import Permission from "./permission";
 import IntlMessages from "util/IntlMessages";
 import UploadPicture from "./Avatar";
-import { doneChange } from "util/Notification";
+import { doneChange, notificationPop } from "util/Notification";
 import { connect } from "react-redux";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
@@ -34,6 +36,7 @@ const FormItem = Form.Item;
 const showHeader = true;
 
 const pagination = { position: "bottom" };
+const Option = Select.Option;
 const formItemLayout = {
   labelCol: { xs: 24, sm: 6 },
   wrapperCol: { xs: 24, sm: 14 }
@@ -52,7 +55,11 @@ class Dynamic extends React.Component {
     visible2: false,
     tab: "1",
     newEmployee: "",
-    editEmoloyee: ""
+    editEmoloyee: "",
+    fileList: [],
+    loadingCreate: false,
+    loadingEdit: false,
+    editItem: null
   };
 
   handleSubmit = e => {
@@ -88,6 +95,9 @@ class Dynamic extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        this.setState({
+          loadingCreate: true
+        });
         try {
           firebase
             .app("FirebaseApp")
@@ -134,7 +144,7 @@ class Dynamic extends React.Component {
                 sendEmail: false,
                 sendNotiPush: false,
                 sendNotiWeb: false,
-                status: values.employee_display,
+                display: values.employee_display,
                 private: "only",
                 permission: [],
                 notiRole: [],
@@ -148,11 +158,21 @@ class Dynamic extends React.Component {
                 .doc(`/users/${data.user.uid}`)
                 .set(userCredentials);
               firebase
-                .app("FirebaseAcc")
                 .firestore()
                 .doc(`/users/${data.user.uid}`)
-                .set(userCredentials);
-              firebase.auth().currentUser.sendEmailVerification();
+                .set(userCredentials)
+                .then(async res => {
+                  await this.onUploadImage(data.user.uid);
+                  this.setState({
+                    loadingCreate: false,
+                    visible: false
+                  });
+                  notificationPop(
+                    "success",
+                    "Tạo tài khoản thành công",
+                    "Tài khoản đã được tạo thành công tại Travel Connect"
+                  );
+                });
             })
             .catch(error => {
               let err = "";
@@ -169,21 +189,31 @@ class Dynamic extends React.Component {
   };
 
   handleSubmitEdit = e => {
-    // e.preventDefault();
-    // this.props.form.validateFields((err, values) => {
-    //   if (!err) {
-    //     const cretedMember = firebaseAcc
-    //       .functions()
-    //       .httpsCallable("createMember");
-    //     cretedMember(values);
-    //     notiChange("success", "Edit employee success!");
-    //     this.setState({
-    //       editEmoloyee: values,
-    //       visible: false,
-    //       visible2: false
-    //     });
-    //   }
-    // });
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.setState({
+          loadingEdit: true
+        });
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(this.state.editItem.key)
+          .update({
+            display: values.employee_display,
+            position: values.employee_position,
+            newPassword: values.employee_password
+          })
+          .then(res => {
+            this.setState({
+              visible2: false
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    });
   };
 
   showModal = () => {
@@ -191,16 +221,16 @@ class Dynamic extends React.Component {
       visible: true
     });
   };
-  showModal2 = () => {
+  showModal2 = detail => {
     this.setState({
-      visible2: true
+      visible2: true,
+      editItem: detail
     });
   };
   handleOk = () => {
     this.setState({ loading: true });
     setTimeout(() => {
       this.setState({ loading: false, visible: false, visible2: false });
-      doneChange();
     }, 1500);
   };
   handleCancel = () => {
@@ -226,38 +256,126 @@ class Dynamic extends React.Component {
     });
   };
 
-  // onUploadImage = async () => {
-  //   let user_info = JSON.parse(localStorage.getItem("user_info"));
-  //   await this.state.fileList.forEach(fileItem => {
-  //     firebase
-  //       .storage()
-  //       .ref(`/memberDefault/${Date.now().toString()}`)
-  //       .put(fileItem)
-  //       .then()
-  //       .catch(err => {
-  //         console.log(err);
-  //       });
-  //   });
-  // };
+  normFile = e => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
+  onUploadImage = id => {
+    firebase
+      .storage()
+      .ref(`/${id}/${Date.now().toString()}`)
+      .put(this.state.fileList[0])
+      .then(res => {
+        if (id !== null && id !== undefined) {
+          firebase
+            .storage()
+            .ref(res.metadata.fullPath)
+            .getDownloadURL()
+            .then(url => {
+              firebase
+                .firestore()
+                .collection("users")
+                .doc(id)
+                .update({
+                  imageUrl: url
+                });
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  onLockMember = id => {
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(id)
+      .update({
+        status: "lock",
+        display: false
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  onDeleteMember = id => {
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(id)
+      .update({
+        status: "deleted",
+        display: false
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  onUnLockMember = id => {
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(id)
+      .update({
+        status: "",
+        display: true
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    console.log(this.state);
     let data = [];
+    let { fileList } = this.state;
     isLoaded(this.props.members) &&
       this.props.members.forEach(doc => {
-        data.push({
-          key: doc.id || " - ",
-          name: doc.name || " - ",
-          position: doc.position || "- ",
-          status: doc.contact || "Hide",
-          mail: doc.email || " - ",
-          phone: doc.phone || " - "
-        });
+        if (doc.status !== "deleted") {
+          data.push({
+            key: doc.id || " - ",
+            name: doc.name || " - ",
+            position: doc.position || "- ",
+            status: doc.display || "Hide",
+            mail: doc.email || " - ",
+            phone: doc.phone || " - ",
+            memberStatus: doc.status,
+            company_id: doc.companyId
+          });
+        }
       });
     let { sortedInfo, filteredInfo } = this.state;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
+    const props = {
+      multiple: false,
+      listType: "picture",
+      onRemove: file => {
+        this.setState(state => {
+          const index = state.fileList.indexOf(file);
+          const newFileList = state.fileList.slice();
+          newFileList.splice(index, 1);
+          return {
+            fileList: newFileList
+          };
+        });
+      },
+      beforeUpload: file => {
+        this.setState(state => ({
+          fileList: [file]
+        }));
+        return false;
+      },
+      fileList
+    };
     const columns = [
       {
         title: <IntlMessages id="employee.name" />,
@@ -295,13 +413,15 @@ class Dynamic extends React.Component {
         title: <IntlMessages id="employee.display" />,
         dataIndex: "status",
         key: "status",
-        render: tag => {
-          let color, mess, type;
-          if (tag === "Show") {
+        render: (tag, record) => {
+          let color, mess, type, text;
+          if (record.status === true) {
+            text = "Show";
             color = "#04B431";
             mess = "This employee is displayed on company's contact info";
             type = "check";
           } else {
+            text = "Hide";
             color = "grey";
             mess = "This employee is not displayed on company's contact info";
             type = "close";
@@ -309,8 +429,8 @@ class Dynamic extends React.Component {
           return (
             <Tooltip placement="top" title={mess}>
               <Icon type={type} style={{ color: color }} />{" "}
-              <span style={{ color: color }} key={tag}>
-                {tag.toUpperCase()}
+              <span style={{ color: color }} key={record.key}>
+                {text.toUpperCase()}
               </span>
             </Tooltip>
           );
@@ -320,50 +440,135 @@ class Dynamic extends React.Component {
         title: <IntlMessages id="employee.action" />,
         key: "action",
         render: (text, record) => (
-          <span>
-            <span className="gx-link" onClick={this.showModal2}>
-              <Tooltip placement="topLeft" title={<IntlMessages id="edit" />}>
-                <Icon type="edit" theme="filled" /> <IntlMessages id="edit" />
-              </Tooltip>
-            </span>
-            <span className="gx-link" style={{ marginLeft: 15 }}>
-              <Permission />
-            </span>
-            <span className="gx-link" style={{ marginLeft: 15 }}>
-              <Popconfirm
-                onConfirm={this.confirm}
-                onCancel={this.cancel}
-                title={<IntlMessages id="management.member.lock.title" />}
-              >
-                <Tooltip
-                  placement="topLeft"
-                  title={<IntlMessages id="lockUser" />}
+          <Fragment>
+            {record.memberStatus === "" && record.position !== "CEO" ? (
+              <span>
+                <span
+                  className="gx-link"
+                  onClick={() => this.showModal2(record)}
                 >
-                  <span style={{ color: "red" }}>
+                  <Tooltip
+                    placement="topLeft"
+                    title={<IntlMessages id="edit" />}
+                  >
+                    <Icon type="edit" theme="filled" />{" "}
+                    <IntlMessages id="edit" />
+                  </Tooltip>
+                </span>
+                <span className="gx-link" style={{ marginLeft: 15 }}>
+                  <Permission data={record} />
+                </span>
+                <span className="gx-link" style={{ marginLeft: 15 }}>
+                  <Popconfirm
+                    onConfirm={() => this.onLockMember(record.key)}
+                    onCancel={this.cancel}
+                    title={<IntlMessages id="management.member.lock.title" />}
+                  >
+                    <Tooltip
+                      placement="topLeft"
+                      title={<IntlMessages id="lockUser" />}
+                    >
+                      <span style={{ color: "red" }}>
+                        <Icon type="lock" theme="filled" />{" "}
+                        <IntlMessages id="management.member.lock" />
+                      </span>
+                    </Tooltip>
+                  </Popconfirm>
+                </span>
+                <span className="gx-link" style={{ marginLeft: 15 }}>
+                  <Popconfirm
+                    onConfirm={() => this.onDeleteMember(record.key)}
+                    onCancel={this.cancel}
+                    title={<IntlMessages id="deleteConfirm.employee" />}
+                  >
+                    <Tooltip
+                      placement="topLeft"
+                      title={<IntlMessages id="deleteUser" />}
+                    >
+                      <span style={{ color: "red" }}>
+                        <Icon type="delete" theme="filled" />{" "}
+                        <IntlMessages id="button.delete" />
+                      </span>
+                    </Tooltip>
+                  </Popconfirm>
+                </span>
+              </span>
+            ) : record.memberStatus === "lock" ? (
+              <Fragment>
+                <span className="gx-text-grey cursor-not-allow">
+                  <Icon type="edit" theme="filled" /> <IntlMessages id="edit" />
+                </span>
+                <span
+                  className="gx-text-grey cursor-not-allow"
+                  style={{ marginLeft: 15 }}
+                >
+                  <Icon type="tool" theme="filled" />{" "}
+                  <IntlMessages id="permission" />
+                </span>
+                <span className="gx-link" style={{ marginLeft: 15 }}>
+                  <Popconfirm
+                    onConfirm={() => this.onUnLockMember(record.key)}
+                    onCancel={this.cancel}
+                    title={<IntlMessages id="management.member.lock.title" />}
+                  >
+                    <Tooltip placement="topLeft" title="Unlock">
+                      <span>
+                        <Icon type="lock" theme="filled" /> Unlock
+                      </span>
+                    </Tooltip>
+                  </Popconfirm>
+                </span>
+                <span className="gx-link" style={{ marginLeft: 15 }}>
+                  <Popconfirm
+                    onConfirm={() => this.onDeleteMember(record.key)}
+                    onCancel={this.cancel}
+                    title={<IntlMessages id="deleteConfirm.employee" />}
+                  >
+                    <Tooltip
+                      placement="topLeft"
+                      title={<IntlMessages id="deleteUser" />}
+                    >
+                      <span style={{ color: "red" }}>
+                        <Icon type="delete" theme="filled" />{" "}
+                        <IntlMessages id="button.delete" />
+                      </span>
+                    </Tooltip>
+                  </Popconfirm>
+                </span>
+              </Fragment>
+            ) : record.memberStatus === "" && record.position === "CEO" ? (
+              <span>
+                <span className="gx-text-grey cursor-not-allow">
+                  <Icon type="edit" theme="filled" /> <IntlMessages id="edit" />
+                </span>
+                <span
+                  className="gx-text-grey cursor-not-allow"
+                  style={{ marginLeft: 15 }}
+                >
+                  <Icon type="tool" theme="filled" />{" "}
+                  <IntlMessages id="permission" />
+                </span>
+                <span
+                  className="gx-text-grey cursor-not-allow"
+                  style={{ marginLeft: 15 }}
+                >
+                  <span>
                     <Icon type="lock" theme="filled" />{" "}
                     <IntlMessages id="management.member.lock" />
                   </span>
-                </Tooltip>
-              </Popconfirm>
-            </span>
-            <span className="gx-link" style={{ marginLeft: 15 }}>
-              <Popconfirm
-                onConfirm={this.confirm}
-                onCancel={this.cancel}
-                title={<IntlMessages id="deleteConfirm.employee" />}
-              >
-                <Tooltip
-                  placement="topLeft"
-                  title={<IntlMessages id="deleteUser" />}
+                </span>
+                <span
+                  className="gx-text-grey cursor-not-allow"
+                  style={{ marginLeft: 15 }}
                 >
-                  <span style={{ color: "red" }}>
+                  <span>
                     <Icon type="delete" theme="filled" />{" "}
                     <IntlMessages id="button.delete" />
                   </span>
-                </Tooltip>
-              </Popconfirm>
-            </span>
-          </span>
+                </span>
+              </span>
+            ) : null}
+          </Fragment>
         )
       }
     ];
@@ -450,10 +655,11 @@ class Dynamic extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: "Enter password!"
+                          message: "Enter password!",
+                          min: 6
                         }
                       ]
-                    })(<Input placeholder="Password" />)}
+                    })(<Input type="password" placeholder="Password" />)}
                   </FormItem>
                   <FormItem
                     {...formItemLayout}
@@ -463,7 +669,9 @@ class Dynamic extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: "Enter employee phone number!"
+                          message: "Enter employee phone number!",
+                          min: 7,
+                          max: 20
                         }
                       ]
                     })(<Input placeholder="Số điện thoại" />)}
@@ -481,7 +689,13 @@ class Dynamic extends React.Component {
                           message: "Enter employee position!"
                         }
                       ]
-                    })(<Input placeholder="Vị trí" />)}
+                    })(
+                      <Select placeholder="Vị trí">
+                        <Option value="Manager">Manager</Option>
+                        <Option value="Marketing">Marketing</Option>
+                        <Option value="Saler">Saler</Option>
+                      </Select>
+                    )}
                   </FormItem>
                   <FormItem
                     {...formItemLayout}
@@ -501,13 +715,22 @@ class Dynamic extends React.Component {
                     label={<IntlMessages id="avatar" />}
                   >
                     {getFieldDecorator("employee_avatar", {
+                      valuePropName: "fileList1",
+                      getValueFromEvent: this.normFile,
                       rules: [
                         {
                           required: false,
                           message: "Enter your company license number!"
                         }
                       ]
-                    })(<UploadPicture />)}
+                    })(
+                      <Upload {...props}>
+                        <Button className="m-0-i">
+                          <Icon type="upload" />{" "}
+                          <IntlMessages id="clickToUpload" />
+                        </Button>
+                      </Upload>
+                    )}
                   </FormItem>
                 </Col>
               </Row>
@@ -528,7 +751,9 @@ class Dynamic extends React.Component {
                 <Button
                   htmlType="submit"
                   type="primary"
+                  loading={this.state.loadingCreate}
                   style={{ marginBottom: "0 !important" }}
+                  onClick={() => this.onUploadImage()}
                 >
                   <IntlMessages id="complete" />
                 </Button>
@@ -556,7 +781,13 @@ class Dynamic extends React.Component {
                       message: "Enter employee position!"
                     }
                   ]
-                })(<Input placeholder="Vị trí" />)}
+                })(
+                  <Select placeholder="Vị trí">
+                    <Option value="Manager">Manager</Option>
+                    <Option value="Marketing">Marketing</Option>
+                    <Option value="Saler">Saler</Option>
+                  </Select>
+                )}
               </FormItem>
               <FormItem
                 {...formItemLayout}
@@ -575,15 +806,14 @@ class Dynamic extends React.Component {
                 {...formItemLayout}
                 label={<IntlMessages id="employee.display" />}
               >
-                {getFieldDecorator("employee.display", {
+                {getFieldDecorator("employee_display", {
                   rules: [
                     {
-                      required: false,
-                      message: "Enter your company license number!"
+                      required: true,
+                      message: "Select display member!"
                     }
                   ]
                 })(<Switch />)}
-
                 <br />
                 <span className="gx-text-grey">
                   <IntlMessages id="management.member.display.employee" />
@@ -606,6 +836,7 @@ class Dynamic extends React.Component {
                 <Button
                   htmlType="submit"
                   type="primary"
+                  loading={this.state.loadingEdit}
                   style={{ marginBottom: "0 !important" }}
                 >
                   <IntlMessages id="complete" />

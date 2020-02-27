@@ -28,14 +28,6 @@ class Profile extends Component {
     load: true
   };
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        load: false
-      });
-    }, 3000);
-  }
-
   render() {
     let warning = null;
     let requests = null;
@@ -104,7 +96,7 @@ class Profile extends Component {
                   <Contact profile={requests} />
                   <EventsBanner profile={requests} />
                   <PropertiesCard profile={requests} />
-                  {requests.company_rating > 0 ? (
+                  {requests.company_rating > 0 && requests ? (
                     <Rating profile={requests} />
                   ) : null}
                 </div>

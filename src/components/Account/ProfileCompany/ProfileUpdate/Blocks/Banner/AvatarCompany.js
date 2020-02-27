@@ -2,7 +2,7 @@ import React, { Component } from "react";
 // import { notiChange } from "util/Notification";
 import { Icon, Upload } from "antd";
 import firebaseAcc from "firebase/firebaseAcc";
-import logo from "assets/images/travel-default-logo.png";
+// import logo from "assets/images/travel-default-logo.png";
 
 class AvatarCompany extends Component {
   state = {
@@ -94,11 +94,18 @@ class AvatarCompany extends Component {
     return (
       <div className="aspect_box block__banner__avatar z-4">
         <div className="aspect_box--inner aspect_box--square --circle block__banner__avatar--inner bg-color-white">
-          <img
-            src={profile.company_logo === "" ? logo : profile.company_logo}
-            alt="banner"
-            className="aspect_box__img aspect_box__img--contain z-1"
-          />
+          {profile.company_logo !== "" ? (
+            <img
+              src={profile.company_logo}
+              alt={profile.company_brandname}
+              className="aspect_box__img aspect_box__img--contain z-1"
+            />
+          ) : (
+            <div
+              className="aspect_box__img aspect_box__img--contain z-1"
+              style={{ background: "#c3c3c322" }}
+            ></div>
+          )}
           <Upload
             name="avatar"
             listType="picture-card"

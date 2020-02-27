@@ -173,7 +173,7 @@ class Media extends Component {
               fileList={imageList}
               onPreview={this.handlePreview}
             >
-              {fileList.length >= 8 ? null : uploadButton}
+              {fileList.length >= 6 ? null : uploadButton}
             </Upload>
             <Modal
               visible={previewVisible}

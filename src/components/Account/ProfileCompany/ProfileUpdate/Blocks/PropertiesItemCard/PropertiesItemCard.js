@@ -61,7 +61,7 @@ class PropertiesItemCard extends React.Component {
   };
 
   render() {
-    let { productList } = this.props.data;
+    let { productList } = this.props;
     return (
       <div className="gx-featured-item">
         <div className="d-flex d-flex-wrap justify-space-between">

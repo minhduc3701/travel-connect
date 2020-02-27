@@ -53,7 +53,6 @@ class About extends React.Component {
         desc: profile.company_business[0]
       }
     ];
-
     return (
       <div id="nav_introduction" style={{ minHeight: "16em" }}>
         <WidgetHeader title={<IntlMessages id="company.about" />} />
