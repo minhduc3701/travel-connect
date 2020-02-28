@@ -148,7 +148,6 @@ class App extends Component {
     //       });
     //   }
     // });
-    console.log(currentAppLocale);
 
     return (
       <ConfigProvider locale={currentAppLocale.antd}>
