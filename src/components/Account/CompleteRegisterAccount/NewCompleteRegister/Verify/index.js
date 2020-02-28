@@ -95,7 +95,6 @@ class Verify extends Component {
   // };
 
   render() {
-    console.log(this.props);
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;
     const props = {

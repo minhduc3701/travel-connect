@@ -19,6 +19,10 @@ import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import firebase from "firebase/firebaseAcc";
 // import { HOME } from "components/Layout/Header/NavigateLink";
 import IntlMessages from "util/IntlMessages";
+import { firestoreConnect, isLoaded } from "react-redux-firebase";
+import { compose } from "redux";
+import { notificationPop } from "util/Notification";
+import { HOME } from "components/Layout/Header/NavigateLink";
 
 const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
@@ -27,7 +31,6 @@ const formItemLayout = {
   labelCol: { xs: 24, sm: 6 },
   wrapperCol: { xs: 24, sm: 18 }
 };
-
 const Option = Select.Option;
 const { OptGroup } = Select;
 const residences = [
@@ -91,7 +94,11 @@ class Company extends Component {
     notExist: false,
     selectVisible: false,
     visibleSearch: false,
-    personAccDetail: null
+    personAccDetail: null,
+    nationSearch: null,
+    searchText: null,
+    inputDisplay: true,
+    companyDetail: null
   };
   handleSubmitPerson = e => {
     e.preventDefault();
@@ -140,6 +147,98 @@ class Company extends Component {
     });
   };
 
+  handleSubmitUserCompany = e => {
+    e.preventDefault();
+    let uId = JSON.parse(localStorage.getItem("user_info"));
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(uId.user_id)
+          .update({
+            position: values.user_position,
+            companyAddress: this.state.companyDetail.company_address,
+            companyBrand: this.state.companyDetail.company_brandname,
+            companyBusiness: this.state.companyDetail.company_business,
+            companyCity: this.state.companyDetail.company_city,
+            companyDistrict: this.state.companyDetail.company_district,
+            companyName: this.state.companyDetail.company_name,
+            companyNation: this.state.companyDetail.company_national,
+            companyId: this.state.companyDetail.company_id,
+            companyLogo: this.state.companyDetail.company_logo,
+            status: ""
+          })
+          .then(res => {
+            notificationPop(
+              "success",
+              "Bổ sung thông tin thành công!",
+              "Thông tin công việc của bạn đã được thêm thành công, Công ty bạn làm việc nhận được thống báo!"
+            );
+          })
+          .then(ress => {
+            window.location.href = `${HOME}/home`;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    });
+  };
+  handleSubmitOtherCompany = e => {
+    e.preventDefault();
+    let uId = JSON.parse(localStorage.getItem("user_info"));
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        firebase
+          .app("FirebaseApp")
+          .firestore()
+          .collection("units")
+          .add({
+            position: values.user_position,
+            address: values.company_address,
+            brandname: values.company_brandname,
+            business: values.company_business,
+            city: values.company_district[0],
+            district: values.company_district[1],
+            name: values.company_name,
+            nation: values.company_national,
+            email: values.company_email,
+            phone: values.company_phone
+          });
+
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(uId.user_id)
+          .update({
+            position: values.user_position,
+            companyAddress: values.company_address,
+            companyBrand: values.company_brandname,
+            companyBusiness: values.company_business,
+            companyCity: values.company_district[0],
+            companyDistrict: values.company_district[1],
+            companyName: values.company_name,
+            companyNation: values.company_national,
+            status: ""
+          })
+          .then(res => {
+            notificationPop(
+              "success",
+              "Bổ sung thông tin thành công!",
+              "Thông tin công việc của bạn đã được thêm thành công, Công ty bạn làm việc nhận được thống báo!"
+            );
+          })
+          .then(ress => {
+            window.location.href = `${HOME}/home`;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    });
+  };
+
   onSendDataPerson = async () => {
     await this.props.actSendDataCompanyUser(this.state.personAccDetail);
   };
@@ -157,7 +256,8 @@ class Company extends Component {
   };
   onNotExist = e => {
     this.setState({
-      notExist: !this.state.notExist
+      notExist: !this.state.notExist,
+      visibleSearch: !this.state.visibleSearch
     });
   };
 
@@ -172,6 +272,13 @@ class Company extends Component {
       notExist: !this.state.notExist,
       selectVisible: !this.state.selectVisible,
       visibleSearch: !this.state.visibleSearch
+    });
+  };
+
+  onChoiseNation = e => {
+    this.setState({
+      nationSearch: e,
+      inputDisplay: false
     });
   };
 
@@ -212,9 +319,42 @@ class Company extends Component {
     return e && e.fileList;
   };
 
+  onTextFind = e => {
+    this.setState({
+      // searchText: e
+      searchText: e.target.value
+    });
+  };
+
+  onChoiseCompany = detail => {
+    this.setState({
+      companyDetail: detail,
+      searchText: "",
+      visibleSearch: true
+    });
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;
+    let cList = [];
+    isLoaded(this.props.companyList) &&
+      this.props.companyList.forEach(doc => {
+        if (this.state.nationSearch && this.state.nationSearch === doc.nation) {
+          cList.push({
+            company_id: doc.id,
+            company_name: doc.name,
+            company_brandname: doc.brandname,
+            company_address: doc.address,
+            company_license: doc.license,
+            company_business: doc.companyBusiness,
+            company_city: doc.companyCity,
+            company_district: doc.companyDistrict,
+            company_logo: doc.companyLogo,
+            company_national: doc.companyNation
+          });
+        }
+      });
     const props = {
       multiple: true,
       listType: "picture",
@@ -237,6 +377,10 @@ class Company extends Component {
       },
       fileList
     };
+    let filterCompany = cList.filter(company => {
+      return company.company_name.indexOf(this.state.searchText) !== -1;
+    });
+
     return (
       <div className="block-w bor-rad-6">
         <WidgetHeader title={<IntlMessages id="account.personal.title" />} />
@@ -438,6 +582,7 @@ class Company extends Component {
                           placeholder="Quốc gia"
                           disabled={this.state.visibleSearch}
                           defaultValue="VN"
+                          onChange={this.onChoiseNation}
                           style={{ width: "100%" }}
                         >
                           <OptGroup label={<IntlMessages id="asian" />}>
@@ -470,7 +615,11 @@ class Company extends Component {
                     <FormItem {...formItemLayout} label="Công ty: ">
                       <Fragment>
                         <InputGroup compact>
-                          <Select style={{ width: "30%" }} defaultValue="name">
+                          <Select
+                            disabled={this.state.visibleSearch}
+                            style={{ width: "30%" }}
+                            defaultValue="name"
+                          >
                             <Option value="name">Tên công ty</Option>
                             <Option value="code">Mã số thuế</Option>
                           </Select>
@@ -481,9 +630,19 @@ class Company extends Component {
                                 message: "Enter your company detail!"
                               }
                             ]
-                          })(<Input style={{ width: "50%" }} />)}
+                          })(
+                            <Input
+                              disabled={
+                                this.state.inputDisplay ||
+                                this.state.visibleSearch
+                              }
+                              style={{ width: "50%" }}
+                              onChange={this.onTextFind}
+                            />
+                          )}
 
                           <Button
+                            disabled={this.state.visibleSearch}
                             style={{ width: "20%", margin: 0 }}
                             type="primary"
                             htmlType="submit"
@@ -491,16 +650,33 @@ class Company extends Component {
                             Tìm kiếm
                           </Button>
                         </InputGroup>
-                        <p className="gx-link" onClick={this.onNotExist}>
-                          Công ty tôi làm việc chưa tồn tại trên Travel Connect
-                        </p>
+                        {this.state.searchText === "" ||
+                        filterCompany.length < 1 ? (
+                          <p className="gx-link" onClick={this.onNotExist}>
+                            Công ty tôi làm việc chưa tồn tại trên Travel
+                            Connect
+                          </p>
+                        ) : null}
+                        <ul>
+                          {filterCompany.length > 0 &&
+                          this.state.searchText !== ""
+                            ? filterCompany.map((item, index) => {
+                                return (
+                                  <li
+                                    className="gx-link"
+                                    onClick={() => this.onChoiseCompany(item)}
+                                    key={index}
+                                  >
+                                    {item.company_name}
+                                  </li>
+                                );
+                              })
+                            : null}
+                        </ul>
                       </Fragment>
                     </FormItem>
                   </Form>
-
-                  {this.state.typeCompany &&
-                  this.state.typeCompany !== "other" &&
-                  this.state.notExist === false ? (
+                  {this.state.companyDetail && this.state.notExist === false ? (
                     <div>
                       <Form onSubmit={this.handleSubmitPerson}>
                         <FormItem {...formItemLayout} label="Chức vụ bản thân">
@@ -512,51 +688,6 @@ class Company extends Component {
                               }
                             ]
                           })(<Input placeholder="Chức vụ" />)}
-                        </FormItem>
-                        <FormItem {...formItemLayout} label="Email">
-                          {getFieldDecorator("person_email", {
-                            rules: [
-                              {
-                                required: true,
-                                message: "Enter your email!"
-                              }
-                            ]
-                          })(<Input placeholder="Email" />)}
-                        </FormItem>
-                        <FormItem {...formItemLayout} label="Số điện thoại">
-                          {getFieldDecorator("person_phone", {
-                            rules: [
-                              {
-                                required: true,
-                                message: "Enter your phone number!"
-                              }
-                            ]
-                          })(<Input placeholder="Số điện thoại" />)}
-                        </FormItem>
-                        <FormItem {...formItemLayout} label="Quận/ Huyện">
-                          {getFieldDecorator("person_district", {
-                            rules: [
-                              {
-                                required: true,
-                                message: "Select your district!"
-                              }
-                            ]
-                          })(
-                            <Cascader
-                              placeholder="Quận/ Huyện"
-                              options={residences}
-                            />
-                          )}
-                        </FormItem>
-                        <FormItem {...formItemLayout} label="Địa chỉ">
-                          {getFieldDecorator("person_address", {
-                            rules: [
-                              {
-                                required: true,
-                                message: "Enter your address!"
-                              }
-                            ]
-                          })(<Input placeholder="Địa chỉ" />)}
                         </FormItem>
                         <div
                           className=" d-flex"
@@ -579,7 +710,7 @@ class Company extends Component {
                   ) : null}
                   {this.state.notExist ? (
                     <div>
-                      <Form onSubmit={this.handleSubmitPerson}>
+                      <Form onSubmit={this.handleSubmitOtherCompany}>
                         <FormItem {...formItemLayout} label="Tên đơn vị">
                           {getFieldDecorator("company_name", {
                             rules: [
@@ -629,6 +760,40 @@ class Company extends Component {
                               }
                             ]
                           })(<Input placeholder="Số điện thoại" />)}
+                        </FormItem>
+                        <FormItem
+                          {...formItemLayout}
+                          label={
+                            <IntlMessages id="account.profile.edit.information.address.update.companynation" />
+                          }
+                        >
+                          {getFieldDecorator("company_nation", {
+                            rules: [
+                              {
+                                required: true,
+                                message: <IntlMessages id="rule.nation.text" />
+                              }
+                            ]
+                          })(
+                            <Select
+                              name="national"
+                              showSearch
+                              placeholder="Quốc gia"
+                            >
+                              <Option value="VN">
+                                <IntlMessages id="nation.vietnam" />
+                              </Option>
+                              <Option value="JP">
+                                <IntlMessages id="nation.japan" />
+                              </Option>
+                              <Option value="CN">
+                                <IntlMessages id="nation.china" />
+                              </Option>
+                              <Option value="KR">
+                                <IntlMessages id="nation.korea" />
+                              </Option>
+                            </Select>
+                          )}
                         </FormItem>
                         <FormItem {...formItemLayout} label="Quận/ Huyện">
                           {getFieldDecorator("company_district", {
@@ -1241,9 +1406,10 @@ class Company extends Component {
   }
 }
 
-const mapStateToProp = ({ CompanyProfile }) => {
+const mapStateToProps = state => {
+  const { companyList } = state.firestore.ordered;
   return {
-    CompanyProfile
+    companyList
   };
 };
 
@@ -1259,8 +1425,14 @@ const mapDispatchToProps = (dispatch, props) => {
 };
 
 const WrappedHorizontalLoginForm = Form.create()(Company);
-
-export default connect(
-  mapStateToProp,
-  mapDispatchToProps
+export default compose(
+  firestoreConnect(props => {
+    return [
+      {
+        collection: "companies",
+        storeAs: "companyList"
+      }
+    ];
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
 )(WrappedHorizontalLoginForm);

@@ -57,7 +57,3 @@ const onSendImage = fileList => {
     })
     .catch(err => notiChange("error", "Somthing went wrong! Try again"));
 };
-
-export const actCreateMember_SDK = data => {
-  console.log(data);
-};

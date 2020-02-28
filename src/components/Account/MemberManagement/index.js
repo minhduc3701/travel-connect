@@ -28,7 +28,6 @@ import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import CircularProgress from "components/GlobalComponent/CircularProgress";
 import firebase from "firebase/firebaseAcc";
-import { actCreateMember_SDK } from "appRedux/actions/User";
 
 const { Search } = Input;
 const FormItem = Form.Item;
@@ -852,14 +851,6 @@ const mapStateToProps = ({ firestore, settings }) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    actCreateMember: data => {
-      dispatch(actCreateMember_SDK(data));
-    }
-  };
-};
-
 const WrappedHorizontalLoginForm = Form.create()(Dynamic);
 export default compose(
   firestoreConnect(props => {
@@ -873,5 +864,5 @@ export default compose(
       }
     ];
   }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, null)
 )(WrappedHorizontalLoginForm);
