@@ -157,27 +157,27 @@ export const SendDataUserSDK = data => {
       .doc(uId.user_id)
       .update(userData)
       .then(docRef => {
-        let user_info = JSON.parse(localStorage.getItem("user_info"));
-        let userDetail = {
-          user_name: data.name,
-          user_birth: data.birth,
-          user_gender: data.gender,
-          user_phone: data.phone,
-          user_nation: data.nation,
-          user_district: data.district,
-          user_city: data.city,
-          user_address: data.address
-        };
+        // let user_info = JSON.parse(localStorage.getItem("user_info"));
+        // let userDetail = {
+        //   user_name: data.name,
+        //   user_birth: data.birth,
+        //   user_gender: data.gender,
+        //   user_phone: data.phone,
+        //   user_nation: data.nation,
+        //   user_district: data.district,
+        //   user_city: data.city,
+        //   user_address: data.address
+        // };
 
-        for (const item in userDetail) {
-          for (const info in user_info) {
-            if (item === info) {
-              user_info[info] = userDetail[item];
-            }
-          }
-        }
-        localStorage.removeItem("user_info");
-        localStorage.setItem("user_info", JSON.stringify(user_info));
+        // for (const item in userDetail) {
+        //   for (const info in user_info) {
+        //     if (item === info) {
+        //       user_info[info] = userDetail[item];
+        //     }
+        //   }
+        // }
+        // localStorage.removeItem("user_info");
+        // localStorage.setItem("user_info", JSON.stringify(user_info));
         notificationPop(
           "success",
           "Chỉnh sửa hành công!",
@@ -276,28 +276,28 @@ export const CreateCompanySDK = data => {
       .collection("companies")
       .add(companyData)
       .then(res => {
-        let user_info = JSON.parse(localStorage.getItem("user_info"));
-        let newDataForLocal = {
-          company_id: res.id,
-          company_name: data.name,
-          company_brandname: data.brandname,
-          company_nation: data.nation,
-          company_city: data.city,
-          company_district: data.district,
-          company_address: data.address,
-          company_business: data.business,
-          company_active: false,
-          user_position: "CEO"
-        };
-        for (const item in newDataForLocal) {
-          for (const info in user_info) {
-            if (item === info) {
-              user_info[info] = newDataForLocal[item];
-            }
-          }
-        }
-        localStorage.removeItem("user_info");
-        localStorage.setItem("user_info", JSON.stringify(user_info));
+        // let user_info = JSON.parse(localStorage.getItem("user_info"));
+        // let newDataForLocal = {
+        //   company_id: res.id,
+        //   company_name: data.name,
+        //   company_brandname: data.brandname,
+        //   company_nation: data.nation,
+        //   company_city: data.city,
+        //   company_district: data.district,
+        //   company_address: data.address,
+        //   company_business: data.business,
+        //   company_active: false,
+        //   user_position: "CEO"
+        // };
+        // for (const item in newDataForLocal) {
+        //   for (const info in user_info) {
+        //     if (item === info) {
+        //       user_info[info] = newDataForLocal[item];
+        //     }
+        //   }
+        // }
+        // localStorage.removeItem("user_info");
+        // localStorage.setItem("user_info", JSON.stringify(user_info));
         notificationPop(
           "success",
           "Tạo công ty thành công!",
@@ -334,13 +334,13 @@ export const VerifyCompanySDK = data => {
       .doc(uId.company_id)
       .update(data)
       .then(res => {
-        for (const key in uId) {
-          if (key === "company_active") {
-            uId[key] = true;
-          }
-        }
-        localStorage.removeItem("user_info");
-        localStorage.setItem("user_info", JSON.stringify(uId));
+        // for (const key in uId) {
+        //   if (key === "company_active") {
+        //     uId[key] = true;
+        //   }
+        // }
+        // localStorage.removeItem("user_info");
+        // localStorage.setItem("user_info", JSON.stringify(uId));
         notificationPop(
           "success",
           "Gửi yêu cầu xác minh thành công!",
