@@ -62,36 +62,10 @@ class Dynamic extends React.Component {
     editItem: null
   };
 
-  handleSubmit = e => {
-    // firebaseAcc
-    //   .auth()
-    //   .getRedirectResult()
-    //   .then(function(result) {
-    //     if (result.credential) {
-    //       // This gives you the OAuth Access Token for that provider.
-    //       var token = result.credential.accessToken;
-    //     }
-    //     var user = result.user;
-    //   });
-    // Start a sign in process for an unauthenticated user.
-    // e.preventDefault();
-    // this.props.form.validateFields((err, values) => {
-    //   if (!err) {
-    //     const cretedMember = firebaseAcc
-    //       .functions()
-    //       .httpsCallable("createMember");
-    //     cretedMember(values);
-    //     notiChange("success", "Add employee success!");
-    //     this.setState({
-    //       newEmployee: values,
-    //       visible: false,
-    //       visible2: false
-    //     });
-    //   }
-    // });
-  };
+  handleSubmit = e => {};
 
   handleSubmitCreate = e => {
+    const user_info = JSON.parse(localStorage.getItem("user_info"));
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -107,6 +81,15 @@ class Dynamic extends React.Component {
               values.employee_password
             )
             .then(data => {
+              const sendEmailVerify = firebase
+                .app("FirebaseApp")
+                .functions()
+                .httpsCallable("sendEmailVerify");
+              sendEmailVerify({
+                email: values.employee_email,
+                password: values.employee_password
+              });
+
               const userCredentials = {
                 imageUrl: "",
                 name: values.employee_name,
@@ -121,17 +104,17 @@ class Dynamic extends React.Component {
                 nation: "",
                 zipcode: "",
                 position: values.employee_position,
-                companyId: "",
-                companyName: "",
-                companyBrand: "",
-                companyLogo: "",
-                companyNation: "",
-                companyCity: "",
-                companyDistrict: "",
-                companyAddress: "",
-                companyBusiness: "",
+                companyId: user_info.company_id,
+                companyName: user_info.company_name,
+                companyBrand: user_info.company_brandname,
+                companyLogo: user_info.company_logo,
+                companyNation: user_info.company_id,
+                companyCity: user_info.company_city,
+                companyDistrict: user_info.company_district,
+                companyAddress: user_info.company_address,
+                companyBusiness: user_info.company_business,
                 package: "",
-                language: "",
+                language: this.props.locale,
                 timezone: "",
                 currency: "",
                 notiNewRequest: false,
@@ -150,7 +133,8 @@ class Dynamic extends React.Component {
                 notiRole: [],
                 notiLogin: false,
                 createdAt: new Date().toISOString(),
-                companyActive: false
+                companyActive: true,
+                status: ""
               };
               firebase
                 .app("FirebaseApp")
@@ -195,14 +179,23 @@ class Dynamic extends React.Component {
         this.setState({
           loadingEdit: true
         });
+        if (values.employee_password) {
+          const changePasswordMember = firebase
+            .app("FirebaseApp")
+            .functions()
+            .httpsCallable("changePasswordMember");
+          changePasswordMember({
+            uid: this.state.editItem.key,
+            password: values.employee_password
+          });
+        }
         firebase
           .firestore()
           .collection("users")
           .doc(this.state.editItem.key)
           .update({
             display: values.employee_display,
-            position: values.employee_position,
-            newPassword: values.employee_password
+            position: values.employee_position
           })
           .then(res => {
             this.setState({
@@ -348,7 +341,8 @@ class Dynamic extends React.Component {
             mail: doc.email || " - ",
             phone: doc.phone || " - ",
             memberStatus: doc.status,
-            company_id: doc.companyId
+            company_id: doc.companyId,
+            permission: doc.permission || null
           });
         }
       });
@@ -782,7 +776,7 @@ class Dynamic extends React.Component {
                     }
                   ]
                 })(
-                  <Select placeholder="Vị trí">
+                  <Select placeholder="Vị trí" defaultValue="Manager">
                     <Option value="Manager">Manager</Option>
                     <Option value="Marketing">Marketing</Option>
                     <Option value="Saler">Saler</Option>
@@ -796,7 +790,6 @@ class Dynamic extends React.Component {
                 {getFieldDecorator("employee_password", {
                   rules: [
                     {
-                      required: true,
                       message: "Enter your password!"
                     }
                   ]
@@ -850,10 +843,12 @@ class Dynamic extends React.Component {
   }
 }
 
-const mapStateToProps = ({ firestore }) => {
+const mapStateToProps = ({ firestore, settings }) => {
   const { members } = firestore.ordered;
+  const { locale } = settings;
   return {
-    members
+    members,
+    locale
   };
 };
 
