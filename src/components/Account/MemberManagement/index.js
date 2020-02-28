@@ -108,7 +108,7 @@ class Dynamic extends React.Component {
                 companyName: user_info.company_name,
                 companyBrand: user_info.company_brandname,
                 companyLogo: user_info.company_logo,
-                companyNation: user_info.company_id,
+                companyNation: user_info.company_nation,
                 companyCity: user_info.company_city,
                 companyDistrict: user_info.company_district,
                 companyAddress: user_info.company_address,
