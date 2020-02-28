@@ -123,7 +123,7 @@ class ProfileUpdate extends Component {
                   <AddEvent />
                   <PropertiesCard profile={requests} />
                   {/* <Rating profile={requests} /> */}
-                  {requests.company_rating > 0 ? (
+                  {requests.company_rating > 0 && requests ? (
                     <Rating profile={requests} />
                   ) : null}
                 </div>

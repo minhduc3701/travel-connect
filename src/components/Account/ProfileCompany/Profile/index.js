@@ -29,17 +29,18 @@ class Profile extends Component {
     load: true
   };
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        load: false
-      });
-    }, 3000);
-  }
+  // componentDidMount() {
+  //   setTimeout(() => {
+  //     this.setState({
+  //       load: false
+  //     });
+  //   }, 3000);
+  // }
 
   render() {
     let warning = null;
     let requests = null;
+    let mList = [];
     let user_info = JSON.parse(localStorage.getItem("user_info"));
     isLoaded(this.props.profileData) &&
       this.props.profileData.forEach(doc => {
@@ -81,6 +82,17 @@ class Profile extends Component {
         };
       });
 
+    isLoaded(this.props.memberDisplay) &&
+      this.props.memberDisplay.forEach(doc => {
+        mList.push({
+          mId: doc.id,
+          mJob: doc.position,
+          mName: doc.name,
+          mStatus: doc.diplay,
+          mLogo: doc.imageUrl
+        });
+      });
+
     if (requests) {
       for (const key in requests) {
         if (requests[key] !== "") {
@@ -90,10 +102,10 @@ class Profile extends Component {
         }
       }
     }
-
     return (
       <Fragment>
         {!isLoaded(this.props.profileData) === false &&
+        !isLoaded(this.props.memberDisplay) === false &&
         user_info.company_id !== "" ? (
           <div className="gx-profile-content">
             <div className="block_shadow ">
@@ -105,10 +117,10 @@ class Profile extends Component {
                 <div className="block_shadow">
                   <About profile={requests} />
                   <Biography profile={requests} />
-                  <Contact profile={requests} />
+                  <Contact member={mList} profile={requests} />
                   <EventsBanner profile={requests} />
                   <PropertiesCard profile={requests} />
-                  {requests.company_rating > 0 ? (
+                  {requests.company_rating > 0 && requests ? (
                     <Rating profile={requests} />
                   ) : null}
                 </div>
@@ -145,10 +157,11 @@ class Profile extends Component {
 }
 
 const mapStateToProps = state => {
-  const { profileData } = state.firestore.ordered;
+  const { profileData, memberDisplay } = state.firestore.ordered;
   return {
     profile: state,
-    profileData
+    profileData,
+    memberDisplay
   };
 };
 
@@ -168,6 +181,14 @@ export default compose(
         collection: "companies",
         doc: user_info.company_id,
         storeAs: "profileData"
+      },
+      {
+        collection: "users",
+        where: [
+          ["companyId", "==", user_info.company_id],
+          ["display", "==", true]
+        ],
+        storeAs: "memberDisplay"
       }
     ];
   }),

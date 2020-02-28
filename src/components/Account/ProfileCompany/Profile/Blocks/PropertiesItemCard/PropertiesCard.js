@@ -17,17 +17,6 @@ class PropertiesCard extends React.Component {
     dataList: null
   };
 
-  handleChange = e => {
-    const value = e.target.value;
-    this.setState({
-      popular: popularData[value],
-      loader: true
-    });
-    setTimeout(() => {
-      this.setState({ loader: false });
-    }, 1500);
-  };
-
   handleChange1 = e => {
     const value = e.target.value;
     this.setState(
@@ -91,7 +80,7 @@ class PropertiesCard extends React.Component {
           <CircularProgress className="gx-loader-400" />
         ) : profile.company_products.length > 0 ? (
           profile.company_products.map((data, index) => (
-            <PropertiesItemCard key={index} data={data} />
+            <PropertiesItemCard key={index} productList={data} />
           ))
         ) : (
           <div>

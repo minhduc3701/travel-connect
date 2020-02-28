@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Icon, Upload } from "antd";
 // import { notiChange } from "util/Notification";
-import background from "assets/images/travel-default-background.png";
+// import background from "assets/images/travel-default-background.png";
 import firebaseAcc from "firebase/firebaseAcc";
 
 class BannerBackground extends Component {
@@ -86,15 +86,18 @@ class BannerBackground extends Component {
     return (
       <div className="aspect_box ">
         <div className="aspect_box--inner aspect_box--retangle_1x4 ">
-          <img
-            src={
-              profile.company_background === ""
-                ? background
-                : profile.company_background
-            }
-            alt="banner"
-            className="aspect_box__img aspect_box__img--cover z-1"
-          />
+          {profile.company_background !== "" ? (
+            <img
+              src={profile.company_background}
+              alt={profile.company_brandname}
+              className="aspect_box__img aspect_box__img--cover z-1"
+            />
+          ) : (
+            <div
+              className="aspect_box__img aspect_box__img--cover z-1"
+              style={{ background: "#c3c3c322" }}
+            ></div>
+          )}
           <Upload
             name="avatar"
             listType="picture-card"

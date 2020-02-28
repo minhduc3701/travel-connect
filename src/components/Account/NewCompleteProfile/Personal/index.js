@@ -167,18 +167,6 @@ class Personal extends Component {
     });
   };
 
-  onSendImage = () => {
-    let userInfo = JSON.parse(localStorage.getItem("user_info"));
-    const { fileList } = this.state;
-    const formData = new FormData();
-    fileList.forEach(file => {
-      formData.append("image-", file);
-    });
-    CallApi_USER(`users/${userInfo.user_id}/avatar`, "PATCH", formData)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-  };
-
   onChangeRadio = e => {
     this.setState({
       typeAccount: e.target.value
@@ -383,7 +371,9 @@ class Personal extends Component {
                   rules: [
                     {
                       required: true,
-                      message: <IntlMessages id="rule.phone.text" />
+                      message: <IntlMessages id="rule.phone.text" />,
+                      min: 7,
+                      max: 20
                     }
                   ]
                 })(<Input name="telephone" placeholder="Phone number" />)}

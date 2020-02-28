@@ -270,7 +270,9 @@ class Company extends Component {
                     rules: [
                       {
                         required: true,
-                        message: "Enter your company phone number!"
+                        message: "Enter your company phone number!",
+                        min: 7,
+                        max: 20
                       }
                     ]
                   })(<Input placeholder="Số điện thoại" />)}

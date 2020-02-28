@@ -7,10 +7,11 @@ class Media extends Component {
     return (
       <div id="nav_media">
         <WidgetHeader title={<IntlMessages id="account.profile.media" />} />
-        {this.props.profile !== [] && this.props.profile !== "" ? (
+        {/* {this.props.profile !== [] && this.props.profile !== "" ? ( */}
+        {this.props.profile.company_medias.length > 0 ? (
           <Photos Account={this.props.profile} />
         ) : (
-          <p>Media empty</p>
+          <p>Album media is empty!</p>
         )}
       </div>
     );

@@ -61,7 +61,7 @@ class PropertiesItemCard extends React.Component {
   };
 
   render() {
-    const { productList } = this.props.data;
+    const { productList } = this.props;
     return (
       <Tooltip title={`${productList.productName}`}>
         <div className="gx-featured-item">

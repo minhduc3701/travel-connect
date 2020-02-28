@@ -13,7 +13,9 @@ import {
 } from "antd";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import IntlMessages from "util/IntlMessages";
-import { doneChange } from "util/Notification";
+import { notificationPop } from "util/Notification";
+import firebase from "firebase/firebaseAcc";
+
 const { Panel } = Collapse;
 const { Sider, Content } = Layout;
 const customPanelStyle = {
@@ -30,7 +32,10 @@ class Permission extends React.Component {
   state = {
     loading: false,
     visible: false,
-    tab: "1"
+    tab: "1",
+    inventory: true,
+    buy: true,
+    sell: true
   };
   showModal = () => {
     this.setState({
@@ -38,10 +43,37 @@ class Permission extends React.Component {
     });
   };
   handleOk = () => {
+    let { data } = this.props;
+    let dataSend = [];
     this.setState({ loading: true });
+    if (this.state.inventory === true) {
+      dataSend.push(`${data.company_id}_inventory`);
+    }
+    if (this.state.buy === true) {
+      dataSend.push(`${data.company_id}_buy`);
+    }
+    if (this.state.sell === true) {
+      dataSend.push(`${data.company_id}_sell`);
+    }
+    dataSend.forEach(doc => {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(data.key)
+        .update({
+          permission: firebase.firestore.FieldValue.arrayUnion(doc)
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
     setTimeout(() => {
       this.setState({ loading: false, visible: false });
-      doneChange();
+      notificationPop(
+        "success",
+        "Cập nhật thành công",
+        "Cập nhật phân quyền tài khỏan thành công"
+      );
     }, 1500);
   };
   handleCancel = () => {
@@ -49,6 +81,21 @@ class Permission extends React.Component {
   };
   changeTab = e => {
     if (e !== undefined) this.setState({ tab: e });
+  };
+  onChangeInven = e => {
+    this.setState({
+      inventory: !this.state.inventory
+    });
+  };
+  onChangeBuy = e => {
+    this.setState({
+      buy: !this.state.buy
+    });
+  };
+  onChangeSell = e => {
+    this.setState({
+      sell: !this.state.sell
+    });
   };
   render() {
     return (
@@ -61,7 +108,7 @@ class Permission extends React.Component {
         <Modal
           visible={this.state.visible}
           title={<IntlMessages id="permission" />}
-          onOk={this.handleOk}
+          // onOk={this.handleOk}
           onCancel={this.handleCancel}
           style={{ top: 10 }}
           width={800}
@@ -183,14 +230,14 @@ class Permission extends React.Component {
                                 B2B Marketplace
                               </h3>
                             </Col>
-                            <Col span={12}>
+                            {/* <Col span={12}>
                               <Switch
                                 style={{
                                   marginTop: 15,
                                   float: "right"
                                 }}
                               />
-                            </Col>
+                            </Col> */}
                           </Row>
                           <br />
                           <WidgetHeader
@@ -233,7 +280,10 @@ class Permission extends React.Component {
                                     lg={4}
                                     xl={4}
                                   >
-                                    <Switch defaultChecked />
+                                    <Switch
+                                      onChange={e => this.onChangeInven(e)}
+                                      defaultChecked
+                                    />
                                   </Col>
                                 </Row>
                               </Col>
@@ -279,7 +329,10 @@ class Permission extends React.Component {
                                     lg={4}
                                     xl={4}
                                   >
-                                    <Switch defaultChecked />
+                                    <Switch
+                                      onChange={e => this.onChangeBuy(e)}
+                                      defaultChecked
+                                    />
                                   </Col>
                                 </Row>
                               </Col>
@@ -320,7 +373,10 @@ class Permission extends React.Component {
                                     lg={4}
                                     xl={4}
                                   >
-                                    <Switch defaultChecked />
+                                    <Switch
+                                      onChange={e => this.onChangeSell(e)}
+                                      defaultChecked
+                                    />
                                   </Col>
                                 </Row>
                               </Col>

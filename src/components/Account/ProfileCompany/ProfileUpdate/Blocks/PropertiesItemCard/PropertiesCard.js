@@ -60,7 +60,7 @@ class PropertiesCard extends React.Component {
 
         {profile.company_products.length > 0 ? (
           profile.company_products.map((data, index) => (
-            <PropertiesItemCard key={index} data={data} />
+            <PropertiesItemCard key={index} productList={data} />
           ))
         ) : (
           <div>

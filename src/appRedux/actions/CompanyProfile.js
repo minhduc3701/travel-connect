@@ -148,54 +148,14 @@ export const SendDataUserSDK = data => {
     district: data.district,
     city: data.city,
     address: data.address,
-    imageUrl: "",
-    verifyPerson: "",
-    companyAddress: "",
-    companyActive: false,
-    companyBrand: "",
-    companyBusiness: [],
-    companyCity: "",
-    companyDistrict: "",
-    companyId: "",
-    companyLogo: "",
-    companyName: "",
-    companyNation: "",
-    companyTarget: "",
-    createAt: new Date().toISOString(),
-    currency: "vnd",
-    email: "",
-    language: "",
-    notiCommunity: false,
-    notiCompany: false,
-    notiCurrentRequest: false,
-    notiEvents: false,
-    notiFlow: false,
-    notiLogin: false,
-    notiNewRequest: false,
-    notiSystem: false,
-    package: "",
-    position: "",
-    private: "only",
-    sendEmail: false,
-    sendNotiPush: false,
-    sendNotiWeb: false,
-    specialized: "",
-    interested: "",
-    timezone: "vn",
-    companyHeadquarters: "",
-    tourGuide: "",
-    updateAt: "",
-    website: "",
-    zipcode: "",
-    unitSuggest: [],
-    type: "basic"
+    display: false
   };
   return dispatch => {
     firebaseAcc
       .firestore()
       .collection("users")
       .doc(uId.user_id)
-      .set(userData)
+      .update(userData)
       .then(docRef => {
         let user_info = JSON.parse(localStorage.getItem("user_info"));
         let userDetail = {
@@ -357,7 +317,7 @@ export const PositionUserSDK = () => {
       .firestore()
       .collection("users")
       .doc(uId.user_id)
-      .update({ position: "CEO" })
+      .update({ position: "CEO", display: true })
       .catch(err => {
         console.log(err);
       });
