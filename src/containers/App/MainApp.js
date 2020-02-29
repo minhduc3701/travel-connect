@@ -129,6 +129,7 @@ export class MainApp extends Component {
           user_sendNotiPush: this.props.userAcc[0].sendNotiPush,
           user_sendNotiWeb: this.props.userAcc[0].sendNotiWeb,
           user_private: this.props.userAcc[0].private,
+          user_permission: this.props.userAcc[0].permission || "",
           user_notiLogin: this.props.userAcc[0].notiLogin,
           company_id: this.props.userAcc[0].companyId,
           company_name: this.props.userAcc[0].companyName,
