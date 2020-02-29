@@ -55,18 +55,18 @@ class Permission extends React.Component {
     if (this.state.sell === true) {
       dataSend.push(`${data.company_id}_sell`);
     }
-    dataSend.forEach(doc => {
-      firebase
-        .firestore()
-        .collection("users")
-        .doc(data.key)
-        .update({
-          permission: firebase.firestore.FieldValue.arrayUnion(doc)
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    });
+
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(data.key)
+      .update({
+        permission: dataSend
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
     setTimeout(() => {
       this.setState({ loading: false, visible: false });
       notificationPop(
@@ -282,7 +282,13 @@ class Permission extends React.Component {
                                   >
                                     <Switch
                                       onChange={e => this.onChangeInven(e)}
-                                      defaultChecked
+                                      defaultChecked={
+                                        this.props.data.permission.indexOf(
+                                          `${this.props.data.company_id}_inventory`
+                                        ) > -1
+                                          ? true
+                                          : false
+                                      }
                                     />
                                   </Col>
                                 </Row>
@@ -331,7 +337,13 @@ class Permission extends React.Component {
                                   >
                                     <Switch
                                       onChange={e => this.onChangeBuy(e)}
-                                      defaultChecked
+                                      defaultChecked={
+                                        this.props.data.permission.indexOf(
+                                          `${this.props.data.company_id}_buy`
+                                        ) > -1
+                                          ? true
+                                          : false
+                                      }
                                     />
                                   </Col>
                                 </Row>
@@ -375,7 +387,13 @@ class Permission extends React.Component {
                                   >
                                     <Switch
                                       onChange={e => this.onChangeSell(e)}
-                                      defaultChecked
+                                      defaultChecked={
+                                        this.props.data.permission.indexOf(
+                                          `${this.props.data.company_id}_sell`
+                                        ) > -1
+                                          ? true
+                                          : false
+                                      }
                                     />
                                   </Col>
                                 </Row>

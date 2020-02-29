@@ -188,6 +188,7 @@ export default compose(
           ["companyId", "==", user_info.company_id],
           ["display", "==", true]
         ],
+        limit: 5,
         storeAs: "memberDisplay"
       }
     ];
