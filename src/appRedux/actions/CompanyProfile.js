@@ -268,7 +268,12 @@ export const CreateCompanySDK = data => {
     logo: "",
     website: "",
     active: false,
-    introduction: ""
+    introduction: "",
+    limit: {
+      number: 5,
+      landtours: 0,
+      grouptours: 0
+    }
   };
   return dispatch => {
     firebaseAcc
