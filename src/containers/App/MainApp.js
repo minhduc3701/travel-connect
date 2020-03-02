@@ -140,7 +140,8 @@ export class MainApp extends Component {
           company_district: this.props.userAcc[0].companyDistrict,
           company_address: this.props.userAcc[0].companyAddress,
           company_business: this.props.userAcc[0].companyBusiness,
-          company_active: this.props.userAcc[0].companyActive
+          company_active: this.props.userAcc[0].companyActive,
+          lastNoti: this.props.userAcc[0].lastNoti
         })
       );
 

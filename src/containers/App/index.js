@@ -108,10 +108,10 @@ class App extends Component {
       document.body.classList.add("dark-theme");
     }
     if (location.pathname === "/") {
-      // if (authUser === -1) {
-      //   return (window.location.href =
-      //     "http://app.travelconnect.global/signin");
-      // }
+      if (authUser === -1) {
+        return (window.location.href =
+          "http://app.travelconnect.global/signin");
+      }
       if (initURL === "" || initURL === "/" || initURL === "/signin") {
         return <Redirect to={"/dashboard"} />;
       } else {
@@ -161,6 +161,7 @@ class App extends Component {
           .catch(function(error) {
             console.log(error);
           });
+        console.log(token);
       }
     });
 

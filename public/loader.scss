@@ -1,4 +1,5 @@
 /*@import url("https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i");*/
+
 body {
   padding: 0;
   margin: 0;
@@ -7,8 +8,6 @@ body {
 }
 
 #app-site {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   width: 100%;
   height: 100vh;
@@ -19,25 +18,29 @@ body {
   margin: 0 auto;
   width: 60px;
   height: 100vh;
+
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: -ms-flex;
-  display: -webkit-box;
   display: flex;
+
+  -webkit-flex-direction: column;
   -ms-flex-direction: column;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-          flex-direction: column;
+  flex-direction: column;
+  -webkit-flex-wrap: nowrap;
   -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
+  -webkit-justify-content: center;
   -ms-justify-content: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
 }
 
 .loading {
   width: 120px;
 }
+
+/*# sourceMappingURL=loader.css.map */
+
 .step-card {
   margin-top: 20px;
   border: none;
@@ -175,15 +178,12 @@ body {
 
 .guide-layout {
   border-radius: 10px;
-  -webkit-box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
-          box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
 }
 
 .help-card .gx-package:hover {
-  -webkit-transform: scale(0.95) !important;
-          transform: scale(0.95) !important;
-  -webkit-box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03) !important;
-          box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03) !important;
+  transform: scale(0.95) !important;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03) !important;
 }
 
 .icon-green {
@@ -197,8 +197,7 @@ body {
 .TicketItem-Contact {
   right: 1em;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .header-upgrade {
@@ -257,7 +256,6 @@ body {
   text-align: center;
   font-size: 16px;
   /* margin-right: 15px !important; */
-  -webkit-transition: 0.5s;
   transition: 0.5s;
 }
 
@@ -283,22 +281,18 @@ body {
 }
 
 .travel-layer {
-  -webkit-transform: rotate(-8deg) skew(20deg) scale(0.6) translate(0, 25px);
-          transform: rotate(-8deg) skew(20deg) scale(0.6) translate(0, 25px);
-  -webkit-transition: 0.5s;
+  transform: rotate(-8deg) skew(20deg) scale(0.6) translate(0, 25px);
   transition: 0.5s;
   position: relative;
 }
 
 .travel-layer .travel-layer-item {
-  -webkit-transition: 0.5s;
   transition: 0.5s;
   width: 100%;
 }
 
 .travel-layer-item span {
   position: absolute;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
   width: 100%;
   top: 50%;
@@ -306,38 +300,33 @@ body {
 }
 
 .travel-layer-item:hover span:nth-child(1) {
-  -webkit-transform: translate(3px, -3px);
-          transform: translate(3px, -3px);
+  transform: translate(3px, -3px);
   opacity: 1;
 }
 
 .travel-layer-item:hover span:nth-child(2) {
-  -webkit-transform: translate(6px, -6px);
-          transform: translate(6px, -6px);
+  transform: translate(6px, -6px);
   opacity: 0.8;
 }
 
 .travel-layer-item:hover span:nth-child(3) {
-  -webkit-transform: translate(9px, -9px);
-          transform: translate(9px, -9px);
+  transform: translate(9px, -9px);
   opacity: 0.6;
 }
 
 .travel-layer-item:hover span:nth-child(4) {
-  -webkit-transform: translate(12px, -12px);
-          transform: translate(12px, -12px);
+  transform: translate(12px, -12px);
   opacity: 0.4;
 }
 
 /* ---------- temp ----------- */
+
 .filter-blur-1 {
-  -webkit-filter: blur(1px);
-          filter: blur(1px);
+  filter: blur(1px);
 }
 
 .filter-blur-2 {
-  -webkit-filter: blur(2px);
-          filter: blur(2px);
+  filter: blur(2px);
 }
 
 .wrap-money-on-image {
@@ -376,7 +365,6 @@ body {
 
 .hover-underline,
 .hover-scale {
-  -webkit-transition: 0.5s;
   transition: 0.5s;
   z-index: 1;
 }
@@ -388,17 +376,25 @@ body {
 
 .hover-scale:hover {
   cursor: pointer;
-  -webkit-transform: scale(1.1);
-          transform: scale(1.1);
+  transform: scale(1.1);
   z-index: 2;
 }
 
 .hover-drop-shadow:hover {
-  -webkit-filter: drop-shadow(2px 4px 6px #00000038);
-          filter: drop-shadow(2px 4px 6px #00000038);
+  filter: drop-shadow(2px 4px 6px #00000038);
 }
 
 .gx-purple-gradient {
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#872776),
+    to(#352883)
+  );
+  background: -webkit-linear-gradient(left, #872776, #352883);
+  background: -moz-linear-gradient(left, #872776, #352883);
+  background: -ms-linear-gradient(left, #872776, #352883);
   background: -o-linear-gradient(left, #872776, #352883);
 }
 
@@ -436,14 +432,16 @@ body {
 }
 
 .p-0-content-box
-> .ant-collapse-item
-> .ant-collapse-content
-> .ant-collapse-content-box {
+  > .ant-collapse-item
+  > .ant-collapse-content
+  > .ant-collapse-content-box {
   padding: 0 !important;
 }
 
 .image-in-banner {
-  background: no-repeat url(https://www.gstatic.com/identity/boq/accountsettingssecuritycommon/images/sprites/2sv_x2-376cf0cbd62be6b103c146c2464cdff9.png) 0 -2818px;
+  background: no-repeat
+    url(https://www.gstatic.com/identity/boq/accountsettingssecuritycommon/images/sprites/2sv_x2-376cf0cbd62be6b103c146c2464cdff9.png)
+    0 -2818px;
   background-size: 304px 3143px;
   width: 253px;
   height: 163px;
@@ -458,14 +456,14 @@ body {
 }
 
 .complete-profile-panel-p-b-0
-> .ant-collapse-content
-> .ant-collapse-content-box {
+  > .ant-collapse-content
+  > .ant-collapse-content-box {
   padding-bottom: 0;
 }
 
 .complete-profile-panel-last-p-b-0
-> .ant-collapse-content:last-child
-> .ant-collapse-content-box {
+  > .ant-collapse-content:last-child
+  > .ant-collapse-content-box {
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -503,24 +501,19 @@ body {
   background-color: #358df1;
   color: white;
 }
-
 .gx-text-grey {
   color: #1f1e1e !important;
 }
-
 .block-w,
 .block-nb,
 .block-r,
 .block-r-nb {
-  -webkit-box-shadow: 0px 1px 2px 0px rgba(60, 64, 67, 0.3), 0px 2px 6px 2px rgba(60, 64, 67, 0.15) !important;
-          box-shadow: 0px 1px 2px 0px rgba(60, 64, 67, 0.3), 0px 2px 6px 2px rgba(60, 64, 67, 0.15) !important;
+  box-shadow: 0px 1px 2px 0px rgba(60, 64, 67, 0.3),
+    0px 2px 6px 2px rgba(60, 64, 67, 0.15) !important;
 }
-
 .border-hover:hover {
   border: 1px grey solid;
 }
-
 .display-background-grey:after {
   background-color: rgba(195, 195, 195, 0.133) !important;
 }
-/*# sourceMappingURL=loader.css.map */

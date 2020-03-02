@@ -167,6 +167,9 @@ class Dynamic extends React.Component {
               });
             });
         } catch (error) {}
+        this.setState({
+          loadingCreate: false
+        });
       }
     });
   };
