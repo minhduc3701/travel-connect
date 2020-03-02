@@ -48,10 +48,10 @@ class PropertiesCard extends React.Component {
                   <IntlMessages id="account.profile.product.popular" />
                 </Radio.Button>
                 <Radio.Button value={1} className="m-b-0-i">
-                  <IntlMessages id="account.profile.product.landtour" /> (172)
+                  <IntlMessages id="account.profile.product.landtour" />
                 </Radio.Button>
                 <Radio.Button value={2} className="m-b-0-i">
-                  <IntlMessages id="account.profile.product.grouptour" /> (21)
+                  <IntlMessages id="account.profile.product.grouptour" />
                 </Radio.Button>
               </Radio.Group>
             </div>
@@ -79,19 +79,3 @@ class PropertiesCard extends React.Component {
 }
 
 export default PropertiesCard;
-// {profile.company_products ? (
-//   profile.company_products.map((data, index) => (
-//     <PropertiesItemCard key={index} data={data} />
-//   ))
-// ) : this.state.popular.length < 1 ? (
-//   <div>
-//         <p className="gx-font-weight-light">
-//           <Icon type="exclamation-circle" /> <IntlMessages id="account.profile.product.empty" />
-//         </p>
-//         <p>
-//           <IntlMessages id="account.profile.product.empty.guide" />
-//         </p>
-//       </div>
-// ) : (
-//   <CircularProgress className="gx-loader-400" />
-// )}
