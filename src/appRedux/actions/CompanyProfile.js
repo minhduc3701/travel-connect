@@ -312,6 +312,17 @@ export const CreateCompanySDK = data => {
       .catch(err => {
         console.log(err);
       });
+
+    var signB2B = firebaseAcc
+      .app("FirebaseApp")
+      .functions()
+      .httpsCallable("signInB2B");
+    signB2B(uId.user_id).then(function(result) {
+      document.cookie = `b2b_token=${JSON.stringify(
+        result.data
+      )};domain=travelconnect.global`;
+      // document.cookie = `b2b_token=${JSON.stringify(result.data)}`;
+    });
   };
 };
 
