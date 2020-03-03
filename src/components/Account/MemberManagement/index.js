@@ -602,6 +602,7 @@ class Dynamic extends React.Component {
               columns={columns}
               dataSource={data}
               onChange={this.handleChange}
+              size="small"
             />
           )}
         </div>
