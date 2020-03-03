@@ -51,7 +51,8 @@ class ProfileUpdate extends Component {
   }
 
   render() {
-    let warning = null;
+    let warning = false;
+    let mList = [];
     let requests = null;
     let user_info = JSON.parse(localStorage.getItem("user_info"));
     isLoaded(this.props.profileData) &&
@@ -94,16 +95,28 @@ class ProfileUpdate extends Component {
         };
       });
 
-    for (const key in requests) {
-      if (requests[key] !== "") {
-        warning = null;
-      } else {
-        warning = <Processing Account={requests} />;
+    isLoaded(this.props.memberDisplay) &&
+      this.props.memberDisplay.forEach(doc => {
+        mList.push({
+          mId: doc.id,
+          mJob: doc.position,
+          mName: doc.name,
+          mStatus: doc.diplay,
+          mLogo: doc.imageUrl
+        });
+      });
+    if (requests) {
+      for (const key in requests) {
+        if (requests[key] === "") {
+          warning = true;
+        }
       }
     }
+
     return (
       <Fragment>
         {!isLoaded(this.props.profileData) === false &&
+        !isLoaded(this.props.memberDisplay) === false &&
         user_info.company_id !== "" ? (
           <div className="gx-profile-content">
             <div className="block_shadow ">
@@ -115,22 +128,22 @@ class ProfileUpdate extends Component {
                 <div className="block_shadow">
                   <About profile={requests} />
                   <Biography profile={requests} />
-                  <Contact profile={requests} />
+                  <Contact member={mList} profile={requests} />
                   <Row>
                     <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
                     <Col xl={12} lg={12} md={24} sm={24} xs={24}></Col>
                   </Row>
                   <AddEvent />
                   <PropertiesCard profile={requests} />
-                  {/* <Rating profile={requests} /> */}
                   {requests.company_rating > 0 && requests ? (
                     <Rating profile={requests} />
                   ) : null}
                 </div>
               </Col>
               <Col xl={8} lg={8} md={24} sm={24} xs={24}>
+                {warning && <Processing Account={requests} />}
+
                 <div className="block_shadow">
-                  {warning}
                   <Cerfiticated />
                   <StaticticGuest profile={requests} />
                   <Friends profile={requests} friendList={friendList} />
@@ -160,10 +173,11 @@ class ProfileUpdate extends Component {
 }
 
 const mapStateToProps = state => {
-  const { profileData } = state.firestore.ordered;
+  const { profileData, memberDisplay } = state.firestore.ordered;
   return {
     profile: state,
-    profileData
+    profileData,
+    memberDisplay
   };
 };
 
@@ -195,6 +209,15 @@ export default compose(
         collection: "companies",
         doc: user_info.company_id,
         storeAs: "profileData"
+      },
+      {
+        collection: "users",
+        where: [
+          ["companyId", "==", user_info.company_id],
+          ["display", "==", true]
+        ],
+        limit: 5,
+        storeAs: "memberDisplay"
       }
     ];
   }),

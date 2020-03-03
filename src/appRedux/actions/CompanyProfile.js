@@ -168,7 +168,6 @@ export const SendDataUserSDK = data => {
         //   user_city: data.city,
         //   user_address: data.address
         // };
-
         // for (const item in userDetail) {
         //   for (const info in user_info) {
         //     if (item === info) {
@@ -350,13 +349,6 @@ export const VerifyCompanySDK = data => {
       .doc(uId.company_id)
       .update(data)
       .then(res => {
-        // for (const key in uId) {
-        //   if (key === "company_active") {
-        //     uId[key] = true;
-        //   }
-        // }
-        // localStorage.removeItem("user_info");
-        // localStorage.setItem("user_info", JSON.stringify(uId));
         notificationPop(
           "success",
           "Gửi yêu cầu xác minh thành công!",

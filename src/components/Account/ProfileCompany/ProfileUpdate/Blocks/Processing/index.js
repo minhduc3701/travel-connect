@@ -23,7 +23,6 @@ let warningText = {
   company_nation: "Hồ sồ công ty chưa có quốc gia",
   company_products: "Công ty chưa có sản phẩm nào",
   company_products_number: "Công ty chưa có sản phẩm nào",
-  // company_products_type: "Landtour",
   company_service: "Công ty chưa có sản phẩm nào",
   company_skype: "Hồ sồ công ty chưa liên kết mạng xã hội",
   company_website: "Hồ sồ công ty chưa website"
@@ -36,7 +35,7 @@ class Processing extends Component {
     let textArr = [];
     if (Account.company_brandname) {
       for (const key in Account) {
-        if (Account[key] === "" || Account[key] === []) {
+        if (Account[key] === "" || Account[key].length < 1) {
           text.push(key);
         }
       }
@@ -51,7 +50,7 @@ class Processing extends Component {
     const textUnique = new Set(textArr);
     const textFinal = [...textUnique];
     return (
-      <div className="block-r">
+      <div className="block-r block_shadow">
         <WidgetHeader title="Building a professional profile" />
         <div>
           <ul>

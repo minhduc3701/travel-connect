@@ -16,12 +16,13 @@ import {
 } from "antd";
 import { connect } from "react-redux";
 import { actUpdateUserRequest } from "appRedux/actions/User";
-import { CallApi_USER } from "util/CallApi";
+// import { CallApi_USER } from "util/CallApi";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import { Redirect } from "react-router-dom";
 import { SendDataUserSDK } from "appRedux/actions/CompanyProfile";
 import firebase from "firebase/firebaseAcc";
 import IntlMessages from "util/IntlMessages";
+import { HOME } from "components/Layout/Header/NavigateLink";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -161,10 +162,15 @@ class Personal extends Component {
   };
 
   onSendDataToServer = async file => {
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
     await this.props.onSendDataUserSDK(this.state.person);
-    this.setState({
-      companySelect: true
-    });
+    if (user_info.company_id === "") {
+      this.setState({
+        companySelect: true
+      });
+    } else {
+      window.location.href = `${HOME}/home`;
+    }
   };
 
   onChangeRadio = e => {
@@ -193,18 +199,6 @@ class Personal extends Component {
                 .update({
                   imageUrl: url
                 });
-              let data = {
-                user_logo: url
-              };
-              for (const logo in data) {
-                for (const info in user_info) {
-                  if (logo === info) {
-                    user_info[info] = data[logo];
-                  }
-                }
-              }
-              localStorage.removeItem("user_info");
-              localStorage.setItem("user_info", JSON.stringify(user_info));
             });
         }
       })
@@ -442,32 +436,34 @@ class Personal extends Component {
                   ]
                 })(<Input name="address" placeholder="Address" />)}
               </FormItem>
-              <FormItem
-                {...formItemLayout}
-                label={<IntlMessages id="account.complete.profile.type" />}
-              >
-                <Radio.Group onChange={this.onChangeRadio}>
-                  <Tooltip
-                    title={
-                      <IntlMessages id="account.complete.profile.type.personal.text" />
-                    }
-                  >
-                    <Radio value="personal">
-                      <IntlMessages id="account.complete.profile.type.personal" />
-                    </Radio>
-                  </Tooltip>
-                  <br />
-                  <Tooltip
-                    title={
-                      <IntlMessages id="account.complete.profile.type.company.text" />
-                    }
-                  >
-                    <Radio value="create-company">
-                      <IntlMessages id="account.complete.profile.type.company" />
-                    </Radio>
-                  </Tooltip>
-                </Radio.Group>
-              </FormItem>
+              {userInfo.company_id === "" ? (
+                <FormItem
+                  {...formItemLayout}
+                  label={<IntlMessages id="account.complete.profile.type" />}
+                >
+                  <Radio.Group onChange={this.onChangeRadio}>
+                    <Tooltip
+                      title={
+                        <IntlMessages id="account.complete.profile.type.personal.text" />
+                      }
+                    >
+                      <Radio value="personal">
+                        <IntlMessages id="account.complete.profile.type.personal" />
+                      </Radio>
+                    </Tooltip>
+                    <br />
+                    <Tooltip
+                      title={
+                        <IntlMessages id="account.complete.profile.type.company.text" />
+                      }
+                    >
+                      <Radio value="create-company">
+                        <IntlMessages id="account.complete.profile.type.company" />
+                      </Radio>
+                    </Tooltip>
+                  </Radio.Group>
+                </FormItem>
+              ) : null}
               <div
                 className=" d-flex"
                 style={{
@@ -476,15 +472,26 @@ class Personal extends Component {
                   justifyContent: "flex-end"
                 }}
               >
-                <Button
-                  disabled={this.state.typeAccount ? false : true}
-                  style={{ marginLeft: "auto", marginBottom: "0 !important" }}
-                  type="primary"
-                  htmlType="submit"
-                  onClick={() => this.onUpload()}
-                >
-                  <IntlMessages id="button.next" />
-                </Button>
+                {userInfo.company_id === "" ? (
+                  <Button
+                    disabled={this.state.typeAccount ? false : true}
+                    style={{ marginLeft: "auto", marginBottom: "0 !important" }}
+                    type="primary"
+                    htmlType="submit"
+                    onClick={() => this.onUpload()}
+                  >
+                    <IntlMessages id="button.next" />
+                  </Button>
+                ) : (
+                  <Button
+                    style={{ marginLeft: "auto", marginBottom: "0 !important" }}
+                    type="primary"
+                    htmlType="submit"
+                    onClick={() => this.onUpload()}
+                  >
+                    <IntlMessages id="button.next" />
+                  </Button>
+                )}
               </div>
             </Form>
           </Col>

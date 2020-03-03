@@ -3,8 +3,6 @@ import { Col, Icon } from "antd";
 import { Button, Dropdown, Menu } from "antd";
 // import { Link } from "react-router-dom";
 import Info from "./Info";
-import background from "assets/images/travel-default-background.png";
-import logo from "assets/images/travel-default-logo.png";
 import IntlMessages from "util/IntlMessages";
 
 const btn_notification_menu = (
@@ -39,34 +37,36 @@ class Banner extends Component {
       <div className="m-b-5 ">
         <div className="aspect_box">
           <div className="aspect_box--inner aspect_box--retangle_1x4">
-            <img
-              src={
-                profile.company_background
-                  ? profile.company_background
-                  : profile.company_background === ""
-                  ? background
-                  : background
-              }
-              alt="banner"
-              className="aspect_box__img aspect_box__img--cover"
-            />
+            {profile.company_background !== "" ? (
+              <img
+                src={profile.company_background}
+                alt="banner"
+                className="aspect_box__img aspect_box__img--cover"
+              />
+            ) : (
+              <div
+                className="aspect_box__img aspect_box__img--cover"
+                style={{ background: "#55555533" }}
+              ></div>
+            )}
           </div>
         </div>
         <div className="bg-color-white d-flex d-flex-wrap">
           <Col xl={6} lg={6} md={24} sm={24} xs={24} className="pos-rel">
             <div className="aspect_box block__banner__avatar">
               <div className="aspect_box--inner aspect_box--square --circle block__banner__avatar--inner bg-color-white">
-                <img
-                  src={
-                    profile.company_logo
-                      ? profile.company_logo
-                      : profile.company_logo === ""
-                      ? logo
-                      : logo
-                  }
-                  alt="banner"
-                  className="aspect_box__img aspect_box__img--contain"
-                />
+                {profile.company_logo !== "" ? (
+                  <img
+                    src={profile.company_logo}
+                    alt="banner"
+                    className="aspect_box__img aspect_box__img--contain"
+                  />
+                ) : (
+                  <div
+                    className="aspect_box__img aspect_box__img--contain"
+                    style={{ background: "#55555533" }}
+                  ></div>
+                )}
               </div>
             </div>
             <div className="block__banner__avatar__extend">

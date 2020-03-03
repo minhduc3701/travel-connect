@@ -19,36 +19,29 @@ class PropertiesCard extends React.Component {
 
   handleChange1 = e => {
     const value = e.target.value;
-    this.setState(
-      {
-        type: value,
-        loader: true
-      },
-      () => this.onGetList()
-    );
+    this.setState({
+      type: value,
+      loader: true
+    });
     setTimeout(() => {
       this.setState({ loader: false });
-    }, 1500);
-  };
-
-  onGetList = () => {
-    let { profile } = this.props;
-    let a = profile.company_products;
-    let type = "popular";
-    type = a.filter(typeP => {
-      return typeP.product_type === this.state.type;
-    });
-    if (this.state.type === "popular") {
-      type = profile.company_products;
-    }
-    this.setState({
-      dataList: type
-    });
+    }, 1000);
   };
 
   render() {
     const { loader } = this.state;
     let { profile } = this.props;
+    let productList = [];
+    profile.company_products.forEach(product => {
+      if (this.state.type === "popular") {
+        productList = profile.company_products;
+      } else if (product.productType === this.state.type) {
+        productList.push(product);
+      }
+    });
+    if (productList.length > 0 && productList.length > 5) {
+      productList = productList(0, 4);
+    }
     return (
       <div id="nav_product" style={{ minHeight: "16em" }}>
         <WidgetHeader
@@ -78,8 +71,8 @@ class PropertiesCard extends React.Component {
         />
         {loader ? (
           <CircularProgress className="gx-loader-400" />
-        ) : profile.company_products.length > 0 ? (
-          profile.company_products.map((data, index) => (
+        ) : productList.length > 0 ? (
+          productList.map((data, index) => (
             <PropertiesItemCard key={index} productList={data} />
           ))
         ) : (
@@ -99,25 +92,3 @@ class PropertiesCard extends React.Component {
 }
 
 export default PropertiesCard;
-
-// {loader ? (
-//   <CircularProgress className="gx-loader-400" />
-// ) : Account.company_products && this.state.dataList === null ? (
-//   Account.company_products.map((data, index) => (
-//     <PropertiesItemCard key={index} data={data} />
-//   ))
-// ) : this.state.dataList ? (
-//   this.state.dataList.map((data, index) => (
-//     <PropertiesItemCard key={index} data={data} />
-//   ))
-// ) : (
-//   <div>
-//     <p className="gx-font-weight-light">
-//       <Icon type="exclamation-circle" />{" "}
-//       <IntlMessages id="account.profile.product.empty" />
-//     </p>
-//     <p>
-//       <IntlMessages id="account.profile.product.empty.guide" />
-//     </p>
-//   </div>
-// )}
