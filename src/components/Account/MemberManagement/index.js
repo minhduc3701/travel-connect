@@ -167,6 +167,9 @@ class Dynamic extends React.Component {
               });
             });
         } catch (error) {}
+        this.setState({
+          loadingCreate: false
+        });
       }
     });
   };
@@ -599,6 +602,7 @@ class Dynamic extends React.Component {
               columns={columns}
               dataSource={data}
               onChange={this.handleChange}
+              size="small"
             />
           )}
         </div>
