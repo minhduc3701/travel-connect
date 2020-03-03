@@ -88,7 +88,7 @@ class Profile extends Component {
           mId: doc.id,
           mJob: doc.position,
           mName: doc.name,
-          mStatus: doc.diplay,
+          mStatus: doc.display,
           mLogo: doc.imageUrl
         });
       });

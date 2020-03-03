@@ -15,9 +15,9 @@ class Info extends React.Component {
               <Icon type="appstore" className="p-r-3" />
               {Account.company_business.map((buss, index) => {
                 if (index === bussLength) {
-                  return <span>{buss}...</span>;
+                  return <span key={index}>{buss}...</span>;
                 } else {
-                  return <span>{buss}, </span>;
+                  return <span key={index}>{buss}, </span>;
                 }
               })}
             </h5>

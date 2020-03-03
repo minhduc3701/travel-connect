@@ -21,7 +21,7 @@ import {
 // import WidgetHeader from "components/WidgetHeader";
 import Permission from "./permission";
 import IntlMessages from "util/IntlMessages";
-import UploadPicture from "./Avatar";
+// import UploadPicture from "./Avatar";
 import { doneChange, notificationPop } from "util/Notification";
 import { connect } from "react-redux";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
@@ -167,6 +167,9 @@ class Dynamic extends React.Component {
               });
             });
         } catch (error) {}
+        this.setState({
+          loadingCreate: false
+        });
       }
     });
   };
@@ -599,6 +602,7 @@ class Dynamic extends React.Component {
               columns={columns}
               dataSource={data}
               onChange={this.handleChange}
+              size="small"
             />
           )}
         </div>

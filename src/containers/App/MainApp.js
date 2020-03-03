@@ -28,6 +28,7 @@ import {
   TAB_SIZE
 } from "../../constants/ThemeSetting";
 import NoHeaderNotification from "../Topbar/NoHeaderNotification/index";
+import { switchLanguage } from "appRedux/actions/Setting";
 const { Content, Footer } = Layout;
 
 export class MainApp extends Component {
@@ -140,9 +141,12 @@ export class MainApp extends Component {
           company_district: this.props.userAcc[0].companyDistrict,
           company_address: this.props.userAcc[0].companyAddress,
           company_business: this.props.userAcc[0].companyBusiness,
-          company_active: this.props.userAcc[0].companyActive
+          company_active: this.props.userAcc[0].companyActive,
+          lastNoti: this.props.userAcc[0].lastNoti
         })
       );
+    isLoaded(this.props.userAcc) &&
+      this.props.switchLanguage(this.props.userAcc[0].language);
 
     return !isLoaded(this.props.userAcc) ? (
       <CircularProgress />
@@ -184,5 +188,5 @@ export default compose(
       }
     ];
   }),
-  connect(mapStateToProps, null)
+  connect(mapStateToProps, { switchLanguage })
 )(MainApp);

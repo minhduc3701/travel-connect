@@ -33,9 +33,22 @@ class Permission extends React.Component {
     loading: false,
     visible: false,
     tab: "1",
-    inventory: true,
-    buy: true,
-    sell: true
+    inventory:
+      this.props.data.permission.indexOf(
+        `${this.props.data.company_id}_inventory`
+      ) > -1
+        ? true
+        : false,
+    buy:
+      this.props.data.permission.indexOf(`${this.props.data.company_id}_buy`) >
+      -1
+        ? true
+        : false,
+    sell:
+      this.props.data.permission.indexOf(`${this.props.data.company_id}_sell`) >
+      -1
+        ? true
+        : false
   };
   showModal = () => {
     this.setState({
