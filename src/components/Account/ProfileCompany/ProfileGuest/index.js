@@ -31,6 +31,8 @@ class Profile extends Component {
   render() {
     let warning = null;
     let requests = null;
+    let mList = [];
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
     isLoaded(this.props.profileData) &&
       this.props.profileData.forEach(doc => {
         requests = {
@@ -70,6 +72,17 @@ class Profile extends Component {
         };
       });
 
+    isLoaded(this.props.memberDisplay) &&
+      this.props.memberDisplay.forEach(doc => {
+        mList.push({
+          mId: doc.id,
+          mJob: doc.position,
+          mName: doc.name,
+          mStatus: doc.diplay,
+          mLogo: doc.imageUrl
+        });
+      });
+
     if (requests) {
       for (const key in requests) {
         if (requests[key] !== "") {
@@ -82,7 +95,9 @@ class Profile extends Component {
 
     return (
       <Fragment>
-        {requests ? (
+        {!isLoaded(this.props.profileData) === false &&
+        !isLoaded(this.props.memberDisplay) === false &&
+        user_info.company_id !== "" ? (
           <div className="gx-profile-content">
             <div className="block_shadow ">
               <Banner profile={requests} />
@@ -93,7 +108,7 @@ class Profile extends Component {
                 <div className="block_shadow">
                   <About profile={requests} />
                   <Biography profile={requests} />
-                  <Contact profile={requests} />
+                  <Contact member={mList} profile={requests} />
                   <EventsBanner profile={requests} />
                   <PropertiesCard profile={requests} />
                   {requests.company_rating > 0 && requests ? (
@@ -113,7 +128,7 @@ class Profile extends Component {
               </Col>
             </Row>
           </div>
-        ) : requests === null && this.state.load === false ? (
+        ) : user_info.company_id === "" && this.state.load === false ? (
           <Result
             status="500"
             title="Không tìm thấy hồ sơ công ty!"
@@ -133,21 +148,32 @@ class Profile extends Component {
 }
 
 const mapStateToProps = state => {
-  const { profileData } = state.firestore.ordered;
+  const { profileData, memberDisplay } = state.firestore.ordered;
   return {
     profile: state,
-    profileData
+    profileData,
+    memberDisplay
   };
 };
 
 export default compose(
   firestoreConnect(props => {
     let { params } = props.match;
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
     return [
       {
         collection: "companies",
         doc: params.id,
         storeAs: "profileData"
+      },
+      {
+        collection: "users",
+        where: [
+          ["companyId", "==", user_info.company_id],
+          ["display", "==", true]
+        ],
+        limit: 5,
+        storeAs: "memberDisplay"
       }
     ];
   }),

@@ -33,13 +33,13 @@ const RestrictedRoute = ({ component: Component, authUser, ...rest }) => (
       authUser !== -1 ? (
         <Component {...props} />
       ) : (
-          <Redirect
-            to={{
-              pathname: "/",
-              state: { from: props.location }
-            }}
-          />
-        )
+        <Redirect
+          to={{
+            pathname: "/",
+            state: { from: props.location }
+          }}
+        />
+      )
     }
   />
 );
@@ -122,7 +122,7 @@ class App extends Component {
 
     this.setNavStyle(navStyle);
     const currentAppLocale = AppLocale[locale.locale];
-    firebaseAcc.auth().onAuthStateChanged(function (user) {
+    firebaseAcc.auth().onAuthStateChanged(function(user) {
       if (user) {
         var id = document.cookie.match("(^|;) ?" + "user_id" + "=([^;]*)(;|$)");
         let uid = id[2];
@@ -133,7 +133,7 @@ class App extends Component {
           document.cookie =
             "user_id= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global";
           // window.location.href = "https://app.travelconnect.global/signin";
-          console.log("uid nope")
+          console.log("uid nope");
         }
       } else {
         // console.log(document.cookie.indexOf("acc_token"));
@@ -145,13 +145,12 @@ class App extends Component {
         firebaseAcc
           .auth()
           .signInWithCustomToken(token)
-          .catch(function (error) {
+          .catch(function(error) {
             console.log(error);
           });
-        console.log(token)
+        console.log(token);
       }
     });
-
 
     return (
       <ConfigProvider locale={currentAppLocale.antd}>
@@ -162,12 +161,12 @@ class App extends Component {
           {this.props.authUser === -1 ? (
             <CircularProgress />
           ) : (
-              <RestrictedRoute
-                path={`${match.url}`}
-                authUser={authUser}
-                component={MainApp}
-              />
-            )}
+            <RestrictedRoute
+              path={`${match.url}`}
+              authUser={authUser}
+              component={MainApp}
+            />
+          )}
         </IntlProvider>
       </ConfigProvider>
     );

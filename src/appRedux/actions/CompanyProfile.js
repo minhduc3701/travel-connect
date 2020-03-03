@@ -168,7 +168,6 @@ export const SendDataUserSDK = data => {
         //   user_city: data.city,
         //   user_address: data.address
         // };
-
         // for (const item in userDetail) {
         //   for (const info in user_info) {
         //     if (item === info) {
