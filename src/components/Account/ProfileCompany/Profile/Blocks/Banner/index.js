@@ -1,38 +1,77 @@
 import React, { Component } from "react";
 import { Col, Icon } from "antd";
-import { Button, Dropdown, Menu } from "antd";
+import { Button, Dropdown, Menu, Modal, Empty } from "antd";
 // import { Link } from "react-router-dom";
+import FollowItem from "./FollowItem";
 import Info from "./Info";
+import { firestoreConnect, isLoaded } from "react-redux-firebase";
+import { compose } from "redux";
+import { connect } from "react-redux";
 import IntlMessages from "util/IntlMessages";
 
-const btn_notification_menu = (
-  <Menu>
-    <Menu.Item>
-      <Button type="link" className="m-b-0-i" size="small">
-        <IntlMessages id="account.profile.notifications.get.all" />
-      </Button>
-    </Menu.Item>
-    <Menu.Item>
-      <Button type="link" className="m-b-0-i" size="small">
-        <IntlMessages id="account.profile.notifications.get.product" />
-      </Button>
-    </Menu.Item>
-    <Menu.Item>
-      <Button type="link" className="m-b-0-i" size="small">
-        <IntlMessages id="account.profile.notifications.get.event" />
-      </Button>
-    </Menu.Item>
-    <Menu.Item>
-      <Button type="link" className="m-b-0-i" size="small">
-        <IntlMessages id="account.profile.notifications.get.off" />
-      </Button>
-    </Menu.Item>
-  </Menu>
-);
-
 class Banner extends Component {
+  state = {
+    visible: false
+  };
+
+  onShowModal = () => {
+    this.setState({
+      visible: true
+    });
+  };
+
+  onHandleCancel = () => {
+    this.setState({
+      visible: false
+    });
+  };
+
   render() {
     let { profile } = this.props;
+    let fList = [];
+    const btn_notification_menu = (
+      <Menu>
+        <Menu.Item>
+          <Button type="link" className="m-b-0-i" size="small">
+            <IntlMessages id="account.profile.notifications.get.all" />
+          </Button>
+        </Menu.Item>
+        <Menu.Item>
+          <Button type="link" className="m-b-0-i" size="small">
+            <IntlMessages id="account.profile.notifications.get.product" />
+          </Button>
+        </Menu.Item>
+        <Menu.Item>
+          <Button type="link" className="m-b-0-i" size="small">
+            <IntlMessages id="account.profile.notifications.get.event" />
+          </Button>
+        </Menu.Item>
+        <Menu.Item>
+          <Button
+            onClick={this.onShowModal}
+            type="link"
+            className="m-b-0-i"
+            size="small"
+          >
+            Danh sách đơn vị theo dõi
+          </Button>
+        </Menu.Item>
+        <Menu.Item>
+          <Button type="link" className="m-b-0-i" size="small">
+            <IntlMessages id="account.profile.notifications.get.off" />
+          </Button>
+        </Menu.Item>
+      </Menu>
+    );
+    isLoaded(this.props.followList) &&
+      this.props.followList.forEach(doc => {
+        fList.push({
+          companyId: doc.cId,
+          companyName: doc.cName,
+          companyLogo: doc.cLogo,
+          status: doc.status
+        });
+      });
     return (
       <div className="m-b-5 ">
         <div className="aspect_box">
@@ -74,13 +113,11 @@ class Banner extends Component {
                 <div className="d-inline-block text-align-left">
                   <h5 className=" gx-text-grey m-b-0-i">
                     <Icon type="usergroup-add" className="p-r-1" />
-                    368
-                    {/* {profile.company_followers} */}
+                    {profile.company_partner}
                   </h5>
                   <h5 className=" gx-text-grey m-b-0-i">
                     <Icon type="eye" className="p-r-1" />
-                    279
-                    {/* {profile.company_views} */}
+                    {profile.company_views}
                   </h5>
                 </div>
               </div>
@@ -97,29 +134,71 @@ class Banner extends Component {
             xs={24}
             className="text-align-right p-b-3 p-h-3 pos-rel box d-flex-i d-flex-wrap justify-flex-end"
           >
-            <Button className="m-b-0-i d-inline-block m-r-3-i m-t-3-i p-h-1-i">
+            {/* <Button className="m-b-0-i d-inline-block m-r-3-i m-t-3-i p-h-1-i">
               <Icon type="book" className="p-r-1" />
               <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
                 <IntlMessages id="account.profile.follow" />
               </span>
-            </Button>
+            </Button> */}
             <Dropdown
               overlay={btn_notification_menu}
               placement="bottomRight"
               className=" m-t-3-i d-inline-block"
             >
               <Button className="m-b-0-i p-h-1-i">
-                <Icon type="bell" className="p-r-1" />
+                {/* <Icon type="bell" className="p-r-1" />
                 <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
                   <IntlMessages id="account.profile.notifications.get" />
+                </span> */}
+                <Icon type="bars" className="p-r-1" />
+                <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0 p-r-1">
+                  Thông tin
                 </span>
               </Button>
             </Dropdown>
           </Col>
         </div>
+        <Modal
+          title="Danh sách đơn vị theo dõi"
+          visible={this.state.visible}
+          onCancel={this.onHandleCancel}
+          footer={null}
+        >
+          <div style={{ maxHeight: "30em", overflow: "auto" }}>
+            {fList.length > 0 ? (
+              fList.map((item, index) => {
+                return <FollowItem key={index} data={item} />;
+              })
+            ) : (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )}
+          </div>
+        </Modal>
       </div>
     );
   }
 }
 
-export default Banner;
+const mapStateToProps = state => {
+  const { followList } = state.firestore.ordered;
+  return {
+    followList
+  };
+};
+
+export default compose(
+  firestoreConnect(props => {
+    const user_info = JSON.parse(localStorage.getItem("user_info"));
+    return [
+      {
+        collection: "follows",
+        where: [
+          ["cId", "==", user_info.company_id],
+          ["status", "==", true]
+        ],
+        storeAs: "followList"
+      }
+    ];
+  }),
+  connect(mapStateToProps, null)
+)(Banner);

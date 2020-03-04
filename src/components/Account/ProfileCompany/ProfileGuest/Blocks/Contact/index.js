@@ -8,6 +8,7 @@ import logo from "assets/images/placeholder.jpg";
 class Contact extends React.Component {
   render() {
     let { member } = this.props;
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
     const columns = [
       {
         title: <IntlMessages id="account.profile.contact.employee.name" />,
@@ -43,6 +44,33 @@ class Contact extends React.Component {
         }
       }
     ];
+    const columnsNone = [
+      {
+        title: <IntlMessages id="account.profile.contact.employee.name" />,
+        dataIndex: "image",
+        key: "image",
+        render: (text, member) => {
+          return (
+            <div className="gx-flex-row gx-align-items-center">
+              <img
+                className="gx-rounded-circle gx-size-30 gx-mr-2"
+                src={member.mLogo === "" ? logo : member.mLogo}
+                alt={member.mName}
+              />
+              <p className="gx-mb-0">{member.mName}</p>
+            </div>
+          );
+        }
+      },
+      {
+        title: <IntlMessages id="account.profile.contact.employee.job" />,
+        dataIndex: "transfer",
+        key: "transfer",
+        render: (text, member) => {
+          return <span className="gx-text-grey">{member.mJob}</span>;
+        }
+      }
+    ];
 
     return (
       <div id="nav_contact" style={{ minHeight: "16em" }}>
@@ -50,7 +78,7 @@ class Contact extends React.Component {
         <div className="gx-table-responsive">
           <Table
             className="gx-table-no-bordered"
-            columns={columns}
+            columns={user_info.company_id !== "" ? columns : columnsNone}
             dataSource={member}
             pagination={false}
             size="small"

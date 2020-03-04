@@ -20,6 +20,7 @@ import { Link } from "react-router-dom";
 import Cerfiticated from "./Blocks/Cerfiticated";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
+import firebase from "firebase/firebaseAcc";
 
 class Profile extends Component {
   state = {
@@ -28,9 +29,20 @@ class Profile extends Component {
     load: true
   };
 
+  componentDidMount() {
+    firebase
+      .firestore()
+      .collection("companies")
+      .doc(this.props.match.params.id)
+      .update({
+        views: firebase.firestore.FieldValue.increment(1)
+      });
+  }
+
   render() {
     let warning = null;
     let requests = null;
+    let followAct = null;
     let mList = [];
     let user_info = JSON.parse(localStorage.getItem("user_info"));
     isLoaded(this.props.profileData) &&
@@ -68,10 +80,19 @@ class Profile extends Component {
           company_products_number: doc.products_number,
           company_orders: doc.orders,
           company_deal: doc.deal,
-          company_partner: doc.partner
+          company_partner: doc.partner,
+          company_views: doc.views,
+          company_follower: doc.follower
         };
       });
 
+    // isLoaded(this.props.followAction) &&
+    //   this.props.followAction.forEach(doc => {
+    //     followAct = {
+    //       id: doc.uId,
+    //       status: doc.status
+    //     };
+    //   });
     isLoaded(this.props.memberDisplay) &&
       this.props.memberDisplay.forEach(doc => {
         mList.push({
@@ -92,15 +113,15 @@ class Profile extends Component {
         }
       }
     }
-
     return (
       <Fragment>
         {!isLoaded(this.props.profileData) === false &&
         !isLoaded(this.props.memberDisplay) === false &&
+        // !isLoaded(this.props.followAction) === false &&
         user_info.company_id !== "" ? (
           <div className="gx-profile-content">
             <div className="block_shadow ">
-              <Banner profile={requests} />
+              <Banner profile={requests} dataFollow={followAct} />
               <Navigation />
             </div>
             <Row className="m-t-3-i">
@@ -153,6 +174,7 @@ const mapStateToProps = state => {
     profile: state,
     profileData,
     memberDisplay
+    // followAction
   };
 };
 

@@ -221,6 +221,7 @@
   "app.userAuth.resetPassword": "Reset Password",
   "app.userAuth.reset": "RESET",
   "app.userAuth.lockScreen": "Lock Screen",
+  "app.b2b.requests.created": "đã gửi yêu cầu báo giá tới",
   "app.userAuth.unLock": "UNLOCK",
   "appModule.enterPasswordUnlock": "Enter your password to unlock the screen!",
   "appModule.enterPasswordReset": "Enter a new password for your account",
