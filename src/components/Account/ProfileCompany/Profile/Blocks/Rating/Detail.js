@@ -19,7 +19,9 @@ class Detail extends React.Component {
             justifyContent: "space-between"
           }}
         >
-          <span><IntlMessages id="account.profile.rating.unit.bad" /> :</span>
+          <span>
+            <IntlMessages id="account.profile.rating.unit.bad" /> :
+          </span>
           <Tooltip
             placement="right"
             title={`${Account.company_rating_bad} Đánh giá`}
@@ -43,7 +45,9 @@ class Detail extends React.Component {
             justifyContent: "space-between"
           }}
         >
-          <span><IntlMessages id="account.profile.rating.unit.notgood" /> :</span>
+          <span>
+            <IntlMessages id="account.profile.rating.unit.notgood" /> :
+          </span>
           <Tooltip
             placement="right"
             title={`${Account.company_rating_fail} Đánh giá`}
@@ -67,7 +71,9 @@ class Detail extends React.Component {
             justifyContent: "space-between"
           }}
         >
-          <span><IntlMessages id="account.profile.rating.unit.normal" /> :</span>
+          <span>
+            <IntlMessages id="account.profile.rating.unit.normal" /> :
+          </span>
           <Tooltip
             placement="right"
             title={`${Account.company_rating_normal} Đánh giá`}
@@ -91,7 +97,9 @@ class Detail extends React.Component {
             justifyContent: "space-between"
           }}
         >
-          <span><IntlMessages id="account.profile.rating.unit.good" /> :</span>
+          <span>
+            <IntlMessages id="account.profile.rating.unit.good" /> :
+          </span>
           <Tooltip
             placement="right"
             title={`${Account.company_rating_good} Đánh giá`}
@@ -115,7 +123,9 @@ class Detail extends React.Component {
             justifyContent: "space-between"
           }}
         >
-          <span><IntlMessages id="account.profile.rating.unit.great" /> :</span>
+          <span>
+            <IntlMessages id="account.profile.rating.unit.great" /> :
+          </span>
           <Tooltip
             placement="right"
             title={`${Account.company_rating_great} Đánh giá`}

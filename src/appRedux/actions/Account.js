@@ -4,11 +4,12 @@ import {
   COMPANY_PROFILE_STEP4,
   SAVE_LOCAL_BACKGROUND,
   SAVE_LOCAL_LOGO
+
   // FETCH_PROFILE_SDK_START
 } from "../../constants/ActionTypes";
 import { CallApi_USER, CallApi_ACCOUNT } from "util/CallApi";
 import { notiChange } from "util/Notification";
-// import firebase from "firebase/firebaseAcc";
+import firebase from "firebase/firebaseAcc";
 
 export const actFetchAction = profile => {
   return {

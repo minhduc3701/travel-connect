@@ -121,8 +121,8 @@ class App extends Component {
         }
 
         localStorage.clear();
-        return (window.location.href =
-          "http://app.travelconnect.global/signin");
+        // return (window.location.href =
+        //   "http://app.travelconnect.global/signin");
       }
       if (initURL === "" || initURL === "/" || initURL === "/signin") {
         return <Redirect to={"/dashboard"} />;
@@ -159,7 +159,7 @@ class App extends Component {
               "acc_token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global";
             document.cookie =
               "user_id= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global";
-            window.location.href = "https://app.travelconnect.global/signin";
+            // window.location.href = "https://app.travelconnect.global/signin";
           }
         }
       } else {
