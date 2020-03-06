@@ -1,7 +1,6 @@
 import React from "react";
-import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import IntlMessages from "util/IntlMessages";
-import { Divider, Select, Button, Row, Col, Input, Anchor } from "antd";
+import { Divider, Select, Button, Row, Col, Input } from "antd";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { connect } from "react-redux";

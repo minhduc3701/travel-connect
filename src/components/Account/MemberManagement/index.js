@@ -10,7 +10,6 @@ import {
   Table,
   Tooltip,
   Input,
-  message,
   Switch,
   Col,
   Row,
@@ -28,12 +27,11 @@ import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import CircularProgress from "components/GlobalComponent/CircularProgress";
 import firebase from "firebase/firebaseAcc";
+import { Link } from "react-router-dom";
 
 const { Search } = Input;
 const FormItem = Form.Item;
-
 const showHeader = true;
-
 const pagination = { position: "bottom" };
 const Option = Select.Option;
 const formItemLayout = {
@@ -60,8 +58,6 @@ class Dynamic extends React.Component {
     loadingEdit: false,
     editItem: null
   };
-
-  handleSubmit = e => {};
 
   handleSubmitCreate = e => {
     const user_info = JSON.parse(localStorage.getItem("user_info"));
@@ -167,6 +163,9 @@ class Dynamic extends React.Component {
               });
             });
         } catch (error) {}
+        this.setState({
+          loadingCreate: false
+        });
       }
     });
   };
@@ -228,6 +227,7 @@ class Dynamic extends React.Component {
   handleCancel = () => {
     this.setState({ visible: false, visible2: false });
   };
+
   handleChange = (pagination, filters, sorter) => {
     this.setState({
       filteredInfo: filters,
@@ -242,9 +242,8 @@ class Dynamic extends React.Component {
   cancel = e => {};
 
   setSearch = value => {
-    message.info(value);
     this.setState({
-      filteredInfo: value
+      filteredInfo: value.toLowerCase()
     });
   };
 
@@ -318,7 +317,66 @@ class Dynamic extends React.Component {
       .doc(id)
       .update({
         status: "",
-        display: true
+        display: false
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  onChangeDisplayToHide = id => {
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(id)
+      .update({
+        display: false
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  onChangeDisplayToShow = data => {
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(data.key)
+      .update({
+        display: !data.status
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  onAcceptMember = data => {
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(data.key)
+      .update({
+        status: "",
+        companyAddress: data.companyAddress,
+        companyBrand: data.companyBrand,
+        companyBusiness: data.companyBusiness,
+        companyCity: data.companyCity,
+        companyDistrict: data.companyDistrict,
+        companyNation: data.companyNation,
+        companyId: data.companyId,
+        companyLogo: data.companyLogo,
+        companyEmail: data.companyEmail,
+        companyName: data.companyName,
+        rPosition: firebase.firestore.FieldValue.delete(),
+        rcAddress: firebase.firestore.FieldValue.delete(),
+        rcBrand: firebase.firestore.FieldValue.delete(),
+        rcBusiness: firebase.firestore.FieldValue.delete(),
+        rcCity: firebase.firestore.FieldValue.delete(),
+        rcDistrict: firebase.firestore.FieldValue.delete(),
+        rcName: firebase.firestore.FieldValue.delete(),
+        rcNation: firebase.firestore.FieldValue.delete(),
+        rcId: firebase.firestore.FieldValue.delete(),
+        rcLogo: firebase.firestore.FieldValue.delete(),
+        rcEmail: firebase.firestore.FieldValue.delete(),
+        position: data.position
       })
       .catch(err => {
         console.log(err);
@@ -328,6 +386,7 @@ class Dynamic extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     let data = [];
+    let filterMember = null;
     let { fileList } = this.state;
     isLoaded(this.props.members) &&
       this.props.members.forEach(doc => {
@@ -336,12 +395,38 @@ class Dynamic extends React.Component {
             key: doc.id || " - ",
             name: doc.name || " - ",
             position: doc.position || "- ",
-            status: doc.display || "Hide",
+            status: doc.display,
             mail: doc.email || " - ",
             phone: doc.phone || " - ",
             memberStatus: doc.status,
             company_id: doc.companyId,
             permission: doc.permission || null
+          });
+        }
+      });
+    isLoaded(this.props.membersVerify) &&
+      this.props.membersVerify.forEach(doc => {
+        if (doc.status !== "deleted") {
+          data.push({
+            key: doc.id || " - ",
+            name: doc.name || " - ",
+            position: doc.position || doc.rPosition,
+            status: doc.display,
+            mail: doc.email || " - ",
+            phone: doc.phone || " - ",
+            memberStatus: doc.status,
+            company_id: doc.companyId,
+            permission: doc.permission || null,
+            companyAddress: doc.rcAddress,
+            companyBrand: doc.rcBrand,
+            companyBusiness: doc.rcBusiness,
+            companyCity: doc.rcCity,
+            companyDistrict: doc.rcDistrict,
+            companyNation: doc.rcNation,
+            companyId: doc.rcId,
+            companyLogo: doc.rcLogo,
+            companyName: doc.rcName,
+            companyEmail: doc.rcEmail
           });
         }
       });
@@ -377,7 +462,10 @@ class Dynamic extends React.Component {
         filteredValue: filteredInfo.name || null,
         onFilter: (value, record) => record.name.includes(value),
         sorter: (a, b) => a.name.length - b.name.length,
-        sortOrder: sortedInfo.columnKey === "name" && sortedInfo.order
+        sortOrder: sortedInfo.columnKey === "name" && sortedInfo.order,
+        render: (key, record) => {
+          return <Link to={`/member/${record.key}`}>{record.name}</Link>;
+        }
       },
       {
         title: "Email",
@@ -407,25 +495,28 @@ class Dynamic extends React.Component {
         dataIndex: "status",
         key: "status",
         render: (tag, record) => {
-          let color, mess, type, text;
+          let color, type, text;
           if (record.status === true) {
             text = "Show";
             color = "#04B431";
-            mess = "This employee is displayed on company's contact info";
+            // mess = "This employee is displayed on company's contact info";
             type = "check";
           } else {
             text = "Hide";
             color = "grey";
-            mess = "This employee is not displayed on company's contact info";
+            // mess = "This employee is not displayed on company's contact info";
             type = "close";
           }
           return (
-            <Tooltip placement="top" title={mess}>
+            <Popconfirm
+              title="Bạn có chắc chắn muốn thay đổi hiển thị tài khoản này?"
+              onConfirm={() => this.onChangeDisplayToShow(record)}
+            >
               <Icon type={type} style={{ color: color }} />{" "}
               <span style={{ color: color }} key={record.key}>
                 {text.toUpperCase()}
               </span>
-            </Tooltip>
+            </Popconfirm>
           );
         }
       },
@@ -560,11 +651,50 @@ class Dynamic extends React.Component {
                   </span>
                 </span>
               </span>
+            ) : record.memberStatus === "unverify" ? (
+              <span>
+                <span
+                  className="gx-link"
+                  onClick={() => this.onAcceptMember(record)}
+                >
+                  <Tooltip
+                    placement="topLeft"
+                    title={<IntlMessages id="submit" />}
+                  >
+                    <Icon type="check" /> <IntlMessages id="submit" />
+                  </Tooltip>
+                </span>
+                <span className="gx-link" style={{ marginLeft: 15 }}>
+                  <Popconfirm
+                    onConfirm={() => this.onDeleteMember(record.key)}
+                    onCancel={this.cancel}
+                    title={<IntlMessages id="deleteConfirm.employee" />}
+                  >
+                    <Tooltip
+                      placement="topLeft"
+                      title={<IntlMessages id="deleteUser" />}
+                    >
+                      <span style={{ color: "red" }}>
+                        <Icon type="delete" theme="filled" />{" "}
+                        <IntlMessages id="button.delete" />
+                      </span>
+                    </Tooltip>
+                  </Popconfirm>
+                </span>
+              </span>
             ) : null}
           </Fragment>
         )
       }
     ];
+    if (this.state.filteredInfo) {
+      filterMember = data.filter(member => {
+        return (
+          member.name.toLowerCase().indexOf(this.state.filteredInfo) !== -1
+        );
+      });
+    }
+
     return (
       <Card
         className="block_shadow-i"
@@ -597,8 +727,9 @@ class Dynamic extends React.Component {
               className=" gx-table-no-bordered"
               {...this.state}
               columns={columns}
-              dataSource={data}
+              dataSource={filterMember ? filterMember : data}
               onChange={this.handleChange}
+              size="small"
             />
           )}
         </div>
@@ -843,11 +974,12 @@ class Dynamic extends React.Component {
 }
 
 const mapStateToProps = ({ firestore, settings }) => {
-  const { members } = firestore.ordered;
+  const { members, membersVerify } = firestore.ordered;
   const { locale } = settings;
   return {
     members,
-    locale
+    locale,
+    membersVerify
   };
 };
 
@@ -858,9 +990,15 @@ export default compose(
     return [
       {
         collection: "users",
-        where: ["companyId", "==", user_info.company_id],
+        where: [["companyId", "==", user_info.company_id]],
         limit: 10,
         storeAs: "members"
+      },
+      {
+        collection: "users",
+        where: [["rcId", "==", user_info.company_id]],
+        limit: 2,
+        storeAs: "membersVerify"
       }
     ];
   }),

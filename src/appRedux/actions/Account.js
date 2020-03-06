@@ -8,6 +8,7 @@ import {
 } from "../../constants/ActionTypes";
 import { CallApi_USER, CallApi_ACCOUNT } from "util/CallApi";
 import { notiChange } from "util/Notification";
+import firebaseAcc from "firebase/firebaseAcc";
 // import firebase from "firebase/firebaseAcc";
 
 export const actFetchAction = profile => {

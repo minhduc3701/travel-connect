@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Avatar } from "antd";
 import { ACCOUNT } from "components/Layout/Header/NavigateLink";
 

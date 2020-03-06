@@ -7,7 +7,7 @@ import logo from "assets/images/placeholder.jpg";
 
 class Contact extends React.Component {
   render() {
-    let { member } = this.props;
+    let { member, profile } = this.props;
     let user_info = JSON.parse(localStorage.getItem("user_info"));
     const columns = [
       {
@@ -40,7 +40,9 @@ class Contact extends React.Component {
         dataIndex: "status",
         key: "status",
         render: (text, member) => {
-          return <CallContact Account={member} button_text={text} />;
+          return (
+            <CallContact Account={member} data={profile} button_text={text} />
+          );
         }
       }
     ];

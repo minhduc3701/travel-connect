@@ -312,6 +312,17 @@ export const CreateCompanySDK = data => {
       .catch(err => {
         console.log(err);
       });
+
+    var signB2B = firebaseAcc
+      .app("FirebaseApp")
+      .functions()
+      .httpsCallable("signInB2B");
+    signB2B(uId.user_id).then(function(result) {
+      document.cookie = `b2b_token=${JSON.stringify(
+        result.data
+      )};domain=travelconnect.global`;
+      // document.cookie = `b2b_token=${JSON.stringify(result.data)}`;
+    });
   };
 };
 
@@ -339,13 +350,6 @@ export const VerifyCompanySDK = data => {
       .doc(uId.company_id)
       .update(data)
       .then(res => {
-        // for (const key in uId) {
-        //   if (key === "company_active") {
-        //     uId[key] = true;
-        //   }
-        // }
-        // localStorage.removeItem("user_info");
-        // localStorage.setItem("user_info", JSON.stringify(uId));
         notificationPop(
           "success",
           "Gửi yêu cầu xác minh thành công!",

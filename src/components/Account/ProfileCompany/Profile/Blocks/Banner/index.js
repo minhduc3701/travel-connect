@@ -66,9 +66,9 @@ class Banner extends Component {
     isLoaded(this.props.followList) &&
       this.props.followList.forEach(doc => {
         fList.push({
-          companyId: doc.cId,
-          companyName: doc.cName,
-          companyLogo: doc.cLogo,
+          companyId: doc.fId,
+          companyName: doc.fBrand,
+          companyLogo: doc.fLogo,
           status: doc.status
         });
       });

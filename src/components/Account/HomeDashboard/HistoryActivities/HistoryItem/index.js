@@ -1,6 +1,5 @@
 import React from "react";
 import { Avatar } from "antd";
-import IntlMessage from "util/IntlMessages";
 
 class HistoryActivities extends React.Component {
   render() {

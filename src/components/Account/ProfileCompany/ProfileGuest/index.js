@@ -16,7 +16,7 @@ import StaticticGuest from "./Blocks/StaticticGuest";
 import { friendList } from "./data";
 import { connect } from "react-redux";
 import CircularProgress from "../../../GlobalComponent/CircularProgress";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Cerfiticated from "./Blocks/Cerfiticated";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
@@ -117,9 +117,11 @@ class Profile extends Component {
       <Fragment>
         {!isLoaded(this.props.profileData) === false &&
         !isLoaded(this.props.memberDisplay) === false &&
-        // !isLoaded(this.props.followAction) === false &&
         user_info.company_id !== "" ? (
           <div className="gx-profile-content">
+            {requests.company_id === user_info.company_id && (
+              <Redirect to="/profile" />
+            )}
             <div className="block_shadow ">
               <Banner profile={requests} dataFollow={followAct} />
               <Navigation />

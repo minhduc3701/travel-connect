@@ -157,17 +157,18 @@ class Company extends Component {
           .collection("users")
           .doc(uId.user_id)
           .update({
-            position: values.user_position,
-            companyAddress: this.state.companyDetail.company_address,
-            companyBrand: this.state.companyDetail.company_brandname,
-            companyBusiness: this.state.companyDetail.company_business,
-            companyCity: this.state.companyDetail.company_city,
-            companyDistrict: this.state.companyDetail.company_district,
-            companyName: this.state.companyDetail.company_name,
-            companyNation: this.state.companyDetail.company_national,
-            companyId: this.state.companyDetail.company_id,
-            companyLogo: this.state.companyDetail.company_logo,
-            status: ""
+            rPosition: values.user_position,
+            rcAddress: this.state.companyDetail.company_address,
+            rcBrand: this.state.companyDetail.company_brandname,
+            rcBusiness: this.state.companyDetail.company_business,
+            rcCity: this.state.companyDetail.company_city,
+            rcDistrict: this.state.companyDetail.company_district,
+            rcName: this.state.companyDetail.company_name,
+            rcNation: this.state.companyDetail.company_national,
+            rcId: this.state.companyDetail.company_id,
+            rcLogo: this.state.companyDetail.company_logo,
+            rcEmail: this.state.companyDetail.company_email,
+            status: "unverify"
           })
           .then(res => {
             notificationPop(
@@ -322,11 +323,12 @@ class Company extends Component {
   onTextFind = e => {
     this.setState({
       // searchText: e
-      searchText: e.target.value
+      searchText: e.target.value.toLowerCase()
     });
   };
 
   onChoiseCompany = detail => {
+    console.log(detail);
     this.setState({
       companyDetail: detail,
       searchText: "",
@@ -347,11 +349,12 @@ class Company extends Component {
             company_brandname: doc.brandname,
             company_address: doc.address,
             company_license: doc.license,
-            company_business: doc.companyBusiness,
-            company_city: doc.companyCity,
-            company_district: doc.companyDistrict,
-            company_logo: doc.companyLogo,
-            company_national: doc.companyNation
+            company_business: doc.business,
+            company_city: doc.city,
+            company_district: doc.district,
+            company_logo: doc.logo,
+            company_national: doc.nation,
+            company_email: doc.email
           });
         }
       });
@@ -378,7 +381,9 @@ class Company extends Component {
       fileList
     };
     let filterCompany = cList.filter(company => {
-      return company.company_name.indexOf(this.state.searchText) !== -1;
+      return (
+        company.company_name.toLowerCase().indexOf(this.state.searchText) !== -1
+      );
     });
 
     return (
@@ -636,19 +641,19 @@ class Company extends Component {
                                 this.state.inputDisplay ||
                                 this.state.visibleSearch
                               }
-                              style={{ width: "50%" }}
+                              style={{ width: "70%" }}
                               onChange={this.onTextFind}
                             />
                           )}
 
-                          <Button
+                          {/* <Button
                             disabled={this.state.visibleSearch}
                             style={{ width: "20%", margin: 0 }}
                             type="primary"
                             htmlType="submit"
                           >
                             Tìm kiếm
-                          </Button>
+                          </Button> */}
                         </InputGroup>
                         {this.state.searchText === "" ||
                         filterCompany.length < 1 ? (
@@ -678,16 +683,22 @@ class Company extends Component {
                   </Form>
                   {this.state.companyDetail && this.state.notExist === false ? (
                     <div>
-                      <Form onSubmit={this.handleSubmitPerson}>
+                      <Form onSubmit={this.handleSubmitUserCompany}>
                         <FormItem {...formItemLayout} label="Chức vụ bản thân">
                           {getFieldDecorator("user_position", {
                             rules: [
                               {
                                 required: true,
-                                message: "Enter your position!"
+                                message: "Select your position!"
                               }
                             ]
-                          })(<Input placeholder="Chức vụ" />)}
+                          })(
+                            <Select placeholder="Chức vụ">
+                              <Option value="Manager">Manager</Option>
+                              <Option value="Employee">Employee</Option>
+                              <Option value="Marketing">Marketing</Option>
+                            </Select>
+                          )}
                         </FormItem>
                         <div
                           className=" d-flex"

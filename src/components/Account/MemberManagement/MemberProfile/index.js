@@ -5,6 +5,9 @@ import CircularProgress from "../../../GlobalComponent/CircularProgress";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import Activities from "./Activities";
+import firebase from "firebase/firebaseAcc";
+import { notificationPop } from "util/Notification";
+import Product from "./Product";
 
 const { TabPane } = Tabs;
 
@@ -13,6 +16,27 @@ class Profile extends Component {
     profile: null,
     loading: null,
     load: true
+  };
+
+  handleUpdateData = e => {
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(this.props.match.params.id)
+      .update({
+        status: "",
+        display: e
+      })
+      .then(res => {
+        notificationPop(
+          "success",
+          "Cập nhật thành công!",
+          "Bạn đã thay đổi trạng thái hiển thị của thành viên thành công"
+        );
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -30,6 +54,7 @@ class Profile extends Component {
           user_email: doc.email || " - ",
           user_birth: doc.birth || " - ",
           user_display: doc.display,
+          user_status: doc.status,
           company_name: doc.companyName || " - "
         };
       });
@@ -76,7 +101,16 @@ class Profile extends Component {
                     <li className="p-b-2">Website: {requests.user_website}</li>
                     <li className="p-b-2">
                       Hiển thị:{" "}
-                      <Switch defaultChecked={requests.user_display} />
+                      <Switch
+                        disabled={
+                          requests.user_status === "lock" ||
+                          requests.user_status === "deleted"
+                            ? true
+                            : false
+                        }
+                        checked={requests.user_display}
+                        onChange={e => this.handleUpdateData(e)}
+                      />
                     </li>
                   </ul>
                 </div>
@@ -89,7 +123,7 @@ class Profile extends Component {
                   <Activities data={this.props.match} />
                 </TabPane>
                 <TabPane tab="Sản phẩm quản lý" key="2">
-                  null
+                  <Product data={this.props.match} />
                 </TabPane>
               </Tabs>
             </div>
