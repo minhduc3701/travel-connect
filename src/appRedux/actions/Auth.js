@@ -19,6 +19,30 @@ import {
   SIGNUP_USER,
   SIGNUP_USER_SUCCESS
 } from "constants/ActionTypes";
+import firebaseAcc from "firebase/firebaseAcc";
+
+export const updatePackage = pack => {
+  pack.lastUpdate = new Date().toISOString();
+
+  return dispatch => {
+    let user = JSON.parse(localStorage.getItem("user_info"));
+    firebaseAcc
+      .firestore()
+      .collection("users")
+      .doc(user.user_id)
+      .update({
+        package: pack,
+        [`package.deadline`]:
+          pack.duration === "month"
+            ? new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString()
+            : new Date(Date.now() + 1000 * 60 * 60 * 24 * 30 * 12).toISOString()
+      })
+      .then(res => {})
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
 
 export const userSignUp = user => {
   return {
@@ -26,6 +50,7 @@ export const userSignUp = user => {
     payload: user
   };
 };
+
 export const userSignIn = user => {
   return {
     type: SIGNIN_USER,
