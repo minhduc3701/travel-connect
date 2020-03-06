@@ -169,6 +169,12 @@ const App = ({ match }) => (
               import("../components/Account/UpgradeAccount/UpgradeAccount")
             )}
           />
+          <Route
+            path={`${match.url}company/setting`}
+            component={asyncComponent(() =>
+              import("../components/Account/CompanySetting/RecommendList")
+            )}
+          />
         </Switch>
       </div>
     </div>
