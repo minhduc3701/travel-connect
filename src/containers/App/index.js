@@ -109,6 +109,18 @@ class App extends Component {
     }
     if (location.pathname === "/") {
       if (authUser === -1) {
+        let cookies = document.cookie.split(";");
+
+        for (let i = 0; i < cookies.length; i++) {
+          let cookie = cookies[i];
+          let eqPos = cookie.indexOf("=");
+          let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+          document.cookie =
+            name +
+            "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global;path=/";
+        }
+
+        localStorage.clear();
         return (window.location.href =
           "http://app.travelconnect.global/signin");
       }
@@ -154,6 +166,20 @@ class App extends Component {
         var v = document.cookie.match(
           "(^|;) ?" + "acc_token" + "=([^;]*)(;|$)"
         );
+        if (v === null) {
+          let cookies = document.cookie.split(";");
+
+          for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i];
+            let eqPos = cookie.indexOf("=");
+            let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie =
+              name +
+              "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global;path=/";
+          }
+
+          localStorage.clear();
+        }
         let token = v[2];
         firebaseAcc
           .auth()
