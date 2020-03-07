@@ -999,6 +999,11 @@
   "account.personal.select.embassy": "Working for Embassy/Consulate",
   "account.personal.select.tourguide": "I am a Tour Guide",
   "account.personal.select.studen": "I am a Student Tourism Industry",
+  "account.setting.recommendList": "Recommend List",
+  "account.setting.recommendList.seeAll": "See all",
+  "account.setting.recommendList.recommended": "Recommended",
+  "account.setting.recommendList.recommend": "Recommend",
+  "account.setting.recommendList.emptyRecommend": "Your company haven't recommended any product yet",
 
   "nation.vietnam": "Vietnam",
   "nation.japan": "Japan",
