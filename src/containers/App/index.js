@@ -154,11 +154,18 @@ class App extends Component {
                 console.log(error);
               });
           } else {
-            localStorage.removeItem("user_info");
-            document.cookie =
-              "acc_token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global";
-            document.cookie =
-              "user_id= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global";
+            let cookies = document.cookie.split(";");
+
+            for (let i = 0; i < cookies.length; i++) {
+              let cookie = cookies[i];
+              let eqPos = cookie.indexOf("=");
+              let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+              document.cookie =
+                name +
+                "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global;path=/";
+            }
+
+            localStorage.clear();
             window.location.href = "https://app.travelconnect.global/signin";
           }
         }

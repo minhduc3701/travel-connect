@@ -100,6 +100,12 @@ const App = ({ match }) => (
             )
           )}
         />
+        <Route
+          path={`${match.url}company-setting`}
+          component={asyncComponent(() =>
+            import("../components/BreadCrumbNav/Account/CompanySetting")
+          )}
+        />
       </Switch>
       <div className="gx-main-content-wrapper">
         {/* RENDER CONTENT HERE: */}
@@ -167,6 +173,13 @@ const App = ({ match }) => (
             path={`${match.url}account-package`}
             component={asyncComponent(() =>
               import("../components/Account/UpgradeAccount/UpgradeAccount")
+            )}
+          />
+          <Route
+            exact
+            path={`${match.url}company-setting`}
+            component={asyncComponent(() =>
+              import("../components/Account/CompanySetting/index")
             )}
           />
         </Switch>
