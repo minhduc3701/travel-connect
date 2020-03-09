@@ -192,9 +192,12 @@ class App extends Component {
           .auth()
           .signInWithCustomToken(token)
           .catch(function(error) {
-            console.log(error);
+            document.cookie =
+              "acc_token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global";
+            document.cookie =
+              "user_id= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global";
+            window.location.href = "https://app.travelconnect.global/signin";
           });
-        console.log(token);
       }
     });
 
