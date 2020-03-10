@@ -80,7 +80,6 @@ class App extends Component {
     if (this.props.initURL === "") {
       this.props.setInitUrl(this.props.history.location.pathname);
     }
-
     const params = new URLSearchParams(this.props.location.search);
     if (params.has("theme")) {
       this.props.setThemeType(params.get("theme"));
