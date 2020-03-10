@@ -252,6 +252,7 @@ export const CreateCompanySDK = data => {
     medias: [],
     orders: 0,
     partner: 0,
+    views: 0,
     products: [],
     products_number: 0,
     products_type: [],

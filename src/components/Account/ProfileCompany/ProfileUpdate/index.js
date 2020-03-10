@@ -91,6 +91,7 @@ class ProfileUpdate extends Component {
           company_products_number: doc.products_number,
           company_orders: doc.orders,
           company_deal: doc.deal,
+          company_views: doc.views,
           company_partner: doc.partner
         };
       });

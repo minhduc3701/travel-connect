@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Input, Modal, Button, Form } from "antd";
 import IntlMessages from "util/IntlMessages";
-import { notiChange } from "util/Notification";
+// import { notiChange } from "util/Notification";
+import firebase from "firebase/firebaseAcc";
 
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -19,18 +20,88 @@ class CallContact extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
-        // this.props.getState(this.state.step);
-        this.setState({ loading: true, message: values });
+        this.setState({ loading: true, message: values }, () => {
+          this.onSendRequest(values);
+        });
         setTimeout(() => {
           this.setState({ loading: false, visible2: false });
-          notiChange("success", "Send message success!");
         }, 1500);
       }
     });
+  };
+
+  onSendRequest = values => {
+    let { data, Account } = this.props;
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    firebase
+      .firestore()
+      .collection("notifications")
+      .add({
+        content: "b2b.matching.sent",
+        createdAt: new Date().toISOString(),
+        icon: "",
+        object: {
+          id: user_info.company_id,
+          name: user_info.company_name,
+          logo: user_info.company_logo
+        },
+        user: {
+          id: user_info.user_id,
+          name: user_info.user_name,
+          logo: user_info.user_logo
+        },
+        target: {
+          id: Account.mId,
+          name: Account.mName,
+          logo: Account.mLogo
+        },
+        cTarget: {
+          id: data.company_id,
+          name: data.company_name,
+          logo: data.company_logo
+        },
+        rules: [],
+        type: "matching",
+        other: [],
+        private: firebase.firestore.FieldValue.arrayUnion(
+          `${data.company_id}_${user_info.company_id}_contact`
+        )
+      });
+
+    firebase
+      .firestore()
+      .collection("matchings")
+      .doc(`${data.company_id}_${user_info.company_id}`)
+      .set({
+        user: {
+          id: user_info.user_id,
+          name: user_info.user_name,
+          logo: user_info.user_logo
+        },
+        createdAt: new Date().toISOString(),
+        uTarget: {
+          id: Account.mId,
+          name: Account.mName,
+          logo: Account.mLogo
+        },
+        cTarget: {
+          id: data.company_id,
+          name: data.company_name,
+          logo: data.company_logo
+        },
+        uCompany: {
+          id: user_info.company_id,
+          name: user_info.company_name,
+          logo: user_info.company_logo
+        },
+        title: values.message_title,
+        message: values.message_mess
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   showModal = key => {
@@ -74,6 +145,7 @@ class CallContact extends Component {
           <IntlMessages id="account.profile.contact.employee.connect" />
         </span>
         <Modal
+          onCancel={this.handleCancel}
           visible={this.state.visible2}
           title={<IntlMessages id="company.contact" />}
           footer={null}
@@ -84,7 +156,7 @@ class CallContact extends Component {
           </p>
           <Form onSubmit={this.handleSubmit}>
             <FormItem {...formItemLayout}>
-              {getFieldDecorator("employee_message_title", {
+              {getFieldDecorator("message_title", {
                 rules: [
                   {
                     required: true,
@@ -94,7 +166,7 @@ class CallContact extends Component {
               })(<Input placeholder="Title" />)}
             </FormItem>
             <FormItem {...formItemLayout}>
-              {getFieldDecorator("employee_message_detail", {
+              {getFieldDecorator("message_mess", {
                 rules: [
                   {
                     required: true,
@@ -140,5 +212,4 @@ class CallContact extends Component {
 }
 
 const WrappedHorizontalLoginForm = Form.create()(CallContact);
-
 export default WrappedHorizontalLoginForm;

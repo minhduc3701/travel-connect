@@ -15,6 +15,15 @@ const App = ({ match }) => (
       <Switch>
         {/* HOME */}
         <Route
+          path={`${match.url}member/:id`}
+          exact
+          component={asyncComponent(() =>
+            import(
+              "../components/BreadCrumbNav/Account/MemberManagement/MemberProfile"
+            )
+          )}
+        />
+        <Route
           path={`${match.url}home`}
           component={asyncComponent(() =>
             import("../components/BreadCrumbNav/BreadcrumbBar")
@@ -160,6 +169,13 @@ const App = ({ match }) => (
             exact
             component={asyncComponent(() =>
               import("../components/Account/ProfileCompany/ProfileGuest")
+            )}
+          />
+          <Route
+            path={`${match.url}member/:id`}
+            exact
+            component={asyncComponent(() =>
+              import("../components/Account/MemberManagement/MemberProfile")
             )}
           />
           <Route

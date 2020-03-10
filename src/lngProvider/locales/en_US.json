@@ -212,6 +212,7 @@
   "app.userAuth.reset": "RESET",
   "app.userAuth.lockScreen": "Lock Screen",
   "app.userAuth.unLock": "UNLOCK",
+  "app.b2b.requests.created": "send request for a quote to",
   "app.userAuth.toConfirm": "CONFIRM",
   "appModule.enterPasswordUnlock": "Enter your password to unlock the screen!",
   "appModule.enterPasswordConfirm": "Please enter your password to change!",
