@@ -17,7 +17,7 @@ import {
   actSaveAddress
 } from "appRedux/actions/CompanyProfile";
 import { connect } from "react-redux";
-// import data from "./data";
+import PlacesAutocomplete from "react-places-autocomplete";
 
 const formItemLayout = {
   wrapperCol: { xs: 24, sm: 24 }
@@ -82,7 +82,8 @@ class Info extends React.Component {
     districtUpdate: null,
     addressUpdate: null,
     cityUpdate: null,
-    nationUpdate: null
+    nationUpdate: null,
+    district: ""
   };
 
   handleSubmit = e => {
@@ -92,9 +93,9 @@ class Info extends React.Component {
         this.setState(
           {
             address: {
-              company_district: values.company_district[1],
+              company_district: this.state.district,
               company_address: values.company_address,
-              company_city: values.company_district[0],
+              company_city: "",
               company_nation: values.company_nation
             },
             loading: true
@@ -164,7 +165,15 @@ class Info extends React.Component {
       : profile.company_website;
     this.props.actSaveData(websiteResult);
   };
-
+  handleChange = district => {
+    this.setState({ district });
+  };
+  onDestinationChange = e => {
+    // console.log(e);
+    this.setState({
+      district: e
+    });
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     let { profile } = this.props.profile;
@@ -298,7 +307,7 @@ class Info extends React.Component {
                       </Col>
                       <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                         <FormItem {...formItemLayout}>
-                          {getFieldDecorator("company_district", {
+                          {/* {getFieldDecorator("company_district", {
                             rules: [
                               {
                                 required: true,
@@ -312,7 +321,46 @@ class Info extends React.Component {
                               placeholder="District"
                               options={residences}
                             />
-                          )}
+                          )} */}
+                          <PlacesAutocomplete
+                            value={this.state.district}
+                            onChange={this.handleChange}
+                            onSelect={this.onDestinationChange}
+                          >
+                            {({
+                              getInputProps,
+                              suggestions,
+                              getSuggestionItemProps,
+                              loading
+                            }) => (
+                              <div>
+                                <Input
+                                  {...getInputProps({
+                                    placeholder: "District"
+                                  })}
+                                />
+                                <div className="ant-select-dropdown-menu  ant-select-dropdown-menu-root ant-select-dropdown-menu-vertical">
+                                  {loading && <div>Loading...</div>}
+                                  {suggestions.map(suggestion => {
+                                    const className = suggestion.active
+                                      ? "ant-select-dropdown-menu-item"
+                                      : "ant-select-dropdown-menu-item";
+                                    return (
+                                      <div
+                                        {...getSuggestionItemProps(suggestion, {
+                                          className
+                                          // ,
+                                          // style
+                                        })}
+                                      >
+                                        <span>{suggestion.description} </span>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            )}
+                          </PlacesAutocomplete>
                         </FormItem>
                       </Col>
                     </Row>

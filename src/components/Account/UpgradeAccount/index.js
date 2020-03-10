@@ -1,14 +1,8 @@
 import React, { Component } from "react";
-import { Anchor, Row, Col, Radio, Divider, Icon, Button } from "antd";
+import { Anchor, Radio } from "antd";
 import IntlMessages from "util/IntlMessages";
 import PackageMonth from "./PackageMonth";
 import PackageYear from "./PackageYear";
-import { connect } from "react-redux";
-import { firestoreConnect, isLoaded } from "react-redux-firebase";
-import { compose } from "redux";
-
-import firebaseAcc from "firebase/firebaseAcc";
-const { Link } = Anchor;
 
 const getCurrentAnchor = () => {
   return "#components-anchor-demo-static";
