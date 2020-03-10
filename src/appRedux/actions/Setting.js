@@ -59,3 +59,17 @@ export function updateLanguage(language) {
       });
   };
 }
+
+export function changeNoti(noti) {
+  return dispatch => {
+    if (noti[0])
+      firebaseAcc
+        .firestore()
+        .doc(`users/${JSON.parse(localStorage.getItem("user_info")).user_id}`)
+        .update({
+          lastNoti: noti[0].id
+        })
+        .then(function(doc) {})
+        .catch(function(error) {});
+  };
+}

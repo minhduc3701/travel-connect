@@ -37,6 +37,17 @@ const firebaseAccConfigB2B = {
   measurementId: "G-8XPVLPR376"
 };
 
+const firebaseB2bConfig = {
+  apiKey: "AIzaSyCS_TcfDb_dslwU9lh-a8Hhb3e38Q7Il1c",
+  authDomain: "tc-b2b.firebaseapp.com",
+  databaseURL: "https://tc-b2b.firebaseio.com",
+  projectId: "tc-b2b",
+  storageBucket: "tc-b2b.appspot.com",
+  messagingSenderId: "342589287280",
+  appId: "1:342589287280:web:07359311318e406bde7db5",
+  measurementId: "G-8XPVLPR376"
+};
+
 firebase.initializeApp(firebaseConfig);
 firebase.firestore();
 
@@ -45,5 +56,8 @@ export let FirebaseDataB2B = FirebaseB2B.database();
 
 let FirebaseApp = firebase.initializeApp(firebaseConfigApp, "FirebaseApp");
 export let FirebaseDataApp = FirebaseApp.database();
+
+let FirebaseB2b = firebase.initializeApp(firebaseB2bConfig, "FirebaseB2b");
+export let FirebaseDataB2b = FirebaseB2b.database();
 
 export default firebase;

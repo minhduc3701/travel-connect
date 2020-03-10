@@ -29,14 +29,6 @@ class Profile extends Component {
     load: true
   };
 
-  // componentDidMount() {
-  //   setTimeout(() => {
-  //     this.setState({
-  //       load: false
-  //     });
-  //   }, 3000);
-  // }
-
   render() {
     let warning = null;
     let requests = null;

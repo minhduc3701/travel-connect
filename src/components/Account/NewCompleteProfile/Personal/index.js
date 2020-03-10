@@ -23,47 +23,13 @@ import { SendDataUserSDK } from "appRedux/actions/CompanyProfile";
 import firebase from "firebase/firebaseAcc";
 import IntlMessages from "util/IntlMessages";
 import { HOME } from "components/Layout/Header/NavigateLink";
-
+import PlacesAutocomplete from "react-places-autocomplete";
 const FormItem = Form.Item;
 const Option = Select.Option;
 const formItemLayout = {
   labelCol: { xs: 24, sm: 6 },
   wrapperCol: { xs: 24, sm: 18 }
 };
-const residences = [
-  {
-    value: "Hà Nội",
-    label: "Hà Nội",
-    children: [
-      {
-        value: "Đống Đa",
-        label: "Đống Đa"
-      },
-      {
-        value: "Cầu giấy",
-        label: "Cầu giấy"
-      },
-      {
-        value: "Hoàng Mai",
-        label: "Hoàng Mai"
-      }
-    ]
-  },
-  {
-    value: "Hồ Chí Minh",
-    label: "Hồ Chí Minh",
-    children: [
-      {
-        value: "Quận 1",
-        label: "Quận 1"
-      },
-      {
-        value: "Quận 2",
-        label: "Quận 2"
-      }
-    ]
-  }
-];
 
 class Personal extends Component {
   state = {
@@ -92,7 +58,8 @@ class Personal extends Component {
     typeAccount: null,
     link: null,
     loading: false,
-    imageUrl: ""
+    imageUrl: "",
+    address: ""
   };
 
   componentDidMount() {
@@ -137,11 +104,12 @@ class Personal extends Component {
               birth: birth,
               phone: values.user_phone,
               nation: values.user_nation,
-              city: values.user_district[0],
-              district: values.user_district[1],
+              city: values.user_nation,
+              district: this.state.address,
               address: values.user_address
             }
           },
+          // console.log(values, this.state.person, this.state.address)
           () => this.onSendDataToServer(this.state.fileList)
         );
       }
@@ -206,7 +174,15 @@ class Personal extends Component {
         console.log(err);
       });
   };
-
+  handleChange = address => {
+    this.setState({ address });
+  };
+  onDestinationChange = e => {
+    // console.log(e);
+    this.setState({
+      address: e
+    });
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;
@@ -408,20 +384,59 @@ class Personal extends Component {
                   <IntlMessages id="account.profile.edit.information.address.update.companydistrict" />
                 }
               >
-                {getFieldDecorator("user_district", {
+                {/* {getFieldDecorator("user_district", {
                   rules: [
                     {
                       required: true,
                       message: <IntlMessages id="rule.district.text" />
                     }
                   ]
-                })(
-                  <Cascader
-                    name="district"
-                    options={residences}
-                    placeholder="District"
-                  />
-                )}
+                })( */}
+                <PlacesAutocomplete
+                  value={this.state.address}
+                  onChange={this.handleChange}
+                  onSelect={this.onDestinationChange}
+                >
+                  {({
+                    getInputProps,
+                    suggestions,
+                    getSuggestionItemProps,
+                    loading
+                  }) => (
+                    <div className="m-b-2">
+                      <Input
+                        {...getInputProps({
+                          placeholder: "District"
+                        })}
+                      />
+                      <div className="ant-select-dropdown-menu  ant-select-dropdown-menu-root ant-select-dropdown-menu-vertical">
+                        {loading && <div>Loading...</div>}
+                        {suggestions.map(suggestion => {
+                          const className = suggestion.active
+                            ? "ant-select-dropdown-menu-item"
+                            : "ant-select-dropdown-menu-item";
+                          return (
+                            <div
+                              {...getSuggestionItemProps(suggestion, {
+                                className
+                                // ,
+                                // style
+                              })}
+                            >
+                              <span>{suggestion.description} </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </PlacesAutocomplete>
+                {/* // <Cascader
+                  //   name="district"
+                  //   options={residences}
+                  //   placeholder="District"
+                  // />
+                // )} */}
               </FormItem>
               <FormItem
                 {...formItemLayout}
