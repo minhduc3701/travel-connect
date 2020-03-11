@@ -95,6 +95,11 @@ export class MainApp extends Component {
     }
   };
 
+  componentDidUpdate() {
+    isLoaded(this.props.userAcc) &&
+      this.props.switchLanguage(this.props.userAcc[0].language);
+  }
+
   render() {
     const { match, width, navStyle } = this.props;
     isLoaded(this.props.userAcc) &&
