@@ -2,7 +2,6 @@ import React from "react";
 import { Table } from "antd";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import IntlMessages from "util/IntlMessages";
-import CallContact from "./CallContact";
 import logo from "assets/images/placeholder.jpg";
 
 class Contact extends React.Component {
@@ -33,15 +32,15 @@ class Contact extends React.Component {
         render: (text, member) => {
           return <span className="gx-text-grey">{member.mJob}</span>;
         }
-      },
-      {
-        title: <IntlMessages id="account.profile.contact.employee.action" />,
-        dataIndex: "status",
-        key: "status",
-        render: (text, member) => {
-          return <CallContact Account={member} button_text={text} />;
-        }
       }
+      // {
+      //   title: <IntlMessages id="account.profile.contact.employee.action" />,
+      //   dataIndex: "status",
+      //   key: "status",
+      //   render: (text, member) => {
+      //     return <CallContact Account={member} button_text={text} />;
+      //   }
+      // }
     ];
 
     return (

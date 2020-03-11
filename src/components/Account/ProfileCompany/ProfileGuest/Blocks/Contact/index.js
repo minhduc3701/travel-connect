@@ -7,7 +7,8 @@ import logo from "assets/images/placeholder.jpg";
 
 class Contact extends React.Component {
   render() {
-    let { member } = this.props;
+    let { member, profile } = this.props;
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
     const columns = [
       {
         title: <IntlMessages id="account.profile.contact.employee.name" />,
@@ -39,7 +40,36 @@ class Contact extends React.Component {
         dataIndex: "status",
         key: "status",
         render: (text, member) => {
-          return <CallContact Account={member} button_text={text} />;
+          return (
+            <CallContact Account={member} data={profile} button_text={text} />
+          );
+        }
+      }
+    ];
+    const columnsNone = [
+      {
+        title: <IntlMessages id="account.profile.contact.employee.name" />,
+        dataIndex: "image",
+        key: "image",
+        render: (text, member) => {
+          return (
+            <div className="gx-flex-row gx-align-items-center">
+              <img
+                className="gx-rounded-circle gx-size-30 gx-mr-2"
+                src={member.mLogo === "" ? logo : member.mLogo}
+                alt={member.mName}
+              />
+              <p className="gx-mb-0">{member.mName}</p>
+            </div>
+          );
+        }
+      },
+      {
+        title: <IntlMessages id="account.profile.contact.employee.job" />,
+        dataIndex: "transfer",
+        key: "transfer",
+        render: (text, member) => {
+          return <span className="gx-text-grey">{member.mJob}</span>;
         }
       }
     ];
@@ -50,7 +80,7 @@ class Contact extends React.Component {
         <div className="gx-table-responsive">
           <Table
             className="gx-table-no-bordered"
-            columns={columns}
+            columns={user_info.company_id !== "" ? columns : columnsNone}
             dataSource={member}
             pagination={false}
             size="small"

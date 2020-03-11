@@ -3,6 +3,8 @@ import { Row, Col } from "antd";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
+import logoISO from "assets/images/Logo-ISO-.jpg";
+import travelife from "assets/images/travelife.png";
 
 function Cerfiticated() {
   return (
@@ -17,7 +19,7 @@ function Cerfiticated() {
       <Row className="d-flex">
         <Col span={24}>
           <img
-            src="https://www.hotelelaphusabrac.com/EasyEdit/UserFiles/logotipi/travelife.png"
+            src={travelife}
             alt="travel-life"
             style={{
               width: "6em",
@@ -32,7 +34,7 @@ function Cerfiticated() {
       <Row className="d-flex">
         <Col span={24}>
           <img
-            src="http://vnpi-hcm.vn/wp-content/uploads/2018/03/Logo-ISO-.jpg"
+            src={logoISO}
             alt="travel-life"
             style={{
               width: "6em",

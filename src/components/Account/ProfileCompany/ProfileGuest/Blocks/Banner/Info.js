@@ -28,14 +28,16 @@ class Info extends React.Component {
               {Account.company_city}, {Account.company_nation}
             </h5>
           </Col>
-          <Col xl={12} lg={12} md={12} sm={24} xs={24}>
-            <h5 className=" gx-text-grey ">
-              <Icon type="global" className="p-r-3" />{" "}
-              <a href={Account.company_website} title={Account.company_name}>
-                {Account.company_website}
-              </a>
-            </h5>
-          </Col>
+          {Account.company_website !== "" && (
+            <Col xl={12} lg={12} md={12} sm={24} xs={24}>
+              <h5 className=" gx-text-grey ">
+                <Icon type="global" className="p-r-3" />{" "}
+                <a href={Account.company_website} title={Account.company_name}>
+                  {Account.company_website}
+                </a>
+              </h5>
+            </Col>
+          )}
         </Row>
       </div>
     );

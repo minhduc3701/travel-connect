@@ -212,6 +212,7 @@
   "app.userAuth.reset": "RESET",
   "app.userAuth.lockScreen": "Lock Screen",
   "app.userAuth.unLock": "UNLOCK",
+  "app.b2b.requests.created": "send request for a quote to",
   "app.userAuth.toConfirm": "CONFIRM",
   "appModule.enterPasswordUnlock": "Enter your password to unlock the screen!",
   "appModule.enterPasswordConfirm": "Please enter your password to change!",
@@ -895,6 +896,7 @@
   "account.profile.statistics.partner": "Partner",
   "account.profile.statistics.partner.info": "Partner number for this unit",
   "account.profile.introduction": "Introduction",
+  "general.default.account.companySetting": "Company setting",
   "account.profile.introduction.des": "Introduction about",
   "account.profile.introduction.empty": "No information displayed",
   "account.profile.communities": "Communities",
@@ -994,6 +996,11 @@
   "account.personal.select.embassy": "Working for Embassy/Consulate",
   "account.personal.select.tourguide": "I am a Tour Guide",
   "account.personal.select.studen": "I am a Student Tourism Industry",
+  "account.setting.recommendList": "Recommend List",
+  "account.setting.recommendList.seeAll": "See all",
+  "account.setting.recommendList.recommended": "Recommended",
+  "account.setting.recommendList.recommend": "Recommend",
+  "account.setting.recommendList.emptyRecommend": "Your company haven't recommended any product yet",
 
 
   "account.package.title": "PRICING TABLE",

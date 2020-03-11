@@ -29,14 +29,6 @@ class Profile extends Component {
     load: true
   };
 
-  // componentDidMount() {
-  //   setTimeout(() => {
-  //     this.setState({
-  //       load: false
-  //     });
-  //   }, 3000);
-  // }
-
   render() {
     let warning = null;
     let requests = null;
@@ -78,7 +70,8 @@ class Profile extends Component {
           company_products_number: doc.products_number,
           company_orders: doc.orders,
           company_deal: doc.deal,
-          company_partner: doc.partner
+          company_partner: doc.partner,
+          company_views: doc.views
         };
       });
 

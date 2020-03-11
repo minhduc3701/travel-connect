@@ -5,8 +5,13 @@ import { hidden } from "ansi-colors";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import Detail from "./Detail";
 import IntlMessages from "util/IntlMessages";
-
-// const Tooltips = Tooltip;
+import {
+  getCommentOverview,
+  getComment,
+  getCommentFilter
+} from "appRedux/actions/GetUser";
+import { connect } from "react-redux";
+import CircularProgress from "components/GlobalComponent/CircularProgress/index";
 const TabPane = Tabs.TabPane;
 const { Option } = Select;
 
@@ -40,11 +45,16 @@ const renderCustomizedLabel = ({
 };
 
 class Rating extends React.Component {
+  constructor(props) {
+    super(props);
+    this.props.getCommentOverview();
+  }
   state = {
     viewAll: false,
     cmts: 4
   };
   viewAll = () => {
+    this.props.getComment();
     this.setState({
       viewAll: true
     });
@@ -54,10 +64,16 @@ class Rating extends React.Component {
       viewAll: false
     });
   };
-  // componentDidUpdate() {
-  //   window.scrollTo({ top: 10000, behavior: "smooth" });
-  // }
-
+  changeFilter = e => {
+    this.setState({
+      filter: e
+    });
+  };
+  changeRank = e => {
+    this.setState({
+      rank: e
+    });
+  };
   render() {
     let { profile } = this.props;
     const data02 = [
@@ -127,7 +143,7 @@ class Rating extends React.Component {
                   </h2>
                   <br />
                   <p className="gx-text-grey">
-                    <IntlMessages id="general.text.year" /> 2019
+                    <IntlMessages id="general.text.year" /> 2020
                   </p>
                   <Detail Account={profile} />
                 </div>
@@ -145,16 +161,20 @@ class Rating extends React.Component {
                   xs={24}
                   className="p-r-3-lg-i"
                 >
-                  <div className="p-3 m-b-3 h-300 overflow-scroll">
-                    <ProductComment cmt={this.state.cmts} Account={profile} />
-                    <p
-                      className="view-all-comment gx-link "
-                      onClick={() => this.viewAll()}
-                    >
-                      <IntlMessages id="general.text.all" />{" "}
-                      <IntlMessages id="account.profile.comment" />
-                    </p>
-                  </div>
+                  {this.props.loadComment ? (
+                    <CircularProgress />
+                  ) : (
+                    <div className="p-3 m-b-3 h-300 overflow-scroll">
+                      <ProductComment data={this.props.commentOverview} />
+                      <p
+                        className="view-all-comment gx-link "
+                        onClick={() => this.viewAll()}
+                      >
+                        <IntlMessages id="general.text.all" />{" "}
+                        <IntlMessages id="account.profile.comment" />
+                      </p>
+                    </div>
+                  )}
                 </Col>
               </Row>
             ) : (
@@ -170,28 +190,37 @@ class Rating extends React.Component {
                     <Row>
                       <Col xl={10} lg={10} md={10} sm={24} xs={24}>
                         <Select
-                          showSearch
                           className="w-90"
-                          placeholder="Select a type mail"
-                          defaultValue="1"
+                          defaultValue="default"
+                          onChange={this.changeFilter}
                         >
-                          <Option value="1">
+                          <Option value="default">Liên quan nhất</Option>
+                          <Option value="new">Mới nhất</Option>
+                        </Select>
+                      </Col>
+                      <Col xl={10} lg={10} md={10} sm={24} xs={24}>
+                        <Select
+                          className="w-90"
+                          defaultValue="1"
+                          onChange={this.changeRank}
+                        >
+                          <Option value="0">
                             <IntlMessages id="general.all" />{" "}
                             <IntlMessages id="account.profile.comment" />
                           </Option>
-                          <Option value="2">
+                          <Option value="5">
                             <IntlMessages id="account.profile.comment.filter.rating.unit.great" />
                           </Option>
-                          <Option value="3">
+                          <Option value="4">
                             <IntlMessages id="account.profile.comment.filter.rating.unit.good" />
                           </Option>
-                          <Option value="4">
+                          <Option value="3">
                             <IntlMessages id="account.profile.comment.filter.rating.unit.normal" />
                           </Option>
-                          <Option value="5">
+                          <Option value="2">
                             <IntlMessages id="account.profile.comment.filter.rating.unit.notgood" />
                           </Option>
-                          <Option value="6">
+                          <Option value="1">
                             <IntlMessages id="account.profile.comment.filter.rating.unit.bad" />
                           </Option>
                         </Select>
@@ -204,6 +233,12 @@ class Rating extends React.Component {
                               backgroundColor: "#038FDE",
                               color: "white"
                             }}
+                            onClick={() =>
+                              this.props.getCommentFilter(
+                                this.state.filter,
+                                this.state.rank
+                              )
+                            }
                           >
                             <IntlMessages id="account.profile.comment.filter" />
                           </Button>
@@ -212,14 +247,22 @@ class Rating extends React.Component {
                       <Col xl={10} lg={10} md={10} sm={24} xs={24}></Col>
                     </Row>
                     <br />
-                    <div style={{ height: 300, overflow: hidden }}>
-                      <ProductComment Account={profile} />
-                      <Pagination
-                        defaultCurrent={1}
-                        total={50}
-                        style={{ marginTop: 10, float: "right" }}
-                      />
-                    </div>
+                    {this.props.loadComment ? (
+                      <CircularProgress />
+                    ) : (
+                      <div style={{ height: 300, overflow: hidden }}>
+                        <ProductComment data={this.props.comment} />
+                        <Pagination
+                          defaultCurrent={1}
+                          pageSize={8}
+                          total={this.props.comment.length}
+                          style={{
+                            marginTop: 10,
+                            float: "right"
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
                 </Col>
               </Row>
@@ -230,4 +273,17 @@ class Rating extends React.Component {
     );
   }
 }
-export default Rating;
+
+const mapStateToProps = ({ getUser }) => {
+  const { loadComment, comment, commentOverview } = getUser;
+  return {
+    loadComment,
+    comment,
+    commentOverview
+  };
+};
+export default connect(mapStateToProps, {
+  getCommentOverview,
+  getComment,
+  getCommentFilter
+})(Rating);
