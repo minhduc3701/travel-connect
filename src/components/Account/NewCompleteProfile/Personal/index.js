@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   Col,
-  Cascader,
   Input,
   // Divider,
   Icon,
@@ -109,7 +108,6 @@ class Personal extends Component {
               address: values.user_address
             }
           },
-          // console.log(values, this.state.person, this.state.address)
           () => this.onSendDataToServer(this.state.fileList)
         );
       }
@@ -178,7 +176,6 @@ class Personal extends Component {
     this.setState({ address });
   };
   onDestinationChange = e => {
-    // console.log(e);
     this.setState({
       address: e
     });
@@ -208,11 +205,14 @@ class Personal extends Component {
       },
       fileList
     };
+
     return (
       <div className="block_shadow">
         {this.state.companySelect ? (
           <Redirect to={`/${this.state.typeAccount}`} />
-        ) : null}
+        ) : (
+          userInfo.company_id !== "" && <Redirect to="/dashboard" />
+        )}
         <WidgetHeader
           title={
             <IntlMessages id="home.settings.privacy.settings.viewmyprofile" />

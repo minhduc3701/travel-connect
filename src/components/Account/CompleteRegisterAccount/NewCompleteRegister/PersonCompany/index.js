@@ -59,10 +59,6 @@ class Company extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
-        // this.props.getStateType(this.state.infoType);
-        // let establish = this.state.establish;
-        // let business = this.state.business;
         this.setState(
           {
             infoPerson: {

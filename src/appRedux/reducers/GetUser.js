@@ -96,14 +96,14 @@ export default (state = INIT_STATE, action) => {
     case START_GET_RECOMMEND_GROUP_OVERVIEW:
       return {
         ...state,
-        loadRecommandGroup: [],
+        recommendGroup: [],
         loadRecommandGroup: true
       };
 
     case GET_RECOMMEND_GROUP_OVERVIEW_SUCCESS:
       return {
         ...state,
-        loadRecommandGroup: action.payload,
+        recommendGroup: action.payload,
         loadRecommandGroup: false
       };
 

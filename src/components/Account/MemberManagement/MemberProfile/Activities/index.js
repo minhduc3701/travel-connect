@@ -12,6 +12,40 @@ class Activities extends React.Component {
   scroll() {
     window.scrollTo({ top: 200, behavior: "smooth" });
   }
+
+  activitiesText = (data, index) => {
+    switch (data.type) {
+      case "matching":
+        return (
+          <span>
+            {new Date(data.createdAt).toLocaleTimeString()} {data.user.name}{" "}
+            <IntlMessages id={`app.${data.content}`} />{" "}
+            <span>{data.target.name}</span>{" "}
+            <span className="gx-link">{data.cTarget.name}</span>
+            <Divider value={index} />
+          </span>
+        );
+        break;
+
+      default:
+        return (
+          <span>
+            {new Date(data.createdAt).toLocaleTimeString()} {data.user.name}{" "}
+            {data.target.name !== data.user.name ? (
+              <span className="gx-link">{data.target.name}</span>
+            ) : null}{" "}
+            <IntlMessages id={`app.${data.content}`} />{" "}
+            <span className="gx-link"></span>
+            {data.object.name !== data.user.name ? (
+              <span className="gx-link">{data.object.name}</span>
+            ) : null}
+            <Divider value={index} />
+          </span>
+        );
+        break;
+    }
+  };
+
   render() {
     return (
       <div>
@@ -89,21 +123,22 @@ class Activities extends React.Component {
           <div style={{ minHeight: "30em" }}>
             <div>
               {this.props.arrActivities
-                ? this.props.arrActivities.map((activitie, index) => (
-                    <span>
-                      {new Date(activitie.createdAt).toLocaleTimeString()}{" "}
-                      {activitie.user.name}{" "}
-                      {activitie.target.name !== activitie.user.name ? (
-                        <span className="gx-link">{activitie.target.name}</span>
-                      ) : null}{" "}
-                      <IntlMessages id={`app.${activitie.content}`} />{" "}
-                      <span className="gx-link"></span>
-                      {activitie.object.name !== activitie.user.name ? (
-                        <span className="gx-link">{activitie.object.name}</span>
-                      ) : null}
-                      <Divider value={index} />
-                    </span>
-                  ))
+                ? this.props.arrActivities.map(
+                    (activitie, index) => this.activitiesText(activitie, index)
+                    // <span>
+                    //   {new Date(activitie.createdAt).toLocaleTimeString()}{" "}
+                    //   {activitie.user.name}{" "}
+                    //   {activitie.target.name !== activitie.user.name ? (
+                    //     <span className="gx-link">{activitie.target.name}</span>
+                    //   ) : null}{" "}
+                    //   <IntlMessages id={`app.${activitie.content}`} />{" "}
+                    //   <span className="gx-link"></span>
+                    //   {activitie.object.name !== activitie.user.name ? (
+                    //     <span className="gx-link">{activitie.object.name}</span>
+                    //   ) : null}
+                    //   <Divider value={index} />
+                    // </span>
+                  )
                 : null}
             </div>
           </div>

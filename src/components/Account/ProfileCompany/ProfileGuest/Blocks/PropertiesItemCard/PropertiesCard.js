@@ -41,15 +41,7 @@ class PropertiesCard extends React.Component {
 
   render() {
     const { loader } = this.state;
-    let { profile } = this.props;
     let productList = [];
-    profile.company_products.forEach(product => {
-      if (this.state.type === "popular") {
-        productList = profile.company_products;
-      } else if (product.productType === this.state.type) {
-        productList.push(product);
-      }
-    });
     if (productList.length > 0 && productList.length > 5) {
       productList = productList(0, 4);
     }

@@ -12,7 +12,6 @@ import {
   GET_RECOMMEND_GROUP_OVERVIEW_SUCCESS,
   GET_RECOMMEND_GROUP_OVERVIEW_ERROR
 } from "constants/ActionTypes";
-import axios from "util/TcApp";
 import firebase from "firebase/firebaseAcc";
 import { notiDetail } from "util/Notification";
 // import { FirebaseDataB2b } from "firebase/firebaseAcc";

@@ -35,7 +35,7 @@ class ItemModal extends React.Component {
           onConfirm={() => this.onUnFollow(data)}
         >
           <Button className="m-0-i" size="small">
-            Followed
+            Unfollowed
           </Button>
         </Popconfirm>
       </div>

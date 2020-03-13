@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import { Anchor, Radio } from "antd";
+import { Radio } from "antd";
 import IntlMessages from "util/IntlMessages";
 import PackageMonth from "./PackageMonth";
 import PackageYear from "./PackageYear";
-
-const getCurrentAnchor = () => {
-  return "#components-anchor-demo-static";
-};
 
 class DynamicRules extends Component {
   constructor(props) {

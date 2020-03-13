@@ -143,11 +143,11 @@ class HistoryActivities extends React.Component {
         <WidgetHeader
           title={<IntlMessage id="memberActivitiesLog" />}
           styleName="gx-flex-row"
-          extra={
-            <span className="gx-link">
-              <IntlMessage id="more" />
-            </span>
-          }
+          // extra={
+          //   <span className="gx-link">
+          //     <IntlMessage id="more" />
+          //   </span>
+          // }
         />
         {/* <ActivitiesList recentList={activitiesData} /> */}
         {ActiveList.length > 0 ? (

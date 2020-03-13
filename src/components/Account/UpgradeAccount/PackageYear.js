@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { Anchor, Row, Col, Radio, Divider, Icon, Button } from "antd";
+import { Anchor, Row, Col, Divider, Icon, Button } from "antd";
 import IntlMessages from "util/IntlMessages";
 import { updatePackage } from "appRedux/actions/Auth";
 import { connect } from "react-redux";
-import { firestoreConnect, isLoaded } from "react-redux-firebase";
+import { firestoreConnect } from "react-redux-firebase";
+// import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 
 const { Link } = Anchor;
-
 const getCurrentAnchor = () => {
   return "#components-anchor-demo-static";
 };
@@ -156,7 +156,6 @@ class PackageYear extends Component {
             </div>
           )}
         </Col>
-
         <Col span={24}>
           <Divider orientation="left" id="account.package.b2b.title">
             <IntlMessages id="account.package.b2b.title" />

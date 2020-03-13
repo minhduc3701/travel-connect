@@ -119,7 +119,7 @@ class Profile extends Component {
         !isLoaded(this.props.memberDisplay) === false &&
         user_info.company_id !== "" ? (
           <div className="gx-profile-content">
-            {requests.company_id === user_info.company_id && (
+            {requests && requests.company_id === user_info.company_id && (
               <Redirect to="/profile" />
             )}
             <div className="block_shadow ">
@@ -134,7 +134,7 @@ class Profile extends Component {
                   <Contact member={mList} profile={requests} />
                   <EventsBanner profile={requests} />
                   <PropertiesCard profile={requests} />
-                  {requests.company_rating > 0 && requests ? (
+                  {requests && requests.company_rating > 0 ? (
                     <Rating profile={requests} />
                   ) : null}
                 </div>

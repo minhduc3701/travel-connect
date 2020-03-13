@@ -50,7 +50,6 @@ class Verify extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
         let file = values.company_licence_file
           ? values.company_licence_file
           : "";
@@ -74,25 +73,7 @@ class Verify extends Component {
     let dataResult = Object.assign(data, profiles[0], profiles[1]);
     this.props.actSendDateToServer(dataResult, file);
     this.props.getState(this.state.step);
-    // this.onSendImage(file);
   };
-
-  // onSendImage = () => {
-  //   let userInfo = JSON.parse(localStorage.getItem("user_info"));
-  //   const { fileList } = this.state;
-  //   const formData = new FormData();
-  //   fileList.forEach(file => {
-  //     formData.append("image-", file);
-  //   });
-  //   // console.log(fileList);
-  //   CallApi_ACCOUNT(
-  //     `VN/companies/${userInfo.user_id}/licenceDocs`,
-  //     "PUT",
-  //     formData
-  //   )
-  //     .then(res => console.log(res))
-  //     .catch(err => console.log(err));
-  // };
 
   render() {
     const { getFieldDecorator } = this.props.form;

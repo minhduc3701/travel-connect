@@ -7,15 +7,14 @@ import {
   Divider,
   Icon,
   Button,
-  Modal,
   notification
 } from "antd";
 import IntlMessages from "util/IntlMessages";
 import { updatePackage } from "appRedux/actions/Auth";
 import { connect } from "react-redux";
-import { firestoreConnect, isLoaded } from "react-redux-firebase";
+// import { firestoreConnect, isLoaded } from "react-redux-firebase";
+import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-const { confirm } = Modal;
 const { Link } = Anchor;
 
 const getCurrentAnchor = () => {

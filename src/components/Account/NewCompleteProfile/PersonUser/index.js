@@ -23,6 +23,7 @@ import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import { notificationPop } from "util/Notification";
 import { HOME } from "components/Layout/Header/NavigateLink";
+import { Redirect } from "react-router-dom";
 
 const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
@@ -328,7 +329,6 @@ class Company extends Component {
   };
 
   onChoiseCompany = detail => {
-    console.log(detail);
     this.setState({
       companyDetail: detail,
       searchText: "",
@@ -339,6 +339,7 @@ class Company extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
     let cList = [];
     isLoaded(this.props.companyList) &&
       this.props.companyList.forEach(doc => {
@@ -388,6 +389,7 @@ class Company extends Component {
 
     return (
       <div className="block-w bor-rad-6">
+        {user_info.company_id !== "" && <Redirect to="/dashboard" />}
         <WidgetHeader title={<IntlMessages id="account.personal.title" />} />
         <Row className="p-v-6">
           <Col xl={8} lg={8} md={8} sm={24} xs={24}>
