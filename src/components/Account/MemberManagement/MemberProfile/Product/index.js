@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col, Pagination, Empty } from "antd";
 import ItemProduct from "./ProductItem";
-// import CircularProgress from "components/GlobalComponent/CircularProgress";
+import CircularProgress from "components/GlobalComponent/CircularProgress";
 import firebase from "firebase/firebaseAcc";
 
 class Product extends React.Component {
@@ -13,7 +13,7 @@ class Product extends React.Component {
     let { params } = this.props.data;
     let productList = [];
     firebase
-      .app("FirebaseB2B")
+      .app("FirebaseB2b")
       .firestore()
       .collection("landtours")
       .where(`manager.id`, "==", params.id)
@@ -58,10 +58,12 @@ class Product extends React.Component {
                 </Col>
               );
             })
-          ) : (
+          ) : this.state.product && this.state.product.length < 1 ? (
             <Col span={24}>
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             </Col>
+          ) : (
+            <CircularProgress />
           )}
         </Row>
 

@@ -38,13 +38,6 @@ class AvatarCompany extends Component {
                   this.setState({
                     imageUrl: url
                   });
-                  for (const info in user_info) {
-                    if (info === "company_logo") {
-                      user_info[info] = url;
-                    }
-                  }
-                  localStorage.removeItem("user_info");
-                  localStorage.setItem("user_info", JSON.stringify(user_info));
                 });
             });
         }

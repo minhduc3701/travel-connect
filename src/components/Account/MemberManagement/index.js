@@ -513,7 +513,11 @@ class Dynamic extends React.Component {
               onConfirm={() => this.onChangeDisplayToShow(record)}
             >
               <Icon type={type} style={{ color: color }} />{" "}
-              <span style={{ color: color }} key={record.key}>
+              <span
+                className="cursor-pointer"
+                style={{ color: color }}
+                key={record.key}
+              >
                 {text.toUpperCase()}
               </span>
             </Popconfirm>

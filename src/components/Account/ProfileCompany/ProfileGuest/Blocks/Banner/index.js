@@ -31,6 +31,9 @@ class Banner extends Component {
         status: true,
         noti: "All"
       })
+      .then(res => {
+        notificationPop("success", "Theo dõi thành công!");
+      })
       .catch(err => {
         notificationPop("error", "Something went wrong!");
       });
@@ -44,6 +47,9 @@ class Banner extends Component {
       .update({
         status: false,
         noti: ""
+      })
+      .then(res => {
+        notificationPop("success", "Hủy theo dõi thành công!");
       })
       .catch(err => {
         notificationPop("error", "Something went wrong!");

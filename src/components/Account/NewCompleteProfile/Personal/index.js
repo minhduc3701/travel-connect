@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   Col,
-  Cascader,
   Input,
   // Divider,
   Icon,
@@ -24,6 +23,8 @@ import firebase from "firebase/firebaseAcc";
 import IntlMessages from "util/IntlMessages";
 import { HOME } from "components/Layout/Header/NavigateLink";
 import PlacesAutocomplete from "react-places-autocomplete";
+import Image from "assets/images/character-illustration-people-with-packages-shipment_53876-59858.jpg";
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const formItemLayout = {
@@ -109,7 +110,6 @@ class Personal extends Component {
               address: values.user_address
             }
           },
-          // console.log(values, this.state.person, this.state.address)
           () => this.onSendDataToServer(this.state.fileList)
         );
       }
@@ -178,7 +178,6 @@ class Personal extends Component {
     this.setState({ address });
   };
   onDestinationChange = e => {
-    // console.log(e);
     this.setState({
       address: e
     });
@@ -208,11 +207,14 @@ class Personal extends Component {
       },
       fileList
     };
+
     return (
       <div className="block_shadow">
         {this.state.companySelect ? (
           <Redirect to={`/${this.state.typeAccount}`} />
-        ) : null}
+        ) : (
+          userInfo.company_id !== "" && <Redirect to="/dashboard" />
+        )}
         <WidgetHeader
           title={
             <IntlMessages id="home.settings.privacy.settings.viewmyprofile" />
@@ -253,10 +255,7 @@ class Personal extends Component {
                 <Icon type="check-circle" />{" "}
                 <IntlMessages id="account.complete.profile.guide.address" />
               </p>
-              <img
-                src="https://image.freepik.com/free-vector/character-illustration-people-with-packages-shipment_53876-59858.jpg"
-                alt="...."
-              />
+              <img src={Image} alt="Travel Connect" />
             </div>
           </Col>
           <Col xl={16} lg={16} md={16} sm={24} xs={24}>

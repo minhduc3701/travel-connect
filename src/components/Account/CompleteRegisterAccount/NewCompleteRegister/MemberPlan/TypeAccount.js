@@ -138,8 +138,6 @@ class TypeAccount extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
-        // this.props.getStateType(this.state.infoType);
         let establish = this.state.establish;
         let business = this.state.business;
         this.setState(
@@ -171,7 +169,6 @@ class TypeAccount extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
         this.setState(
           {
             step: 5,
@@ -198,7 +195,6 @@ class TypeAccount extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
         this.setState(
           {
             step: 5,
@@ -215,41 +211,12 @@ class TypeAccount extends Component {
       }
     });
   };
-  // handleSubmitPerson = e => {
-  //   e.preventDefault();
-  //   this.props.form.validateFields((err, values) => {
-  //     if (!err) {
-  //       // console.log("Received values of form: ", values);
-  //       // this.props.getStateType(this.state.infoType);
-  //       // let establish = this.state.establish;
-  //       // let business = this.state.business;
-  //       this.setState(
-  //         {
-  //           step: 5,
-  //           infoPerson: {
-  //             user_position: values.user_position ? values.user_position : "",
-  //             infoUnit: values ? values : ""
-  //           },
-  //           visiblePerson: false,
-  //           visibleCompany: false
-  //         },
-  //         () => this.onSendDataPerson()
-  //       );
-  //     }
-  //   });
-  // };
 
   onChosePerson = () => {
     this.props.getStateType(2, 50);
-    // this.setState({
-    //   visiblePerson: true
-    // });
   };
   onChoseCompany = () => {
     this.props.getStateType(3, 50);
-    // this.setState({
-    //   visibleCompany: true
-    // });
   };
 
   handleCancel = () => {
@@ -610,7 +577,6 @@ class TypeAccount extends Component {
   };
 
   normFile = e => {
-    // console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }

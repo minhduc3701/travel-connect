@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Col, Icon, Modal, Empty } from "antd";
 import { Button, Dropdown, Menu } from "antd";
 import Info from "./Info";
-import IntlMessages from "util/IntlMessages";
+// import IntlMessages from "util/IntlMessages";
 import BannerBackground from "./BannerBackground";
 import AvatarCompany from "./AvatarCompany";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
@@ -32,21 +32,6 @@ class Banner extends Component {
     const btn_notification_menu = (
       <Menu>
         <Menu.Item>
-          <Button type="link" className="m-b-0-i" size="small">
-            <IntlMessages id="account.profile.notifications.get.all" />
-          </Button>
-        </Menu.Item>
-        <Menu.Item>
-          <Button type="link" className="m-b-0-i" size="small">
-            <IntlMessages id="account.profile.notifications.get.product" />
-          </Button>
-        </Menu.Item>
-        <Menu.Item>
-          <Button type="link" className="m-b-0-i" size="small">
-            <IntlMessages id="account.profile.notifications.get.event" />
-          </Button>
-        </Menu.Item>
-        <Menu.Item>
           <Button
             onClick={this.onShowModal}
             type="link"
@@ -56,19 +41,14 @@ class Banner extends Component {
             Danh sách đơn vị theo dõi
           </Button>
         </Menu.Item>
-        <Menu.Item>
-          <Button type="link" className="m-b-0-i" size="small">
-            <IntlMessages id="account.profile.notifications.get.off" />
-          </Button>
-        </Menu.Item>
       </Menu>
     );
     isLoaded(this.props.followList) &&
       this.props.followList.forEach(doc => {
         fList.push({
-          companyId: doc.cId,
-          companyName: doc.cName,
-          companyLogo: doc.cLogo,
+          companyId: doc.fId,
+          companyName: doc.fBrand,
+          companyLogo: doc.fLogo,
           status: doc.status
         });
       });

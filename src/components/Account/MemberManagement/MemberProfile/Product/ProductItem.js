@@ -6,7 +6,6 @@ import IntlMessages from "util/IntlMessages";
 class itemProduct extends React.Component {
   render() {
     let { detail } = this.props;
-
     return (
       <div className="block cursor-pointer-boxshadow">
         <Row>
@@ -50,13 +49,13 @@ class itemProduct extends React.Component {
             </p>
             <p className="gx-text-gray m-0-i">
               Tình trạng:{" "}
-              {detail.verify === "active" ? (
+              {detail.verify === "active" && detail.status === "" ? (
                 <span style={{ color: "#04B431" }}>ACTIVE</span>
               ) : detail.verify !== "active" && detail.status === "deny" ? (
                 <span style={{ color: "gray" }}>DENY</span>
               ) : detail.verify !== "active" && detail.status === "deleted" ? (
                 <span style={{ color: "red" }}>DELETED</span>
-              ) : detail.verify !== "active" && detail.status === "locked" ? (
+              ) : detail.verify !== "active" && detail.status === "lock" ? (
                 <span style={{ color: "#FAAD14" }}>LOCKED</span>
               ) : detail.verify !== "active" && detail.status === "wait" ? (
                 <span style={{ color: "#038FDE" }}>WAIT</span>

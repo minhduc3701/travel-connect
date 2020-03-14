@@ -1,3 +1,4 @@
+//
 import React, { Component, Fragment } from "react";
 import { Col, Input, Icon, Form, Row, Button, Select, Upload } from "antd";
 import { connect } from "react-redux";
@@ -5,6 +6,9 @@ import { VerifyCompanySDK } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import firebase from "firebase/firebaseAcc";
 import { HOME } from "components/Layout/Header/NavigateLink";
+import GooglePicker from "react-google-picker";
+import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
@@ -14,6 +18,11 @@ const formItemLayout = {
 };
 const Option = Select.Option;
 const { OptGroup } = Select;
+// let clientId =
+//   "741667578605-v3uc5bm0ct764a13nami9pdq9vau8qph.apps.googleusercontent.com";
+// let key = "AIzaSyDHdvr0OmoGMg5SrywSJl09mAYUqxE1wdg";
+// let project_id = "741667578605";
+// let scope = ["https://www.googleapis.com/auth/drive.file"];
 
 class Company extends Component {
   state = {
@@ -45,7 +54,8 @@ class Company extends Component {
       licenceDoc: null,
       confirm: null,
       active: false
-    }
+    },
+    fileDetail: null
   };
   handleSubmitPerson = e => {
     e.preventDefault();
@@ -108,6 +118,36 @@ class Company extends Component {
         });
     });
   };
+  onUploadImageDrive = async data => {
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    firebase
+      .storage()
+      .ref(`/${user_info.company_id}/${Date.now().toString()}`)
+      .put(data)
+      .then(res => {
+        if (res) {
+          firebase
+            .storage()
+            .ref(res.metadata.fullPath)
+            .getDownloadURL()
+            .then(url => {
+              firebase
+                .firestore()
+                .collection("companies")
+                .doc(user_info.company_id)
+                .update({
+                  licenseDoc: firebase.firestore.FieldValue.arrayUnion(url)
+                })
+                .then(ress => {
+                  window.location.href = `${HOME}/home`;
+                });
+            });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   normFile = e => {
     if (Array.isArray(e)) {
@@ -119,6 +159,7 @@ class Company extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
     const props = {
       multiple: true,
       listType: "picture",
@@ -142,6 +183,7 @@ class Company extends Component {
     };
     return (
       <div className="block-w bor-rad-6">
+        {user_info.company_active && <Redirect to="/dashboard" />}
         <WidgetHeader title="Hoàn thiện hồ sơ" />
         <Row className="p-v-6">
           <Col xl={8} lg={8} md={8} sm={24} xs={24}>
@@ -200,7 +242,76 @@ class Company extends Component {
                   )}
                 </FormItem>
                 <FormItem {...formItemLayout} label="Bản đăng ký PDF ">
-                  <Button>Download</Button>
+                  <GooglePicker
+                    clientId={
+                      "741667578605-v3uc5bm0ct764a13nami9pdq9vau8qph.apps.googleusercontent.com"
+                    }
+                    developerKey={"AIzaSyDHdvr0OmoGMg5SrywSJl09mAYUqxE1wdg"}
+                    scope={[
+                      "https://www.googleapis.com/auth/drive.file"
+                      // "https://www.googleapis.com/auth/devstorage.read_write"
+                    ]}
+                    onChange={data => console.log("on change:", data)}
+                    onAuthFailed={data => console.log("on auth failed:", data)}
+                    multiselect={true}
+                    navHidden={true}
+                    authImmediate={false}
+                    viewId={"DOCS"}
+                    mimeTypes={["image/png", "image/jpeg", "image/jpg"]}
+                    createPicker={(google, oauthToken) => {
+                      const googleViewId = google.picker.ViewId.DOCS;
+                      const uploadView = new google.picker.DocsUploadView();
+                      const docsView = new google.picker.DocsView(googleViewId)
+                        .setIncludeFolders(true)
+                        .setSelectFolderEnabled(true);
+
+                      const picker = new window.google.picker.PickerBuilder()
+                        .enableFeature(
+                          google.picker.Feature.SIMPLE_UPLOAD_ENABLED
+                        )
+                        .enableFeature(
+                          google.picker.Feature.MULTISELECT_ENABLED
+                        )
+                        .addView(docsView)
+                        .addView(uploadView) /*DocsUploadView added*/
+                        .setOAuthToken(oauthToken)
+                        .setDeveloperKey(
+                          "AIzaSyDHdvr0OmoGMg5SrywSJl09mAYUqxE1wdg"
+                        )
+                        .setCallback(data => {
+                          if (data.action === google.picker.Action.PICKED) {
+                            google.script.run.uploadToFirebaseStorage(
+                              data,
+                              `${user_info.company_id}/${Date.now().toString()}`
+                            );
+                            axios
+                              .get(
+                                `https://www.googleapis.com/drive/v2/files/${data.docs[0].id}`,
+                                {
+                                  headers: {
+                                    Authorization: `Bearer ${oauthToken}` //here remove + in template litereal
+                                  }
+                                }
+                              )
+                              .then(res => {
+                                var type = "image/jpeg";
+                                var fd = new FormData();
+                                var file = new Blob([res.data], {
+                                  type: type
+                                });
+                                fd.append("file01", file, data.docs[0].name);
+                                this.onUploadImageDrive(data);
+                              })
+                              .catch(err => console.log(err));
+                          }
+                        });
+
+                      picker.build().setVisible(true);
+                    }}
+                  >
+                    <Button>Download</Button>
+                    <div className="google"></div>
+                  </GooglePicker>
                 </FormItem>
                 <FormItem {...formItemLayout} label="Đơn vị xác minh: ">
                   {getFieldDecorator("company_unit_confirm", {

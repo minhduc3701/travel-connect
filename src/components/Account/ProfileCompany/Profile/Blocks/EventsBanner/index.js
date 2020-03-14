@@ -18,7 +18,6 @@ class EventsBanner extends React.Component {
 
   render() {
     let { profile } = this.props;
-    // console.log(Account.company_events);
     const settings = {
       arrows: false,
       dots: false,

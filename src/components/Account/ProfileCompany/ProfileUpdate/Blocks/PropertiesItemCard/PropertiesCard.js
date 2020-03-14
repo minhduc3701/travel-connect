@@ -27,7 +27,7 @@ class PropertiesCard extends React.Component {
   };
 
   render() {
-    let { profile } = this.props;
+    let popularProduct = [...this.props.profile.company_products].splice(0, 4);
     return (
       <div
         className="block-w-nb disable_layer_block display-background-grey"
@@ -58,8 +58,8 @@ class PropertiesCard extends React.Component {
           }
         />
 
-        {profile.company_products.length > 0 ? (
-          profile.company_products.map((data, index) => (
+        {popularProduct.length > 0 ? (
+          popularProduct.map((data, index) => (
             <PropertiesItemCard key={index} productList={data} />
           ))
         ) : (

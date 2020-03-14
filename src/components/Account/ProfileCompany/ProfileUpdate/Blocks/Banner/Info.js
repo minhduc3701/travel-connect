@@ -1,16 +1,6 @@
 import React from "react";
 import { notiChange } from "util/Notification";
-import {
-  Col,
-  Icon,
-  Row,
-  Select,
-  Input,
-  Modal,
-  Form,
-  Cascader,
-  Button
-} from "antd";
+import { Col, Icon, Row, Select, Input, Modal, Form, Button } from "antd";
 import IntlMessages from "util/IntlMessages";
 import {
   actSaveWebsite,
@@ -22,40 +12,7 @@ import PlacesAutocomplete from "react-places-autocomplete";
 const formItemLayout = {
   wrapperCol: { xs: 24, sm: 24 }
 };
-const residences = [
-  {
-    value: "HA NOI",
-    label: "Hà Nội",
-    children: [
-      {
-        value: "dongda",
-        label: "Đống Đa"
-      },
-      {
-        value: "caugiay",
-        label: "Cầu giấy"
-      },
-      {
-        value: "hoangmai",
-        label: "Hoàng Mai"
-      }
-    ]
-  },
-  {
-    value: "Ho Chi Minh",
-    label: "Hồ Chí Minh",
-    children: [
-      {
-        value: "quan1",
-        label: "Quận 1"
-      },
-      {
-        value: "quan2",
-        label: "Quận 2"
-      }
-    ]
-  }
-];
+
 const FormItem = Form.Item;
 const { Option } = Select;
 const selectBefore = (

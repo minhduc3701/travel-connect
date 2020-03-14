@@ -98,18 +98,28 @@ class Media extends Component {
         </div>
       </div>
     );
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
 
     const props = {
       multiple: true,
+      // onRemove: file => {
+      //   this.setState(state => {
+      //     const index = state.fileList.indexOf(file);
+      //     const newFileList = state.fileList.slice();
+      //     newFileList.splice(index, 1);
+      //     return {
+      //       fileList: newFileList
+      //     };
+      //   });
+      // },
       onRemove: file => {
-        this.setState(state => {
-          const index = state.fileList.indexOf(file);
-          const newFileList = state.fileList.slice();
-          newFileList.splice(index, 1);
-          return {
-            fileList: newFileList
-          };
-        });
+        firebase
+          .firestore()
+          .collection("companies")
+          .doc(user_info.company_id)
+          .update({
+            medias: firebase.firestore.FieldValue.arrayRemove(file.url)
+          });
       },
       beforeUpload: file => {
         this.setState(
@@ -134,7 +144,6 @@ class Media extends Component {
         url: profile.company_medias[i]
       });
     }
-
     return (
       <div className="block-w-nb" id="nav_media">
         <WidgetHeader

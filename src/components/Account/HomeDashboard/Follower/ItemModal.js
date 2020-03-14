@@ -11,6 +11,7 @@ class ItemModal extends React.Component {
       .collection("follows")
       .doc(`${data.companyId}_${uId.company_id}`)
       .update({
+        noti: "",
         status: false
       });
   };
@@ -35,7 +36,7 @@ class ItemModal extends React.Component {
           onConfirm={() => this.onUnFollow(data)}
         >
           <Button className="m-0-i" size="small">
-            Followed
+            Unfollowed
           </Button>
         </Popconfirm>
       </div>

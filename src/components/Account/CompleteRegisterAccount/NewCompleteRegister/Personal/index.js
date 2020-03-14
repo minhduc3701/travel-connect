@@ -151,31 +151,6 @@ class Personal extends Component {
     }
   };
 
-  // onSendImage = () => {
-  //   let userInfo = JSON.parse(localStorage.getItem("user_info"));
-  //   const { fileList } = this.state;
-  //   const formData = new FormData();
-  //   fileList.forEach(file => {
-  //     formData.append("image-", file);
-  //   });
-  //   CallApi_USER(`users/${userInfo.user_id}/avatar`, "PATCH", formData)
-  //     .then(res => {
-  //       let dataDup = userInfo;
-  //       for (const key in dataDup) {
-  //         if (key === "user_logo") {
-  //           dataDup[key] = res.data.imageUrl;
-  //         }
-  //       }
-  //       if (res.data) {
-  //         console.log(dataDup);
-  //         // localStorage.removeItem("user_info");
-  //         // let newInfo = JSON.stringify(dataDup);
-  //         // localStorage.setItem("user_info", newInfo);
-  //       }
-  //     })
-  //     .catch(err => notiChange("error", "Somthing went wrong! Try again"));
-  // };
-
   render() {
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;

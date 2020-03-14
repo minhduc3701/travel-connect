@@ -21,8 +21,6 @@ class CallContact extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
-        // this.props.getState(this.state.step);
         this.setState({ loading: true, message: values });
         setTimeout(() => {
           this.setState({ loading: false, visible2: false });

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Input, Modal, Button, Form } from "antd";
 import IntlMessages from "util/IntlMessages";
-// import { notiChange } from "util/Notification";
+import { notiDetail } from "util/Notification";
 import firebase from "firebase/firebaseAcc";
 
 const { TextArea } = Input;
@@ -26,6 +26,7 @@ class CallContact extends Component {
           this.onSendRequest(values);
         });
         setTimeout(() => {
+          notiDetail("success", "Gửi thông tin liên hệ thành công!");
           this.setState({ loading: false, visible2: false });
         }, 1500);
       }
@@ -39,12 +40,12 @@ class CallContact extends Component {
       .firestore()
       .collection("notifications")
       .add({
-        content: "b2b.matching.sent",
+        content: "b2b.matching.sent.by",
         createdAt: new Date().toISOString(),
         icon: "",
         object: {
           id: user_info.company_id,
-          name: user_info.company_name,
+          name: user_info.company_brandname,
           logo: user_info.company_logo
         },
         user: {
@@ -59,7 +60,7 @@ class CallContact extends Component {
         },
         cTarget: {
           id: data.company_id,
-          name: data.company_name,
+          name: data.company_brandname,
           logo: data.company_logo
         },
         rules: [],
@@ -100,7 +101,7 @@ class CallContact extends Component {
         message: values.message_mess
       })
       .catch(err => {
-        console.log(err);
+        notiDetail("error", "Đã có lỗi xảy ra!", err.message);
       });
   };
 
@@ -121,17 +122,6 @@ class CallContact extends Component {
     this.setState({ visible2: false });
   };
 
-  findIndex = (id, contacts) => {
-    let result = -1;
-    for (let i = 0; i < contacts.length; i++) {
-      if (contacts[i].key === id) {
-        result = i;
-        break;
-      }
-    }
-
-    return result;
-  };
   render() {
     const { getFieldDecorator } = this.props.form;
     let { Account } = this.props;
