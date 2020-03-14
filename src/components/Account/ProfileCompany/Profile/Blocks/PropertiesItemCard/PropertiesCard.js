@@ -30,12 +30,16 @@ class PropertiesCard extends React.Component {
 
   render() {
     const { loader } = this.state;
-    let productList = [];
-    if (productList.length > 0 && productList.length > 5) {
-      productList = productList(0, 4);
-    }
+    let { profile } = this.props;
+    let popularProduct = [...profile.company_products].splice(0, 4);
+    let listType = [];
+    profile.company_products.forEach(product => {
+      if (product.productType === this.state.type) {
+        listType.push(product);
+      }
+    });
     return (
-      <div id="nav_product" style={{ minHeight: "16em" }}>
+      <div id="nav_product" style={{ minHeight: "16em", paddingBottom: "2em" }}>
         <WidgetHeader
           styleName="d-flex"
           title={<IntlMessages id="account.profile.product" />}
@@ -63,8 +67,12 @@ class PropertiesCard extends React.Component {
         />
         {loader ? (
           <CircularProgress className="gx-loader-400" />
-        ) : productList.length > 0 ? (
-          productList.map((data, index) => (
+        ) : listType.length > 0 && this.state.type !== "popular" ? (
+          listType.map((data, index) => (
+            <PropertiesItemCard key={index} productList={data} />
+          ))
+        ) : listType.length < 1 && this.state.type === "popular" ? (
+          popularProduct.map((data, index) => (
             <PropertiesItemCard key={index} productList={data} />
           ))
         ) : (

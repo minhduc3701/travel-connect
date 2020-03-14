@@ -13,7 +13,7 @@ class Product extends React.Component {
     let { params } = this.props.data;
     let productList = [];
     firebase
-      .app("FirebaseB2B")
+      .app("FirebaseB2b")
       .firestore()
       .collection("landtours")
       .where(`manager.id`, "==", params.id)

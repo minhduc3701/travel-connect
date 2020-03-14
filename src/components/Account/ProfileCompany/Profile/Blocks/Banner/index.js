@@ -7,7 +7,7 @@ import Info from "./Info";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import IntlMessages from "util/IntlMessages";
+// import IntlMessages from "util/IntlMessages";
 
 class Banner extends Component {
   state = {
@@ -32,21 +32,6 @@ class Banner extends Component {
     const btn_notification_menu = (
       <Menu>
         <Menu.Item>
-          <Button type="link" className="m-b-0-i" size="small">
-            <IntlMessages id="account.profile.notifications.get.all" />
-          </Button>
-        </Menu.Item>
-        <Menu.Item>
-          <Button type="link" className="m-b-0-i" size="small">
-            <IntlMessages id="account.profile.notifications.get.product" />
-          </Button>
-        </Menu.Item>
-        <Menu.Item>
-          <Button type="link" className="m-b-0-i" size="small">
-            <IntlMessages id="account.profile.notifications.get.event" />
-          </Button>
-        </Menu.Item>
-        <Menu.Item>
           <Button
             onClick={this.onShowModal}
             type="link"
@@ -54,11 +39,6 @@ class Banner extends Component {
             size="small"
           >
             Danh sách đơn vị theo dõi
-          </Button>
-        </Menu.Item>
-        <Menu.Item>
-          <Button type="link" className="m-b-0-i" size="small">
-            <IntlMessages id="account.profile.notifications.get.off" />
           </Button>
         </Menu.Item>
       </Menu>
@@ -134,22 +114,12 @@ class Banner extends Component {
             xs={24}
             className="text-align-right p-b-3 p-h-3 pos-rel box d-flex-i d-flex-wrap justify-flex-end"
           >
-            {/* <Button className="m-b-0-i d-inline-block m-r-3-i m-t-3-i p-h-1-i">
-              <Icon type="book" className="p-r-1" />
-              <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                <IntlMessages id="account.profile.follow" />
-              </span>
-            </Button> */}
             <Dropdown
               overlay={btn_notification_menu}
               placement="bottomRight"
               className=" m-t-3-i d-inline-block"
             >
               <Button className="m-b-0-i p-h-1-i">
-                {/* <Icon type="bell" className="p-r-1" />
-                <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                  <IntlMessages id="account.profile.notifications.get" />
-                </span> */}
                 <Icon type="bars" className="p-r-1" />
                 <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0 p-r-1">
                   Thông tin

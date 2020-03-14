@@ -5,7 +5,7 @@ class HistoryActivities extends React.Component {
   render() {
     let { data } = this.props;
     return (
-      <p>
+      <p className="text-ellipsis">
         <Avatar src={data.avatar} shape="circle" className="gx-size-40" />
         <span className="p-l-2"> {data.title} </span>
       </p>

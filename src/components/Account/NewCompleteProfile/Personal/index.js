@@ -23,6 +23,8 @@ import firebase from "firebase/firebaseAcc";
 import IntlMessages from "util/IntlMessages";
 import { HOME } from "components/Layout/Header/NavigateLink";
 import PlacesAutocomplete from "react-places-autocomplete";
+import Image from "assets/images/character-illustration-people-with-packages-shipment_53876-59858.jpg";
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const formItemLayout = {
@@ -253,10 +255,7 @@ class Personal extends Component {
                 <Icon type="check-circle" />{" "}
                 <IntlMessages id="account.complete.profile.guide.address" />
               </p>
-              <img
-                src="https://image.freepik.com/free-vector/character-illustration-people-with-packages-shipment_53876-59858.jpg"
-                alt="...."
-              />
+              <img src={Image} alt="Travel Connect" />
             </div>
           </Col>
           <Col xl={16} lg={16} md={16} sm={24} xs={24}>

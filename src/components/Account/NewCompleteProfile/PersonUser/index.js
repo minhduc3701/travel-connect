@@ -321,11 +321,46 @@ class Company extends Component {
     return e && e.fileList;
   };
 
+  onFilterButton = () => {
+    let a = this.state.searchText.toLowerCase().split(" ");
+    firebase
+      .firestore()
+      .collection("companies")
+      .where("filName", "array-contains-any", a)
+      .get()
+      .then(res => {
+        let ab = [];
+        res.forEach(doc => {
+          ab.push(doc.data());
+        });
+        console.log(ab);
+      })
+      .catch(err => console.log(err));
+  };
+
   onTextFind = e => {
     this.setState({
       // searchText: e
       searchText: e.target.value.toLowerCase()
     });
+    firebase
+      .firestore()
+      .collection("companies")
+      // .where("filName", "array-contains-any", [
+      //   `${e.target.value.toLowerCase()}`
+      // ])
+      .orderBy("name")
+      .startAt(e.target.value)
+      .endAt(e.target.value + "/uf8ff")
+      .get()
+      .then(res => {
+        let a = [];
+        res.forEach(doc => {
+          a.push(doc.data());
+        });
+        console.log(a);
+      })
+      .catch(err => console.log(err));
   };
 
   onChoiseCompany = detail => {
@@ -334,6 +369,15 @@ class Company extends Component {
       searchText: "",
       visibleSearch: true
     });
+    // let fName = detail.company_name.toLowerCase().split(" ");
+    // console.log(fName);
+    // firebase
+    //   .firestore()
+    //   .collection("companies")
+    //   .doc("udiV6fIihhQhzNwSmi3T")
+    //   .update({
+    //     filName: fName
+    //   });
   };
 
   render() {
@@ -652,6 +696,7 @@ class Company extends Component {
                             disabled={this.state.visibleSearch}
                             style={{ width: "20%", margin: 0 }}
                             type="primary"
+                            onClick={this.onFilterButton}
                             htmlType="submit"
                           >
                             Tìm kiếm

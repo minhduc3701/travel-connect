@@ -167,7 +167,7 @@ class App extends Component {
           }
         }
       } else {
-        // console.log(document.cookie.indexOf("acc_token"));
+        console.log(document.cookie.indexOf("acc_token"));
 
         var v = document.cookie.match(
           "(^|;) ?" + "acc_token" + "=([^;]*)(;|$)"

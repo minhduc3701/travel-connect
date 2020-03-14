@@ -17,6 +17,7 @@ import { notificationPop } from "util/Notification";
 import { connect } from "react-redux";
 import { actChangeLicenseRequest } from "appRedux/actions/Account";
 import { CallApi } from "util/CallApi";
+import firebase from "firebase/firebaseAcc";
 
 // const { Option } = Select;
 const formItemLayout = {
@@ -65,15 +66,11 @@ class About extends React.Component {
                 company_licence_file: values.company_licence_file
                   ? values.company_licence_file
                   : "",
+                company_business: values.company_business,
                 company_licence: values.company_licence
               }
             },
             () => this.onSendDataToServer()
-          );
-          notificationPop(
-            "success",
-            "Gửi yêu cầu thành công!",
-            "Yêu cầu của bạn sẽ được ban quản trị xét duyệt trong thời gian sớm nhất!"
           );
         }, 1500);
       }
@@ -123,8 +120,23 @@ class About extends React.Component {
   };
 
   onSendDataToServer = () => {
-    // this.onSendImage();
-    // this.props.actSendRequestToServer(this.state.requestChange);
+    firebase
+      .app("FirebaseB2b")
+      .firestore()
+      .collection("report")
+      .add({
+        name: this.state.requestChange.company_name,
+        brand: this.state.requestChange.company_brandname,
+        licence: this.state.requestChange.company_licence,
+        business: this.state.requestChange.company_business
+      })
+      .then(res => {
+        notificationPop(
+          "success",
+          "Gửi yêu cầu thành công!",
+          "Yêu cầu thay đổi thông tin của bạn đã được gửi thành công và sẽ được xét duyệt trong thời gian sớm nhất"
+        );
+      });
   };
 
   render() {

@@ -11,6 +11,7 @@ class ItemModal extends React.Component {
       .collection("follows")
       .doc(`${data.companyId}_${uId.company_id}`)
       .update({
+        noti: "",
         status: false
       });
   };
