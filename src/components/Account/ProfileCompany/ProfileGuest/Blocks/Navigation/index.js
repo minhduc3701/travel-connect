@@ -6,8 +6,11 @@ class Navigation extends Component {
   render() {
     return (
       <div
-        className="block-w-nb block__nav__anchor"
-        style={{ borderTop: "1px solid #00000020" }}
+        className="block-w-nb block__nav__anchor p-b-0-i"
+        style={{
+          borderTop: "1px solid #00000020",
+          margin: 0
+        }}
       >
         <Menu mode="horizontal" className="bor-b-0">
           <Menu.Item key="contact">

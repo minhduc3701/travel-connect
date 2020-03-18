@@ -369,15 +369,6 @@ class Company extends Component {
       searchText: "",
       visibleSearch: true
     });
-    // let fName = detail.company_name.toLowerCase().split(" ");
-    // console.log(fName);
-    // firebase
-    //   .firestore()
-    //   .collection("companies")
-    //   .doc("udiV6fIihhQhzNwSmi3T")
-    //   .update({
-    //     filName: fName
-    //   });
   };
 
   render() {
@@ -433,7 +424,7 @@ class Company extends Component {
 
     return (
       <div className="block-w bor-rad-6">
-        {user_info.company_id !== "" && <Redirect to="/dashboard" />}
+        {/* {user_info.company_id !== "" && <Redirect to="/dashboard" />} */}
         <WidgetHeader title={<IntlMessages id="account.personal.title" />} />
         <Row className="p-v-6">
           <Col xl={8} lg={8} md={8} sm={24} xs={24}>
@@ -464,9 +455,11 @@ class Company extends Component {
                   <h3 className=" m-v-5">
                     <IntlMessages id="account.personal.Described" />{" "}
                   </h3>
-                  <p>Bạn đang làm việc tại các tổ chức xã hội và du lịch</p>
+                  <p>
+                    <IntlMessages id="cp.personal.travel.social.text1" />
+                  </p>
                   <p style={{ fontStyle: "italic" }}>
-                    Bao gồm: Hiệp hội Du lịch, Câu lạc bộ, Chi hội Du lịch.
+                    <IntlMessages id="cp.personal.travel.social.text2" />
                   </p>
                 </div>
               ) : null}
@@ -475,10 +468,11 @@ class Company extends Component {
                   <h3 className=" m-v-5">
                     <IntlMessages id="account.personal.Described" />{" "}
                   </h3>
-                  <p>Bạn đang làm việc tại các đơn vị báo chí</p>
+                  <p>
+                    <IntlMessages id="cp.personal.journalist.text1" />
+                  </p>
                   <p style={{ fontStyle: "italic" }}>
-                    Bao gồm: Các nhà báo, phóng viên, biên tập viên của các tòa
-                    soạn.
+                    <IntlMessages id="cp.personal.journalist.text2" />
                   </p>
                 </div>
               ) : null}
@@ -487,10 +481,11 @@ class Company extends Component {
                   <h3 className=" m-v-5">
                     <IntlMessages id="account.personal.Described" />{" "}
                   </h3>
-                  <p>Bạn đang làm việc tại các cơ quan quản lý nhà nước</p>
+                  <p>
+                    <IntlMessages id="cp.personal.government.text1" />
+                  </p>
                   <p style={{ fontStyle: "italic" }}>
-                    Bao gồm: Tổng cục Du lịch, Sở Văn hóa thông tin và Du lịch,
-                    Trung tâm xúc tiến Du lịch.
+                    <IntlMessages id="cp.personal.government.text2" />
                   </p>
                 </div>
               ) : null}
@@ -499,10 +494,11 @@ class Company extends Component {
                   <h3 className=" m-v-5">
                     <IntlMessages id="account.personal.Described" />{" "}
                   </h3>
-                  <p>Bạn đang làm việc tại Đại sứ quán/Lãnh sự quán</p>
+                  <p>
+                    <IntlMessages id="cp.personal.embassy.text1" />
+                  </p>
                   <p style={{ fontStyle: "italic" }}>
-                    Bao gồm: Tổng cục Du lịch, Sở Văn hóa thông tin và Du lịch,
-                    Trung tâm xúc tiến Du lịch.
+                    <IntlMessages id="cp.personal.embassy.text2" />
                   </p>
                 </div>
               ) : null}
@@ -511,10 +507,11 @@ class Company extends Component {
                   <h3 className=" m-v-5">
                     <IntlMessages id="account.personal.Described" />{" "}
                   </h3>
-                  <p>Bạn là hướng dẫn viên du lịch</p>
+                  <p>
+                    <IntlMessages id="cp.personal.tourguide.text1" />
+                  </p>
                   <p style={{ fontStyle: "italic" }}>
-                    Bao gồm: Các hướng dẫn viên trong và ngoài nước được cấp
-                    giấy phép hoạt động.
+                    <IntlMessages id="cp.personal.tourguide.text2" />
                   </p>
                 </div>
               ) : null}
@@ -523,10 +520,11 @@ class Company extends Component {
                   <h3 className=" m-v-5">
                     <IntlMessages id="account.personal.Described" />{" "}
                   </h3>
-                  <p>Bạn là sinh viên ngành du lịch</p>
+                  <p>
+                    <IntlMessages id="cp.personal.student.text1" />
+                  </p>
                   <p style={{ fontStyle: "italic" }}>
-                    Bao gồm: Sinh viên các trường đại học, cao đẳng, trung cấp
-                    nghề về lĩnh vực Du lịch và Khách sạn.
+                    <IntlMessages id="cp.personal.student.text2" />
                   </p>
                 </div>
               ) : null}
@@ -535,14 +533,16 @@ class Company extends Component {
                   <h3 className=" m-v-5">
                     <IntlMessages id="account.personal.Described" />{" "}
                   </h3>
-                  <p>Bạn đang làm việc tại công ty, doanh nghiệp du lịch</p>
-                  <p style={{ fontStyle: "italic" }}>
-                    <Icon type="check-circle" style={{ marginRight: 5 }} />
-                    Tham gia các hoạt động, mua bán, sự kiện trên sàn.
+                  <p>
+                    <IntlMessages id="cp.personal.company.text1" />
                   </p>
                   <p style={{ fontStyle: "italic" }}>
                     <Icon type="check-circle" style={{ marginRight: 5 }} />
-                    Yêu cầu có giấy phép hoạt động kinh doanh, chứng nhận,..
+                    <IntlMessages id="cp.personal.company.text2" />
+                  </p>
+                  <p style={{ fontStyle: "italic" }}>
+                    <Icon type="check-circle" style={{ marginRight: 5 }} />
+                    <IntlMessages id="cp.personal.company.text3" />
                   </p>
                 </div>
               ) : null}
@@ -663,7 +663,12 @@ class Company extends Component {
                         </Select>
                       )}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Công ty: ">
+                    <FormItem
+                      {...formItemLayout}
+                      label={
+                        <IntlMessages id="home.settings.notification.whatreceive.company" />
+                      }
+                    >
                       <Fragment>
                         <InputGroup compact>
                           <Select
@@ -671,14 +676,20 @@ class Company extends Component {
                             style={{ width: "30%" }}
                             defaultValue="name"
                           >
-                            <Option value="name">Tên công ty</Option>
-                            <Option value="code">Mã số thuế</Option>
+                            <Option value="name">
+                              <IntlMessages id="companyName" />
+                            </Option>
+                            <Option value="code">
+                              <IntlMessages id="tax.code" />
+                            </Option>
                           </Select>
                           {getFieldDecorator("company_detail", {
                             rules: [
                               {
                                 required: true,
-                                message: "Enter your company detail!"
+                                message: (
+                                  <IntlMessages id="cp.company.name.rule" />
+                                )
                               }
                             ]
                           })(
@@ -705,8 +716,7 @@ class Company extends Component {
                         {this.state.searchText === "" ||
                         filterCompany.length < 1 ? (
                           <p className="gx-link" onClick={this.onNotExist}>
-                            Công ty tôi làm việc chưa tồn tại trên Travel
-                            Connect
+                            <IntlMessages id="cp.personal.company.notExist" />
                           </p>
                         ) : null}
                         <ul>
@@ -731,18 +741,27 @@ class Company extends Component {
                   {this.state.companyDetail && this.state.notExist === false ? (
                     <div>
                       <Form onSubmit={this.handleSubmitUserCompany}>
-                        <FormItem {...formItemLayout} label="Chức vụ bản thân">
+                        <FormItem
+                          {...formItemLayout}
+                          label={<IntlMessages id="employee.position" />}
+                        >
                           {getFieldDecorator("user_position", {
                             rules: [
                               {
                                 required: true,
-                                message: "Select your position!"
+                                message: (
+                                  <IntlMessages id="cp.personal.company.position.rule" />
+                                )
                               }
                             ]
                           })(
                             <Select placeholder="Chức vụ">
-                              <Option value="Manager">Manager</Option>
-                              <Option value="Employee">Employee</Option>
+                              <Option value="Manager">
+                                <IntlMessages id="manager" />
+                              </Option>
+                              <Option value="Employee">
+                                <IntlMessages id="seller" />
+                              </Option>
                               <Option value="Marketing">Marketing</Option>
                             </Select>
                           )}
@@ -760,7 +779,7 @@ class Company extends Component {
                             htmlType="submit"
                             style={{ marginBottom: "0 !important" }}
                           >
-                            Next
+                            <IntlMessages id="next" />
                           </Button>
                         </div>
                       </Form>
@@ -769,32 +788,49 @@ class Company extends Component {
                   {this.state.notExist ? (
                     <div>
                       <Form onSubmit={this.handleSubmitOtherCompany}>
-                        <FormItem {...formItemLayout} label="Tên đơn vị">
+                        <FormItem
+                          {...formItemLayout}
+                          label={<IntlMessages id="companyName" />}
+                        >
                           {getFieldDecorator("company_name", {
                             rules: [
                               {
                                 required: true,
-                                message: "Enter your company name!"
+                                message: (
+                                  <IntlMessages id="cp.company.name.rule" />
+                                )
                               }
                             ]
                           })(<Input placeholder="Tên đơn vị" />)}
                         </FormItem>
-                        <FormItem {...formItemLayout} label="Tên thương hiệu">
+                        <FormItem
+                          {...formItemLayout}
+                          label={
+                            <IntlMessages id="account.profile.about.brand" />
+                          }
+                        >
                           {getFieldDecorator("company_brandname", {
                             rules: [
                               {
                                 required: true,
-                                message: "Enter your company brand!"
+                                message: (
+                                  <IntlMessages id="cp.company.brand.rule" />
+                                )
                               }
                             ]
                           })(<Input placeholder="Tên thương hiệu" />)}
                         </FormItem>
-                        <FormItem {...formItemLayout} label="Chức vụ bản thân">
+                        <FormItem
+                          {...formItemLayout}
+                          label={<IntlMessages id="employee.position" />}
+                        >
                           {getFieldDecorator("user_position", {
                             rules: [
                               {
                                 required: true,
-                                message: "Enter your position!"
+                                message: (
+                                  <IntlMessages id="cp.personal.company.position.rule" />
+                                )
                               }
                             ]
                           })(<Input placeholder="Chức vụ" />)}
@@ -804,17 +840,24 @@ class Company extends Component {
                             rules: [
                               {
                                 required: true,
-                                message: "Enter your email!"
+                                message: (
+                                  <IntlMessages id="cp.company.email.rule2" />
+                                )
                               }
                             ]
                           })(<Input placeholder="Email" />)}
                         </FormItem>
-                        <FormItem {...formItemLayout} label="Số điện thoại">
+                        <FormItem
+                          {...formItemLayout}
+                          label={<IntlMessages id="tel" />}
+                        >
                           {getFieldDecorator("company_phone", {
                             rules: [
                               {
                                 required: true,
-                                message: "Enter your phone number!"
+                                message: (
+                                  <IntlMessages id="cp.company.phone.rule" />
+                                )
                               }
                             ]
                           })(<Input placeholder="Số điện thoại" />)}
@@ -853,12 +896,19 @@ class Company extends Component {
                             </Select>
                           )}
                         </FormItem>
-                        <FormItem {...formItemLayout} label="Quận/ Huyện">
+                        <FormItem
+                          {...formItemLayout}
+                          label={
+                            <IntlMessages id="account.profile.edit.information.address.update.companydistrict" />
+                          }
+                        >
                           {getFieldDecorator("company_district", {
                             rules: [
                               {
                                 required: true,
-                                message: "Select your district!"
+                                message: (
+                                  <IntlMessages id="cp.company.district.rule" />
+                                )
                               }
                             ]
                           })(
@@ -868,12 +918,19 @@ class Company extends Component {
                             />
                           )}
                         </FormItem>
-                        <FormItem {...formItemLayout} label="Địa chỉ">
+                        <FormItem
+                          {...formItemLayout}
+                          label={
+                            <IntlMessages id="account.profile.about.address" />
+                          }
+                        >
                           {getFieldDecorator("company_address", {
                             rules: [
                               {
                                 required: true,
-                                message: "Enter your address!"
+                                message: (
+                                  <IntlMessages id="cp.company.address.rule" />
+                                )
                               }
                             ]
                           })(<Input placeholder="Địa chỉ" />)}
@@ -891,7 +948,7 @@ class Company extends Component {
                             htmlType="submit"
                             style={{ marginBottom: "0 !important" }}
                           >
-                            Next
+                            <IntlMessages id="button.next" />
                           </Button>
                         </div>
                       </Form>
@@ -902,42 +959,62 @@ class Company extends Component {
               {this.state.typeAccount === "social" ? (
                 <div>
                   <Form onSubmit={this.handleSubmitPerson}>
-                    <FormItem {...formItemLayout} label="Tên tổ chức:">
+                    <FormItem
+                      {...formItemLayout}
+                      label={<IntlMessages id="companyName" />}
+                    >
                       {getFieldDecorator("company_name", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company name!"
+                            message: <IntlMessages id="cp.company.name.rule" />
                           }
                         ]
                       })(<Input placeholder="Tên tổ chức" />)}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Địa chỉ:">
+                    <FormItem
+                      {...formItemLayout}
+                      label={
+                        <IntlMessages id="account.profile.about.address" />
+                      }
+                    >
                       {getFieldDecorator("company_address", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company address!"
+                            message: (
+                              <IntlMessages id="cp.company.address.rule" />
+                            )
                           }
                         ]
                       })(<Input placeholder="Địa chỉ" />)}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Email liên hệ:">
+                    <FormItem {...formItemLayout} label="Email">
                       {getFieldDecorator("company_email", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company email!"
+                            message: (
+                              <IntlMessages id="cp.company.email.rule2" />
+                            )
                           }
                         ]
                       })(<Input placeholder="Email" />)}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Chức vụ của bạn:">
+
+                    <FormItem
+                      {...formItemLayout}
+                      label={
+                        <IntlMessages id="account.profile.contact.employee.job" />
+                      }
+                    >
                       {getFieldDecorator("user_position", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company position!"
+                            message: (
+                              <IntlMessages id="cp.personal.company.position.rule" />
+                            )
                           }
                         ]
                       })(<Input placeholder="Chức vụ" />)}
@@ -964,59 +1041,82 @@ class Company extends Component {
                           marginBottom: "0 !important"
                         }}
                       >
-                        Next
+                        <IntlMessages id="button.next" />
                       </Button>
                     </div>
                   </Form>
                 </div>
               ) : null}
+
               {this.state.typeAccount === "journalist" ? (
                 <div>
                   <Form onSubmit={this.handleSubmitPerson}>
-                    <FormItem {...formItemLayout} label="Tên đơn vị:">
+                    <FormItem
+                      {...formItemLayout}
+                      label={<IntlMessages id="companyName" />}
+                    >
                       {getFieldDecorator("company_name", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company name!"
+                            message: <IntlMessages id="cp.company.name.rule" />
                           }
                         ]
                       })(<Input placeholder="Tên đơn vị" />)}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Địa chỉ:">
+                    <FormItem
+                      {...formItemLayout}
+                      label={
+                        <IntlMessages id="account.profile.about.address" />
+                      }
+                    >
                       {getFieldDecorator("company_address", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company address!"
+                            message: (
+                              <IntlMessages id="cp.company.address.rule" />
+                            )
                           }
                         ]
                       })(<Input placeholder="Địa chỉ" />)}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Email liên hệ:">
+                    <FormItem {...formItemLayout} label="Email">
                       {getFieldDecorator("company_email", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company email!"
+                            message: (
+                              <IntlMessages id="cp.company.email.rule2" />
+                            )
                           }
                         ]
                       })(<Input placeholder="Email" />)}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Chức vụ của bạn:">
+                    <FormItem
+                      {...formItemLayout}
+                      label={
+                        <IntlMessages id="account.profile.contact.employee.job" />
+                      }
+                    >
                       {getFieldDecorator("user_position", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company position!"
+                            message: (
+                              <IntlMessages id="cp.personal.company.position.rule" />
+                            )
                           }
                         ]
                       })(<Input placeholder="Chức vụ" />)}
                     </FormItem>
+
                     <FormItem
                       {...formItemLayout}
                       // onClick={() => this.onIncludeImage()}
-                      label="Thông tin xác minh:"
+                      label={
+                        <IntlMessages id="cp.personal.journalist.verify" />
+                      }
                     >
                       {getFieldDecorator("user_verify", {
                         valuePropName: "fileList",
@@ -1024,7 +1124,9 @@ class Company extends Component {
                         rules: [
                           {
                             required: true,
-                            message: "Upload your infomation to verify!"
+                            message: (
+                              <IntlMessages id="cp.personal.verify.rule" />
+                            )
                           }
                         ]
                       })(
@@ -1063,7 +1165,7 @@ class Company extends Component {
                         }}
                         onClick={() => this.onUploadImage()}
                       >
-                        Next
+                        <IntlMessages id="button.next" />
                       </Button>
                     </div>
                   </Form>
@@ -1072,42 +1174,61 @@ class Company extends Component {
               {this.state.typeAccount === "government" ? (
                 <div>
                   <Form onSubmit={this.handleSubmitPerson}>
-                    <FormItem {...formItemLayout} label="Tên cơ quan:">
+                    <FormItem
+                      {...formItemLayout}
+                      label={<IntlMessages id="cp.personal.name" />}
+                    >
                       {getFieldDecorator("company_name", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company name!"
+                            message: <IntlMessages id="cp.company.name.rule" />
                           }
                         ]
                       })(<Input placeholder="Tên cơ quan" />)}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Địa chỉ:">
+                    <FormItem
+                      {...formItemLayout}
+                      label={
+                        <IntlMessages id="account.profile.about.address" />
+                      }
+                    >
                       {getFieldDecorator("company_address", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company address!"
+                            message: (
+                              <IntlMessages id="cp.company.address.rule" />
+                            )
                           }
                         ]
                       })(<Input placeholder="Địa chỉ" />)}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Email liên hệ:">
+                    <FormItem {...formItemLayout} label="Email">
                       {getFieldDecorator("company_email", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company email!"
+                            message: (
+                              <IntlMessages id="cp.company.email.rule2" />
+                            )
                           }
                         ]
                       })(<Input placeholder="Email" />)}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Chức vụ của bạn:">
+                    <FormItem
+                      {...formItemLayout}
+                      label={
+                        <IntlMessages id="account.profile.contact.employee.job" />
+                      }
+                    >
                       {getFieldDecorator("user_position", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company position!"
+                            message: (
+                              <IntlMessages id="cp.personal.company.position.rule" />
+                            )
                           }
                         ]
                       })(<Input placeholder="Chức vụ" />)}
@@ -1120,12 +1241,6 @@ class Company extends Component {
                         justifyContent: "flex-end"
                       }}
                     >
-                      {/* <Button
-                    onClick={this.onBack}
-                    style={{ marginBottom: "0 !important" }}
-                  >
-                    Return
-                  </Button> */}
                       <Button
                         type="primary"
                         htmlType="submit"
@@ -1134,7 +1249,7 @@ class Company extends Component {
                           marginBottom: "0 !important"
                         }}
                       >
-                        Next
+                        <IntlMessages id="button.next" />
                       </Button>
                     </div>
                   </Form>
@@ -1143,57 +1258,92 @@ class Company extends Component {
               {this.state.typeAccount === "embassy" ? (
                 <div>
                   <Form onSubmit={this.handleSubmitPerson}>
-                    <FormItem {...formItemLayout} label="Cơ quan làm việc: ">
+                    <FormItem
+                      {...formItemLayout}
+                      label={<IntlMessages id="cp.personal.agency" />}
+                    >
                       {getFieldDecorator("company_business", {
                         rules: [
                           {
                             required: true,
-                            message: "Select your company business!"
+                            message: (
+                              <IntlMessages id="cp.company.business.rule" />
+                            )
                           }
                         ]
                       })(
                         <Radio.Group>
-                          <Radio value="Đại Sứ quán">Đại Sứ quán</Radio>
-                          <Radio value="Lãnh Sự quán">Lãnh Sự quán</Radio>
+                          <Radio value="Đại Sứ quán">
+                            <IntlMessages id="cp.personal.embassy" />
+                          </Radio>
+                          <Radio value="Lãnh Sự quán">
+                            <IntlMessages id="cp.personal.consulate" />
+                          </Radio>
                         </Radio.Group>
                       )}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Quốc gia đại diện:">
+                    <FormItem
+                      {...formItemLayout}
+                      label={
+                        <IntlMessages id="account.profile.edit.information.address.update.companynation" />
+                      }
+                    >
                       {getFieldDecorator("company_national", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company national!"
+                            message: (
+                              <IntlMessages id="cp.company.nation.rule" />
+                            )
                           }
                         ]
                       })(<Input placeholder="Quốc gia đại diện" />)}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Quốc gia đặt trụ sở:">
+                    <FormItem
+                      {...formItemLayout}
+                      label={
+                        <IntlMessages id="cp.personal.agency.headquarters" />
+                      }
+                    >
                       {getFieldDecorator("company_headquarters", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company headquarters!"
+                            message: (
+                              <IntlMessages id="cp.personal.agency.headquarters.rule" />
+                            )
                           }
                         ]
                       })(<Input placeholder="Quốc gia đặt trụ sở" />)}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Địa chỉ đặt trụ sở:">
+                    <FormItem
+                      {...formItemLayout}
+                      label={<IntlMessages id="step.information.address" />}
+                    >
                       {getFieldDecorator("company_address", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company headquarters address!"
+                            message: (
+                              <IntlMessages id='cp.company.address.rule"' />
+                            )
                           }
                         ]
                       })(<Input placeholder="Địa chỉ đặt trụ sở" />)}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Chức vụ của bạn:">
+                    <FormItem
+                      {...formItemLayout}
+                      label={
+                        <IntlMessages id="account.profile.contact.employee.job" />
+                      }
+                    >
                       {getFieldDecorator("user_position", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your company position!"
+                            message: (
+                              <IntlMessages id="cp.personal.company.position.rule" />
+                            )
                           }
                         ]
                       })(<Input placeholder="Chức vụ" />)}
@@ -1206,12 +1356,6 @@ class Company extends Component {
                         justifyContent: "flex-end"
                       }}
                     >
-                      {/* <Button
-                    onClick={this.onBack}
-                    style={{ marginBottom: "0 !important" }}
-                  >
-                    Return
-                  </Button> */}
                       <Button
                         type="primary"
                         htmlType="submit"
@@ -1220,7 +1364,7 @@ class Company extends Component {
                           marginBottom: "0 !important"
                         }}
                       >
-                        Next
+                        <IntlMessages id="button.next" />
                       </Button>
                     </div>
                   </Form>
@@ -1232,20 +1376,25 @@ class Company extends Component {
                     <FormItem {...formItemLayout} label="Trạng thái">
                       <Radio.Group onChange={this.onChangeFreeLancer}>
                         <Radio value={1}>
-                          Tôi là hướng dẫn viên trực thuộc công ty
+                          <IntlMessages id="cp.personal.tourguide" />
                         </Radio>
                         <Radio value={2}>
-                          Tôi là hướng dẫn viên không trực thuộc công ty{" "}
+                          <IntlMessages id="step.detail.freelancer" />{" "}
                         </Radio>
                       </Radio.Group>
                     </FormItem>
                     {this.state.FreeLancer === 1 ? (
-                      <FormItem {...formItemLayout} label="Tên công ty">
+                      <FormItem
+                        {...formItemLayout}
+                        label={<IntlMessages id="companyName" />}
+                      >
                         {getFieldDecorator("company_name", {
                           rules: [
                             {
                               required: true,
-                              message: "Enter your company name!"
+                              message: (
+                                <IntlMessages id="cp.company.name.rule" />
+                              )
                             }
                           ]
                         })(<Input placeholder="Tên công ty" />)}
@@ -1255,13 +1404,17 @@ class Company extends Component {
                       <div>
                         <FormItem
                           {...formItemLayout}
-                          label="Loại hướng dẫn viên: "
+                          label={
+                            <IntlMessages id="cp.personal.tourguide.type" />
+                          }
                         >
                           {getFieldDecorator("tour_guide", {
                             rules: [
                               {
                                 required: true,
-                                message: "Select your guide type!"
+                                message: (
+                                  <IntlMessages id="cp.personal.tourguide.type.rule" />
+                                )
                               }
                             ]
                           })(
@@ -1270,13 +1423,13 @@ class Company extends Component {
                               style={{ width: "100%" }}
                             >
                               <Option value="inbound">
-                                Hướng dẫn viên Inbound
+                                <IntlMessages id="cp.personal.tourguide.type.inbound" />
                               </Option>
                               <Option value="outbound">
-                                Hướng dẫn viên Outbound
+                                <IntlMessages id="cp.personal.tourguide.type.outbound" />
                               </Option>
                               <Option value="inland">
-                                Hướng dẫn viên tại điểm
+                                <IntlMessages id="cp.personal.tourguide.type.place" />
                               </Option>
                             </Select>
                           )}
@@ -1284,7 +1437,9 @@ class Company extends Component {
                         <FormItem
                           {...formItemLayout}
                           // onClick={() => this.onIncludeImage()}
-                          label="Thông tin xác minh:"
+                          label={
+                            <IntlMessages id="cp.personal.journalist.verify" />
+                          }
                         >
                           {getFieldDecorator("user_verify", {
                             valuePropName: "fileList",
@@ -1292,7 +1447,9 @@ class Company extends Component {
                             rules: [
                               {
                                 required: true,
-                                message: "Upload your infomation verify!"
+                                message: (
+                                  <IntlMessages id="cp.personal.verify.rule" />
+                                )
                               }
                             ]
                           })(
@@ -1333,7 +1490,7 @@ class Company extends Component {
                         }}
                         onClick={() => this.onUploadImage()}
                       >
-                        Next
+                        <IntlMessages id="button.next" />
                       </Button>
                     </div>
                   </Form>
@@ -1342,12 +1499,19 @@ class Company extends Component {
               {this.state.typeAccount === "student" ? (
                 <div>
                   <Form onSubmit={this.handleSubmitPerson}>
-                    <FormItem {...formItemLayout} label="Lĩnh vực theo học: ">
+                    <FormItem
+                      {...formItemLayout}
+                      label={
+                        <IntlMessages id="cp.personal.student.specialized" />
+                      }
+                    >
                       {getFieldDecorator("user_specialized", {
                         rules: [
                           {
                             required: true,
-                            message: "Enter your specialized!"
+                            message: (
+                              <IntlMessages id="cp.personal.student.specialized.rule" />
+                            )
                           }
                         ]
                       })(
@@ -1355,62 +1519,80 @@ class Company extends Component {
                           placeholder="Lĩnh vực theo học"
                           style={{ width: "100%" }}
                         >
-                          <OptGroup label="Du lịch">
-                            <Option value="manager">Điều hành Tour</Option>
-                            <Option value="sale">Nhân viên kinh doanh</Option>
+                          <OptGroup
+                            label={<IntlMessages id="cp.personal.title" />}
+                          >
+                            <Option value="manager">
+                              <IntlMessages id="cp.personal.student.tour.manager" />
+                            </Option>
+                            <Option value="sale">
+                              <IntlMessages id="seller" />
+                            </Option>
                           </OptGroup>
-                          <OptGroup label="Khách sạn">
+                          <OptGroup
+                            label={<IntlMessages id="cp.personal.title2" />}
+                          >
                             <Option value="managerHotel">
-                              Quản lý khách sạn
+                              <IntlMessages id="cp.personal.student.hotel.manager" />
                             </Option>
                           </OptGroup>
                         </Select>
                       )}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Thông tin quan tâm: ">
+                    <FormItem
+                      {...formItemLayout}
+                      label={<IntlMessages id="cp.personal.interested" />}
+                    >
                       {getFieldDecorator("user_interested", {
                         rules: [
                           {
                             required: true,
-                            message: "Pick your company info!"
+                            message: (
+                              <IntlMessages id="cp.personal.interested.rule" />
+                            )
                           }
                         ]
                       })(
                         <Row>
                           <Col span={12}>
                             <Checkbox value="Sự kiện Du lịch">
-                              Sự kiện Du lịch
+                              <IntlMessages id="cp.personal.interested.item" />
                             </Checkbox>
                           </Col>
                           <Col span={12}>
                             <Checkbox value="Chương trình đào tạo">
-                              Chương trình đào tạo
+                              <IntlMessages id="cp.personal.interested.item2" />
                             </Checkbox>
                           </Col>
                           <Col span={12}>
                             <Checkbox value="Thông tin tuyển dụng">
-                              Thông tin tuyển dụng
+                              <IntlMessages id="cp.personal.interested.item3" />
                             </Checkbox>
                           </Col>
                           <Col span={12}>
                             <Checkbox value="Hội chợ Du lịch">
-                              Hội chợ Du lịch
+                              <IntlMessages id="cp.personal.interested.item4" />
                             </Checkbox>
                           </Col>
                           <Col span={12}>
                             <Checkbox value="Tour Du lịch">
-                              Tour Du lịch
+                              <IntlMessages id="cp.personal.interested.item5" />
                             </Checkbox>
                           </Col>
                           <Col span={12}>
                             <Checkbox value="Sản phẩm dịch vụ">
-                              Sản phẩm dịch vụ
+                              <IntlMessages id="cp.personal.interested.item6" />
                             </Checkbox>
                           </Col>
                         </Row>
                       )}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="Thông tin xác minh:">
+                    <FormItem
+                      {...formItemLayout}
+                      label={
+                        <IntlMessages id="cp.personal.journalist.verify" />
+                      }
+                    >
                       {getFieldDecorator("user_verify", {
                         valuePropName: "fileList",
                         getValueFromEvent: this.normFile
@@ -1450,7 +1632,7 @@ class Company extends Component {
                         }}
                         onClick={() => this.onUploadImage()}
                       >
-                        Next
+                        <IntlMessages id="button.next" />
                       </Button>
                     </div>
                   </Form>

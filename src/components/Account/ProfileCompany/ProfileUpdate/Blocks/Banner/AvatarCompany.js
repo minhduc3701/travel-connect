@@ -2,7 +2,8 @@ import React, { Component } from "react";
 // import { notiChange } from "util/Notification";
 import { Icon, Upload } from "antd";
 import firebaseAcc from "firebase/firebaseAcc";
-// import logo from "assets/images/travel-default-logo.png";
+import { connect } from "react-redux";
+import { actChangeLogo } from "appRedux/actions/CompanyProfile";
 
 class AvatarCompany extends Component {
   state = {
@@ -14,38 +15,38 @@ class AvatarCompany extends Component {
     imageUrl: null
   };
 
-  onSendImageLogo = logo => {
-    let user_info = JSON.parse(localStorage.getItem("user_info"));
-    firebaseAcc
-      .storage()
-      .ref(`/${user_info.company_id}/${Date.now().toString()}`)
-      .put(this.state.fileList[0])
-      .then(res => {
-        if (res) {
-          firebaseAcc
-            .storage()
-            .ref(res.metadata.fullPath)
-            .getDownloadURL()
-            .then(url => {
-              firebaseAcc
-                .firestore()
-                .collection("companies")
-                .doc(user_info.company_id)
-                .update({
-                  logo: url
-                })
-                .then(res => {
-                  this.setState({
-                    imageUrl: url
-                  });
-                });
-            });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+  // onSendImageLogo = logo => {
+  //   let user_info = JSON.parse(localStorage.getItem("user_info"));
+  //   firebaseAcc
+  //     .storage()
+  //     .ref(`/${user_info.company_id}/${Date.now().toString()}`)
+  //     .put(this.state.fileList[0])
+  //     .then(res => {
+  //       if (res) {
+  //         firebaseAcc
+  //           .storage()
+  //           .ref(res.metadata.fullPath)
+  //           .getDownloadURL()
+  //           .then(url => {
+  //             firebaseAcc
+  //               .firestore()
+  //               .collection("companies")
+  //               .doc(user_info.company_id)
+  //               .update({
+  //                 logo: url
+  //               })
+  //               .then(res => {
+  //                 this.setState({
+  //                   imageUrl: url
+  //                 });
+  //               });
+  //           });
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
 
   render() {
     let { fileList } = this.state;
@@ -77,7 +78,8 @@ class AvatarCompany extends Component {
             // fileList: file
             fileList: [file]
           }),
-          () => this.onSendImageLogo(this.state.fileList)
+          () => this.props.actChangeLogoToStore(this.state.fileList)
+          // () => this.onSendImageLogo(this.state.fileList)
         );
         return false;
       },
@@ -122,4 +124,12 @@ class AvatarCompany extends Component {
   }
 }
 
-export default AvatarCompany;
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    actChangeLogoToStore: data => {
+      dispatch(actChangeLogo(data));
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AvatarCompany);

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Col, Row, Button, Result } from "antd";
+import { Col, Row, Button, Result, Icon } from "antd";
 import Banner from "./Blocks/Banner";
 import Biography from "./Blocks/Biography";
 import About from "./Blocks/About";
@@ -21,12 +21,20 @@ import { Link } from "react-router-dom";
 import Cerfiticated from "./Blocks/Cerfiticated";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
+import IntlMessages from "util/IntlMessages";
 
 class Profile extends Component {
   state = {
     profile: null,
     loading: null,
-    load: true
+    load: true,
+    warningTool: true
+  };
+
+  onCloseWarning = () => {
+    this.setState({
+      warningTool: false
+    });
   };
 
   render() {
@@ -77,13 +85,23 @@ class Profile extends Component {
 
     isLoaded(this.props.memberDisplay) &&
       this.props.memberDisplay.forEach(doc => {
-        mList.push({
-          mId: doc.id,
-          mJob: doc.position,
-          mName: doc.name,
-          mStatus: doc.display,
-          mLogo: doc.imageUrl
-        });
+        if (doc.position === "CEO") {
+          mList.unshift({
+            mId: doc.id,
+            mJob: doc.position,
+            mName: doc.name,
+            mStatus: doc.display,
+            mLogo: doc.imageUrl
+          });
+        } else {
+          mList.push({
+            mId: doc.id,
+            mJob: doc.position,
+            mName: doc.name,
+            mStatus: doc.display,
+            mLogo: doc.imageUrl
+          });
+        }
       });
 
     if (requests) {
@@ -97,6 +115,21 @@ class Profile extends Component {
     }
     return (
       <Fragment>
+        {this.state.warningTool && (
+          <div
+            className="block d-flex-i align-items-center"
+            style={{
+              borderRadius: 10,
+              justifyContent: "space-between",
+              color: "#155724",
+              backgroundColor: "#d4edda",
+              borderColor: "#c3e6cb"
+            }}
+          >
+            <IntlMessages id="profile.preview" />
+            <Icon type="close" onClick={this.onCloseWarning} />
+          </div>
+        )}
         {!isLoaded(this.props.profileData) === false &&
         !isLoaded(this.props.memberDisplay) === false &&
         user_info.company_id !== "" ? (
@@ -133,11 +166,13 @@ class Profile extends Component {
         ) : user_info.company_id === "" && this.state.load === false ? (
           <Result
             status="500"
-            title="Không tìm thấy hồ sơ công ty!"
-            subTitle="Kết nối của bạn gặp vấn đề hoặc tài khoản của bạn chưa có công ty. Hãy kiểm tra lại!"
+            title={<IntlMessages id="profile.result.title" />}
+            subTitle={<IntlMessages id="profile.result.subtitle" />}
             extra={
               <Link to={{ pathname: "/profile" }}>
-                <Button type="primary">Thử lại</Button>
+                <Button type="primary">
+                  <IntlMessages id="profile.try" />
+                </Button>
               </Link>
             }
           />

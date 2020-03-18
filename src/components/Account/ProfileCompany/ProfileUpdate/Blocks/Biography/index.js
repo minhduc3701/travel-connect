@@ -13,7 +13,7 @@ class Biography extends React.Component {
   state = {
     stt_biography: false,
     intro: {
-      company_introduction: null
+      introduction: null
     }
   };
 
@@ -30,14 +30,14 @@ class Biography extends React.Component {
     let value = target.value;
     this.setState({
       intro: {
-        company_introduction: value
+        introduction: value
       }
     });
   };
 
   onSaveData = () => {
     let { profile } = this.props;
-    let introResult = this.state.intro.company_introduction
+    let introResult = this.state.intro.introduction
       ? this.state.intro
       : profile.company_introduction;
     this.props.actSaveData(introResult);
@@ -78,15 +78,15 @@ class Biography extends React.Component {
             </p>
           ) : this.state.stt_biography === false ? (
             <p style={{ lineHeight: "1.5em" }}>
-              {this.state.intro.company_introduction
-                ? this.state.intro.company_introduction
+              {this.state.intro.introduction
+                ? this.state.intro.introduction
                 : profile.company_introduction}
             </p>
           ) : (
             <TextArea
               defaultValue={
-                this.state.intro.company_introduction
-                  ? this.state.intro.company_introduction
+                this.state.intro.introduction
+                  ? this.state.intro.introduction
                   : profile.company_introduction
               }
               onChange={this.onChangeTextArea}

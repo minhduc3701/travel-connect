@@ -326,9 +326,15 @@ class Personal extends Component {
                   ]
                 })(
                   <Select placeholder="Gender">
-                    <Option value="male">Nam</Option>
-                    <Option value="female">Nữ</Option>
-                    <Option value="other">Khác</Option>
+                    <Option value="male">
+                      <IntlMessages id="male" />
+                    </Option>
+                    <Option value="female">
+                      <IntlMessages id="female" />
+                    </Option>
+                    <Option value="other">
+                      <IntlMessages id="other" />
+                    </Option>
                   </Select>
                 )}
               </FormItem>
@@ -383,14 +389,6 @@ class Personal extends Component {
                   <IntlMessages id="account.profile.edit.information.address.update.companydistrict" />
                 }
               >
-                {/* {getFieldDecorator("user_district", {
-                  rules: [
-                    {
-                      required: true,
-                      message: <IntlMessages id="rule.district.text" />
-                    }
-                  ]
-                })( */}
                 <PlacesAutocomplete
                   value={this.state.address}
                   onChange={this.handleChange}
@@ -430,12 +428,6 @@ class Personal extends Component {
                     </div>
                   )}
                 </PlacesAutocomplete>
-                {/* // <Cascader
-                  //   name="district"
-                  //   options={residences}
-                  //   placeholder="District"
-                  // />
-                // )} */}
               </FormItem>
               <FormItem
                 {...formItemLayout}

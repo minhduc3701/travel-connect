@@ -9,7 +9,7 @@ class Navigation extends Component {
   render() {
     return (
       <div
-        className="block-w-nb block__nav__anchor m-b-0-i"
+        className="block-w-nb block__nav__anchor m-b-0-i p-b-0-i"
         style={{ borderTop: "1px solid #00000020" }}
       >
         <Menu mode="horizontal" className="bor-b-0">
@@ -54,10 +54,10 @@ class Navigation extends Component {
             </a>
           </Menu.Item>
           <Menu.Item key="edit_profile" className=" f-r">
-            <Link title="Update" to="/profile">
-              <Icon type="edit" className="m-r-1-i" />
+            <Link to="/profile">
+              <Icon type="double-left" className="m-r-1-i" />
               <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                Save Edit
+                <IntlMessages id="return" />
               </span>
             </Link>
           </Menu.Item>

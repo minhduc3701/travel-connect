@@ -150,8 +150,8 @@ class About extends React.Component {
         title: <IntlMessages id="account.profile.about.brand" />,
         icon: "company",
         userList: "",
-        desc: profile.company_brandname,
-        verify: "check-circle-o"
+        desc: profile.company_brandname
+        // verify: "check-circle-o"
       },
       {
         id: 2,

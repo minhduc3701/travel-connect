@@ -9,6 +9,7 @@ import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import FollowItem from "./FollowItem";
+import IntlMessages from "util/IntlMessages";
 
 class Banner extends Component {
   state = {
@@ -38,7 +39,7 @@ class Banner extends Component {
             className="m-b-0-i"
             size="small"
           >
-            Danh sách đơn vị theo dõi
+            <IntlMessages id="product.list.follower" />
           </Button>
         </Menu.Item>
       </Menu>
@@ -53,7 +54,7 @@ class Banner extends Component {
         });
       });
     return (
-      <div className="m-b-5">
+      <div className="m-b-3">
         <BannerBackground profile={this.props} />
         <div className="d-flex d-flex-wrap">
           <Col xl={6} lg={6} md={24} sm={24} xs={24} className="pos-rel">
@@ -73,43 +74,34 @@ class Banner extends Component {
               </div>
             </div>
           </Col>
-          <Col xl={18} lg={18} md={24} sm={24} xs={24} className="pos-rel">
+          <Col xl={15} lg={15} md={24} sm={24} xs={24} className="pos-rel">
             <Info profile={this.props} />
           </Col>
           <Col
-            xl={24}
-            lg={24}
+            xl={3}
+            lg={3}
             md={24}
             sm={24}
             xs={24}
+            style={{ alignItems: "flex-end" }}
             className="text-align-right p-b-3 p-h-3 pos-rel box d-flex-i d-flex-wrap justify-flex-end"
           >
-            {/* <Button className="m-b-0-i d-inline-block m-r-3-i m-t-3-i p-h-1-i">
-              <Icon type="book" className="p-r-1" />
-              <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                <IntlMessages id="account.profile.follow" />
-              </span>
-            </Button> */}
             <Dropdown
               overlay={btn_notification_menu}
               placement="bottomRight"
               className=" m-t-3-i d-inline-block"
             >
               <Button className="m-b-0-i p-h-1-i">
-                {/* <Icon type="bell" className="p-r-1" />
-                <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                  <IntlMessages id="account.profile.notifications.get" />
-                </span> */}
                 <Icon type="bars" className="p-r-1" />
                 <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0 p-r-1">
-                  Thông tin
+                  <IntlMessages id="product.cat.info" />
                 </span>
               </Button>
             </Dropdown>
           </Col>
         </div>
         <Modal
-          title="Danh sách đơn vị theo dõi"
+          title={<IntlMessages id="product.list.follower" />}
           visible={this.state.visible}
           onCancel={this.onHandleCancel}
           footer={null}

@@ -7,7 +7,7 @@ import Info from "./Info";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import { connect } from "react-redux";
-// import IntlMessages from "util/IntlMessages";
+import IntlMessages from "util/IntlMessages";
 
 class Banner extends Component {
   state = {
@@ -38,7 +38,7 @@ class Banner extends Component {
             className="m-b-0-i"
             size="small"
           >
-            Danh sách đơn vị theo dõi
+            <IntlMessages id="product.list.follower" />
           </Button>
         </Menu.Item>
       </Menu>
@@ -103,16 +103,17 @@ class Banner extends Component {
               </div>
             </div>
           </Col>
-          <Col xl={18} lg={18} md={24} sm={24} xs={24} className="pos-rel">
+          <Col xl={15} lg={15} md={24} sm={24} xs={24} className="pos-rel">
             <Info Account={profile} />
           </Col>
           <Col
-            xl={24}
-            lg={24}
+            xl={3}
+            lg={3}
             md={24}
             sm={24}
             xs={24}
             className="text-align-right p-b-3 p-h-3 pos-rel box d-flex-i d-flex-wrap justify-flex-end"
+            style={{ alignItems: "flex-end" }}
           >
             <Dropdown
               overlay={btn_notification_menu}
@@ -122,14 +123,14 @@ class Banner extends Component {
               <Button className="m-b-0-i p-h-1-i">
                 <Icon type="bars" className="p-r-1" />
                 <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0 p-r-1">
-                  Thông tin
+                  <IntlMessages id="product.cat.info" />
                 </span>
               </Button>
             </Dropdown>
           </Col>
         </div>
         <Modal
-          title="Danh sách đơn vị theo dõi"
+          title={<IntlMessages id="product.list.follower" />}
           visible={this.state.visible}
           onCancel={this.onHandleCancel}
           footer={null}

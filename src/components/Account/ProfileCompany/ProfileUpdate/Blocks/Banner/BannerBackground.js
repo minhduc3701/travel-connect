@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Icon, Upload } from "antd";
 // import { notiChange } from "util/Notification";
-// import background from "assets/images/travel-default-background.png";
+import { actChangeBackground } from "appRedux/actions/CompanyProfile";
 import firebaseAcc from "firebase/firebaseAcc";
+import { connect } from "react-redux";
 
 class BannerBackground extends Component {
   state = {
@@ -14,38 +15,38 @@ class BannerBackground extends Component {
     imageUrl: null
   };
 
-  onSendImageBackground = backgrounds => {
-    let user_info = JSON.parse(localStorage.getItem("user_info"));
-    firebaseAcc
-      .storage()
-      .ref(`/${user_info.company_id}/${Date.now().toString()}`)
-      .put(this.state.fileList[0])
-      .then(res => {
-        if (res) {
-          firebaseAcc
-            .storage()
-            .ref(res.metadata.fullPath)
-            .getDownloadURL()
-            .then(url => {
-              firebaseAcc
-                .firestore()
-                .collection("companies")
-                .doc(user_info.company_id)
-                .update({
-                  background: url
-                })
-                .then(res => {
-                  this.setState({
-                    imageUrl: url
-                  });
-                });
-            });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+  // onSendImageBackground = () => {
+  //   let user_info = JSON.parse(localStorage.getItem("user_info"));
+  //   firebaseAcc
+  //     .storage()
+  //     .ref(`/${user_info.company_id}/${Date.now().toString()}`)
+  //     .put(this.state.fileList[0])
+  //     .then(res => {
+  //       if (res) {
+  //         firebaseAcc
+  //           .storage()
+  //           .ref(res.metadata.fullPath)
+  //           .getDownloadURL()
+  //           .then(url => {
+  //             firebaseAcc
+  //               .firestore()
+  //               .collection("companies")
+  //               .doc(user_info.company_id)
+  //               .update({
+  //                 background: url
+  //               })
+  //               .then(res => {
+  //                 this.setState({
+  //                   imageUrl: url
+  //                 });
+  //               });
+  //           });
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
 
   render() {
     let { fileList } = this.state;
@@ -76,7 +77,8 @@ class BannerBackground extends Component {
           state => ({
             fileList: [file]
           }),
-          () => this.onSendImageBackground(this.state.fileList)
+          () => this.props.actChangeBackgroundToStore(this.state.fileList)
+          // () => this.onSendImageBackground()
         );
         return false;
       },
@@ -120,4 +122,12 @@ class BannerBackground extends Component {
   }
 }
 
-export default BannerBackground;
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    actChangeBackgroundToStore: data => {
+      dispatch(actChangeBackground(data));
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(BannerBackground);
