@@ -4,6 +4,52 @@ import { B2B } from "components/Layout/Header/NavigateLink";
 import IntlMessages from "util/IntlMessages";
 
 class itemProduct extends React.Component {
+  textStatus = detail => {
+    switch (detail.status) {
+      case "":
+        return (
+          <span style={{ color: "#04B431" }}>
+            <IntlMessages id="status.active" />
+          </span>
+        );
+
+      case "deny":
+        return (
+          <span style={{ color: "gray" }}>
+            <IntlMessages id="status.deny" />
+          </span>
+        );
+
+      case "deleted":
+        return (
+          <span style={{ color: "red" }}>
+            <IntlMessages id="status.deleted" />
+          </span>
+        );
+
+      case "lock":
+        return (
+          <span style={{ color: "#FAAD14" }}>
+            <IntlMessages id="status.locked" />
+          </span>
+        );
+
+      case "wait":
+        return (
+          <span style={{ color: "#038FDE" }}>
+            <IntlMessages id="status.wait" />
+          </span>
+        );
+
+      default:
+        return (
+          <span style={{ color: "rgb(202, 109, 13)" }}>
+            <IntlMessages id="status.deactivate" />
+          </span>
+        );
+    }
+  };
+
   render() {
     let { detail } = this.props;
     return (
@@ -48,20 +94,7 @@ class itemProduct extends React.Component {
               )}
             </p>
             <p className="gx-text-gray m-0-i">
-              Tình trạng:{" "}
-              {detail.verify === "active" && detail.status === "" ? (
-                <span style={{ color: "#04B431" }}>ACTIVE</span>
-              ) : detail.verify !== "active" && detail.status === "deny" ? (
-                <span style={{ color: "gray" }}>DENY</span>
-              ) : detail.verify !== "active" && detail.status === "deleted" ? (
-                <span style={{ color: "red" }}>DELETED</span>
-              ) : detail.verify !== "active" && detail.status === "lock" ? (
-                <span style={{ color: "#FAAD14" }}>LOCKED</span>
-              ) : detail.verify !== "active" && detail.status === "wait" ? (
-                <span style={{ color: "#038FDE" }}>WAIT</span>
-              ) : (
-                <span style={{ color: "rgb(202, 109, 13)" }}>DEACTIVATE</span>
-              )}
+              <IntlMessages id="product.status" />: {this.textStatus(detail)}
             </p>
           </Col>
         </Row>

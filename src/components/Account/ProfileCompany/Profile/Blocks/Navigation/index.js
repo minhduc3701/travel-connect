@@ -2,14 +2,20 @@ import React, { Component } from "react";
 import { Menu, Icon } from "antd";
 import { Link } from "react-router-dom";
 import IntlMessages from "util/IntlMessages";
+import { notificationPop } from "util/Notification";
 
 class Navigation extends Component {
+  onUpdate = () => {
+    notificationPop("success", "Cập nhật thông tin công ty!");
+  };
+
   render() {
     let { profile } = this.props;
     let user_info = JSON.parse(localStorage.getItem("user_info"));
+
     return (
       <div
-        className="block-w-nb block__nav__anchor m-b-0-i"
+        className="block-w-nb block__nav__anchor m-b-0-i p-b-0-i"
         style={{ borderTop: "1px solid #00000020" }}
       >
         <Menu mode="horizontal" className="bor-b-0">
@@ -55,7 +61,7 @@ class Navigation extends Component {
           </Menu.Item>
           {user_info.user_id === profile.company_admin ? (
             <Menu.Item key="edit_profile" className=" f-r">
-              <Link title="Update" to="/profile/update">
+              <Link onClick={this.onUpdate} title="Update" to="/profile/update">
                 <Icon type="edit" className="m-r-1-i" />
                 <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
                   <IntlMessages id="account.profile.edit" />

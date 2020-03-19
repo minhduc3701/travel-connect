@@ -1,13 +1,15 @@
 import React, { Component, Fragment } from "react";
-import { Col, Row, Avatar, Switch, Tabs } from "antd";
+import { Col, Row, Avatar, Switch, Tabs, Button } from "antd";
 import { connect } from "react-redux";
 import CircularProgress from "../../../GlobalComponent/CircularProgress";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import Activities from "./Activities";
 import firebase from "firebase/firebaseAcc";
+import IntlMessages from "util/IntlMessages";
 import { notificationPop } from "util/Notification";
 import Product from "./Product";
+import { Link } from "react-router-dom";
 
 const { TabPane } = Tabs;
 
@@ -16,6 +18,34 @@ class Profile extends Component {
     profile: null,
     loading: null,
     load: true
+  };
+
+  userStatusDisplay = status => {
+    console.log(status);
+    switch (status) {
+      case "lock":
+        return (
+          <li className="p-b-2">
+            <IntlMessages id="general.default.account" /> :{" "}
+            <IntlMessages id={`member.status.${status}`} />
+          </li>
+        );
+      case "deleted":
+        return (
+          <li className="p-b-2">
+            <IntlMessages id="general.default.account" /> :{" "}
+            <IntlMessages id={`member.status.${status}`} />
+          </li>
+        );
+
+      default:
+        return (
+          <li className="p-b-2">
+            <IntlMessages id="general.default.account" /> :{" "}
+            <IntlMessages id={`member.status.${status}`} />
+          </li>
+        );
+    }
   };
 
   handleUpdateData = e => {
@@ -54,14 +84,23 @@ class Profile extends Component {
           user_email: doc.email || " - ",
           user_birth: doc.birth || " - ",
           user_display: doc.display,
-          user_status: doc.status,
-          company_name: doc.companyName || " - "
+          user_status: doc.status
         };
       });
     return (
       <Fragment>
         {!isLoaded(this.props.users) === false && requests ? (
           <div className="block_shadow">
+            <div>
+              <Link to="/member-management">
+                <Button
+                  style={{ float: "right", marginRight: "2em" }}
+                  type="primary"
+                >
+                  <IntlMessages id="return" />
+                </Button>
+              </Link>
+            </div>
             <Row className="p-v-5">
               <Col
                 className="d-flex-i"
@@ -75,32 +114,57 @@ class Profile extends Component {
                 <Avatar
                   src={requests.user_logo}
                   shape="circle"
-                  className="gx-size-150"
+                  className="gx-size-150 p-b-3"
                 />
               </Col>
               <Col
                 className="d-flex-i"
                 style={{ alignItems: "center" }}
-                xl={16}
-                lg={16}
-                md={12}
+                xl={8}
+                lg={8}
+                md={24}
                 sm={24}
                 xs={24}
               >
                 <div className="d-flex-i">
-                  <ul style={{ listStyle: "none", paddingRight: "10em" }}>
-                    <li className="p-b-2">Họ và tên: {requests.user_name}</li>
-                    <li className="p-b-2">Ngày sinh: {requests.user_birth}</li>
-                    <li className="p-b-2">Email: {requests.user_email}</li>
-                    <li className="p-b-2">Địa chỉ: {requests.user_address}</li>
-                    <li className="p-b-2">Quốc gia: {requests.user_nation}</li>
-                  </ul>
                   <ul style={{ listStyle: "none" }}>
-                    <li className="p-b-2">Thành phố: {requests.user_city}</li>
-                    <li className="p-b-2">Email: {requests.user_email}</li>
-                    <li className="p-b-2">Website: {requests.user_website}</li>
                     <li className="p-b-2">
-                      Hiển thị:{" "}
+                      <IntlMessages id="employee.name" /> : {requests.user_name}
+                    </li>
+                    <li className="p-b-2">
+                      <IntlMessages id="listTravelers.birthDay" /> :{" "}
+                      {requests.user_birth}
+                    </li>
+                    <li className="p-b-2">
+                      <IntlMessages id="home.settings.general.address" /> :{" "}
+                      {requests.user_address}
+                    </li>
+                    <li className="p-b-2">
+                      <IntlMessages id="account.profile.edit.information.address.update.companynation" />{" "}
+                      : {requests.user_nation}
+                    </li>
+                    {this.userStatusDisplay(requests.user_status)}
+                  </ul>
+                </div>
+              </Col>
+              <Col
+                className="d-flex-i"
+                style={{ alignItems: "center" }}
+                xl={8}
+                lg={8}
+                md={24}
+                sm={24}
+                xs={24}
+              >
+                <div className="d-flex-i">
+                  <ul style={{ listStyle: "none" }}>
+                    <li className="p-b-2">
+                      <IntlMessages id="City" /> : {requests.user_city}
+                    </li>
+                    <li className="p-b-2">Email : {requests.user_email}</li>
+                    <li className="p-b-2">Website : {requests.user_website}</li>
+                    <li className="p-b-2">
+                      <IntlMessages id="employee.display" />:{" "}
                       <Switch
                         disabled={
                           requests.user_status === "lock" ||
@@ -119,10 +183,16 @@ class Profile extends Component {
             <hr />
             <div>
               <Tabs defaultActiveKey="1" tabPosition="left">
-                <TabPane tab="Nhật ký hoạt động" key="1">
+                <TabPane
+                  tab={<IntlMessages id="home.settings.activities" />}
+                  key="1"
+                >
                   <Activities data={this.props.match} />
                 </TabPane>
-                <TabPane tab="Sản phẩm quản lý" key="2">
+                <TabPane
+                  tab={<IntlMessages id="management.member.product.list" />}
+                  key="2"
+                >
                   <Product data={this.props.match} />
                 </TabPane>
               </Tabs>

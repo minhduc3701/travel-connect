@@ -21,6 +21,7 @@ import Cerfiticated from "./Blocks/Cerfiticated";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import firebase from "firebase/firebaseAcc";
+import IntlMessages from "util/IntlMessages";
 
 class Profile extends Component {
   state = {
@@ -154,11 +155,13 @@ class Profile extends Component {
         ) : user_info.company_id === "" && this.state.load === false ? (
           <Result
             status="500"
-            title="Không tìm thấy hồ sơ công ty!"
-            subTitle="Kết nối của bạn gặp vấn đề. Hãy kiểm tra lại kết nối!"
+            title={<IntlMessages id="profile.result.title" />}
+            subTitle={<IntlMessages id="profile.result.subtitle" />}
             extra={
-              <Link to={{ pathname: "/profile" }}>
-                <Button type="primary">Thử lại</Button>
+              <Link to={{ pathname: "/dashboard" }}>
+                <Button type="primary">
+                  <IntlMessages id="return" />
+                </Button>
               </Link>
             }
           />

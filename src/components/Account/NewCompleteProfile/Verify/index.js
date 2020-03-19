@@ -6,8 +6,9 @@ import { VerifyCompanySDK } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import firebase from "firebase/firebaseAcc";
 import { HOME } from "components/Layout/Header/NavigateLink";
-import GooglePicker from "react-google-picker";
-import axios from "axios";
+import IntlMessages from "util/IntlMessages";
+// import GooglePicker from "react-google-picker";
+// import axios from "axios";
 import { Redirect } from "react-router-dom";
 
 const Dragger = Upload.Dragger;
@@ -184,42 +185,52 @@ class Company extends Component {
     return (
       <div className="block-w bor-rad-6">
         {user_info.company_active && <Redirect to="/dashboard" />}
-        <WidgetHeader title="Hoàn thiện hồ sơ" />
+        <WidgetHeader title={<IntlMessages id="account.personal.title" />} />
         <Row className="p-v-6">
           <Col xl={8} lg={8} md={8} sm={24} xs={24}>
             <div style={{ borderRight: "1px solid rgba(0, 0, 0, 0.125)" }}>
-              <h3 className="m-b-10">Xác minh thông tin, giấy phép</h3>
+              <h3 className="m-b-10">
+                <IntlMessages id="cp.verify.title" />
+              </h3>
               <p>
-                <Icon type="check-circle" /> Nếu bạn tạo mới công ty trên sàn,
-                hãy cung cấp đầy đủ thông tin cho chúng tôi
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="cp.verify.text1" />
               </p>
               <p>
-                <Icon type="check-circle" /> Nếu bạn muốn tham gia vào các tổ
-                chức, công ty đã có trên sàn, hãy đợi chúng tôi xác minh cho bạn
+                <Icon type="check-circle" />{" "}
+                <IntlMessages id="cp.verify.text2" />
               </p>
             </div>
           </Col>
           <Col xl={16} lg={16} md={16} sm={24} xs={24}>
             <div style={{ paddingBottom: "2em" }}>
               <Form onSubmit={this.handleSubmitPerson}>
-                <FormItem {...formItemLayout} label="Mã số kinh doanh">
+                <FormItem
+                  {...formItemLayout}
+                  label={<IntlMessages id="step.information.licensenumber" />}
+                >
                   {getFieldDecorator("company_licence", {
                     rules: [
                       {
                         required: true,
-                        message: "Enter your company license number!"
+                        message: <IntlMessages id="cp.verify.licence.rule" />
                       }
                     ]
                   })(<Input placeholder="Mã số giấy phép kinh doanh" />)}
                 </FormItem>
-                <FormItem {...formItemLayout} label="Giấy phép kinh doanh">
+                <FormItem
+                  {...formItemLayout}
+                  label={<IntlMessages id="step.information.licenseimage" />}
+                >
                   {getFieldDecorator("company_licence_file", {
                     valuePropName: "fileList",
                     getValueFromEvent: this.normFile,
                     rules: [
                       {
                         required: true,
-                        message: "Upload your company license!"
+                        message: (
+                          <IntlMessages id="cp.verify.licence.file.rule" />
+                        )
                       }
                     ]
                   })(
@@ -241,7 +252,7 @@ class Company extends Component {
                     </Dragger>
                   )}
                 </FormItem>
-                <FormItem {...formItemLayout} label="Bản đăng ký PDF ">
+                {/* <FormItem {...formItemLayout} label="Bản đăng ký PDF ">
                   <GooglePicker
                     clientId={
                       "741667578605-v3uc5bm0ct764a13nami9pdq9vau8qph.apps.googleusercontent.com"
@@ -273,7 +284,7 @@ class Company extends Component {
                           google.picker.Feature.MULTISELECT_ENABLED
                         )
                         .addView(docsView)
-                        .addView(uploadView) /*DocsUploadView added*/
+                        .addView(uploadView) 
                         .setOAuthToken(oauthToken)
                         .setDeveloperKey(
                           "AIzaSyDHdvr0OmoGMg5SrywSJl09mAYUqxE1wdg"
@@ -312,13 +323,19 @@ class Company extends Component {
                     <Button>Download</Button>
                     <div className="google"></div>
                   </GooglePicker>
-                </FormItem>
-                <FormItem {...formItemLayout} label="Đơn vị xác minh: ">
+                </FormItem> */}
+
+                <FormItem
+                  {...formItemLayout}
+                  label={<IntlMessages id="cp.verify.verification" />}
+                >
                   {getFieldDecorator("company_unit_confirm", {
                     rules: [
                       {
                         required: true,
-                        message: "Chọn đơn vị xác minh!"
+                        message: (
+                          <IntlMessages id="cp.verify.verification.rule" />
+                        )
                       }
                     ]
                   })(
@@ -326,22 +343,36 @@ class Company extends Component {
                       style={{ width: "100%" }}
                       placeholder="Đơn vị xác minh"
                     >
-                      <OptGroup label="Đơn vị chính">
+                      <OptGroup
+                        label={<IntlMessages id="cp.verify.verification" />}
+                      >
                         <Option value="tc">Travel Connect</Option>
                       </OptGroup>
-                      <OptGroup label="Cộng đồng du lịch">
+                      <OptGroup
+                        label={
+                          <IntlMessages id="cp.verify.travel.communities" />
+                        }
+                      >
                         <Option value="cdvn">Cộng đồng Du lịch Việt Nam</Option>
                         <Option value="cda">Cộng đồng Du lịch Châu Á</Option>
                         <Option value="cdqt">Cộng đồng Du lịch Quốc tế</Option>
                       </OptGroup>
-                      <OptGroup label="Câu lạc bộ du lịch">
+                      <OptGroup
+                        label={
+                          <IntlMessages id="cp.verify.travel.communities.club" />
+                        }
+                      >
                         <Option value="clhn">Câu lạc bộ du lịch Hà Nội</Option>
                         <Option value="clhcm">
                           Câu lạc bộ du lịch Hồ Chí Minh
                         </Option>
                         <Option value="cldn">Câu lạc bộ du lịch Đà Nẵng</Option>
                       </OptGroup>
-                      <OptGroup label="Hiệp hội du lịch">
+                      <OptGroup
+                        label={
+                          <IntlMessages id="cp.verify.travel.communities.Associations" />
+                        }
+                      >
                         <Option value="hhhn">Hiệp hội du lịch Hà Nội</Option>
                         <Option value="hhhcm">
                           Hiệp hội du lịch Hồ Chí Minh
@@ -366,7 +397,7 @@ class Company extends Component {
                     style={{ marginBottom: "0 !important" }}
                     onClick={() => this.onUploadImage()}
                   >
-                    Complete
+                    <IntlMessages id="complete" />
                   </Button>
                 </div>
               </Form>

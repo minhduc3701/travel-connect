@@ -28,6 +28,7 @@ import { compose } from "redux";
 import CircularProgress from "components/GlobalComponent/CircularProgress";
 import firebase from "firebase/firebaseAcc";
 import { Link } from "react-router-dom";
+import { HOME } from "components/Layout/Header/NavigateLink";
 
 const { Search } = Input;
 const FormItem = Form.Item;
@@ -109,9 +110,6 @@ class Dynamic extends React.Component {
                 companyAddress: user_info.company_address,
                 companyBusiness: user_info.company_business,
                 package: "",
-                language: this.props.locale,
-                timezone: "",
-                currency: "",
                 notiNewRequest: false,
                 notiCompany: false,
                 notiCommunity: false,
@@ -126,10 +124,19 @@ class Dynamic extends React.Component {
                 private: "only",
                 permission: [],
                 notiRole: [],
+                currency: "VND",
+                language: {
+                  languageId: "english",
+                  locale: "en",
+                  name: "English",
+                  icon: "us"
+                },
+                timezone: "",
                 notiLogin: false,
                 createdAt: new Date().toISOString(),
                 companyActive: true,
-                status: ""
+                status: "",
+                type: "company"
               };
               firebase
                 .app("FirebaseApp")
@@ -253,7 +260,6 @@ class Dynamic extends React.Component {
     }
     return e && e.fileList;
   };
-
   onUploadImage = id => {
     firebase
       .storage()
@@ -283,32 +289,82 @@ class Dynamic extends React.Component {
         console.log(err);
       });
   };
-
-  onLockMember = id => {
-    firebase
-      .firestore()
-      .collection("users")
-      .doc(id)
-      .update({
-        status: "lock",
-        display: false
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  onLockMember = data => {
+    if (data.type === "company") {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(data.key)
+        .update({
+          status: "lock",
+          display: false
+        })
+        .then(res => {
+          const lockAuth = firebase
+            .app("FirebaseApp")
+            .functions()
+            .httpsCallable("lockAuth");
+          lockAuth(data.key);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(data.key)
+        .update({
+          status: "lock",
+          display: false
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   };
-  onDeleteMember = id => {
-    firebase
-      .firestore()
-      .collection("users")
-      .doc(id)
-      .update({
-        status: "deleted",
-        display: false
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  onDeleteMember = data => {
+    if (data.type === "company") {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(data.key)
+        .update({
+          status: "deleted",
+          display: false
+        })
+        .then(res => {
+          const lockAuth = firebase
+            .app("FirebaseApp")
+            .functions()
+            .httpsCallable("lockAuth");
+          lockAuth(data.key);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(data.key)
+        .update({
+          status: "",
+          display: false,
+          companyId: "",
+          companyBrand: "",
+          companyAddress: "",
+          companyBusiness: "",
+          companyCity: "",
+          companyDistrict: "",
+          companyLogo: "",
+          companyName: "",
+          companyNation: ""
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   };
   onUnLockMember = id => {
     firebase
@@ -318,6 +374,13 @@ class Dynamic extends React.Component {
       .update({
         status: "",
         display: false
+      })
+      .then(res => {
+        const unlockAuth = firebase
+          .app("FirebaseApp")
+          .functions()
+          .httpsCallable("unlockAuth");
+        unlockAuth(id);
       })
       .catch(err => {
         console.log(err);
@@ -347,7 +410,6 @@ class Dynamic extends React.Component {
         console.log(err);
       });
   };
-
   onAcceptMember = data => {
     firebase
       .firestore()
@@ -378,6 +440,13 @@ class Dynamic extends React.Component {
         rcEmail: firebase.firestore.FieldValue.delete(),
         position: data.position
       })
+      .then(res => {
+        notificationPop(
+          "success",
+          "Xác nhận thành công!",
+          "Bạn đã xác nhận tài khoản thành công. Tài khoản này sẽ được thêm vào danh sách nhân viên công ty của bạn"
+        );
+      })
       .catch(err => {
         console.log(err);
       });
@@ -400,7 +469,8 @@ class Dynamic extends React.Component {
             phone: doc.phone || " - ",
             memberStatus: doc.status,
             company_id: doc.companyId,
-            permission: doc.permission || null
+            permission: doc.permission || null,
+            type: doc.type || ""
           });
         }
       });
@@ -497,29 +567,31 @@ class Dynamic extends React.Component {
         render: (tag, record) => {
           let color, type, text;
           if (record.status === true) {
-            text = "Show";
+            text = <IntlMessages id="employee.show" />;
             color = "#04B431";
             // mess = "This employee is displayed on company's contact info";
             type = "check";
           } else {
-            text = "Hide";
+            text = <IntlMessages id="employee.hide" />;
             color = "grey";
             // mess = "This employee is not displayed on company's contact info";
             type = "close";
           }
           return (
             <Popconfirm
-              title="Bạn có chắc chắn muốn thay đổi hiển thị tài khoản này?"
+              title={<IntlMessages id="employee.show.confirm" />}
               onConfirm={() => this.onChangeDisplayToShow(record)}
             >
-              <Icon type={type} style={{ color: color }} />{" "}
-              <span
-                className="cursor-pointer"
-                style={{ color: color }}
-                key={record.key}
-              >
-                {text.toUpperCase()}
-              </span>
+              <Tooltip title={<IntlMessages id="management.member.display" />}>
+                <Icon type={type} style={{ color: color }} />{" "}
+                <span
+                  className="cursor-pointer"
+                  style={{ color: color }}
+                  key={record.key}
+                >
+                  {text}
+                </span>
+              </Tooltip>
             </Popconfirm>
           );
         }
@@ -548,7 +620,7 @@ class Dynamic extends React.Component {
                 </span>
                 <span className="gx-link" style={{ marginLeft: 15 }}>
                   <Popconfirm
-                    onConfirm={() => this.onLockMember(record.key)}
+                    onConfirm={() => this.onLockMember(record)}
                     onCancel={this.cancel}
                     title={<IntlMessages id="management.member.lock.title" />}
                   >
@@ -565,7 +637,7 @@ class Dynamic extends React.Component {
                 </span>
                 <span className="gx-link" style={{ marginLeft: 15 }}>
                   <Popconfirm
-                    onConfirm={() => this.onDeleteMember(record.key)}
+                    onConfirm={() => this.onDeleteMember(record)}
                     onCancel={this.cancel}
                     title={<IntlMessages id="deleteConfirm.employee" />}
                   >
@@ -601,7 +673,8 @@ class Dynamic extends React.Component {
                   >
                     <Tooltip placement="topLeft" title="Unlock">
                       <span>
-                        <Icon type="lock" theme="filled" /> Unlock
+                        <Icon type="lock" theme="filled" />{" "}
+                        <IntlMessages id="unlock" />
                       </span>
                     </Tooltip>
                   </Popconfirm>
@@ -624,48 +697,28 @@ class Dynamic extends React.Component {
                   </Popconfirm>
                 </span>
               </Fragment>
-            ) : record.memberStatus === "" && record.position === "CEO" ? (
-              <span>
-                <span className="gx-text-grey cursor-not-allow">
-                  <Icon type="edit" theme="filled" /> <IntlMessages id="edit" />
-                </span>
-                <span
-                  className="gx-text-grey cursor-not-allow"
-                  style={{ marginLeft: 15 }}
-                >
-                  <Icon type="tool" theme="filled" />{" "}
-                  <IntlMessages id="permission" />
-                </span>
-                <span
-                  className="gx-text-grey cursor-not-allow"
-                  style={{ marginLeft: 15 }}
-                >
-                  <span>
-                    <Icon type="lock" theme="filled" />{" "}
-                    <IntlMessages id="management.member.lock" />
-                  </span>
-                </span>
-                <span
-                  className="gx-text-grey cursor-not-allow"
-                  style={{ marginLeft: 15 }}
-                >
-                  <span>
-                    <Icon type="delete" theme="filled" />{" "}
-                    <IntlMessages id="button.delete" />
-                  </span>
-                </span>
+            ) : record.position === "CEO" ? (
+              <span className="gx-link">
+                <a href={`${HOME}/user/settings`}>
+                  <Icon type="setting" />{" "}
+                  <IntlMessages id="management.member.setting" />{" "}
+                </a>
               </span>
             ) : record.memberStatus === "unverify" ? (
               <span>
-                <span
-                  className="gx-link"
-                  onClick={() => this.onAcceptMember(record)}
-                >
+                <span className="gx-link">
                   <Tooltip
                     placement="topLeft"
                     title={<IntlMessages id="submit" />}
                   >
-                    <Icon type="check" /> <IntlMessages id="submit" />
+                    <Popconfirm
+                      title={
+                        <IntlMessages id="manager.submit.employee.confirm" />
+                      }
+                      onConfirm={() => this.onAcceptMember(record)}
+                    >
+                      <Icon type="check" /> <IntlMessages id="submit" />
+                    </Popconfirm>
                   </Tooltip>
                 </span>
                 <span className="gx-link" style={{ marginLeft: 15 }}>
@@ -757,10 +810,15 @@ class Dynamic extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: "Enter employee name!"
+                          message: <IntlMessages id="rule.name.employee" />
                         }
                       ]
-                    })(<Input placeholder="Name" />)}
+                    })(
+                      <Input
+                        disabled={this.state.loadingCreate}
+                        placeholder="Name"
+                      />
+                    )}
                   </FormItem>
                   <FormItem
                     {...formItemLayout}
@@ -770,10 +828,15 @@ class Dynamic extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: "Enter employee email!"
+                          message: <IntlMessages id="rule.email.employee" />
                         }
                       ]
-                    })(<Input placeholder="Email" />)}
+                    })(
+                      <Input
+                        disabled={this.state.loadingCreate}
+                        placeholder="Email"
+                      />
+                    )}
                   </FormItem>
                   <FormItem
                     {...formItemLayout}
@@ -783,11 +846,17 @@ class Dynamic extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: "Enter password!",
+                          message: <IntlMessages id="rule.password.employee" />,
                           min: 6
                         }
                       ]
-                    })(<Input type="password" placeholder="Password" />)}
+                    })(
+                      <Input
+                        disabled={this.state.loadingCreate}
+                        type="password"
+                        placeholder="Password"
+                      />
+                    )}
                   </FormItem>
                   <FormItem
                     {...formItemLayout}
@@ -797,12 +866,17 @@ class Dynamic extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: "Enter employee phone number!",
+                          message: <IntlMessages id="rule.phone.employee" />,
                           min: 7,
                           max: 20
                         }
                       ]
-                    })(<Input placeholder="Số điện thoại" />)}
+                    })(
+                      <Input
+                        disabled={this.state.loadingCreate}
+                        placeholder="Số điện thoại"
+                      />
+                    )}
                   </FormItem>
                 </Col>
                 <Col span={12}>
@@ -814,14 +888,21 @@ class Dynamic extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: "Enter employee position!"
+                          message: <IntlMessages id="rule.position.employee" />
                         }
                       ]
                     })(
-                      <Select placeholder="Vị trí">
-                        <Option value="Manager">Manager</Option>
+                      <Select
+                        disabled={this.state.loadingCreate}
+                        placeholder="Vị trí"
+                      >
+                        <Option value="Manager">
+                          <IntlMessages id="manager" />
+                        </Option>
+                        <Option value="Saler">
+                          <IntlMessages id="seller" />
+                        </Option>
                         <Option value="Marketing">Marketing</Option>
-                        <Option value="Saler">Saler</Option>
                       </Select>
                     )}
                   </FormItem>
@@ -833,10 +914,15 @@ class Dynamic extends React.Component {
                       rules: [
                         {
                           required: true,
-                          message: "Enter your company license number!"
+                          message: <IntlMessages id="rule.display.employee" />
                         }
                       ]
-                    })(<Switch />)}
+                    })(
+                      <Switch
+                        disabled={this.state.loadingCreate}
+                        defaultChecked={false}
+                      />
+                    )}
                   </FormItem>
                   <FormItem
                     {...formItemLayout}
@@ -853,7 +939,10 @@ class Dynamic extends React.Component {
                       ]
                     })(
                       <Upload {...props}>
-                        <Button className="m-0-i">
+                        <Button
+                          disabled={this.state.loadingCreate}
+                          className="m-0-i"
+                        >
                           <Icon type="upload" />{" "}
                           <IntlMessages id="clickToUpload" />
                         </Button>
@@ -906,29 +995,44 @@ class Dynamic extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: "Enter employee position!"
+                      message: <IntlMessages id="rule.position.employee" />
                     }
                   ]
                 })(
-                  <Select placeholder="Vị trí" defaultValue="Manager">
-                    <Option value="Manager">Manager</Option>
+                  <Select
+                    disabled={this.state.loadingEdit}
+                    placeholder="Vị trí"
+                  >
+                    <Option value="Manager">
+                      <IntlMessages id="manager" />
+                    </Option>
+                    <Option value="Saler">
+                      <IntlMessages id="seller" />
+                    </Option>
                     <Option value="Marketing">Marketing</Option>
-                    <Option value="Saler">Saler</Option>
                   </Select>
                 )}
               </FormItem>
-              <FormItem
-                {...formItemLayout}
-                label={<IntlMessages id="appModule.password" />}
-              >
-                {getFieldDecorator("employee_password", {
-                  rules: [
-                    {
-                      message: "Enter your password!"
-                    }
-                  ]
-                })(<Input placeholder="Password" />)}
-              </FormItem>
+              {this.state.editItem.type === "company" && (
+                <FormItem
+                  {...formItemLayout}
+                  label={<IntlMessages id="appModule.password" />}
+                >
+                  {getFieldDecorator("employee_password", {
+                    rules: [
+                      {
+                        message: <IntlMessages id="rule.password.employee" />
+                      }
+                    ]
+                  })(
+                    <Input
+                      disabled={this.state.loadingEdit}
+                      type="password"
+                      placeholder="Password"
+                    />
+                  )}
+                </FormItem>
+              )}
               <FormItem
                 {...formItemLayout}
                 label={<IntlMessages id="employee.display" />}
@@ -937,10 +1041,15 @@ class Dynamic extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: "Select display member!"
+                      message: <IntlMessages id="rule.display.employee" />
                     }
                   ]
-                })(<Switch />)}
+                })(
+                  <Switch
+                    disabled={this.state.loadingEdit}
+                    defaultChecked={false}
+                  />
+                )}
                 <br />
                 <span className="gx-text-grey">
                   <IntlMessages id="management.member.display.employee" />
@@ -1001,7 +1110,7 @@ export default compose(
       {
         collection: "users",
         where: [["rcId", "==", user_info.company_id]],
-        limit: 2,
+        limit: 5,
         storeAs: "membersVerify"
       }
     ];

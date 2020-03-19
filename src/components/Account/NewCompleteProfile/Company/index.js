@@ -19,6 +19,8 @@ import {
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import { Redirect } from "react-router-dom";
 import firebase from "firebase/firebaseAcc";
+import { notificationPop } from "util/Notification";
+import IntlMessages from "util/IntlMessages";
 
 const FormItem = Form.Item;
 const formItemLayout = {
@@ -94,7 +96,6 @@ class Company extends Component {
     fileList: [],
     imageFile: false,
     typeAccount: null,
-    linkRe: false,
     company: {
       address: null,
       brandname: null,
@@ -115,6 +116,11 @@ class Company extends Component {
   };
   handleSubmitCompany = e => {
     e.preventDefault();
+    notificationPop(
+      "success",
+      "Tạo công ty thành công!",
+      "Bạn đã tạo công ty thành công! Hãy tiếp tục xác minh công ty để được phê duyệt hoạt động tại Travel Connect"
+    );
     this.props.form.validateFields((err, values) => {
       if (!err) {
         let establish = this.state.establish ? this.state.establish : "";
@@ -147,9 +153,6 @@ class Company extends Component {
   onSendDataPerson = async () => {
     await this.props.actCreateCompanySDK(this.state.company);
     this.props.actUpdatePositionSDK();
-    this.setState({
-      linkRe: true
-    });
   };
 
   onChangeEstablish = (date, dateString) => {
@@ -188,23 +191,23 @@ class Company extends Component {
     const { getFieldDecorator } = this.props.form;
     let { business } = this.state;
     const filteredOptions = OPTIONS.filter(o => !business.includes(o));
-
     return (
       <div className="block_shadow">
-        {this.state.linkRe ? <Redirect to="/verification" /> : null}
-        <WidgetHeader title="Hoàn thiện hồ sơ" />
+        <WidgetHeader title={<IntlMessages id="account.personal.title" />} />
         <Row className="p-v-6">
           <Col xl={8} lg={8} md={8} sm={24} xs={24}>
             <div>
               <div>
-                <h3 className="m-b-10">Đại diện công ty</h3>
+                <h3 className="m-b-10">
+                  <IntlMessages id="cp.company.title" />
+                </h3>
                 <p>
-                  <Icon type="check-circle" /> Tham gia các hoạt động, mua bán,
-                  sự kiện trên sàn.
+                  <Icon type="check-circle" />{" "}
+                  <IntlMessages id="cp.company.text1" />
                 </p>
                 <p>
-                  <Icon type="check-circle" /> Yêu cầu có giấy phép hoạt động
-                  kinh doanh, chứng nhận,...
+                  <Icon type="check-circle" />{" "}
+                  <IntlMessages id="cp.company.text2" />
                 </p>
               </div>
             </div>
@@ -212,12 +215,15 @@ class Company extends Component {
           <Col xl={16} lg={16} md={16} sm={24} xs={24}>
             <div style={{ borderLeft: "1px solid rgba(0, 0, 0, 0.125)" }}>
               <Form onSubmit={this.handleSubmitCompany}>
-                <FormItem {...formItemLayout} label="Lĩnh vực">
+                <FormItem
+                  {...formItemLayout}
+                  label={<IntlMessages id="cp.company.business" />}
+                >
                   {getFieldDecorator("company_business", {
                     rules: [
                       {
                         required: true,
-                        message: "Enter your company business!"
+                        message: <IntlMessages id="cp.company.business.rule" />
                       }
                     ]
                   })(
@@ -235,22 +241,28 @@ class Company extends Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem {...formItemLayout} label="Tên công ty">
+                <FormItem
+                  {...formItemLayout}
+                  label={<IntlMessages id="companyName" />}
+                >
                   {getFieldDecorator("company_name", {
                     rules: [
                       {
                         required: true,
-                        message: "Enter your company name!"
+                        message: <IntlMessages id="cp.company.name.rule" />
                       }
                     ]
                   })(<Input placeholder="Tên công ty" />)}
                 </FormItem>
-                <FormItem {...formItemLayout} label="Tên thương hiệu">
+                <FormItem
+                  {...formItemLayout}
+                  label={<IntlMessages id="brandname" />}
+                >
                   {getFieldDecorator("company_brandname", {
                     rules: [
                       {
                         required: true,
-                        message: "Enter your company brand name!"
+                        message: <IntlMessages id="cp.company.brand.rule" />
                       }
                     ]
                   })(<Input placeholder="Tên thương hiệu" />)}
@@ -259,30 +271,39 @@ class Company extends Component {
                   {getFieldDecorator("company_email", {
                     rules: [
                       {
+                        type: "email",
+                        message: <IntlMessages id="cp.company.email.rule1" />
+                      },
+                      {
                         required: true,
-                        message: "Enter your company email!"
+                        message: <IntlMessages id="cp.company.email.rule2" />
                       }
                     ]
                   })(<Input placeholder="Email" />)}
                 </FormItem>
-                <FormItem {...formItemLayout} label="Số điện thoại">
+                <FormItem {...formItemLayout} label={<IntlMessages id="tel" />}>
                   {getFieldDecorator("company_phone", {
                     rules: [
                       {
                         required: true,
-                        message: "Enter your company phone number!",
+                        message: <IntlMessages id="cp.company.phone.rule" />,
                         min: 7,
                         max: 20
                       }
                     ]
                   })(<Input placeholder="Số điện thoại" />)}
                 </FormItem>
-                <FormItem {...formItemLayout} label="Quốc gia">
+                <FormItem
+                  {...formItemLayout}
+                  label={
+                    <IntlMessages id="account.profile.edit.information.address.update.companynation" />
+                  }
+                >
                   {getFieldDecorator("company_nation", {
                     rules: [
                       {
                         required: true,
-                        message: "Enter your company nation!"
+                        message: <IntlMessages id="cp.company.nation.rule" />
                       }
                     ]
                   })(
@@ -293,7 +314,12 @@ class Company extends Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem {...formItemLayout} label="Quận/ Huyện">
+                <FormItem
+                  {...formItemLayout}
+                  label={
+                    <IntlMessages id="account.profile.edit.information.address.update.companydistrict" />
+                  }
+                >
                   {getFieldDecorator("company_district", {
                     rules: [
                       {
@@ -305,22 +331,28 @@ class Company extends Component {
                     <Cascader placeholder="Quận/ Huyện" options={residences} />
                   )}
                 </FormItem>
-                <FormItem {...formItemLayout} label="Địa chỉ">
+                <FormItem
+                  {...formItemLayout}
+                  label={<IntlMessages id="step.information.address" />}
+                >
                   {getFieldDecorator("company_address", {
                     rules: [
                       {
                         required: true,
-                        message: "Enter your company address!"
+                        message: <IntlMessages id="cp.company.address.rule" />
                       }
                     ]
                   })(<Input placeholder="Địa chỉ" />)}
                 </FormItem>
-                <FormItem {...formItemLayout} label="Ngày thành lập">
+                <FormItem
+                  {...formItemLayout}
+                  label={<IntlMessages id="step.information.foundingday" />}
+                >
                   {getFieldDecorator("company_establish", {
                     rules: [
                       {
                         required: true,
-                        message: "Enter your company establish day!"
+                        message: <IntlMessages id="cp.company.establish.rule" />
                       }
                     ]
                   })(
@@ -331,12 +363,15 @@ class Company extends Component {
                     />
                   )}
                 </FormItem>
-                <FormItem {...formItemLayout} label="Thị trường">
+                <FormItem
+                  {...formItemLayout}
+                  label={<IntlMessages id="cp.company.target" />}
+                >
                   {getFieldDecorator("company_target", {
                     rules: [
                       {
                         required: true,
-                        message: "Enter your company target!"
+                        message: <IntlMessages id="cp.company.target.rule" />
                       }
                     ]
                   })(<Input placeholder="Thị trường mục tiêu" />)}
@@ -355,7 +390,7 @@ class Company extends Component {
                     style={{ marginBottom: "0 !important" }}
                     onClick={() => this.onUpload()}
                   >
-                    Next
+                    <IntlMessages id="button.next" />
                   </Button>
                 </div>
               </Form>

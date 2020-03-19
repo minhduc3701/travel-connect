@@ -4,6 +4,8 @@ import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import IntlMessages from "util/IntlMessages";
 import Photos from "./Photos";
 import firebase from "firebase/firebaseAcc";
+import { actSaveMedia } from "appRedux/actions/CompanyProfile";
+import { connect } from "react-redux";
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -54,38 +56,38 @@ class Media extends Component {
   };
 
   onDoneChangeMedia = () => {
-    this.onUploadImage();
+    this.props.actSaveMediaToStore(this.state.fileList);
   };
 
-  onUploadImage = async () => {
-    let user_info = JSON.parse(localStorage.getItem("user_info"));
-    await this.state.fileList.forEach(fileItem => {
-      firebase
-        .storage()
-        .ref(`/${user_info.company_id}/${Date.now().toString()}`)
-        .put(fileItem)
-        .then(res => {
-          if (res) {
-            firebase
-              .storage()
-              .ref(res.metadata.fullPath)
-              .getDownloadURL()
-              .then(url => {
-                firebase
-                  .firestore()
-                  .collection("companies")
-                  .doc(user_info.company_id)
-                  .update({
-                    medias: firebase.firestore.FieldValue.arrayUnion(url)
-                  });
-              });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    });
-  };
+  // onUploadImage = async () => {
+  //   let user_info = JSON.parse(localStorage.getItem("user_info"));
+  //   await this.state.fileList.forEach(fileItem => {
+  //     firebase
+  //       .storage()
+  //       .ref(`/${user_info.company_id}/${Date.now().toString()}`)
+  //       .put(fileItem)
+  //       .then(res => {
+  //         if (res) {
+  //           firebase
+  //             .storage()
+  //             .ref(res.metadata.fullPath)
+  //             .getDownloadURL()
+  //             .then(url => {
+  //               firebase
+  //                 .firestore()
+  //                 .collection("companies")
+  //                 .doc(user_info.company_id)
+  //                 .update({
+  //                   medias: firebase.firestore.FieldValue.arrayUnion(url)
+  //                 });
+  //             });
+  //         }
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //       });
+  //   });
+  // };
 
   render() {
     let { profile } = this.props;
@@ -220,4 +222,12 @@ class Media extends Component {
   }
 }
 
-export default Media;
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    actSaveMediaToStore: data => {
+      dispatch(actSaveMedia(data));
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Media);

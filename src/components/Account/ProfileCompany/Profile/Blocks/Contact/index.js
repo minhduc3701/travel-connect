@@ -33,14 +33,6 @@ class Contact extends React.Component {
           return <span className="gx-text-grey">{member.mJob}</span>;
         }
       }
-      // {
-      //   title: <IntlMessages id="account.profile.contact.employee.action" />,
-      //   dataIndex: "status",
-      //   key: "status",
-      //   render: (text, member) => {
-      //     return <CallContact Account={member} button_text={text} />;
-      //   }
-      // }
     ];
 
     return (

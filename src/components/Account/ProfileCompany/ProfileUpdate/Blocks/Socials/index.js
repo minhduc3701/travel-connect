@@ -10,10 +10,10 @@ class Socials extends React.Component {
   state = {
     stt_socials: false,
     social: "",
-    company_fb: null,
-    company_linkedin: null,
-    company_gitlab: null,
-    company_skype: null
+    fb: null,
+    linkedin: null,
+    gitlab: null,
+    skype: null
   };
 
   changeSocialsToEdit = () => {
@@ -35,14 +35,12 @@ class Socials extends React.Component {
   onSaveSocial = () => {
     let { profile } = this.props;
     this.props.actSaveData({
-      company_fb: this.state.fb ? this.state.fb : profile.company_fb,
-      company_linkedin: this.state.linkedin
+      fb: this.state.fb ? this.state.fb : profile.company_fb,
+      linkedin: this.state.linkedin
         ? this.state.linkedin
         : profile.company_linkedin,
-      company_gitlab: this.state.gitlab
-        ? this.state.gitlab
-        : profile.company_gitlab,
-      company_skype: this.state.skype ? this.state.skype : profile.company_skype
+      gitlab: this.state.gitlab ? this.state.gitlab : profile.company_gitlab,
+      skype: this.state.skype ? this.state.skype : profile.company_skype
     });
   };
 

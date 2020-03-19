@@ -28,19 +28,20 @@ class Info extends React.Component {
     loading: false,
     stt_address: false,
     website: {
-      company_website: null
+      website: null
     },
     address: {
-      company_district: null,
-      company_address: null,
-      company_city: null,
-      company_nation: null
+      district: null,
+      address: null,
+      city: null,
+      nation: null
     },
     districtUpdate: null,
     addressUpdate: null,
     cityUpdate: null,
     nationUpdate: null,
-    district: ""
+    district: "",
+    cityPicked: ""
   };
 
   handleSubmit = e => {
@@ -50,24 +51,20 @@ class Info extends React.Component {
         this.setState(
           {
             address: {
-              company_district: this.state.district,
-              company_address: values.company_address,
-              company_city: "",
-              company_nation: values.company_nation
+              district: this.state.district,
+              address: values.company_address,
+              city: "",
+              nation: values.company_nation
             },
             loading: true
           },
           () => this.props.actSaveDataAddress(this.state.address)
         );
         setTimeout(() => {
-          this.setState(
-            {
-              stt_address: false,
-              loading: false
-            }
-            // () => this.props.actSendRequestToServer(this.state.requestChange)
-          );
-          notiChange("success", "Send message success!");
+          this.setState({
+            stt_address: false,
+            loading: false
+          });
         }, 1500);
       }
     });
@@ -101,7 +98,7 @@ class Info extends React.Component {
     let value = target.value;
     this.setState({
       website: {
-        company_website: value
+        website: value
       }
     });
   };
@@ -117,7 +114,7 @@ class Info extends React.Component {
 
   onSaveData = () => {
     let { profile } = this.props.profile;
-    let websiteResult = this.state.website.company_website
+    let websiteResult = this.state.website.website
       ? this.state.website
       : profile.company_website;
     this.props.actSaveData(websiteResult);
@@ -126,7 +123,6 @@ class Info extends React.Component {
     this.setState({ district });
   };
   onDestinationChange = e => {
-    // console.log(e);
     this.setState({
       district: e
     });
@@ -139,7 +135,9 @@ class Info extends React.Component {
       bussLength = profile.company_business.length - 1;
     }
     let src = `https://${
-      this.state.website ? this.state.website : profile.company_website
+      this.state.website.website
+        ? this.state.website.website
+        : profile.company_website
     }`;
     return (
       <div className="p-t-4">
@@ -168,12 +166,12 @@ class Info extends React.Component {
           >
             <h5 className=" gx-text-grey">
               <Icon type="environment" className="p-r-3" />
-              {this.state.address.company_city
-                ? this.state.address.company_city
+              {this.state.address.city
+                ? this.state.address.city
                 : profile.company_city}
               ,{" "}
-              {this.state.address.company_nation
-                ? this.state.address.company_nation
+              {this.state.address.nation
+                ? this.state.address.nation
                 : profile.company_nation}
             </h5>
             <div className="m-l-1" onClick={() => this.changeAddressToEdit()}>
@@ -264,21 +262,6 @@ class Info extends React.Component {
                       </Col>
                       <Col xs={24} sm={24} md={18} lg={18} xl={18}>
                         <FormItem {...formItemLayout}>
-                          {/* {getFieldDecorator("company_district", {
-                            rules: [
-                              {
-                                required: true,
-                                message: (
-                                  <IntlMessages id="account.profile.edit.information.address.update.companydistrict.msg.error" />
-                                )
-                              }
-                            ]
-                          })(
-                            <Cascader
-                              placeholder="District"
-                              options={residences}
-                            />
-                          )} */}
                           <PlacesAutocomplete
                             value={this.state.district}
                             onChange={this.handleChange}
@@ -349,13 +332,7 @@ class Info extends React.Component {
                                 )
                               }
                             ]
-                          })(
-                            <Input
-                              placeholder="Address"
-                              // name="addressUpdate"
-                              // onChange={this.onChangeAddress}
-                            />
-                          )}
+                          })(<Input placeholder="Address" />)}
                         </FormItem>
                       </Col>
                     </Row>
@@ -387,7 +364,7 @@ class Info extends React.Component {
               </Modal>
             </div>
           </Col>
-          <Col xl={12} lg={12} md={12} sm={24} xs={24}>
+          <Col xl={24} lg={24} md={24} sm={24} xs={24}>
             <h5 className=" gx-text-grey d-block  d-flex align-items-center">
               <Icon type="global" className="p-r-3" />
               {this.state.stt_website === false ? (
@@ -395,13 +372,13 @@ class Info extends React.Component {
                   href={src}
                   className="d-inline-block"
                   title={
-                    this.state.website.company_website
-                      ? this.state.website.company_website
+                    this.state.website.website
+                      ? this.state.website.website
                       : profile.company_website
                   }
                 >
-                  {this.state.website.company_website
-                    ? this.state.website.company_website
+                  {this.state.website.website
+                    ? this.state.website.website
                     : profile.company_website}
                 </a>
               ) : (
@@ -411,8 +388,8 @@ class Info extends React.Component {
                   size="small"
                   className="d-inline-block w-65-i"
                   defaultValue={
-                    this.state.website.company_website
-                      ? this.state.website.company_website
+                    this.state.website.website
+                      ? this.state.website.website
                       : profile.company_website
                   }
                 />

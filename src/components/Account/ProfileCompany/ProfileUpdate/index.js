@@ -25,30 +25,185 @@ import {
   actCleanReduxStore
 } from "../../../../appRedux/actions/CompanyProfile";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { compose } from "redux";
+import IntlMessages from "util/IntlMessages";
+import firebase from "firebase/firebaseAcc";
 
 class ProfileUpdate extends Component {
   state = {
-    companyId: null
+    companyId: null,
+    warningTool: true,
+    saved: false,
+    saveLoading: false
   };
 
   componentWillUnmount() {
-    let { CompanyProfile } = this.props.profile;
-    if (CompanyProfile[0]) {
-      this.props.actSendIntroToServer(CompanyProfile[0]);
-    }
-    if (CompanyProfile[1]) {
-      this.props.actSendAddressToServer(CompanyProfile[1]);
-    }
-    if (CompanyProfile[2]) {
-      this.props.actSendSocialToServer(CompanyProfile[2]);
-    }
-    if (CompanyProfile[4]) {
-      this.props.actSendWebsiteToServer(CompanyProfile[4]);
-    }
     this.props.actCleanStore();
   }
+
+  onCloseWarning = () => {
+    this.setState({
+      warningTool: false
+    });
+  };
+
+  saveData = async () => {
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    let { CompanyProfile } = this.props.profile;
+    let dataDetail = {};
+    this.setState({
+      saveLoading: true
+    });
+    let detail = [
+      CompanyProfile[0],
+      CompanyProfile[1],
+      CompanyProfile[2],
+      CompanyProfile[4]
+    ];
+    await detail.forEach(element => {
+      if (element) {
+        Object.assign(dataDetail, element);
+      }
+    });
+    {
+      CompanyProfile[6] && (await this.onSendImageLogo(CompanyProfile[6]));
+    }
+    {
+      CompanyProfile[5] &&
+        (await this.onSendImageBackground(CompanyProfile[5]));
+    }
+    {
+      CompanyProfile[3] && (await this.onUploadImageMedia(CompanyProfile[3]));
+    }
+    firebase
+      .firestore()
+      .collection("companies")
+      .doc(user_info.company_id)
+      .update(dataDetail)
+      .then(res => {
+        if (
+          CompanyProfile[0] !== null ||
+          CompanyProfile[1] !== null ||
+          CompanyProfile[2] !== null ||
+          CompanyProfile[4] !== null
+        ) {
+          this.setState({
+            saveLoading: false
+          });
+        } else {
+          setTimeout(() => {
+            this.setState({
+              saveLoading: false
+            });
+          }, 3000);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  onSendImageLogo = logo => {
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    firebase
+      .storage()
+      .ref(`/${user_info.company_id}/${Date.now().toString()}`)
+      .put(logo[0])
+      .then(res => {
+        if (res) {
+          firebase
+            .storage()
+            .ref(res.metadata.fullPath)
+            .getDownloadURL()
+            .then(url => {
+              firebase
+                .firestore()
+                .collection("companies")
+                .doc(user_info.company_id)
+                .update({
+                  logo: url
+                })
+                .then(res => {
+                  this.setState({
+                    saveLoading: false
+                  });
+                });
+            });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  onSendImageBackground = background => {
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    firebase
+      .storage()
+      .ref(`/${user_info.company_id}/${Date.now().toString()}`)
+      .put(background[0])
+      .then(res => {
+        if (res) {
+          firebase
+            .storage()
+            .ref(res.metadata.fullPath)
+            .getDownloadURL()
+            .then(url => {
+              firebase
+                .firestore()
+                .collection("companies")
+                .doc(user_info.company_id)
+                .update({
+                  background: url
+                })
+                .then(res => {
+                  this.setState({
+                    saveLoading: false
+                  });
+                });
+            });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  onUploadImageMedia = async media => {
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+    await media.forEach(fileItem => {
+      firebase
+        .storage()
+        .ref(`/${user_info.company_id}/${Date.now().toString()}`)
+        .put(fileItem)
+        .then(res => {
+          if (res) {
+            firebase
+              .storage()
+              .ref(res.metadata.fullPath)
+              .getDownloadURL()
+              .then(url => {
+                firebase
+                  .firestore()
+                  .collection("companies")
+                  .doc(user_info.company_id)
+                  .update({
+                    medias: firebase.firestore.FieldValue.arrayUnion(url)
+                  })
+                  .then(res => {
+                    this.setState({
+                      saveLoading: false
+                    });
+                  });
+              });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
+  };
 
   render() {
     let warning = false;
@@ -116,17 +271,42 @@ class ProfileUpdate extends Component {
 
     return (
       <Fragment>
+        {this.state.warningTool && (
+          <div
+            className="block d-flex-i align-items-center"
+            style={{
+              borderRadius: 10,
+              justifyContent: "space-between",
+              color: "#155724",
+              backgroundColor: "#d4edda",
+              borderColor: "#c3e6cb"
+            }}
+          >
+            <IntlMessages id="profile.preview" />
+            <Link style={{ color: "#155724" }} to="/profile">
+              <span onClick={this.onCloseWarning}>
+                <IntlMessages id="return" />
+              </span>
+            </Link>
+          </div>
+        )}
         {!isLoaded(this.props.profileData) === false &&
         !isLoaded(this.props.memberDisplay) === false &&
         user_info.company_id !== "" ? (
-          <div className="gx-profile-content">
-            <div className="block_shadow ">
+          <div className="gx-profile-content ">
+            <div
+              className={`block_shadow ${this.state.saveLoading &&
+                "disable_layer_block"}`}
+            >
               <Banner profile={requests} />
               <Navigation />
             </div>
             <Row className="m-t-3-i">
               <Col xl={16} lg={16} md={24} sm={24} xs={24}>
-                <div className="block_shadow">
+                <div
+                  className={`block_shadow ${this.state.saveLoading &&
+                    "disable_layer_block"}`}
+                >
                   <About profile={requests} />
                   <Biography profile={requests} />
                   <Contact member={mList} profile={requests} />
@@ -142,9 +322,18 @@ class ProfileUpdate extends Component {
                 </div>
               </Col>
               <Col xl={8} lg={8} md={24} sm={24} xs={24}>
-                {warning && <Processing Account={requests} />}
-
-                <div className="block_shadow">
+                {warning && (
+                  <div
+                    className={`${this.state.saveLoading &&
+                      "disable_layer_block"}`}
+                  >
+                    <Processing Account={requests} />
+                  </div>
+                )}
+                <div
+                  className={`block_shadow ${this.state.saveLoading &&
+                    "disable_layer_block"}`}
+                >
                   <Cerfiticated />
                   <StaticticGuest profile={requests} />
                   <Friends profile={requests} friendList={friendList} />
@@ -157,17 +346,33 @@ class ProfileUpdate extends Component {
         ) : user_info.company_id === "" && this.state.load === false ? (
           <Result
             status="500"
-            title="Không tìm thấy hồ sơ công ty!"
-            subTitle="Kết nối của bạn gặp vấn đề hoặc tài khoản của bạn chưa có công ty. Hãy kiểm tra lại!"
+            title={<IntlMessages id="profile.result.title" />}
+            subTitle={<IntlMessages id="profile.result.subtitle" />}
             extra={
               <Link to={{ pathname: "/profile" }}>
-                <Button type="primary">Thử lại</Button>
+                <Button type="primary">
+                  <IntlMessages id="profile.try" />
+                </Button>
               </Link>
             }
           />
         ) : (
           <CircularProgress />
         )}
+
+        <Button
+          type="primary"
+          loading={this.state.saveLoading}
+          style={{
+            position: "fixed",
+            bottom: "4em",
+            right: "2em",
+            margin: 0
+          }}
+          onClick={() => this.saveData()}
+        >
+          <IntlMessages id="general.btn.save" />
+        </Button>
       </Fragment>
     );
   }

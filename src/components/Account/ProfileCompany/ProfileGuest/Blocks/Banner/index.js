@@ -221,53 +221,56 @@ class Banner extends Component {
                 </div>
               </div>
             </Col>
-            <Col xl={18} lg={18} md={24} sm={24} xs={24} className="pos-rel">
+            <Col xl={12} lg={12} md={24} sm={24} xs={24} className="pos-rel">
               <Info Account={profile} />
             </Col>
             {user_info.company_id !== "" && (
               <Col
-                xl={24}
-                lg={24}
+                xl={6}
+                lg={6}
                 md={24}
                 sm={24}
                 xs={24}
+                style={{ alignItems: "flex-end" }}
                 className="text-align-right p-b-3 p-h-3 pos-rel box d-flex-i d-flex-wrap justify-flex-end"
               >
-                {followAct && followAct.status ? (
-                  <Button
-                    onClick={() => this.onUnFollow(profile)}
-                    className="m-b-0-i d-inline-block m-r-3-i m-t-3-i p-h-1-i"
-                  >
-                    <Icon type="book" className="p-r-1" />
-                    <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                      <IntlMessages id="account.profile.unfollow" />
-                    </span>
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={() => this.onFollow(profile)}
-                    className="m-b-0-i d-inline-block m-r-3-i m-t-3-i p-h-1-i"
-                  >
-                    <Icon type="book" className="p-r-1" />
-                    <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                      <IntlMessages id="account.profile.follow" />
-                    </span>
-                  </Button>
-                )}
-                {followAct && (
-                  <Dropdown
-                    overlay={btn_notification_menu}
-                    placement="bottomRight"
-                    className=" m-t-3-i d-inline-block"
-                  >
-                    <Button className="m-b-0-i p-h-1-i">
-                      <Icon type="bell" className="p-r-1" />
+                <Fragment>
+                  {followAct && followAct.status ? (
+                    <Button
+                      onClick={() => this.onUnFollow(profile)}
+                      className="m-b-0-i d-inline-block m-r-3-i m-t-3-i p-h-1-i"
+                    >
+                      <Icon type="book" className="p-r-1" />
                       <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                        <IntlMessages id="account.profile.notifications.get" />
+                        <IntlMessages id="account.profile.unfollow" />
                       </span>
                     </Button>
-                  </Dropdown>
-                )}
+                  ) : (
+                    <Button
+                      onClick={() => this.onFollow(profile)}
+                      className="m-b-0-i d-inline-block m-r-3-i m-t-3-i p-h-1-i"
+                    >
+                      <Icon type="book" className="p-r-1" />
+                      <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
+                        <IntlMessages id="account.profile.follow" />
+                      </span>
+                    </Button>
+                  )}
+                  {followAct && (
+                    <Dropdown
+                      overlay={btn_notification_menu}
+                      placement="bottomRight"
+                      className=" m-t-3-i d-inline-block"
+                    >
+                      <Button className="m-b-0-i p-h-1-i">
+                        <Icon type="bell" className="p-r-1" />
+                        <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
+                          <IntlMessages id="account.profile.notifications.get" />
+                        </span>
+                      </Button>
+                    </Dropdown>
+                  )}
+                </Fragment>
               </Col>
             )}
           </div>

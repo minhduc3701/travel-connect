@@ -86,7 +86,6 @@ export const notiDetail = (type, mess, text) => {
         message: mess,
         description: text
       });
-      return null;
   }
 };
 
