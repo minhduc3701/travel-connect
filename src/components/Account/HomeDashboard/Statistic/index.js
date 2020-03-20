@@ -12,7 +12,7 @@ const Statistic = ({ match }) => {
               <IntlMessages id="analysis" /> <IntlMessages id="sellData" />{" "}
             </span>
             <span className="size-1 gx-post-designation">
-              ( <IntlMessages id="today" /> 00:00 18:00 )
+              ( <IntlMessages id="today" /> {new Date().toLocaleDateString()} )
             </span>
           </div>
         }

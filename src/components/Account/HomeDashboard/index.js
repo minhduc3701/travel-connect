@@ -28,24 +28,24 @@ class HomeDashboard extends React.Component {
         <div>
           <Row>
             <Col xl={8} lg={8} md={24} sm={24} xs={24}>
-              <WelcomeCard />
+              <WelcomeCard analysis={this.props.analysisCommpany} />
               {/* <WelcomeCard Account={Account} /> */}
             </Col>
             <Col xl={16} lg={16} md={24} sm={24} xs={24}>
-              <WelcomeUser />
+              <WelcomeUser analysis={this.props.analysisCommpany} />
             </Col>
           </Row>
           <Row>
             <Col xl={16} lg={16} md={24} sm={24} xs={24}>
-              <HightLight />
-              {/* <HightLight profile={Account} /> */}
-              <Statistic />
-              <StaticticGuest />
-              <NewPartner />
+              <HightLight analysis={this.props.analysisCommpany} />
+
+              {/* <Statistic analysis={this.props.analysisCommpany} /> */}
+              <StaticticGuest analysis={this.props.analysisCommpany} />
+              <NewPartner analysis={this.props.analysisCommpany} />
             </Col>
             <Col xl={8} lg={8} md={24} sm={24} xs={24}>
               <HistoryActivities data={notiList} />
-              <AccountPackage />
+              <AccountPackage analysis={this.props.analysisCommpany} />
               <Follower />
               <InviteMember />
             </Col>
@@ -58,9 +58,10 @@ class HomeDashboard extends React.Component {
 
 // export default HomeDashboard;
 const mapStateToProps = ({ firestore }) => {
-  const { newNotification } = firestore.ordered;
+  const { newNotification, analysisCommpany } = firestore.ordered;
   return {
-    newNotification
+    newNotification,
+    analysisCommpany
   };
 };
 export default compose(
@@ -73,6 +74,11 @@ export default compose(
         // orderBy: ["createdAt", "desc"],
         limit: 6,
         storeAs: "newNotification"
+      },
+      {
+        collection: "analysis",
+        doc: user_info.company_id,
+        storeAs: "analysisCommpany"
       }
     ];
   }),

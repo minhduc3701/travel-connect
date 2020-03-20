@@ -16,6 +16,7 @@ class HightLight extends React.Component {
   render() {
     // let Account = this.props.profile;
     // let detail = Account.company_products;
+
     return (
       <Row>
         {/* {Account.company_partner ? ( */}
@@ -24,13 +25,18 @@ class HightLight extends React.Component {
             <HightLightItem
               chartPropertiesSeed={{
                 title: <IntlMessages id="numberOfPartners" />,
-                prize: "123",
-                // prize: Account.company_partner,
+                prize: this.props.analysis
+                  ? this.props.analysis[0].partners.matching
+                  : 0,
                 icon: "stats",
                 bgColor: "primary",
                 styleName: "up",
                 desc: <IntlMessages id="newPartner" />,
-                percent: "10"
+                percent: this.props.analysis
+                  ? this.props.analysis[0].daily[
+                      new Date().toLocaleDateString()
+                    ].partner
+                  : 0
               }}
               dataList={company_data}
               bind_stroke="#092453"
@@ -43,13 +49,18 @@ class HightLight extends React.Component {
             <HightLightItem
               chartPropertiesSeed={{
                 title: <IntlMessages id="numberOfProducts" />,
-                prize: "35",
-                // prize: detail.length,
+                prize: this.props.analysis
+                  ? this.props.analysis[0].products.sum
+                  : 0,
                 icon: "stats",
                 bgColor: "orange",
                 styleName: "up",
                 desc: <IntlMessages id="newProduct" />,
-                percent: "15"
+                percent: this.props.analysis
+                  ? this.props.analysis[0].daily[
+                      new Date().toLocaleDateString()
+                    ].product
+                  : 0
               }}
               dataList={company_data}
               bind_stroke="#C87000"
@@ -62,12 +73,18 @@ class HightLight extends React.Component {
             <HightLightItem
               chartPropertiesSeed={{
                 title: <IntlMessages id="numberOfTransaction" />,
-                prize: "670",
+                prize: this.props.analysis
+                  ? this.props.analysis[0].requests.sum
+                  : 0,
                 icon: "stats",
                 bgColor: "teal",
                 styleName: "up",
                 desc: <IntlMessages id="newTransaction" />,
-                percent: "57"
+                percent: this.props.analysis
+                  ? this.props.analysis[0].daily[
+                      new Date().toLocaleDateString()
+                    ].transaction
+                  : 0
               }}
               dataList={company_data}
               bind_stroke="#158765"
@@ -80,12 +97,18 @@ class HightLight extends React.Component {
             <HightLightItem
               chartPropertiesSeed={{
                 title: <IntlMessages id="numberOfAccess" />,
-                prize: "17.606",
+                prize: this.props.analysis
+                  ? this.props.analysis[0].partners.sum
+                  : 0,
                 icon: "stats",
                 bgColor: "pink",
                 styleName: "up",
                 desc: <IntlMessages id="newAccess" />,
-                percent: "689"
+                percent: this.props.analysis
+                  ? this.props.analysis[0].daily[
+                      new Date().toLocaleDateString()
+                    ].access
+                  : 0
               }}
               dataList={company_data}
               bind_stroke="#BB1258"
