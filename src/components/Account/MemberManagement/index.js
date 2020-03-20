@@ -27,7 +27,7 @@ import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import CircularProgress from "components/GlobalComponent/CircularProgress";
 import firebase from "firebase/firebaseAcc";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { HOME } from "components/Layout/Header/NavigateLink";
 
 const { Search } = Input;
@@ -57,7 +57,9 @@ class Dynamic extends React.Component {
     fileList: [],
     loadingCreate: false,
     loadingEdit: false,
-    editItem: null
+    editItem: null,
+    page: 1,
+    total: 10
   };
 
   handleSubmitCreate = e => {
@@ -290,6 +292,7 @@ class Dynamic extends React.Component {
       });
   };
   onLockMember = data => {
+    const user_info = JSON.parse(localStorage.getItem("user_info"));
     if (data.type === "company") {
       firebase
         .firestore()
@@ -322,8 +325,29 @@ class Dynamic extends React.Component {
           console.log(err);
         });
     }
+    firebase
+      .app("FirebaseB2b")
+      .collection("landtours")
+      .where(`manager.id`, "==", data.key)
+      .update({
+        avatar: user_info.user_logo,
+        id: user_info.user_id,
+        name: user_info.user_name,
+        position: user_info.user_position
+      });
+    firebase
+      .app("FirebaseB2b")
+      .collection("grouptours")
+      .where(`manager.id`, "==", data.key)
+      .update({
+        avatar: user_info.user_logo,
+        id: user_info.user_id,
+        name: user_info.user_name,
+        position: user_info.user_position
+      });
   };
   onDeleteMember = data => {
+    const user_info = JSON.parse(localStorage.getItem("user_info"));
     if (data.type === "company") {
       firebase
         .firestore()
@@ -365,6 +389,26 @@ class Dynamic extends React.Component {
           console.log(err);
         });
     }
+    firebase
+      .app("FirebaseB2b")
+      .collection("landtours")
+      .where(`manager.id`, "==", data.key)
+      .update({
+        avatar: user_info.user_logo,
+        id: user_info.user_id,
+        name: user_info.user_name,
+        position: user_info.user_position
+      });
+    firebase
+      .app("FirebaseB2b")
+      .collection("grouptours")
+      .where(`manager.id`, "==", data.key)
+      .update({
+        avatar: user_info.user_logo,
+        id: user_info.user_id,
+        name: user_info.user_name,
+        position: user_info.user_position
+      });
   };
   onUnLockMember = id => {
     firebase
@@ -457,9 +501,23 @@ class Dynamic extends React.Component {
     let data = [];
     let filterMember = null;
     let { fileList } = this.state;
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
     isLoaded(this.props.members) &&
       this.props.members.forEach(doc => {
-        if (doc.status !== "deleted") {
+        if (doc.status !== "deleted" && doc.position === "CEO") {
+          data.unshift({
+            key: doc.id || " - ",
+            name: doc.name || " - ",
+            position: doc.position || "- ",
+            status: doc.display,
+            mail: doc.email || " - ",
+            phone: doc.phone || " - ",
+            memberStatus: doc.status,
+            company_id: doc.companyId,
+            permission: doc.permission || null,
+            type: doc.type || ""
+          });
+        } else if (doc.status !== "deleted") {
           data.push({
             key: doc.id || " - ",
             name: doc.name || " - ",
@@ -753,91 +811,281 @@ class Dynamic extends React.Component {
     }
 
     return (
-      <Card
-        className="block_shadow-i"
-        title={<IntlMessages id="sidebar.home.membermanagement" />}
-      >
-        <Row>
-          <Col xl={12} lg={12} md={24} sm={24} xs={24}>
-            <Badge count={0}>
-              <Button type="primary" onClick={this.showModal}>
-                <IntlMessages id="newemployee" />
-              </Button>
-            </Badge>
-          </Col>
-          <Col xl={12} lg={12} md={24} sm={24} xs={24}>
-            <Search
-              style={{ float: "right" }}
-              placeholder="Search"
-              onSearch={value => this.setSearch(value)}
-              enterButton
-            />
-          </Col>
-        </Row>
+      <Fragment>
+        {data.map(item => {
+          if (item.position === "CEO") {
+            if (item.key !== user_info.user_id) {
+              return <Redirect to="/dashboard" />;
+            }
+          }
+        })}
+        <Card
+          className="block_shadow-i"
+          title={<IntlMessages id="sidebar.home.membermanagement" />}
+        >
+          <Row>
+            <Col xl={12} lg={12} md={24} sm={24} xs={24}>
+              <Badge count={0}>
+                <Button type="primary" onClick={this.showModal}>
+                  <IntlMessages id="newemployee" />
+                </Button>
+              </Badge>
+            </Col>
+            <Col xl={12} lg={12} md={24} sm={24} xs={24}>
+              <Search
+                style={{ float: "right" }}
+                placeholder="Search"
+                onSearch={value => this.setSearch(value)}
+                enterButton
+              />
+            </Col>
+          </Row>
 
-        <div style={{ overflow: "auto" }}>
-          {!isLoaded(this.props.members) ? (
-            <CircularProgress />
-          ) : (
-            <Table
-              bordered={true}
-              className=" gx-table-no-bordered"
-              {...this.state}
-              columns={columns}
-              dataSource={filterMember ? filterMember : data}
-              onChange={this.handleChange}
-              size="small"
-            />
-          )}
-        </div>
+          <div style={{ overflow: "auto" }}>
+            {!isLoaded(this.props.members) ? (
+              <CircularProgress />
+            ) : (
+              <Fragment>
+                <Table
+                  bordered={true}
+                  className=" gx-table-no-bordered"
+                  {...this.state}
+                  columns={columns}
+                  dataSource={filterMember ? filterMember : data}
+                  onChange={this.handleChange}
+                  size="small"
+                />
+              </Fragment>
+            )}
+          </div>
 
-        {this.state.visible ? (
-          <Modal
-            visible={this.state.visible}
-            title={<IntlMessages id="newemployee" />}
-            onCancel={this.handleCancel}
-            width={800}
-            footer={null}
-          >
-            <Form onSubmit={this.handleSubmitCreate}>
-              <Row>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={<IntlMessages id="employee.name" />}
+          {this.state.visible ? (
+            <Modal
+              visible={this.state.visible}
+              title={<IntlMessages id="newemployee" />}
+              onCancel={this.handleCancel}
+              width={800}
+              footer={null}
+            >
+              <Form onSubmit={this.handleSubmitCreate}>
+                <Row>
+                  <Col span={12}>
+                    <FormItem
+                      {...formItemLayout}
+                      label={<IntlMessages id="employee.name" />}
+                    >
+                      {getFieldDecorator("employee_name", {
+                        rules: [
+                          {
+                            required: true,
+                            message: <IntlMessages id="rule.name.employee" />
+                          }
+                        ]
+                      })(
+                        <Input
+                          disabled={this.state.loadingCreate}
+                          placeholder="Name"
+                        />
+                      )}
+                    </FormItem>
+                    <FormItem
+                      {...formItemLayout}
+                      label={<IntlMessages id="appModule.email" />}
+                    >
+                      {getFieldDecorator("employee_email", {
+                        rules: [
+                          {
+                            required: true,
+                            message: <IntlMessages id="rule.email.employee" />
+                          }
+                        ]
+                      })(
+                        <Input
+                          disabled={this.state.loadingCreate}
+                          placeholder="Email"
+                        />
+                      )}
+                    </FormItem>
+                    <FormItem
+                      {...formItemLayout}
+                      label={<IntlMessages id="appModule.password" />}
+                    >
+                      {getFieldDecorator("employee_password", {
+                        rules: [
+                          {
+                            required: true,
+                            message: (
+                              <IntlMessages id="rule.password.employee" />
+                            ),
+                            min: 6
+                          }
+                        ]
+                      })(
+                        <Input
+                          disabled={this.state.loadingCreate}
+                          type="password"
+                          placeholder="Password"
+                        />
+                      )}
+                    </FormItem>
+                    <FormItem
+                      {...formItemLayout}
+                      label={<IntlMessages id="appModule.phone" />}
+                    >
+                      {getFieldDecorator("employee_phone", {
+                        rules: [
+                          {
+                            required: true,
+                            message: <IntlMessages id="rule.phone.employee" />,
+                            min: 7,
+                            max: 20
+                          }
+                        ]
+                      })(
+                        <Input
+                          disabled={this.state.loadingCreate}
+                          placeholder="Số điện thoại"
+                        />
+                      )}
+                    </FormItem>
+                  </Col>
+                  <Col span={12}>
+                    <FormItem
+                      {...formItemLayout}
+                      label={<IntlMessages id="employee.position" />}
+                    >
+                      {getFieldDecorator("employee_position", {
+                        rules: [
+                          {
+                            required: true,
+                            message: (
+                              <IntlMessages id="rule.position.employee" />
+                            )
+                          }
+                        ]
+                      })(
+                        <Select
+                          disabled={this.state.loadingCreate}
+                          placeholder="Vị trí"
+                        >
+                          <Option value="Manager">
+                            <IntlMessages id="manager" />
+                          </Option>
+                          <Option value="Saler">
+                            <IntlMessages id="seller" />
+                          </Option>
+                          <Option value="Marketing">Marketing</Option>
+                        </Select>
+                      )}
+                    </FormItem>
+                    <FormItem
+                      {...formItemLayout}
+                      label={<IntlMessages id="employee.display" />}
+                    >
+                      {getFieldDecorator("employee_display", {
+                        rules: [
+                          {
+                            required: true,
+                            message: <IntlMessages id="rule.display.employee" />
+                          }
+                        ]
+                      })(
+                        <Switch
+                          disabled={this.state.loadingCreate}
+                          defaultChecked={false}
+                        />
+                      )}
+                    </FormItem>
+                    <FormItem
+                      {...formItemLayout}
+                      label={<IntlMessages id="avatar" />}
+                    >
+                      {getFieldDecorator("employee_avatar", {
+                        valuePropName: "fileList1",
+                        getValueFromEvent: this.normFile,
+                        rules: [
+                          {
+                            required: false,
+                            message: "Enter your company license number!"
+                          }
+                        ]
+                      })(
+                        <Upload {...props}>
+                          <Button
+                            disabled={this.state.loadingCreate}
+                            className="m-0-i"
+                          >
+                            <Icon type="upload" />{" "}
+                            <IntlMessages id="clickToUpload" />
+                          </Button>
+                        </Upload>
+                      )}
+                    </FormItem>
+                  </Col>
+                </Row>
+                <div
+                  className=" d-flex"
+                  style={{
+                    width: "100%",
+                    alignItems: "center",
+                    justifyContent: "flex-end"
+                  }}
+                >
+                  <Button
+                    onClick={this.handleCancel}
+                    style={{ marginBottom: "0 !important" }}
                   >
-                    {getFieldDecorator("employee_name", {
-                      rules: [
-                        {
-                          required: true,
-                          message: <IntlMessages id="rule.name.employee" />
-                        }
-                      ]
-                    })(
-                      <Input
-                        disabled={this.state.loadingCreate}
-                        placeholder="Name"
-                      />
-                    )}
-                  </FormItem>
-                  <FormItem
-                    {...formItemLayout}
-                    label={<IntlMessages id="appModule.email" />}
+                    <IntlMessages id="general.btn.return" />
+                  </Button>
+                  <Button
+                    htmlType="submit"
+                    type="primary"
+                    loading={this.state.loadingCreate}
+                    style={{ marginBottom: "0 !important" }}
+                    onClick={() => this.onUploadImage()}
                   >
-                    {getFieldDecorator("employee_email", {
-                      rules: [
-                        {
-                          required: true,
-                          message: <IntlMessages id="rule.email.employee" />
-                        }
-                      ]
-                    })(
-                      <Input
-                        disabled={this.state.loadingCreate}
-                        placeholder="Email"
-                      />
-                    )}
-                  </FormItem>
+                    <IntlMessages id="complete" />
+                  </Button>
+                </div>
+              </Form>
+            </Modal>
+          ) : null}
+          {this.state.visible2 ? (
+            <Modal
+              visible={this.state.visible2}
+              title={<IntlMessages id="edit" />}
+              onCancel={this.handleCancel}
+              width={600}
+              footer={null}
+            >
+              <Form onSubmit={this.handleSubmitEdit}>
+                <FormItem
+                  {...formItemLayout}
+                  label={<IntlMessages id="employee.position" />}
+                >
+                  {getFieldDecorator("employee_position", {
+                    rules: [
+                      {
+                        required: true,
+                        message: <IntlMessages id="rule.position.employee" />
+                      }
+                    ]
+                  })(
+                    <Select
+                      disabled={this.state.loadingEdit}
+                      placeholder="Vị trí"
+                    >
+                      <Option value="Manager">
+                        <IntlMessages id="manager" />
+                      </Option>
+                      <Option value="Saler">
+                        <IntlMessages id="seller" />
+                      </Option>
+                      <Option value="Marketing">Marketing</Option>
+                    </Select>
+                  )}
+                </FormItem>
+                {this.state.editItem.type === "company" && (
                   <FormItem
                     {...formItemLayout}
                     label={<IntlMessages id="appModule.password" />}
@@ -845,243 +1093,68 @@ class Dynamic extends React.Component {
                     {getFieldDecorator("employee_password", {
                       rules: [
                         {
-                          required: true,
-                          message: <IntlMessages id="rule.password.employee" />,
-                          min: 6
+                          message: <IntlMessages id="rule.password.employee" />
                         }
                       ]
                     })(
                       <Input
-                        disabled={this.state.loadingCreate}
+                        disabled={this.state.loadingEdit}
                         type="password"
                         placeholder="Password"
                       />
                     )}
                   </FormItem>
-                  <FormItem
-                    {...formItemLayout}
-                    label={<IntlMessages id="appModule.phone" />}
-                  >
-                    {getFieldDecorator("employee_phone", {
-                      rules: [
-                        {
-                          required: true,
-                          message: <IntlMessages id="rule.phone.employee" />,
-                          min: 7,
-                          max: 20
-                        }
-                      ]
-                    })(
-                      <Input
-                        disabled={this.state.loadingCreate}
-                        placeholder="Số điện thoại"
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={<IntlMessages id="employee.position" />}
-                  >
-                    {getFieldDecorator("employee_position", {
-                      rules: [
-                        {
-                          required: true,
-                          message: <IntlMessages id="rule.position.employee" />
-                        }
-                      ]
-                    })(
-                      <Select
-                        disabled={this.state.loadingCreate}
-                        placeholder="Vị trí"
-                      >
-                        <Option value="Manager">
-                          <IntlMessages id="manager" />
-                        </Option>
-                        <Option value="Saler">
-                          <IntlMessages id="seller" />
-                        </Option>
-                        <Option value="Marketing">Marketing</Option>
-                      </Select>
-                    )}
-                  </FormItem>
-                  <FormItem
-                    {...formItemLayout}
-                    label={<IntlMessages id="employee.display" />}
-                  >
-                    {getFieldDecorator("employee_display", {
-                      rules: [
-                        {
-                          required: true,
-                          message: <IntlMessages id="rule.display.employee" />
-                        }
-                      ]
-                    })(
-                      <Switch
-                        disabled={this.state.loadingCreate}
-                        defaultChecked={false}
-                      />
-                    )}
-                  </FormItem>
-                  <FormItem
-                    {...formItemLayout}
-                    label={<IntlMessages id="avatar" />}
-                  >
-                    {getFieldDecorator("employee_avatar", {
-                      valuePropName: "fileList1",
-                      getValueFromEvent: this.normFile,
-                      rules: [
-                        {
-                          required: false,
-                          message: "Enter your company license number!"
-                        }
-                      ]
-                    })(
-                      <Upload {...props}>
-                        <Button
-                          disabled={this.state.loadingCreate}
-                          className="m-0-i"
-                        >
-                          <Icon type="upload" />{" "}
-                          <IntlMessages id="clickToUpload" />
-                        </Button>
-                      </Upload>
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <div
-                className=" d-flex"
-                style={{
-                  width: "100%",
-                  alignItems: "center",
-                  justifyContent: "flex-end"
-                }}
-              >
-                <Button
-                  onClick={this.handleCancel}
-                  style={{ marginBottom: "0 !important" }}
-                >
-                  <IntlMessages id="general.btn.return" />
-                </Button>
-                <Button
-                  htmlType="submit"
-                  type="primary"
-                  loading={this.state.loadingCreate}
-                  style={{ marginBottom: "0 !important" }}
-                  onClick={() => this.onUploadImage()}
-                >
-                  <IntlMessages id="complete" />
-                </Button>
-              </div>
-            </Form>
-          </Modal>
-        ) : null}
-        {this.state.visible2 ? (
-          <Modal
-            visible={this.state.visible2}
-            title={<IntlMessages id="edit" />}
-            onCancel={this.handleCancel}
-            width={600}
-            footer={null}
-          >
-            <Form onSubmit={this.handleSubmitEdit}>
-              <FormItem
-                {...formItemLayout}
-                label={<IntlMessages id="employee.position" />}
-              >
-                {getFieldDecorator("employee_position", {
-                  rules: [
-                    {
-                      required: true,
-                      message: <IntlMessages id="rule.position.employee" />
-                    }
-                  ]
-                })(
-                  <Select
-                    disabled={this.state.loadingEdit}
-                    placeholder="Vị trí"
-                  >
-                    <Option value="Manager">
-                      <IntlMessages id="manager" />
-                    </Option>
-                    <Option value="Saler">
-                      <IntlMessages id="seller" />
-                    </Option>
-                    <Option value="Marketing">Marketing</Option>
-                  </Select>
                 )}
-              </FormItem>
-              {this.state.editItem.type === "company" && (
                 <FormItem
                   {...formItemLayout}
-                  label={<IntlMessages id="appModule.password" />}
+                  label={<IntlMessages id="employee.display" />}
                 >
-                  {getFieldDecorator("employee_password", {
+                  {getFieldDecorator("employee_display", {
                     rules: [
                       {
-                        message: <IntlMessages id="rule.password.employee" />
+                        required: true,
+                        message: <IntlMessages id="rule.display.employee" />
                       }
                     ]
                   })(
-                    <Input
+                    <Switch
                       disabled={this.state.loadingEdit}
-                      type="password"
-                      placeholder="Password"
+                      defaultChecked={false}
                     />
                   )}
+                  <br />
+                  <span className="gx-text-grey">
+                    <IntlMessages id="management.member.display.employee" />
+                  </span>
                 </FormItem>
-              )}
-              <FormItem
-                {...formItemLayout}
-                label={<IntlMessages id="employee.display" />}
-              >
-                {getFieldDecorator("employee_display", {
-                  rules: [
-                    {
-                      required: true,
-                      message: <IntlMessages id="rule.display.employee" />
-                    }
-                  ]
-                })(
-                  <Switch
-                    disabled={this.state.loadingEdit}
-                    defaultChecked={false}
-                  />
-                )}
-                <br />
-                <span className="gx-text-grey">
-                  <IntlMessages id="management.member.display.employee" />
-                </span>
-              </FormItem>
-              <div
-                className=" d-flex"
-                style={{
-                  width: "100%",
-                  alignItems: "center",
-                  justifyContent: "flex-end"
-                }}
-              >
-                <Button
-                  onClick={this.handleCancel}
-                  style={{ marginBottom: "0 !important" }}
+                <div
+                  className=" d-flex"
+                  style={{
+                    width: "100%",
+                    alignItems: "center",
+                    justifyContent: "flex-end"
+                  }}
                 >
-                  <IntlMessages id="general.btn.return" />
-                </Button>
-                <Button
-                  htmlType="submit"
-                  type="primary"
-                  loading={this.state.loadingEdit}
-                  style={{ marginBottom: "0 !important" }}
-                >
-                  <IntlMessages id="complete" />
-                </Button>
-              </div>
-            </Form>
-          </Modal>
-        ) : null}
-      </Card>
+                  <Button
+                    onClick={this.handleCancel}
+                    style={{ marginBottom: "0 !important" }}
+                  >
+                    <IntlMessages id="general.btn.return" />
+                  </Button>
+                  <Button
+                    htmlType="submit"
+                    type="primary"
+                    loading={this.state.loadingEdit}
+                    style={{ marginBottom: "0 !important" }}
+                  >
+                    <IntlMessages id="complete" />
+                  </Button>
+                </div>
+              </Form>
+            </Modal>
+          ) : null}
+        </Card>
+      </Fragment>
     );
   }
 }

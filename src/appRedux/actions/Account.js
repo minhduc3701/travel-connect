@@ -3,13 +3,25 @@ import {
   COMPANY_PROFILE_STEP3,
   COMPANY_PROFILE_STEP4,
   SAVE_LOCAL_BACKGROUND,
-  SAVE_LOCAL_LOGO
-
+  GET_PRODUCT_LAND_MEMBER_START,
+  GET_PRODUCT_LAND_MEMBER_SUCCESS,
+  GET_PRODUCT_LAND_MEMBER_ERROR,
+  GET_PRODUCT_GROUP_MEMBER_START,
+  GET_PRODUCT_GROUP_MEMBER_SUCCESS,
+  GET_PRODUCT_GROUP_MEMBER_ERROR,
+  GET_PRODUCT_NEXT_LAND_MEMBER_START,
+  GET_PRODUCT_NEXT_LAND_MEMBER_SUCCESS,
+  GET_PRODUCT_NEXT_LAND_MEMBER_ERROR,
+  GET_PRODUCT_NEXT_GROUP_MEMBER_START,
+  GET_PRODUCT_NEXT_GROUP_MEMBER_SUCCESS,
+  GET_PRODUCT_NEXT_GROUP_MEMBER_ERROR,
+  RESET_CURRENT_LIST,
+  GET_PREV_DATA_SUCCESS
   // FETCH_PROFILE_SDK_START
 } from "../../constants/ActionTypes";
 import { CallApi_USER, CallApi_ACCOUNT } from "util/CallApi";
 import { notiChange } from "util/Notification";
-// import firebase from "firebase/firebaseAcc";
+import firebase from "firebase/firebaseAcc";
 
 export const actFetchAction = profile => {
   return {
@@ -136,9 +148,192 @@ export const actSetNewImage = imageUrl => {
     imageUrl
   };
 };
-export const actSetNewAvatar = imageUrl => {
+export const actResetCurrentList = () => {
   return {
-    type: SAVE_LOCAL_LOGO,
-    imageUrl
+    type: RESET_CURRENT_LIST
+  };
+};
+
+export const getPrevPageData = data => {
+  return dispatch => {
+    dispatch({ type: GET_PREV_DATA_SUCCESS, payload: data });
+  };
+};
+
+export const getLandProductMember = (id, limit) => {
+  return dispatch => {
+    dispatch({ type: GET_PRODUCT_LAND_MEMBER_START });
+    firebase
+      .app("FirebaseB2b")
+      .firestore()
+      .collection("landtours")
+      .where(`manager.id`, "==", id)
+      .orderBy("createdAt", "desc")
+      .limit(limit ? limit : 6)
+      .get()
+      .then(doc => {
+        if (doc.docs.length < 6) {
+          let number = 6 - doc.docs.length;
+          dispatch(getGroupProductMember(id, number));
+        }
+        doc.docs.forEach(doc => {
+          let productList = [];
+          productList.push({
+            id: doc.id,
+            title: doc.data().title,
+            code: doc.data().code,
+            day: doc.data().durationDay,
+            night: doc.data().durationNight,
+            hours: doc.data().durationHours,
+            publish: doc.data().publish,
+            requests: doc.data().requests,
+            thumb: doc.data().thumbs[0].thumb,
+            status: doc.data().status,
+            verify: doc.data().verify,
+            createdAt: doc.data().createdAt,
+            type: "landtour"
+          });
+          dispatch({
+            type: GET_PRODUCT_LAND_MEMBER_SUCCESS,
+            payload: productList
+          });
+        });
+      })
+      .catch(error => {
+        dispatch({ type: GET_PRODUCT_LAND_MEMBER_ERROR, payload: error });
+      });
+  };
+};
+export const getGroupProductMember = (id, limit) => {
+  return dispatch => {
+    dispatch({ type: GET_PRODUCT_GROUP_MEMBER_START });
+    firebase
+      .app("FirebaseB2b")
+      .firestore()
+      .collection("grouptours")
+      .where(`manager.id`, "==", id)
+      .orderBy("createdAt", "desc")
+      .limit(limit ? limit : 3)
+      .get()
+      .then(doc => {
+        // if (doc.docs.length < 3) {
+        //   console.log("get");
+        //   let number = 3 - doc.docs.length;
+        //   console.log(number);
+        //   getLandProductMember(id, number);
+        // }
+        doc.docs.forEach(doc => {
+          let productGroup = [];
+          productGroup.push({
+            id: doc.id,
+            title: doc.data().title,
+            code: doc.data().code,
+            day: doc.data().durationDay,
+            night: doc.data().durationNight,
+            hours: doc.data().durationHours,
+            publish: doc.data().publish,
+            requests: doc.data().requests,
+            thumb: doc.data().thumbs[0].thumb,
+            status: doc.data().status,
+            verify: doc.data().verify,
+            createdAt: doc.data().createdAt,
+            type: "grouptour"
+          });
+          dispatch({
+            type: GET_PRODUCT_GROUP_MEMBER_SUCCESS,
+            payload: productGroup
+          });
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch({ type: GET_PRODUCT_GROUP_MEMBER_ERROR, payload: error });
+      });
+  };
+};
+export const getNextPageProductLand = (index, id, indexGroup) => {
+  return dispatch => {
+    dispatch({ type: GET_PRODUCT_NEXT_LAND_MEMBER_START });
+    firebase
+      .app("FirebaseB2b")
+      .firestore()
+      .collection("landtours")
+      .where(`manager.id`, "==", id)
+      .orderBy("createdAt", "desc")
+      .startAfter(index)
+      .limit(6)
+      .get()
+      .then(doc => {
+        if (doc.docs.length < 6) {
+          let number = 6 - doc.docs.length;
+          dispatch(getNextPageProductGroup(indexGroup, id, number));
+        }
+        doc.docs.forEach(doc => {
+          let productList = [];
+          productList.push({
+            id: doc.id,
+            title: doc.data().title,
+            code: doc.data().code,
+            day: doc.data().durationDay,
+            night: doc.data().durationNight,
+            hours: doc.data().durationHours,
+            publish: doc.data().publish,
+            requests: doc.data().requests,
+            thumb: doc.data().thumbs[0].thumb,
+            status: doc.data().status,
+            verify: doc.data().verify,
+            createdAt: doc.data().createdAt,
+            type: "landtour"
+          });
+          dispatch({
+            type: GET_PRODUCT_NEXT_LAND_MEMBER_SUCCESS,
+            payload: productList
+          });
+        });
+      })
+      .catch(error =>
+        dispatch({ type: GET_PRODUCT_NEXT_LAND_MEMBER_ERROR, payload: error })
+      );
+  };
+};
+export const getNextPageProductGroup = (index, id, limit) => {
+  return dispatch => {
+    dispatch({ type: GET_PRODUCT_NEXT_GROUP_MEMBER_START });
+    firebase
+      .app("FirebaseB2b")
+      .firestore()
+      .collection("grouptours")
+      .where(`manager.id`, "==", id)
+      .orderBy("createdAt", "desc")
+      .startAfter(index)
+      .limit(limit ? limit : 6)
+      .get()
+      .then(doc => {
+        doc.docs.forEach(doc => {
+          let productGroup = [];
+          productGroup.push({
+            id: doc.id,
+            title: doc.data().title,
+            code: doc.data().code,
+            day: doc.data().durationDay,
+            night: doc.data().durationNight,
+            hours: doc.data().durationHours,
+            publish: doc.data().publish,
+            requests: doc.data().requests,
+            thumb: doc.data().thumbs[0].thumb,
+            status: doc.data().status,
+            verify: doc.data().verify,
+            createdAt: doc.data().createdAt,
+            type: "grouptour"
+          });
+          dispatch({
+            type: GET_PRODUCT_NEXT_GROUP_MEMBER_SUCCESS,
+            payload: productGroup
+          });
+        });
+      })
+      .catch(error =>
+        dispatch({ type: GET_PRODUCT_NEXT_GROUP_MEMBER_ERROR, payload: error })
+      );
   };
 };

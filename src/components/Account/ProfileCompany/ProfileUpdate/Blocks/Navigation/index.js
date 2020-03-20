@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Menu, Icon } from "antd";
-import { Link } from "react-router-dom";
+import { Menu } from "antd";
 import IntlMessages from "util/IntlMessages";
 import { actFetchActionRequest } from "appRedux/actions/Account";
 import { connect } from "react-redux";
@@ -52,14 +51,6 @@ class Navigation extends Component {
             <a href="#nav_media">
               <IntlMessages id="account.profile.media" />
             </a>
-          </Menu.Item>
-          <Menu.Item key="edit_profile" className=" f-r">
-            <Link to="/profile">
-              <Icon type="double-left" className="m-r-1-i" />
-              <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
-                <IntlMessages id="return" />
-              </span>
-            </Link>
           </Menu.Item>
         </Menu>
       </div>

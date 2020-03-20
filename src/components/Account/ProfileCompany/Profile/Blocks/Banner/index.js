@@ -1,57 +1,16 @@
 import React, { Component } from "react";
 import { Col, Icon } from "antd";
-import { Button, Dropdown, Menu, Modal, Empty } from "antd";
+import { Button } from "antd";
 // import { Link } from "react-router-dom";
-import FollowItem from "./FollowItem";
 import Info from "./Info";
-import { firestoreConnect, isLoaded } from "react-redux-firebase";
-import { compose } from "redux";
-import { connect } from "react-redux";
 import IntlMessages from "util/IntlMessages";
+import { Link } from "react-router-dom";
 
 class Banner extends Component {
-  state = {
-    visible: false
-  };
-
-  onShowModal = () => {
-    this.setState({
-      visible: true
-    });
-  };
-
-  onHandleCancel = () => {
-    this.setState({
-      visible: false
-    });
-  };
-
   render() {
     let { profile } = this.props;
-    let fList = [];
-    const btn_notification_menu = (
-      <Menu>
-        <Menu.Item>
-          <Button
-            onClick={this.onShowModal}
-            type="link"
-            className="m-b-0-i"
-            size="small"
-          >
-            <IntlMessages id="product.list.follower" />
-          </Button>
-        </Menu.Item>
-      </Menu>
-    );
-    isLoaded(this.props.followList) &&
-      this.props.followList.forEach(doc => {
-        fList.push({
-          companyId: doc.fId,
-          companyName: doc.fBrand,
-          companyLogo: doc.fLogo,
-          status: doc.status
-        });
-      });
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
+
     return (
       <div className="m-b-5 ">
         <div className="aspect_box">
@@ -106,70 +65,34 @@ class Banner extends Component {
           <Col xl={15} lg={15} md={24} sm={24} xs={24} className="pos-rel">
             <Info Account={profile} />
           </Col>
-          <Col
-            xl={3}
-            lg={3}
-            md={24}
-            sm={24}
-            xs={24}
-            className="text-align-right p-b-3 p-h-3 pos-rel box d-flex-i d-flex-wrap justify-flex-end"
-            style={{ alignItems: "flex-end" }}
-          >
-            <Dropdown
-              overlay={btn_notification_menu}
-              placement="bottomRight"
-              className=" m-t-3-i d-inline-block"
+          {user_info.user_id === profile.company_admin && (
+            <Col
+              xl={3}
+              lg={3}
+              md={24}
+              sm={24}
+              xs={24}
+              className="text-align-right p-b-3 p-h-3 pos-rel box d-flex-i d-flex-wrap justify-flex-end"
+              style={{ alignItems: "flex-end" }}
             >
               <Button className="m-b-0-i p-h-1-i">
-                <Icon type="bars" className="p-r-1" />
-                <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0 p-r-1">
-                  <IntlMessages id="product.cat.info" />
-                </span>
+                <Link
+                  onClick={this.onUpdate}
+                  title="Update"
+                  to="/profile/update"
+                >
+                  <Icon type="edit" className="m-r-1-i" />
+                  <span className="gx-d-inline-flex gx-vertical-align-middle gx-ml-1 gx-ml-sm-0">
+                    <IntlMessages id="account.profile.edit" />
+                  </span>
+                </Link>
               </Button>
-            </Dropdown>
-          </Col>
+            </Col>
+          )}
         </div>
-        <Modal
-          title={<IntlMessages id="product.list.follower" />}
-          visible={this.state.visible}
-          onCancel={this.onHandleCancel}
-          footer={null}
-        >
-          <div style={{ maxHeight: "30em", overflow: "auto" }}>
-            {fList.length > 0 ? (
-              fList.map((item, index) => {
-                return <FollowItem key={index} data={item} />;
-              })
-            ) : (
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-            )}
-          </div>
-        </Modal>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  const { followList } = state.firestore.ordered;
-  return {
-    followList
-  };
-};
-
-export default compose(
-  firestoreConnect(props => {
-    const user_info = JSON.parse(localStorage.getItem("user_info"));
-    return [
-      {
-        collection: "follows",
-        where: [
-          ["cId", "==", user_info.company_id],
-          ["status", "==", true]
-        ],
-        storeAs: "followList"
-      }
-    ];
-  }),
-  connect(mapStateToProps, null)
-)(Banner);
+export default Banner;

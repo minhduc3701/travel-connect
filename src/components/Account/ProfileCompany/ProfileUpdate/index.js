@@ -25,7 +25,7 @@ import {
   actCleanReduxStore
 } from "../../../../appRedux/actions/CompanyProfile";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { compose } from "redux";
 import IntlMessages from "util/IntlMessages";
 import firebase from "firebase/firebaseAcc";
@@ -253,13 +253,23 @@ class ProfileUpdate extends Component {
 
     isLoaded(this.props.memberDisplay) &&
       this.props.memberDisplay.forEach(doc => {
-        mList.push({
-          mId: doc.id,
-          mJob: doc.position,
-          mName: doc.name,
-          mStatus: doc.diplay,
-          mLogo: doc.imageUrl
-        });
+        if (doc.position === "CEO") {
+          mList.unshift({
+            mId: doc.id,
+            mJob: doc.position,
+            mName: doc.name,
+            mStatus: doc.display,
+            mLogo: doc.imageUrl
+          });
+        } else {
+          mList.push({
+            mId: doc.id,
+            mJob: doc.position,
+            mName: doc.name,
+            mStatus: doc.display,
+            mLogo: doc.imageUrl
+          });
+        }
       });
     if (requests) {
       for (const key in requests) {

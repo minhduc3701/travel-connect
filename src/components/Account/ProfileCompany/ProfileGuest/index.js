@@ -96,13 +96,23 @@ class Profile extends Component {
     //   });
     isLoaded(this.props.memberDisplay) &&
       this.props.memberDisplay.forEach(doc => {
-        mList.push({
-          mId: doc.id,
-          mJob: doc.position,
-          mName: doc.name,
-          mStatus: doc.diplay,
-          mLogo: doc.imageUrl
-        });
+        if (doc.position === "CEO") {
+          mList.unshift({
+            mId: doc.id,
+            mJob: doc.position,
+            mName: doc.name,
+            mStatus: doc.display,
+            mLogo: doc.imageUrl
+          });
+        } else {
+          mList.push({
+            mId: doc.id,
+            mJob: doc.position,
+            mName: doc.name,
+            mStatus: doc.display,
+            mLogo: doc.imageUrl
+          });
+        }
       });
 
     if (requests) {
