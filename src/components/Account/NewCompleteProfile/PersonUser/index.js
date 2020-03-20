@@ -23,7 +23,6 @@ import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import { notificationPop } from "util/Notification";
 import { HOME } from "components/Layout/Header/NavigateLink";
-import { Redirect } from "react-router-dom";
 
 const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
@@ -374,7 +373,6 @@ class Company extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;
-    let user_info = JSON.parse(localStorage.getItem("user_info"));
     let cList = [];
     isLoaded(this.props.companyList) &&
       this.props.companyList.forEach(doc => {

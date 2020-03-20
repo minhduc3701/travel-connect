@@ -1,10 +1,9 @@
 import React from "react";
-import { Switch } from "react-router-dom";
 // if Have component to render, use 2 command line code below
-import { Route } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import asyncComponent from "util/asyncComponent";
 
-// let user_info = JSON.parse(localStorage.getItem("user_info"));
+let user_info = JSON.parse(localStorage.getItem("user_info"));
 const App = ({ match }) => (
   <div>
     <div
@@ -131,12 +130,16 @@ const App = ({ match }) => (
               import("../components/Account/ProfileCompany")
             )}
           />
-          <Route
-            path={`${match.url}member-management`}
-            component={asyncComponent(() =>
-              import("../components/Account/MemberManagement")
-            )}
-          />
+          {user_info.user_position === "CEO" ? (
+            <Route
+              path={`${match.url}member-management`}
+              component={asyncComponent(() =>
+                import("../components/Account/MemberManagement")
+              )}
+            />
+          ) : (
+            <Redirect to="/dashboard" />
+          )}
           <Route
             path={`${match.url}upgrade-account`}
             component={asyncComponent(() =>
@@ -150,20 +153,28 @@ const App = ({ match }) => (
               import("../components/Account/NewCompleteProfile/Personal")
             )}
           />
-          <Route
-            path={`${match.url}personal`}
-            exact
-            component={asyncComponent(() =>
-              import("../components/Account/NewCompleteProfile/PersonUser")
-            )}
-          />
-          <Route
-            path={`${match.url}create-company`}
-            exact
-            component={asyncComponent(() =>
-              import("../components/Account/NewCompleteProfile/Company")
-            )}
-          />
+          {user_info.company_id === "" ? (
+            <Route
+              path={`${match.url}personal`}
+              exact
+              component={asyncComponent(() =>
+                import("../components/Account/NewCompleteProfile/PersonUser")
+              )}
+            />
+          ) : (
+            <Redirect to="/dashboard" />
+          )}
+          {user_info.user_position === "CEO" ? (
+            <Route
+              path={`${match.url}create-company`}
+              exact
+              component={asyncComponent(() =>
+                import("../components/Account/NewCompleteProfile/Company")
+              )}
+            />
+          ) : (
+            <Redirect to="/dashboard" />
+          )}
           <Route
             path={`${match.url}company/:id`}
             exact

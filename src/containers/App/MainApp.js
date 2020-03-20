@@ -161,11 +161,12 @@ export class MainApp extends Component {
         <Layout>
           {this.getNavStyles(navStyle)}
           <Content
-            className={`gx-layout-content ${this.getContainerClass(navStyle)} `}
+            className={` gx-layout-content ${this.getContainerClass(
+              navStyle
+            )} `}
           >
             <App match={match} />
-
-            <Footer>
+            <Footer className="footer">
               <div className="gx-layout-footer-content">{footerText}</div>
             </Footer>
           </Content>

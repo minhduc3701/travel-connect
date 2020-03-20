@@ -10,6 +10,7 @@ import IntlMessages from "util/IntlMessages";
 import { notificationPop } from "util/Notification";
 import Product from "./Product";
 import { Link } from "react-router-dom";
+import { actResetCurrentList } from "appRedux/actions/Account";
 
 const { TabPane } = Tabs;
 
@@ -21,7 +22,6 @@ class Profile extends Component {
   };
 
   userStatusDisplay = status => {
-    console.log(status);
     switch (status) {
       case "lock":
         return (
@@ -37,12 +37,19 @@ class Profile extends Component {
             <IntlMessages id={`member.status.${status}`} />
           </li>
         );
+      case "unverify":
+        return (
+          <li className="p-b-2">
+            <IntlMessages id="general.default.account" /> :{" "}
+            <IntlMessages id={`member.status.${status}`} />
+          </li>
+        );
 
       default:
         return (
           <li className="p-b-2">
             <IntlMessages id="general.default.account" /> :{" "}
-            <IntlMessages id={`member.status.${status}`} />
+            <IntlMessages id={`member.status`} />
           </li>
         );
     }
@@ -79,7 +86,7 @@ class Profile extends Component {
           user_logo: doc.imageUrl || " - ",
           user_city: doc.city || " - ",
           user_nation: doc.nation || " - ",
-          user_website: doc.website || " - ",
+          user_gender: doc.gender || " - ",
           user_address: doc.address || " - ",
           user_email: doc.email || " - ",
           user_birth: doc.birth || " - ",
@@ -94,6 +101,7 @@ class Profile extends Component {
             <div>
               <Link to="/member-management">
                 <Button
+                  onClick={() => this.props.actResetCurrentList()}
                   style={{ float: "right", marginRight: "2em" }}
                   type="primary"
                 >
@@ -162,7 +170,10 @@ class Profile extends Component {
                       <IntlMessages id="City" /> : {requests.user_city}
                     </li>
                     <li className="p-b-2">Email : {requests.user_email}</li>
-                    <li className="p-b-2">Website : {requests.user_website}</li>
+                    <li className="p-b-2">
+                      <IntlMessages id="gender" /> :{" "}
+                      <IntlMessages id={requests.user_gender} />
+                    </li>
                     <li className="p-b-2">
                       <IntlMessages id="employee.display" />:{" "}
                       <Switch
@@ -223,5 +234,5 @@ export default compose(
       }
     ];
   }),
-  connect(mapStateToProps, null)
+  connect(mapStateToProps, { actResetCurrentList })
 )(Profile);

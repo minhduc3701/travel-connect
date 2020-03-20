@@ -664,7 +664,8 @@
   "verifyConfirm": "Bạn có chắc chắn muốn xét duyệt sản phẩm",
   "member.status.lock": "Đang khóa",
   "member.status.deleted": "Đã xóa",
-  "member.status.": "Hoạt động",
+  "member.status": "Hoạt động",
+  "member.status.unverify": "Chưa xác nhận",
 
   "__general": "------------------------------------------------------------------------------------",
   "general.default.home": "Trang chủ",

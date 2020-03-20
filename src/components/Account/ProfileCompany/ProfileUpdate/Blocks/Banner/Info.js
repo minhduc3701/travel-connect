@@ -1,5 +1,4 @@
 import React from "react";
-import { notiChange } from "util/Notification";
 import { Col, Icon, Row, Select, Input, Modal, Form, Button } from "antd";
 import IntlMessages from "util/IntlMessages";
 import {

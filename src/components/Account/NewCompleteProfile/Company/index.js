@@ -17,7 +17,6 @@ import {
   PositionUserSDK
 } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
-import { Redirect } from "react-router-dom";
 import firebase from "firebase/firebaseAcc";
 import { notificationPop } from "util/Notification";
 import IntlMessages from "util/IntlMessages";

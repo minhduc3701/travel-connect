@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Icon, Upload } from "antd";
 // import { notiChange } from "util/Notification";
 import { actChangeBackground } from "appRedux/actions/CompanyProfile";
-import firebaseAcc from "firebase/firebaseAcc";
 import { connect } from "react-redux";
 
 class BannerBackground extends Component {

@@ -26,13 +26,13 @@ body {
   -ms-flex-direction: column;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-          flex-direction: column;
+  flex-direction: column;
   -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
   -ms-justify-content: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 .loading {
@@ -176,14 +176,14 @@ body {
 .guide-layout {
   border-radius: 10px;
   -webkit-box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
-          box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
 }
 
 .help-card .gx-package:hover {
   -webkit-transform: scale(0.95) !important;
-          transform: scale(0.95) !important;
+  transform: scale(0.95) !important;
   -webkit-box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03) !important;
-          box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03) !important;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03) !important;
 }
 
 .icon-green {
@@ -198,7 +198,7 @@ body {
   right: 1em;
   top: 50%;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .header-upgrade {
@@ -284,7 +284,7 @@ body {
 
 .travel-layer {
   -webkit-transform: rotate(-8deg) skew(20deg) scale(0.6) translate(0, 25px);
-          transform: rotate(-8deg) skew(20deg) scale(0.6) translate(0, 25px);
+  transform: rotate(-8deg) skew(20deg) scale(0.6) translate(0, 25px);
   -webkit-transition: 0.5s;
   transition: 0.5s;
   position: relative;
@@ -307,37 +307,37 @@ body {
 
 .travel-layer-item:hover span:nth-child(1) {
   -webkit-transform: translate(3px, -3px);
-          transform: translate(3px, -3px);
+  transform: translate(3px, -3px);
   opacity: 1;
 }
 
 .travel-layer-item:hover span:nth-child(2) {
   -webkit-transform: translate(6px, -6px);
-          transform: translate(6px, -6px);
+  transform: translate(6px, -6px);
   opacity: 0.8;
 }
 
 .travel-layer-item:hover span:nth-child(3) {
   -webkit-transform: translate(9px, -9px);
-          transform: translate(9px, -9px);
+  transform: translate(9px, -9px);
   opacity: 0.6;
 }
 
 .travel-layer-item:hover span:nth-child(4) {
   -webkit-transform: translate(12px, -12px);
-          transform: translate(12px, -12px);
+  transform: translate(12px, -12px);
   opacity: 0.4;
 }
 
 /* ---------- temp ----------- */
 .filter-blur-1 {
   -webkit-filter: blur(1px);
-          filter: blur(1px);
+  filter: blur(1px);
 }
 
 .filter-blur-2 {
   -webkit-filter: blur(2px);
-          filter: blur(2px);
+  filter: blur(2px);
 }
 
 .wrap-money-on-image {
@@ -389,13 +389,13 @@ body {
 .hover-scale:hover {
   cursor: pointer;
   -webkit-transform: scale(1.1);
-          transform: scale(1.1);
+  transform: scale(1.1);
   z-index: 2;
 }
 
 .hover-drop-shadow:hover {
   -webkit-filter: drop-shadow(2px 4px 6px #00000038);
-          filter: drop-shadow(2px 4px 6px #00000038);
+  filter: drop-shadow(2px 4px 6px #00000038);
 }
 
 .gx-purple-gradient {
@@ -436,14 +436,16 @@ body {
 }
 
 .p-0-content-box
-> .ant-collapse-item
-> .ant-collapse-content
-> .ant-collapse-content-box {
+  > .ant-collapse-item
+  > .ant-collapse-content
+  > .ant-collapse-content-box {
   padding: 0 !important;
 }
 
 .image-in-banner {
-  background: no-repeat url(https://www.gstatic.com/identity/boq/accountsettingssecuritycommon/images/sprites/2sv_x2-376cf0cbd62be6b103c146c2464cdff9.png) 0 -2818px;
+  background: no-repeat
+    url(https://www.gstatic.com/identity/boq/accountsettingssecuritycommon/images/sprites/2sv_x2-376cf0cbd62be6b103c146c2464cdff9.png)
+    0 -2818px;
   background-size: 304px 3143px;
   width: 253px;
   height: 163px;
@@ -458,14 +460,14 @@ body {
 }
 
 .complete-profile-panel-p-b-0
-> .ant-collapse-content
-> .ant-collapse-content-box {
+  > .ant-collapse-content
+  > .ant-collapse-content-box {
   padding-bottom: 0;
 }
 
 .complete-profile-panel-last-p-b-0
-> .ant-collapse-content:last-child
-> .ant-collapse-content-box {
+  > .ant-collapse-content:last-child
+  > .ant-collapse-content-box {
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -512,8 +514,10 @@ body {
 .block-nb,
 .block-r,
 .block-r-nb {
-  -webkit-box-shadow: 0px 1px 2px 0px rgba(60, 64, 67, 0.3), 0px 2px 6px 2px rgba(60, 64, 67, 0.15) !important;
-          box-shadow: 0px 1px 2px 0px rgba(60, 64, 67, 0.3), 0px 2px 6px 2px rgba(60, 64, 67, 0.15) !important;
+  -webkit-box-shadow: 0px 1px 2px 0px rgba(60, 64, 67, 0.3),
+    0px 2px 6px 2px rgba(60, 64, 67, 0.15) !important;
+  box-shadow: 0px 1px 2px 0px rgba(60, 64, 67, 0.3),
+    0px 2px 6px 2px rgba(60, 64, 67, 0.15) !important;
 }
 
 .border-hover:hover {
@@ -522,5 +526,10 @@ body {
 
 .display-background-grey:after {
   background-color: rgba(195, 195, 195, 0.133) !important;
+}
+.footer {
+  clear: both;
+  position: relative;
+  margin-top: auto;
 }
 /*# sourceMappingURL=loader.css.map */

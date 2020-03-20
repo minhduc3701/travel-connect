@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 // import { notiChange } from "util/Notification";
 import { Icon, Upload } from "antd";
-import firebaseAcc from "firebase/firebaseAcc";
 import { connect } from "react-redux";
 import { actChangeLogo } from "appRedux/actions/CompanyProfile";
 
