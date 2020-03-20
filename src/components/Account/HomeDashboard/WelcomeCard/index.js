@@ -26,26 +26,29 @@ const WelcomeCard = props => {
           <li>
             <Icon type="message" />
             <span>
-              5 <IntlMessages id="sellingRequest.newMessage" />
+              {props.analysis ? props.analysis[0].messages : 0}{" "}
+              <IntlMessages id="sellingRequest.newMessage" />
             </span>
           </li>
           <li>
             <Icon type="mail" />
             <span>
-              2{" "}
+              {props.analysis ? props.analysis[0].requests.wait : 0}{" "}
               <IntlMessages id="home.settings.notification.whatreceive.newquoterequest" />
             </span>
           </li>
           <li>
             <Icon type="profile" />
             <span>
-              7 <IntlMessages id="account.quoteUnrep" />
+              {props.analysis ? props.analysis[0].requests.sum : 0}{" "}
+              <IntlMessages id="account.quoteUnrep" />
             </span>
           </li>
           <li>
             <Icon type="bell" />
             <span>
-              3 <IntlMessages id="unFinishTransaction" />
+              {props.analysis ? props.analysis[0].requests.process : 0}{" "}
+              <IntlMessages id="unFinishTransaction" />
             </span>
           </li>
         </ul>
