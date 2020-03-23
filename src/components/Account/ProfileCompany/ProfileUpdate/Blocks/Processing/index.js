@@ -1,31 +1,34 @@
 import React, { Component } from "react";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
+import IntlMessages from "util/IntlMessages";
 
 let warningText = {
-  company_address: "Hồ sồ công ty chưa có địa chỉ",
-  company_background: "Hồ sồ công ty chưa có ảnh bìa!",
-  company_brandname: "Hồ sồ công ty chưa có tên thương hiệu",
-  company_business: "Hồ sồ công ty chưa chọn loại hình kinh doanh",
-  company_city: "Hồ sồ công ty chưa có địa chỉ",
-  company_communities: "Bạn chưa tham gia cộng đồng nào",
-  company_contacts: "Hồ sồ công ty chưa có nhân viên",
-  company_district: "Hồ sồ công ty chưa có địa chỉ",
-  company_establish: "Hồ sồ công ty chưa có ngày thành lập",
-  company_events: "Hồ sồ công ty chưa tạo sự kiện",
-  company_fb: "Hồ sồ công ty chưa liên kết mạng xã hội",
-  company_gitlab: "Hồ sồ công ty chưa liên kết mạng xã hội",
-  company_introduction: "Hồ sồ công ty chưa có mô tả",
-  company_licence: "Hồ sồ công ty chưa có giấy phép",
-  company_linkedin: "Hồ sồ công ty chưa liên kết mạng xã hội",
-  company_logo: "Hồ sồ công ty chưa có logo",
-  company_medias: "Hồ sồ công ty chưa có tư liệu hình ảnh",
-  company_name: "Hồ sồ công ty chưa có tên",
-  company_nation: "Hồ sồ công ty chưa có quốc gia",
-  company_products: "Công ty chưa có sản phẩm nào",
-  company_products_number: "Công ty chưa có sản phẩm nào",
-  company_service: "Công ty chưa có sản phẩm nào",
-  company_skype: "Hồ sồ công ty chưa liên kết mạng xã hội",
-  company_website: "Hồ sồ công ty chưa website"
+  company_address: <IntlMessages id="profile.update.address.warning" />,
+  company_background: <IntlMessages id="profile.update.background.warning" />,
+  company_brandname: <IntlMessages id="profile.update.brandname.warning" />,
+  company_business: <IntlMessages id="profile.update.business.warning" />,
+  company_city: <IntlMessages id="profile.update.city.warning" />,
+  company_communities: <IntlMessages id="profile.update.communities.warning" />,
+  company_contacts: <IntlMessages id="profile.update.contacts.warning" />,
+  company_district: <IntlMessages id="profile.update.district.warning" />,
+  company_establish: <IntlMessages id="profile.update.establish.warning" />,
+  company_events: <IntlMessages id="profile.update.event.warning" />,
+  company_fb: <IntlMessages id="profile.update.fb.warning" />,
+  company_gitlab: <IntlMessages id="profile.update.gitlab.warning" />,
+  company_introduction: <IntlMessages id="profile.update.intro.warning" />,
+  company_licence: <IntlMessages id="profile.update.licence.warning" />,
+  company_linkedin: <IntlMessages id="profile.update.linkedin.warning" />,
+  company_logo: <IntlMessages id="profile.update.logo.warning" />,
+  company_medias: <IntlMessages id="profile.update.media.warning" />,
+  company_name: <IntlMessages id="profile.update.name.warning" />,
+  company_nation: <IntlMessages id="profile.update.nation.warning" />,
+  company_products: <IntlMessages id="profile.update.products.warning" />,
+  company_products_number: (
+    <IntlMessages id="profile.update.numberProduct.warning" />
+  ),
+  company_service: <IntlMessages id="profile.update.service.warning" />,
+  company_skype: <IntlMessages id="profile.update.skype.warning" />,
+  company_website: <IntlMessages id="profile.update.website.warning" />
 };
 
 class Processing extends Component {

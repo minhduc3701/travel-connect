@@ -1,5 +1,19 @@
 import React, { Component } from "react";
+import { Modal } from "antd";
 class Photos extends Component {
+  state = {
+    previewVisible: false,
+    previewImage: null
+  };
+  handleCancel = () => this.setState({ previewVisible: false });
+
+  handlePreview = item => {
+    this.setState({
+      previewVisible: true,
+      previewImage: item
+    });
+  };
+
   render() {
     let { Account } = this.props;
     let mediaList = [];
@@ -18,11 +32,25 @@ class Photos extends Component {
                   style={{ height: "8em", objectFit: "cover" }}
                   alt="..."
                   src={photo}
+                  className="cursor-pointer"
+                  onClick={() => this.handlePreview(photo)}
                 />
               </li>
             ))}
           </ul>
         ) : null}
+        <Modal
+          visible={this.state.previewVisible}
+          footer={null}
+          onCancel={this.handleCancel}
+          style={{ marginTop: -90 }}
+        >
+          <img
+            alt="image"
+            style={{ width: "100%" }}
+            src={this.state.previewImage}
+          />
+        </Modal>
       </div>
     );
   }
