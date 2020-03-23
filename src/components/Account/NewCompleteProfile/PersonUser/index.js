@@ -17,6 +17,7 @@ import { actUpdatePersonProfileRequest } from "appRedux/actions/Account";
 import { CreateUserWorkSDK } from "appRedux/actions/CompanyProfile";
 import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import firebase from "firebase/firebaseAcc";
+import { Redirect } from "react-router-dom";
 // import { HOME } from "components/Layout/Header/NavigateLink";
 import IntlMessages from "util/IntlMessages";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
@@ -373,6 +374,7 @@ class Company extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     let { fileList } = this.state;
+    let user_info = JSON.parse(localStorage.getItem("user_info"));
     let cList = [];
     isLoaded(this.props.companyList) &&
       this.props.companyList.forEach(doc => {
@@ -422,7 +424,7 @@ class Company extends Component {
 
     return (
       <div className="block-w bor-rad-6">
-        {/* {user_info.company_id !== "" && <Redirect to="/dashboard" />} */}
+        {user_info.company_id !== "" && <Redirect to="/dashboard" />}
         <WidgetHeader title={<IntlMessages id="account.personal.title" />} />
         <Row className="p-v-6">
           <Col xl={8} lg={8} md={8} sm={24} xs={24}>

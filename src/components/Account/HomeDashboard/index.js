@@ -7,7 +7,6 @@ import HistoryActivities from "./HistoryActivities";
 import InviteMember from "./InviteMember";
 import NewPartner from "./NewPartner";
 // import { connect } from "react-redux";
-import Statistic from "./Statistic";
 import StaticticGuest from "./StaticticGuest";
 import WelcomeCard from "./WelcomeCard";
 import Follower from "./Follower";

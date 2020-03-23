@@ -1,7 +1,6 @@
 import React from "react";
-import { Row, Col } from "antd";
+import { Row } from "antd";
 import SiteAudience from "./SiteAudience";
-import SiteVisit from "./SiteVisit";
 
 class WelcomeUser extends React.Component {
   render() {
