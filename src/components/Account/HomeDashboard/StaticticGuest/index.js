@@ -29,7 +29,11 @@ class StaticticGuest extends React.Component {
                 this.props.analysis
                   ? this.props.analysis[0].daily[
                       new Date().toLocaleDateString()
-                    ].access
+                    ]
+                    ? this.props.analysis[0].daily[
+                        new Date().toLocaleDateString()
+                      ].access
+                    : 0
                   : 0
               }
               title={<IntlMessage id="access" />}
@@ -46,7 +50,11 @@ class StaticticGuest extends React.Component {
                 this.props.analysis
                   ? this.props.analysis[0].daily[
                       new Date().toLocaleDateString()
-                    ].view
+                    ]
+                    ? this.props.analysis[0].daily[
+                        new Date().toLocaleDateString()
+                      ].view
+                    : 0
                   : 0
               }
               title={<IntlMessage id="view" />}
@@ -63,7 +71,11 @@ class StaticticGuest extends React.Component {
                 this.props.analysis
                   ? this.props.analysis[0].daily[
                       new Date().toLocaleDateString()
-                    ].transaction
+                    ]
+                    ? this.props.analysis[0].daily[
+                        new Date().toLocaleDateString()
+                      ].transaction
+                    : 0
                   : 0
               }
               title={<IntlMessage id="request" />}
@@ -78,14 +90,18 @@ class StaticticGuest extends React.Component {
               color="white"
               values={
                 this.props.analysis
-                  ? (this.props.analysis[0].daily[
+                  ? this.props.analysis[0].daily[
                       new Date().toLocaleDateString()
-                    ].transaction /
-                      this.props.analysis[0].daily[
+                    ]
+                    ? (this.props.analysis[0].daily[
                         new Date().toLocaleDateString()
-                      ].view) *
-                      100 +
-                    " %"
+                      ].transaction /
+                        this.props.analysis[0].daily[
+                          new Date().toLocaleDateString()
+                        ].view) *
+                        100 +
+                      " %"
+                    : "0 %"
                   : "0 %"
               }
               title={<IntlMessage id="dashboard.Conversion.Rate" />}

@@ -35,7 +35,11 @@ class HightLight extends React.Component {
                 percent: this.props.analysis
                   ? this.props.analysis[0].daily[
                       new Date().toLocaleDateString()
-                    ].partner
+                    ]
+                    ? this.props.analysis[0].daily[
+                        new Date().toLocaleDateString()
+                      ].partner
+                    : 0
                   : 0
               }}
               dataList={company_data}
@@ -59,7 +63,11 @@ class HightLight extends React.Component {
                 percent: this.props.analysis
                   ? this.props.analysis[0].daily[
                       new Date().toLocaleDateString()
-                    ].product
+                    ]
+                    ? this.props.analysis[0].daily[
+                        new Date().toLocaleDateString()
+                      ].product
+                    : 0
                   : 0
               }}
               dataList={company_data}
@@ -83,7 +91,11 @@ class HightLight extends React.Component {
                 percent: this.props.analysis
                   ? this.props.analysis[0].daily[
                       new Date().toLocaleDateString()
-                    ].transaction
+                    ]
+                    ? this.props.analysis[0].daily[
+                        new Date().toLocaleDateString()
+                      ].transaction
+                    : 0
                   : 0
               }}
               dataList={company_data}
@@ -107,7 +119,11 @@ class HightLight extends React.Component {
                 percent: this.props.analysis
                   ? this.props.analysis[0].daily[
                       new Date().toLocaleDateString()
-                    ].access
+                    ]
+                    ? this.props.analysis[0].daily[
+                        new Date().toLocaleDateString()
+                      ].access
+                    : 0
                   : 0
               }}
               dataList={company_data}
