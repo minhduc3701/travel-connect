@@ -20,6 +20,8 @@ import WidgetHeader from "components/GlobalComponent/WidgetHeader";
 import firebase from "firebase/firebaseAcc";
 import { notificationPop } from "util/Notification";
 import IntlMessages from "util/IntlMessages";
+import PlacesAutocomplete from "react-places-autocomplete";
+import { nation } from "../Personal/data";
 
 const FormItem = Form.Item;
 const formItemLayout = {
@@ -27,40 +29,40 @@ const formItemLayout = {
   wrapperCol: { xs: 24, sm: 18 }
 };
 const Option = Select.Option;
-const residences = [
-  {
-    value: "Hà Nội",
-    label: "Hà Nội",
-    children: [
-      {
-        value: "Đống Đa",
-        label: "Đống Đa"
-      },
-      {
-        value: "Cầu giấy",
-        label: "Cầu giấy"
-      },
-      {
-        value: "Hoàng Mai",
-        label: "Hoàng Mai"
-      }
-    ]
-  },
-  {
-    value: "Hồ Chí Minh",
-    label: "Hồ Chí Minh",
-    children: [
-      {
-        value: "Quận 1",
-        label: "Quận 1"
-      },
-      {
-        value: "Quận 2",
-        label: "Quận 2"
-      }
-    ]
-  }
-];
+// const residences = [
+//   {
+//     value: "Hà Nội",
+//     label: "Hà Nội",
+//     children: [
+//       {
+//         value: "Đống Đa",
+//         label: "Đống Đa"
+//       },
+//       {
+//         value: "Cầu giấy",
+//         label: "Cầu giấy"
+//       },
+//       {
+//         value: "Hoàng Mai",
+//         label: "Hoàng Mai"
+//       }
+//     ]
+//   },
+//   {
+//     value: "Hồ Chí Minh",
+//     label: "Hồ Chí Minh",
+//     children: [
+//       {
+//         value: "Quận 1",
+//         label: "Quận 1"
+//       },
+//       {
+//         value: "Quận 2",
+//         label: "Quận 2"
+//       }
+//     ]
+//   }
+// ];
 const OPTIONS = [
   "Lữ hành quốc tế Outbound",
   "Lữ hành nội địa",
@@ -111,15 +113,11 @@ class Company extends Component {
       target: null,
       licence_file: [],
       business: []
-    }
+    },
+    address: ""
   };
   handleSubmitCompany = e => {
     e.preventDefault();
-    notificationPop(
-      "success",
-      "Tạo công ty thành công!",
-      "Bạn đã tạo công ty thành công! Hãy tiếp tục xác minh công ty để được phê duyệt hoạt động tại Travel Connect"
-    );
     this.props.form.validateFields((err, values) => {
       if (!err) {
         let establish = this.state.establish ? this.state.establish : "";
@@ -131,7 +129,7 @@ class Company extends Component {
               city: values.company_district[0],
               confirm: "",
               createdAt: "",
-              district: values.company_district[1],
+              district: this.state.address,
               email: values.company_email,
               establish: establish,
               licence: "",
@@ -146,6 +144,15 @@ class Company extends Component {
           () => this.onSendDataPerson()
         );
       }
+    });
+  };
+
+  handleChange = address => {
+    this.setState({ address });
+  };
+  onDestinationChange = e => {
+    this.setState({
+      address: e
     });
   };
 
@@ -307,9 +314,13 @@ class Company extends Component {
                     ]
                   })(
                     <Select placeholder="Quốc gia">
-                      <Option value="VN">Việt Nam</Option>
-                      <Option value="KR">Korea</Option>
-                      <Option value="JP">Japan</Option>
+                      {nation.map((item, index) => {
+                        return (
+                          <Option key={index} value={item.code}>
+                            {item.name}
+                          </Option>
+                        );
+                      })}
                     </Select>
                   )}
                 </FormItem>
@@ -319,16 +330,45 @@ class Company extends Component {
                     <IntlMessages id="account.profile.edit.information.address.update.companydistrict" />
                   }
                 >
-                  {getFieldDecorator("company_district", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Select your district!"
-                      }
-                    ]
-                  })(
-                    <Cascader placeholder="Quận/ Huyện" options={residences} />
-                  )}
+                  <PlacesAutocomplete
+                    value={this.state.address}
+                    onChange={this.handleChange}
+                    onSelect={this.onDestinationChange}
+                  >
+                    {({
+                      getInputProps,
+                      suggestions,
+                      getSuggestionItemProps,
+                      loading
+                    }) => (
+                      <div>
+                        <Input
+                          {...getInputProps({
+                            placeholder: "District"
+                          })}
+                        />
+                        <div className="ant-select-dropdown-menu  ant-select-dropdown-menu-root ant-select-dropdown-menu-vertical">
+                          {loading && <div>Loading...</div>}
+                          {suggestions.map(suggestion => {
+                            const className = suggestion.active
+                              ? "ant-select-dropdown-menu-item"
+                              : "ant-select-dropdown-menu-item";
+                            return (
+                              <div
+                                {...getSuggestionItemProps(suggestion, {
+                                  className
+                                  // ,
+                                  // style
+                                })}
+                              >
+                                <span>{suggestion.description} </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </PlacesAutocomplete>
                 </FormItem>
                 <FormItem
                   {...formItemLayout}

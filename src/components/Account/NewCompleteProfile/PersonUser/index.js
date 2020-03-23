@@ -24,6 +24,7 @@ import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import { notificationPop } from "util/Notification";
 import { HOME } from "components/Layout/Header/NavigateLink";
+import { nation } from "../Personal/data";
 
 const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
@@ -636,7 +637,15 @@ class Company extends Component {
                           onChange={this.onChoiseNation}
                           style={{ width: "100%" }}
                         >
-                          <OptGroup label={<IntlMessages id="asian" />}>
+                          {nation.map((item, index) => {
+                            return (
+                              <Option key={index} value={item.code}>
+                                {item.name}
+                              </Option>
+                            );
+                          })}
+
+                          {/* <OptGroup label={<IntlMessages id="asian" />}>
                             <Option value="VN">
                               <IntlMessages id="nation.vietnam" />
                             </Option>
@@ -659,7 +668,7 @@ class Company extends Component {
                             <Option value="USA">
                               <IntlMessages id="nation.america" />
                             </Option>
-                          </OptGroup>
+                          </OptGroup> */}
                         </Select>
                       )}
                     </FormItem>
@@ -881,18 +890,13 @@ class Company extends Component {
                               showSearch
                               placeholder="Quốc gia"
                             >
-                              <Option value="VN">
-                                <IntlMessages id="nation.vietnam" />
-                              </Option>
-                              <Option value="JP">
-                                <IntlMessages id="nation.japan" />
-                              </Option>
-                              <Option value="CN">
-                                <IntlMessages id="nation.china" />
-                              </Option>
-                              <Option value="KR">
-                                <IntlMessages id="nation.korea" />
-                              </Option>
+                              {nation.map((item, index) => {
+                                return (
+                                  <Option key={index} value={item.code}>
+                                    {item.name}
+                                  </Option>
+                                );
+                              })}
                             </Select>
                           )}
                         </FormItem>
@@ -1297,7 +1301,21 @@ class Company extends Component {
                             )
                           }
                         ]
-                      })(<Input placeholder="Quốc gia đại diện" />)}
+                      })(
+                        <Select
+                          name="national"
+                          showSearch
+                          placeholder="Quốc gia đại diện"
+                        >
+                          {nation.map((item, index) => {
+                            return (
+                              <Option key={index} value={item.code}>
+                                {item.name}
+                              </Option>
+                            );
+                          })}
+                        </Select>
+                      )}
                     </FormItem>
                     <FormItem
                       {...formItemLayout}
@@ -1314,7 +1332,21 @@ class Company extends Component {
                             )
                           }
                         ]
-                      })(<Input placeholder="Quốc gia đặt trụ sở" />)}
+                      })(
+                        <Select
+                          name="national"
+                          showSearch
+                          placeholder="Quốc gia đại diện"
+                        >
+                          {nation.map((item, index) => {
+                            return (
+                              <Option key={index} value={item.code}>
+                                {item.name}
+                              </Option>
+                            );
+                          })}
+                        </Select>
+                      )}
                     </FormItem>
                     <FormItem
                       {...formItemLayout}

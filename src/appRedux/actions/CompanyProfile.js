@@ -261,6 +261,7 @@ export const CreateCompanySDK = data => {
       .collection("companies")
       .add(companyData)
       .then(res => {
+        notificationPop("success", "Tạo công ty thành công!");
         window.location = `${HOME}/home`;
       })
       .catch(err => {

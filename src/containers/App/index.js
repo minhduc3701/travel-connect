@@ -120,8 +120,8 @@ class App extends Component {
         }
 
         localStorage.clear();
-        return (window.location.href =
-          "http://app.travelconnect.global/signin");
+        // return (window.location.href =
+        //   "http://app.travelconnect.global/signin");
       }
       if (initURL === "" || initURL === "/" || initURL === "/signin") {
         return <Redirect to={"/dashboard"} />;
@@ -133,58 +133,58 @@ class App extends Component {
 
     this.setNavStyle(navStyle);
     const currentAppLocale = AppLocale[locale.locale];
-    firebaseAcc.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        var id = document.cookie.match("(^|;) ?" + "user_id" + "=([^;]*)(;|$)");
-        let uid = id[2];
-        if (user.uid !== uid) {
-          firebaseAcc.auth().signOut();
-          var v = document.cookie.match(
-            "(^|;) ?" + "acc_token" + "=([^;]*)(;|$)"
-          ) || [""];
-          let token = v[2] || "uid";
-          if (token !== "uid") {
-            firebaseAcc
-              .auth()
-              .signInWithCustomToken(token)
-              .catch(function(error) {
-                console.log(error);
-              });
-          } else {
-            let cookies = document.cookie.split(";");
+    // firebaseAcc.auth().onAuthStateChanged(function(user) {
+    //   if (user) {
+    //     var id = document.cookie.match("(^|;) ?" + "user_id" + "=([^;]*)(;|$)");
+    //     let uid = id[2];
+    //     if (user.uid !== uid) {
+    //       firebaseAcc.auth().signOut();
+    //       var v = document.cookie.match(
+    //         "(^|;) ?" + "acc_token" + "=([^;]*)(;|$)"
+    //       ) || [""];
+    //       let token = v[2] || "uid";
+    //       if (token !== "uid") {
+    //         firebaseAcc
+    //           .auth()
+    //           .signInWithCustomToken(token)
+    //           .catch(function(error) {
+    //             console.log(error);
+    //           });
+    //       } else {
+    //         let cookies = document.cookie.split(";");
 
-            for (let i = 0; i < cookies.length; i++) {
-              let cookie = cookies[i];
-              let eqPos = cookie.indexOf("=");
-              let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-              document.cookie =
-                name +
-                "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global;path=/";
-            }
+    //         for (let i = 0; i < cookies.length; i++) {
+    //           let cookie = cookies[i];
+    //           let eqPos = cookie.indexOf("=");
+    //           let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    //           document.cookie =
+    //             name +
+    //             "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global;path=/";
+    //         }
 
-            localStorage.clear();
-            window.location.href = "https://app.travelconnect.global/signin";
-          }
-        }
-      } else {
-        console.log(document.cookie.indexOf("acc_token"));
+    //         localStorage.clear();
+    //         window.location.href = "https://app.travelconnect.global/signin";
+    //       }
+    //     }
+    //   } else {
+    //     console.log(document.cookie.indexOf("acc_token"));
 
-        var v = document.cookie.match(
-          "(^|;) ?" + "acc_token" + "=([^;]*)(;|$)"
-        );
-        let token = v[2];
-        firebaseAcc
-          .auth()
-          .signInWithCustomToken(token)
-          .catch(function(error) {
-            document.cookie =
-              "acc_token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global";
-            document.cookie =
-              "user_id= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global";
-            window.location.href = "https://app.travelconnect.global/signin";
-          });
-      }
-    });
+    //     var v = document.cookie.match(
+    //       "(^|;) ?" + "acc_token" + "=([^;]*)(;|$)"
+    //     );
+    //     let token = v[2];
+    //     firebaseAcc
+    //       .auth()
+    //       .signInWithCustomToken(token)
+    //       .catch(function(error) {
+    //         document.cookie =
+    //           "acc_token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global";
+    //         document.cookie =
+    //           "user_id= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;domain=travelconnect.global";
+    //         window.location.href = "https://app.travelconnect.global/signin";
+    //       });
+    //   }
+    // });
 
     return (
       <ConfigProvider locale={currentAppLocale.antd}>
