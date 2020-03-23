@@ -532,4 +532,7 @@ body {
   position: relative;
   margin-top: auto;
 }
+.gx-popover-scrollNone > div:first-of-type {
+  overflow: auto !important;
+}
 /*# sourceMappingURL=loader.css.map */
