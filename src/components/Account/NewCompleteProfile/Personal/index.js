@@ -24,6 +24,7 @@ import IntlMessages from "util/IntlMessages";
 import { HOME } from "components/Layout/Header/NavigateLink";
 import PlacesAutocomplete from "react-places-autocomplete";
 import Image from "assets/images/character-illustration-people-with-packages-shipment_53876-59858.jpg";
+import { nation } from "./data";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -368,7 +369,14 @@ class Personal extends Component {
                   ]
                 })(
                   <Select name="national" showSearch placeholder="Nation">
-                    <Option value="VN">
+                    {nation.map((item, index) => {
+                      return (
+                        <Option key={index} value={item.code}>
+                          {item.name}
+                        </Option>
+                      );
+                    })}
+                    {/* <Option value="VN">
                       <IntlMessages id="nation.vietnam" />
                     </Option>
                     <Option value="JP">
@@ -379,7 +387,7 @@ class Personal extends Component {
                     </Option>
                     <Option value="KR">
                       <IntlMessages id="nation.korea" />
-                    </Option>
+                    </Option> */}
                   </Select>
                 )}
               </FormItem>
