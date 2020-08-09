@@ -252,7 +252,10 @@ export const CreateCompanySDK = data => {
     limit: {
       number: 5,
       landtours: 0,
-      grouptours: 0
+      grouptours: 0,
+      hotels: 0,
+      voucher: 0,
+      rooms: 0
     }
   };
   return dispatch => {
